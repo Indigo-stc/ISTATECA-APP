@@ -1,0 +1,140 @@
+
+<body>
+
+    <div class="card" style="width: 100%;">
+      <div class="card-header" >
+  
+  
+
+  
+        <div class="card-header" style="display: flex; ">
+          
+            <img
+              src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/logos%2Flogo%20normal%20peque%C3%B1o.png?alt=media&token=59a16c73-3229-4ba7-81be-567aae799d61"
+              height="50" width="200" />
+
+              <div class="col">
+                <h5 class="text-center h5" style="margin-right: 15%; color: #2E2F5E; display: flex;justify-content: center; align-items: center;"><strong>Listado de Libros</strong></h5>
+              </div>
+
+              
+          
+          <br>
+          <!-- <div *ngIf="mostrar">
+            <button type="button" class=" btn-outline-light solicitud" (click)="downloadPDF()">
+              <img
+                src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fimpresora.png?alt=media&token=a45ef1f8-6983-4e43-8adf-e31a2f1b6928" />
+              Imprimir
+            </button>
+  
+          </div> -->
+
+          
+        </div>
+
+        
+        
+  
+  
+  
+  
+  
+  
+      </div>
+  
+      <div class="card-body text-primary libros">
+        <div id="htmlData">
+          
+          <form class="d-flex buscar" role="search">
+            <input class="form-control me-2" (keyup)="onKeydownEvent($event, buscaer.value)" #buscaer type="search"
+              placeholder="Buscar" aria-label="Buscar" style="background-color: #e5e7e8; border-color: #2e2f5e" />
+            <button (click)="buscarLibxNomb(buscaer.value)" class="btn" type="submit">
+              <img
+                src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fbusqueda.png?alt=media&token=2b59078d-0ef5-4fa4-85c6-396ea7c1c97c" />
+            </button>
+          </form><br>
+          <table class="table table-bordered table-stripped libros" *ngIf=!buscarval>
+            <thead class="text-center cabezera">
+              <tr>
+                <th>Código</th>
+                <th>Título del Libro</th>
+                <th>Categoría</th>
+                <th>Año de Publicación</th>
+                <th>Descripción</th>
+                <th>Disposición</th>
+                <th>Accion</th>
+              </tr>
+            </thead>
+  
+  
+            <tbody class="text-center" *ngIf=bus>
+              <tr *ngFor="let pagina of paginas">
+                <td>{{ pagina.id }}</td>
+                <td>{{ pagina.titulo }}</td>
+                <td>{{ pagina.area }}</td>
+                <td>{{ pagina.anioPublicacion }}</td>
+                <td>{{ pagina.descripcion }}</td>
+                <td>{{ pagina.disponibilidad ? 'Disponible' : 'No disponible' }}</td>
+                <td>
+                  <button (click)="SolicitarLibro(pagina)">Solicitar</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+  
+        <table class="table table-bordered table-stripped libros" *ngIf=buscarval>
+          <thead class="text-center cabezera">
+            <tr>
+              <th>Código</th>
+              <th>Título del Libro</th>
+              <th>Categoría</th>
+              <th>Año de Publicación</th>
+              <th>Descripción</th>
+              <th>Disposición</th>
+              <th>Accion</th>
+            </tr>
+          </thead>
+          <tbody class="text-center">
+            <tr *ngFor="let lib of libs">
+              <td>{{ lib.id }}</td>
+              <td>{{ lib.titulo }}</td>
+              <td>{{ lib.area }}</td>
+              <td>{{ lib.anioPublicacion }}</td>
+              <td>{{ lib.descripcion }}</td>
+              <td>{{ lib.disponibilidad ? 'Disponible' : 'No disponible' }}</td>
+              <td>
+                <button (click)="SolicitarLibro(lib)">Solicitar</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  <div class="contenedor">
+    <div class="overlay" id="overlay">
+      <div class="popup" id="popup">
+        <h3>Solicitud Enviada</h3>
+        
+        <h4>Estimado {{datos}} la solicitud del libro "{{datoslibro}}" se ha creado correctamente<hr> Porfavor toma una captura y facilita la busqueda de tu solicitud</h4>
+         <div>
+        <canvas #qrCanvas style="margin-top: -7%;"></canvas>
+      </div> 
+        <button id="cerrarpopup" sy (click)="cerrarpopup()" class="boton btn btn-primary" style="background-color: #2e2f5e">
+          <FONT COLOR="white">Aceptar</FONT>
+        </button>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+
+<style>
+  tr:hover {
+    background-color: #6a8dff;
+    cursor: pointer;
+    color: black;
+  }
+</style>

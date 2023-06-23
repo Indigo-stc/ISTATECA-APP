@@ -1,0 +1,55 @@
+.vl {
+    border-left: 6px solid rgb(0, 0, 0);
+    height: 615px;
+    position: absolute;
+    left: 50%;
+    margin-left: -1px;
+    margin-top: 105px;
+    top: 0;
+    max-width: 10px;
+  }
+     h3 {
+          text-align: center; 
+          margin-inline-start: 40%;
+      
+      }
+      
+      h4 {
+      font-size:45px;
+  margin-top: 1%;
+      text-align: left; 
+      margin-inline-start: 11%;
+      }
+      h5 {
+  margin-top: 0%;
+  font-size: 0px;
+      text-align: left; 
+      margin-inline-start: 26%;
+  
+      }
+  
+      h6 {
+  margin-top: 0%;
+  font-size: 0px;
+      text-align: left; 
+      margin-inline-start: 21%;
+  
+      }
+  
+      h1 {
+         margin-top: -4%;
+          text-align: right; 
+          margin-inline-start: 5%;
+      
+      }
+  
+      h2 {
+        position: absolute;
+    left: 500px;
+    margin-left: -1px;
+    margin-top: 192px;
+    top: 0;
+  
+   
+      
+      }

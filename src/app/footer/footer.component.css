@@ -1,0 +1,107 @@
+body {
+    background-color: #004f9f;
+    flex-direction: column;
+}
+
+.comentario {
+    margin-top: 8%;
+    margin-left: 5%;
+    background-color: white;
+    width: 90%;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    border-radius: 2%;
+}
+
+textarea {
+    width: 90%;
+    height: 20px;
+    margin-left: 2%;
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
+
+* {
+    margin-top: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.contenedor-principal {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+}
+
+.contenedor {
+    width: 100%;
+    display: flex;
+    max-width: max-content;
+    background-color: #004f9f;
+
+}
+
+hr {
+    background-color: black;
+    height: 2px;
+}
+
+.tarjeta {
+    margin: 20px;
+    border-radius: 8px;
+    background: #012844;
+
+}
+
+.tarjeta .contenido {
+    margin: 30px;
+}
+
+.tarjeta .contenido .imagen {
+    align-content: center;
+    width: 350px;
+    height: 250px;
+    text-align: center;
+}
+
+h5 {
+    text-align: center;
+
+    box-shadow: 0px 1px 10px rgba(47, 25, 150, 0.2);
+    margin-top: 50px;
+}
+
+
+
+
+
+
+
+button {
+    margin-top: 1.5%;
+    margin-left: 1.5%;
+    margin-bottom: 1.5%;
+    background: none;
+    border: none;
+    padding: 5px 5px;
+    background-color: #004f9f;
+    border-radius: 10px;
+  }
+  
+  button:hover {
+    background: rgba(170, 170, 170, 0.062);
+    transition: 0.5s;
+    
+  }
+  button:hover svg {
+    transition: 0.5s;
+    fill: #004f9f; /* Cambia el color de relleno del SVG dentro del hover del botón */
+  }
+  
+  button svg {
+    color: white;
+  }

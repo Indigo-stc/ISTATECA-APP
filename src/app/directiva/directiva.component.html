@@ -1,0 +1,25 @@
+<button type="button" (click)="setHabilitar()" class="btn btn-primary my-3">{{habilitar==true? 'Ocultar': 'Mostrar'}}</button>
+
+<div class="card">
+    <div class="card-header" >
+Listado de lenguajes
+
+<ul class="list-group" *ngIf="habilitar == true">
+    <li class="list-group-item"><h5>Php</h5></li>
+    <ul class="list-group">
+        <li class="list-group-item" *ngFor="let temas of listatemas1">{{temas}}</li>
+    </ul>
+    <li class="list-group-item"><h5>Java</h5></li>
+    <ul class="list-group">
+        <li class="list-group-item" *ngFor="let temas of listatemas2">{{temas}}</li>
+    </ul>
+    <li class="list-group-item"><h5>TypeScript</h5></li>  
+    <ul class="list-group">
+        <li class="list-group-item" *ngFor="let temas of listatemas3">{{temas}}</li>
+    </ul>
+
+    
+</ul>
+    </div>
+    
+</div>

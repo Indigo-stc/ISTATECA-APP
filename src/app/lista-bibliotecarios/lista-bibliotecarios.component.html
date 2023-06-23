@@ -1,0 +1,75 @@
+<header class="text-center" style="font-size:30px;"> <strong>Lista de Bibliotecarios</strong></header><br>
+
+<body class="elemento">
+  <form class="d-flex buscar" role="search">
+    <input class="form-control me-2"(keyup)="onKeydownEvent($event, buscaer.value)" #buscaer type="search" placeholder="Buscar" aria-label="Buscar"
+      style="background-color: #e5e7e8; border-color: #2E2F5E;">
+    <button  (click)="buscar(buscaer.value)" class="btn" >
+      <img
+        src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fbusqueda.png?alt=media&token=2b59078d-0ef5-4fa4-85c6-396ea7c1c97c">
+    </button>
+    <div class="container  text-center col-sm-3">
+      <div class="row gx-6">
+        <div class="col">
+          <img
+            src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fmodificar.png?alt=media&token=80f892de-c49a-4833-8019-1e8d7ec8ef06"
+            width=30 height=30 align="center"><br>
+          <label>Modificar</label>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div class="card-body text-primary libros col-sm-11 ">
+    <table class="table table-bordered table-stripped scroll table-hover destacado" >
+      <thead class="text-center cabezera">
+        <tr>
+          <th>Modificar</th>
+          <th>Cédula</th>
+          <th>Nombre</th>
+          <th>Rol</th>
+          <th>Fecha Inicio</th>
+          <th>Fecha Final</th>
+          <th>Estado</th>
+        </tr>
+
+      </thead>
+        <tbody class="text-center" *ngIf=bus>
+         <!-- <tr *ngFor="let bibliotecario of bibliotecarios">
+            <td><input class="form-check-input" type="checkbox" role="switch" ></td>
+            <td #cedula>{{bibliotecario.persona?.cedula}}</td>
+            <td #cedula>{{bibliotecario.persona?.nombres}}</td>
+            <td #rol *ngIf="bibliotecario.persona?.rol==0 else menor">Administrador</td>
+            <ng-template #menor>
+              <p>Bibliotecario</p>
+            </ng-template>
+            <td #fechainic >{{bibliotecario.fecha_inicio }}</td>
+            <td #fechafin>{{bibliotecario.fecha_fin}}</td>
+            <td #activo *ngIf="bibliotecario.activo_bibliotecario else mm">Activo</td>
+            <ng-template #mm>
+              <p>Inactivo</p>
+            </ng-template>
+          </tr>-->
+        </tbody>
+        
+        <tbody class="text-center" *ngIf="buscarval">
+          <!--
+          <tr id="">
+            <td><input class="form-check-input" type="checkbox" role="switch"></td>
+            <td>{{bibli.persona?.cedula}}</td>
+            <td #cedula>{{bibli.persona?.nombres}}</td>
+            <td *ngIf="bibli.persona?.rol==0 else menor">Administrador</td>
+            <ng-template #menor>
+              <p>Bibliotecario</p>
+            </ng-template>
+            <td>{{bibli.fecha_inicio}}</td>
+            <td>{{bibli.fecha_fin| date:'shortDate'}}</td>
+            <td *ngIf="bibli.activo_bibliotecario else mm">Activo</td>
+            <ng-template #mm>
+              <p>Inactivo</p>
+            </ng-template>
+          </tr>-->
+        </tbody>
+    </table>
+  </div>
+</body>

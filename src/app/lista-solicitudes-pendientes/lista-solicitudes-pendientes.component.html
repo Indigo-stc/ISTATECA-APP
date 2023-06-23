@@ -1,0 +1,114 @@
+<div class="imagen">
+  <img
+    src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/logos%2Flogo%20normal%20peque%C3%B1o.png?alt=media&token=59a16c73-3229-4ba7-81be-567aae799d61"
+    height="60" width="200" style="margin-left: 10%; margin-top: 1%;">
+</div>
+
+<body>
+  <div class="card">
+    <h1>Lista de Solicitudes</h1>
+    <div class="buscar">
+      <form>
+        <input class="form-control me-2" #buscar2 type="search" placeholder="Buscar" aria-label="Buscar"
+          (keyup)="onKeydownEvent($event, buscar2.value)" style="background-color: #e5e7e8; border-color: #004f9f;">
+      </form>
+      <button (click)="listaPendientes()">Pendientes</button>
+      <button (click)="listaPrestados()">Prestados</button>
+      <button (click)="listaRecibidos()">Recibidos</button>
+      <button (click)="listaNoDevueltos()">No devuelto</button>
+      <button (click)="listaRestituidos()">Restituido</button>
+    </div>
+
+
+    <div class="contenedor">
+      <table class="table">
+        <thead class="text-center cabezera">
+          <tr>
+            <th>Cedula</th>
+            <th>Título del Libro</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+
+          </tr>
+        </thead>
+
+
+        <tbody class="text-center" *ngIf="pendientes==true">
+          <tr *ngFor="let prestamo of listaprestamos">
+            <td>{{prestamo.idSolicitante?.cedula}}</td>
+            <td>{{prestamo.libro?.titulo}}</td>
+            <td *ngIf="prestamo.estadoPrestamo === 1; ">Solicitado</td>
+            <td style="display: flex; justify-content: center;">
+              <button (click)="aceptarDomicilio(prestamo)">Aceptar Solitud Domicilio</button>&nbsp;
+              <button (click)="aceptar(prestamo)">Aceptar Solitud Institución</button>
+            </td>
+          </tr>
+        </tbody>
+
+        <tbody class="text-center" *ngIf="prestados==true">
+          <tr *ngFor="let prestamo of listaprestamos">
+            <td>{{prestamo.idSolicitante?.cedula}}</td>
+            <td>{{prestamo.libro?.titulo}}</td>
+            <td>{{prestamo.estadoPrestamo}}</td>
+            <!--<td *ngIf="prestamo.estadoPrestamo === 2; ">Prestado</td>-->
+            <td style="display: flex; justify-content: center;">
+              <button (click)="devolucion(prestamo)">Formulario de devolución</button>&nbsp;
+
+            </td>
+          </tr>
+        </tbody>
+
+        <tbody class="text-center" *ngIf="recibidos==true">
+          <tr *ngFor="let prestamo of listaprestamos">
+            <td>{{prestamo.idSolicitante?.cedula}}</td>
+            <td>{{prestamo.libro?.titulo}}</td>
+            <<td *ngIf="prestamo.estadoPrestamo === 3; ">Recibidos</td>
+              <td style="display: flex; justify-content: center;">
+                <button (click)="aceptarDomicilio(prestamo)">Aceptar Solitud Domicilio</button>&nbsp;
+                <button (click)="aceptar(prestamo)">Aceptar Solitud Institución</button>
+              </td>
+          </tr>
+        </tbody>
+
+        <tbody class="text-center" *ngIf="nodevuelto==true">
+          <tr *ngFor="let prestamo of listaprestamos">
+            <td>{{prestamo.idSolicitante?.cedula}}</td>
+            <td>{{prestamo.libro?.titulo}}</td>
+            <td *ngIf="prestamo.estadoPrestamo === 5; ">No devuelto</td>
+            <td style="display: flex; justify-content: center;">
+              <button (click)="aceptarDomicilio(prestamo)">Aceptar Solitud Domicilio</button>&nbsp;
+              <button (click)="aceptar(prestamo)">Aceptar Solitud Institución</button>
+            </td>
+          </tr>
+        </tbody>
+
+        <tbody class="text-center" *ngIf="restituido==true">
+          <tr *ngFor="let prestamo of listaprestamos">
+            <td>{{prestamo.idSolicitante?.cedula}}</td>
+            <td>{{prestamo.libro?.titulo}}</td>
+            <td *ngIf="prestamo.estadoPrestamo === 6; ">Restituido</td>
+            <td style="display: flex; justify-content: center;">
+              <button (click)="aceptarDomicilio(prestamo)">Aceptar Solitud Domicilio</button>&nbsp;
+              <button (click)="aceptar(prestamo)">Aceptar Solitud Institución</button>
+            </td>
+          </tr>
+        </tbody>
+
+        <tbody class="text-center" *ngIf="buscar==true">
+          <tr *ngFor="let prestamo of listaprestamos">
+            <td>{{prestamo.idSolicitante?.cedula}}</td>
+            <td>{{prestamo.libro?.titulo}}</td>
+            <td>{{ getNombreEstado(prestamo.estadoPrestamo) }}</td>
+            <td style="display: flex; justify-content: center;" *ngIf="prestamo.estadoPrestamo == 1; ">
+              <button (click)="aceptarDomicilio(prestamo)">Aceptar Solitud Domicilio</button>&nbsp;
+              <button (click)="aceptar(prestamo)">Aceptar Solitud Institución</button>
+            </td>
+            <td style="display: flex; justify-content: center;" *ngIf="prestamo.estadoPrestamo == 2; ">
+              <button (click)="devolucion(prestamo)">Formulario de devolución</button>&nbsp;
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>

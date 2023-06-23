@@ -1,0 +1,287 @@
+<header>
+    <h4 class="text-center"><strong></strong><br></h4>
+</header>
+<!--HOLIIIIIIIIIIIIIIIIIIIIIIIIIII-->
+<div class="imagen">
+    <img src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/logos%2Flogo%20normal%20peque%C3%B1o.png?alt=media&token=59a16c73-3229-4ba7-81be-567aae799d61"
+        height="80" width="350">
+</div>
+<!--FORMULARIO-->
+
+<body class="elemento" >
+    <div class="container" >
+        <div class="title">Registro de Libros</div>
+        <div class="content">
+            <form  (ngSubmit)="crearLibro()">
+                <div class="step-counter">
+                    Paso {{ step }} de {{ totalSteps }} 
+                <div class="user-details" *ngIf="step === 1">
+                    <div class="input-box">
+                        <span class="details">Codigo DEWEY:</span>
+                        <input type="text" class="form-control" name="codigo-DEWEY" (ngModel)="Libro.codigoDewey"
+                            required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Codigo ISBM:</span>
+                        <input type="text" class="form-control" name="codigo-ISBN" (ngModel)="Libro.conIsbn"
+                            required>
+                    </div>
+                </div>
+
+                <div class="user-details" *ngIf="step === 2">
+                    <div class="input-box">
+                        <span class="details">Indice 1:</span>
+                        <input type="text" class="form-control" name="indice1" (ngModel)="Libro.indiceUno" required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Indice 2:</span>
+                        <input type="text" class="form-control" name="indice2" (ngModel)="Libro.indiceDos" required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Indice 3:</span>
+                        <input type="text" class="form-control" name="indice3" (ngModel)="Libro.indiceTres" required>
+                    </div>
+                </div>
+
+                <div class="user-details" *ngIf="step === 3">
+                    <div class="input-box">
+                        <span class="details">Adquisicion del Libro:</span>
+                        <input type="text" class="form-control" name="adquisicion-libro" (ngModel)="Libro.adquisicion"
+                            required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Descripción:</span>
+                        <input type="text" class="form-control"  name="descripcion"
+                        (ngModel)="Libro.descripcion" required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Dimensiones:</span>
+                        <input type="text" class="form-control" name="dimensiones" (ngModel)="Libro.dimenciones"
+                            required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">N° de Paginas:</span>
+                        <input type="number" class="form-control"  name="num-Paginas"
+                            (ngModel)="Libro.numPaginas" required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Idioma:</span>
+                        <input type="text" class="form-control" name="idioma" (ngModel)="Libro.idioma" required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Estado:</span>
+                        <input type="text" id="estado" class="form-control" name="estado"
+                            (ngModel)="Libro.estadoLibro" required>
+                    </div>
+
+                </div>
+
+                <div class="user-details" *ngIf="step === 4">
+                    <div class="input-box">
+                        <span class="details">Titulo del Libro:</span>
+                        <input type="text"  class="form-control" name="titulo-Libro"
+                            (ngModel)="Libro.titulo" required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Editor:</span>
+                        <input type="text"  class="form-control" name="editor" (ngModel)="Libro.editor"
+                            required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Area:</span>
+                        <input type="text" class="form-control" name="area" (ngModel)="Libro.area"
+                            required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Año de Publicación:</span>
+                        <input type="number" class="form-control"  name="año-Publicacion"
+                            (ngModel)="Libro.anioPublicacion" required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Autor:</span>
+                        <input type="text" class="form-control" name="autor" required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Tipo:</span>
+                        <select (ngModel)="opcionSeleccionado" name="TipoSelect" (change)="seleccionT($event)"
+                            class="form-select" aria-label="Default select example">
+                            <option selected disabled value="0">Seleccione</option>
+                            <option #TSelect *ngFor="let tipo of Tipoe" value="{{tipo.id}}">{{tipo.nombre}}
+                            </option>
+                        </select>
+                    </div>
+
+                </div>
+
+
+                <div class="user-details" *ngIf="step === 5">
+
+                    <!--REGISTRO AUTOR-->
+
+                    <div class="imput-box">
+                        <div class="col" style="margin-left:40% ;">
+                            <button class="btn " style="background-color:transparent">
+                                <img src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fagregar_autor-tipo-donante.png?alt=media&token=4f1e982c-c8a5-496a-80d2-33d6fe7a9d33"
+                                    width=25 height=25>
+                                Agregar Autor</button>
+                        </div>
+                        <div class="row mb">
+                            <label for="Autor" class="col-sm col-form-label">
+                                <span class="details">Nombre del Autor:</span>
+                            </label>
+                            <div class="col-sm-8" style="margin-right: 2%; margin-top: 2%;">
+                               <!-- <ng-autocomplete [data]="dato | async" [searchKeyword]="keyword"
+                                    [itemTemplate]="itemTemplate" [notFoundTemplate]="notFoundTemplate"
+                                    placeholder="Ingrese el nombre del autor">
+                                </ng-autocomplete>
+                                <ng-template #itemTemplate let-item>
+                                    <a [innerHTML]="item.nombre"></a>
+                                </ng-template>
+                                <ng-template #notFoundTemplate let-notFound>
+                                    <div [innerHTML]="notFound"></div>
+                                </ng-template>-->
+                            </div>
+                        </div>
+                    </div>
+                    <!--FIN REGISTRO AUTOR-->
+
+                    <!--REGISTRO TIPO DE LIBRO-->
+
+                    <div class="imput-box">
+                        <div class="col" style="margin-left:40% ;">
+                            <button class="btn " style="background-color:transparent">
+                                <img src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fagregar_autor-tipo-donante.png?alt=media&token=4f1e982c-c8a5-496a-80d2-33d6fe7a9d33"
+                                    width=25 height=25>
+                                Agregar Tipo</button>
+                        </div>
+                        <div class="row mb" style="align-content: center;">
+                            <label for="L-Tipo1" class="col-sm col-form-label">
+                                <span class="details">Nombre del Tipo:</span>
+                            </label>
+                            <div class="col-sm-8" style="margin-right: 2%; margin-top: 2%;">
+                                <h6><input type="text" class="form-control" name="L-Tipo" required rigth>
+                                </h6>
+                            </div>
+                        </div>
+                    </div>
+                    <!--FIN REGISTRO TIPO-->
+
+                </div>
+
+
+                <div class="user-details" *ngIf="step === 6">
+
+                    <!--SUBIR FOTO-->
+                    <div class="input-box" style="align-content: center;">
+                        <span class="details">Imagen:</span>
+                        <div *ngIf="previsualizacion" style="align-content: center;">
+                            <img width="230px" [src]="previsualizacion" alt="">
+                        </div>
+                        <label id="boton">
+                            <i> <img
+                                    src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fagregar%20libro.png?alt=media&token=b7f639da-1aaa-4d12-8133-a59742d32d87"></i>
+                        </label>
+                        <input id="subir" accept="image/*" (change)="capturarImagen($event)" (ngModel)="Libro.urlImagen"
+                            type="file" name="Image">
+                    </div>
+                    <!--FIN SUBIR FOTO-->
+
+                </div>
+
+
+                <div class="user-details" *ngIf="step === 7">
+                    <div class="input-box">
+                        <span class="details">Bibliotecario que registra:</span>
+                        <input type="text" disabled="true" value=""
+                            class="form-control" name="bibliotecario" required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Fecha de Creación:</span>
+                        <input type="date" class="form-control" name="fecha-Creacion" (ngModel)="Libro.fechaCreacion"
+                            required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">URL Digital:</span>
+                        <input type="text" class="form-control" name="url" (ngModel)="Libro.urlDigital" required>
+                    </div>
+                    <div class="input-box">
+                        <span class="details">Ciudad:</span>
+                        <input type="text" class="form-control" name="ciudad" (ngModel)="Libro.ciudad" required>
+                    </div>
+
+                </div>
+
+
+                <div class="user-details" *ngIf="step === 8">
+
+
+
+
+                    <!--REGISTRAR DONANTE-->
+                    <div class="input-box">
+                        <div class="col" style="margin-left:10% ;">
+                            <button class="btn " style="background-color:transparent">
+                                <img src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fsubir%20acta.png?alt=media&token=654756c8-f9ef-46fc-a2df-c740f8e75c45"
+                                    width=25 height=25>
+                                Subir Acta</button>
+                            <input (change)="capturarArchivo($event)" type="file" id="subir" name="PDF">
+
+                        </div>
+                        <br>
+
+                        <div class="input-box">
+                                <span class="details">Nombre Donante:</span>
+                                <input type="text" class="form-control" name="donante"
+                                        (ngModel)="Libro.nombreDonante" required rigth>
+                            </div>
+
+                    </div>
+                    <!--FIN REGISTRAR DONANTE-->
+
+                    <div class="input-box">
+                        <span class="details">Disponibilidad:</span>
+                        <div class="form-group">
+                          <select class="form-select" name="disponibilidad" (ngModel)="Libro.disponibilidad" required>
+                            <option value="true">Disponible</option>
+                            <option value="false">No Disponible</option>
+                          </select>
+                        </div>
+                      </div>
+                      
+                      
+                      
+                    
+
+                </div>
+                
+            </div>
+
+
+
+
+
+
+
+                <div class="button text-center">
+                    <button type="button" class="btn btn-outline-secondary btn-lg mx-3" (click)="retroceder1()"
+                        *ngIf="step > 1">
+                        <i class="fas fa-arrow-left"></i> Retroceder
+                    </button>
+                    <button type="button" class="btn btn-outline-primary btn-lg mx-3" (click)="avanzar1()"
+                        *ngIf="step < 8">
+                        Siguiente <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <button type="submit" class="btn btn-outline-success btn-lg mx-3" *ngIf="step === 8"
+                        >
+                        Guardar libro <i class="fas fa-paper-plane">
+                            <img src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fagregar%20libro.png?alt=media&token=b7f639da-1aaa-4d12-8133-a59742d32d87"
+                            width=25 height=25 align="center"></i>
+                    </button>
+                </div>
+
+
+            </form>
+        </div>
+    </div>
+
+</body>

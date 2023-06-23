@@ -1,0 +1,94 @@
+<nav class="navbar navbar-expand-lg" style="background-image: linear-gradient(90deg,#0067CF,#023b76);">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#" style="color: #e3eaef" routerLink="/app-home"> <img
+        src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/logos%2Flogo%20blanco.png?alt=media&token=0fd4deda-5a8c-4db7-89eb-05e8c1e1643c"
+        alt="" width="100" height="30"></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="container-fluid">
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <div>
+            <li class="nav-item ">
+              <a class="nav-link active" href="#" routerLink="/app-registro-bibliotecario">
+                <img
+                  src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fagregar-usuario%20(1).png?alt=media&token=c04b535c-bdbd-4f71-9d57-1688666ddd43"
+                  alt="" width="25" height="25"></a>
+            </li>
+          </div>
+          <li class="nav-item">
+            <a class="nav-link active" href="#" routerLink="/app-vista-registro-new">
+              <img
+                src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fagregar%20(1).png?alt=media&token=077d2984-4b56-4b72-a862-7be65d5f4832"
+                alt="" width="25" height="25"></a>
+
+
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="#" routerLink="/app-listas">
+              <img
+                src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Flista.png?alt=media&token=95e8450f-1aee-4a02-9068-4550a86f63e5"
+                alt="" width="25" height="25"></a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
+              <img
+                src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Freporte-de-negocios.png?alt=media&token=b47985f5-b219-4d8e-ace8-0095991d1aaf"
+                alt="" width="25" height="25"></a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" routerLink="/app-reporte-libros">Reporte de Libros</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item" routerLink="/app-reporte-sugerencias">Reporte de Sugerencias</a></li>
+            </ul>
+          </li>
+        </ul>
+
+
+        <div>
+          <button type="button" class="position-relative" style="background:transparent ; border-color: transparent"
+            (click)="ocultar()" routerLink="/app-lista-solicitudes-pendientes">
+            <img
+              src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fnotificacion.png?alt=media&token=d3afd330-3414-4ed6-b131-a498de2ba691"
+              alt="" width="25" height="25">
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+              *ngIf="nuevosRegistros > 0">
+              {{nuevosRegistros}}
+              <span class="visually-hidden">unread messages</span>
+            </span>
+          </button>
+        </div>
+        &nbsp;&nbsp;
+        <div class="dropdown">
+          <a class="btn btn-primary dropdown-item" style="background:transparent ; border-color: white"
+            routerLink="/app-form-editUsuario">
+
+            <img
+              src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fconfiguracion.png?alt=media&token=300f3996-9d7f-4d7b-8bd5-3641c4e53031"
+              width="25" height="25">
+          </a>
+        </div>
+        <div class="dropdown">
+          <a class="btn btn-primary dropdown-item" style="background:transparent ; border-color: white"
+            routerLink="/app-form-editBibliotecario">
+
+            <img
+              src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fconfiguracion.png?alt=media&token=300f3996-9d7f-4d7b-8bd5-3641c4e53031"
+              width="25" height="25">
+          </a>
+        </div>
+        &nbsp;&nbsp;
+        <button (click)="cerrarSesion()" class="boton btn btn-primary">Cerrar
+          Sesión</button>
+
+      </div>
+    </div>
+    <div style="width: 10%; ">
+      <button (click)="iniciarSesion()" class="boton btn btn-primary">Iniciar
+        Sesión</button>
+    </div>
+  </div>
+</nav>

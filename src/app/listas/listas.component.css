@@ -1,0 +1,38 @@
+.destacado {
+    margin-left: 3em;
+    margin-right: 3em;
+}
+
+.scroll {
+    overflow-y: scroll;
+}
+
+.cabezera {
+    background-color: #012844;
+    color: white;
+    font-size: 20px;
+}
+.subcabezera {
+    background-color: #1F4D95;
+    color: white;
+}
+
+
+.elemento {
+    background-image: url(https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/logos%2Flogo%20fondo%20borroso%20peque%C3%B1o.jpg?alt=media&token=8a7bcc9b-f7e0-4757-b3eb-2a20e389ffae);
+    background-repeat: no-repeat;
+    background-position: right;
+}
+
+.container {
+    left: 75%;
+    top: 27%;
+    position: relative;
+    border: 1px solid black;
+
+}
+.buscar {
+    width: 550px;
+    margin-left: 50px;
+}
+
