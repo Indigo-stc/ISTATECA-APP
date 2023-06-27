@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DirectivaComponent } from './directiva/directiva.component';
 import { DevolverLibroComponent } from './devolver-libro/devolver-libro.component';
 import { RegistroUsuarioComponent } from './registro-usuario/registro-usuario.component';
 import { ReporteSugerenciasComponent } from './reporte-sugerencias/reporte-sugerencias.component';
@@ -20,7 +19,6 @@ import { SolicitudLibroDomicilioComponent } from './solicitud-libro-domicilio/so
 import { VistaRegistroNewComponent } from './vista-registro-new/vista-registro-new.component';
 
 const routes: Routes = [
-  {path: 'app-directiva', component: DirectivaComponent},
       {path: 'app-devolver-libro', component: DevolverLibroComponent},
       {path: 'app-registro-usuario', component: RegistroUsuarioComponent},
       {path: 'app-reporte-sugerencias', component: ReporteSugerenciasComponent},

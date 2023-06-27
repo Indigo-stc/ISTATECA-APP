@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import {FooterComponent} from './footer/footer.component';
-import { DirectivaComponent } from './directiva/directiva.component';
 import { RouterModule } from '@angular/router';
 import{HttpClientModule} from '@angular/common/http';
 import { RegistroUsuarioService } from './services/registro-usuario.service';
@@ -37,7 +36,6 @@ import { RegistroAutorComponent } from './registro-autor/registro-autor.componen
   declarations: [
     AppComponent,
     FooterComponent,
-    DirectivaComponent,
     HeaderComponent,
     RegistroUsuarioComponent,
     InicioSesionComponent,
