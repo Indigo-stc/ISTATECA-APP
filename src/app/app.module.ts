@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import {FooterComponent} from './footer/footer.component';
-import { DirectivaComponent } from './directiva/directiva.component';
 import { RouterModule } from '@angular/router';
 import{HttpClientModule} from '@angular/common/http';
 import { RegistroUsuarioService } from './services/registro-usuario.service';
@@ -30,12 +29,13 @@ import { ReporteLibrosComponent } from './reporte-libros/reporte-libros.componen
 import { ReporteSugerenciasComponent } from './reporte-sugerencias/reporte-sugerencias.component';
 import { SolicitudLibroDomicilioComponent } from './solicitud-libro-domicilio/solicitud-libro-domicilio.component';
 import { AppRoutingModule } from './app-routing.module';
+import { RegistroTipoComponent } from './registro-tipo/registro-tipo.component';
+import { RegistroAutorComponent } from './registro-autor/registro-autor.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FooterComponent,
-    DirectivaComponent,
     HeaderComponent,
     RegistroUsuarioComponent,
     InicioSesionComponent,
@@ -54,6 +54,8 @@ import { AppRoutingModule } from './app-routing.module';
     ReporteLibrosComponent,
     ReporteSugerenciasComponent,
     SolicitudLibroDomicilioComponent,
+    RegistroTipoComponent,
+    RegistroAutorComponent,
 
   ],
   imports: [

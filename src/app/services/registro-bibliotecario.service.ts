@@ -3,6 +3,7 @@ import { Bibliotecario } from '../models/Bibliotecario_Cargo';
 import { Observable,of } from 'rxjs';
 import { PersonaP } from '../models/PersonaP';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { PersonaFenix } from '../models/PersonaFenix';
 @Injectable({
   providedIn: 'root'
 })
@@ -10,6 +11,7 @@ export class RegistroBibliotecarioService {
   private urlendpoint:string='http://localhost:8080/api/crearbibliotecario';
   private urlendpoint1:string='http://localhost:8080/api/listarbibliotecario';
   private urlendpoint2:string='http://localhost:8080/api/bibliotecario_x_cedula';
+  private urlendpointFenix: string = 'http://localhost:8080/usuariofenix/buscarusuario';
   private urlendpoint4:string='http://localhost:8080/api/fenix_docente';
   private urlendpoint5:string='http://localhost:8080/api/editarbibliotecario';
   private urlendpoint6:string='http://localhost:8080/api/bibliotecario';
@@ -18,6 +20,12 @@ export class RegistroBibliotecarioService {
 
   constructor(private http:HttpClient) { }
 
+
+  obtenerPersonasCedula(cedula: string): Observable<PersonaFenix> {
+    //return of(CLIENTES)
+    return this.http.get<PersonaFenix>(this.urlendpointFenix + "/" + cedula);
+
+  }
   create(bibliotecario:Bibliotecario):Observable<Bibliotecario>{
     return this.http.post<Bibliotecario>(this.urlendpoint, bibliotecario, {headers: this.httpHeaders})
   }

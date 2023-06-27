@@ -4,7 +4,7 @@ import { Bibliotecario } from '../models/Bibliotecario_Cargo';
 import { Persona } from '../models/Persona';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
-import { PersonaP } from '../models/PersonaP';
+
 import Swal from 'sweetalert2';
 
 @Component({
@@ -15,7 +15,7 @@ import Swal from 'sweetalert2';
 export class FormComponentb implements OnInit {
   public bibliotecarios: Bibliotecario = new Bibliotecario();
   persona: Persona = {};
-  personaP: PersonaP = {};
+
   bibliotecarioE:Bibliotecario={};
   idb?:number;
 
@@ -30,10 +30,7 @@ export class FormComponentb implements OnInit {
     this.bibliotecarios.persona = this.persona
     this.persona.activo = true;
 
-    this.persona.cedula = this.personaP.cedula
-    this.persona.nombres = this.personaP.nombres
-    this.persona.correo = this.personaP.correo
-    this.persona.celular = this.personaP.celular
+    
 
     console.log(this.bibliotecarios.persona)
     console.log(this.persona.tipo)
@@ -52,21 +49,17 @@ export class FormComponentb implements OnInit {
     ); login.reset();
   }
 
-  buscarFenix(cedula: string, nombre: string) {
+  buscarFenix(cedula: string) {
     if (cedula == "") {
       alert('INGRESE UNA CEDULA')
     } else {
       console.log(cedula)
-      this.bibliotecarioservice.obtenerPersonasId(cedula).subscribe(
-        personaP => this.personaP = personaP
+      this.bibliotecarioservice.obtenerPersonasCedula(cedula).subscribe(
+        response => (this.persona = response,this.persona.fenixId=response.alumno_docenteId)
 
 
       )
-      console.log(this.personaP.cedula);
-      if (this.personaP.cedula == undefined) {
-        alert('Cedula no registrada')
-        //this.router.navigate([''])
-      }
+      
     }
 
 

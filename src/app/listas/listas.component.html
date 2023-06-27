@@ -1,84 +1,76 @@
-<header class="text-center" style="font-size:45px;"> <strong>Listas</strong></header><br>
-<body class="elemento">
-    <form class="d-flex buscar" role="search">
-        <input class="form-control me-2" type="search" placeholder="Buscar" aria-label="Buscar"
-            style="background-color: #e5e7e8; border-color: #2E2F5E;">
-        <button class="btn" type="submit">
-            <img
-                src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fbusqueda.png?alt=media&token=2b59078d-0ef5-4fa4-85c6-396ea7c1c97c">
-        </button>
-        <div class="container  text-center col-sm-3">
-            <div class="row gx-6">
-                <div class="col">
-                    <img src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fmodificar.png?alt=media&token=80f892de-c49a-4833-8019-1e8d7ec8ef06"
-                        width=30 height=30 align="center"><br>
-                    <label>Modificar</label>
-                </div>
-            </div>
-        </div>
-    </form>
-    <div class="row destacado">
-        <div class="card-body text-primary libros col-sm-2 ">
-            <table class="table table-bordered table-stripped scroll table-hover">
-                <thead class="text-center cabezera">
-                    <tr>
-                        <th colspan="2">Autores</th>
-                    </tr>
-                </thead>
-                <thead class="text-center subcabezera">
-                    <tr> 
-                        <th>ID</th>
-                        <th>Nombres</th>
-                    </tr>
-                </thead>
-                <tbody class="text-center" >
-                    <tr *ngFor="let autor of Autores">
-                        <td>{{autor.id}}</td>
-                        <td>{{autor.nombre}}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="card-body text-primary libros col-sm-2">
-            <table class="table table-bordered table-stripped scroll table-hover">
-                <thead class="text-center cabezera">
-                    <tr>
-                        <th colspan="2">Donantes</th>
-                    </tr>
-                </thead>
-                <thead class="text-center subcabezera">
-                    <tr>
-                        <th>Nombres de Donantes</th>
-                        <th>Acta</th>
-                    </tr>
-                </thead>
+<div class="imagen">
+    <img src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/logos%2Flogo%20normal%20peque%C3%B1o.png?alt=media&token=59a16c73-3229-4ba7-81be-567aae799d61"
+        height="60" width="200" style="margin-left: 10%; margin-top: 1%;">
+</div>
 
-                <tbody class="text-center">
-                </tbody>
-            </table>
-        </div>
-        <div class="card-body text-primary libros col-sm-2">
-            <table class="table table-bordered table-stripped scroll table-hover">
-                <thead class="text-center cabezera">
-                    <tr>
-                        <th colspan="3">Tipos de Libros</th>
-                    </tr>
-                </thead>
-                <thead class="text-center subcabezera">
-                    <tr>
-                        <th>ID</th>
-                        <th>Nombre</th>
-                        <th>Estado</th>
-                    </tr>
-                </thead>
-                <tbody class="text-center">
-                    <tr *ngFor="let tipo of ttipos">
-                        <td>{{tipo.id}}</td>
-                        <td>{{tipo.nombre}}</td>
-                        <td>{{tipo.activo}}</td>
-                    </tr>
-                </tbody>
-            </table>
+<body class="elemento">
+    <div class="card">
+        <h1>Listas</h1>
+        <form class="buscar" (ngSubmit)="buscarAutor(buscar2.value)">
+            <input class="form-control me-2" #buscar2 type="search" placeholder="Buscar" aria-label="Buscar"
+          (keyup)="onKeydownEvent($event, buscar2.value)" style="background-color: #e5e7e8; border-color: #004f9f;">
+            <button class="btn" type="submit">
+                <img
+                    src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fbusqueda.png?alt=media&token=2b59078d-0ef5-4fa4-85c6-396ea7c1c97c">
+            </button>
+            <button (click)="registroAutor()">Crear Autor</button>
+            <button (click)="resgistroTipo() ">Crear Tipo</button>
+        </form>
+        <div class="contenedor">
+            <div class="tablas">
+                <table class="table">
+                    <thead class="cabezera">
+                        <tr>
+                            <th colspan="2">Autores</th>
+                        </tr>
+                    </thead>
+                    <thead class="subcabezera">
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombres</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngIf="buscar==false">
+                        <tr *ngFor="let autor of Autores">
+                            <td>{{autor.id}}</td>
+                            <td>{{autor.nombre}}</td>
+                        </tr>
+                    </tbody>
+                    <tbody *ngIf="buscar==true">
+                        <tr *ngFor="let autor of Autores">
+                            <td>{{autor.id}}</td>
+                            <td>{{autor.nombre}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="tablas">
+                <table class="table">
+                    <thead class="cabezera">
+                        <tr>
+                            <th colspan="3">Tipos de Libros</th>
+                        </tr>
+                    </thead>
+                    <thead class="subcabezera">
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center">
+                        <tr *ngFor="let tipo of ttipos">
+                            <td>{{tipo.id}}</td>
+                            <td>{{tipo.nombre}}</td>
+                            <td *ngIf="tipo.activo==true; else elseBlock" >Activo</td>
+                            <ng-template #elseBlock>
+                                <td>Inactivo</td>
+                            </ng-template>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </body>

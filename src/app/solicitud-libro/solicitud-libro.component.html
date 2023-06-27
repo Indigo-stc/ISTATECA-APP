@@ -8,7 +8,7 @@
     <div class="card">
         <h1>Ficha de Solicitud en la Institución</h1>
         <div class="content">
-            <form (ngSubmit)="guardar()">
+            <form ngNativeValidate  (ngSubmit)="guardar()">
                 <div class="step-counter">
                     <p>Paso {{ step }} de {{ totalSteps }} </p>
                     <div class="user-details" *ngIf="step === 1">
@@ -18,7 +18,7 @@
                                 required>
 
                             <span class="details">Carrera:</span>
-                            <select class="combo form-select" (change)="seleccionT($event)" name="carrera">
+                            <select class="combo form-select" (change)="seleccionT($event)" name="carrera" required>
                                 <option disabled selected>Seleccione una carrera</option>
                                 <option *ngFor="let carrera of carreras" value="{{carrera.id}}"> {{carrera.nombre}}
                                 </option>
@@ -61,8 +61,15 @@
                         </div>
                         <div class="input-box">
                             <span class="details">Documento Habilitante:</span>
-                            <input type="email" class="form-control" name="correo"
-                                [(ngModel)]="prestamo.documentoHabilitante" required>
+                            <select class="combo form-select" (change)="seleccionD($event)" name="carrera" required>
+                                <option disabled selected>Seleccione alguna</option>
+                                <option value=1>Cédula</option>
+                                <option value=2>Licencia</option>
+                                <option value=3>Pasaporte</option>
+                            </select>
+                            <span class="details">Bibliotecario que entrega:</span>
+                            <input type="text" class="form-control" name="correo"
+                                value="{{persona.nombres||' '||persona.apellidos}}" required>
                         </div>
                         <div class="input-box">
                             <span class="details">Fecha de Prestamo:</span>

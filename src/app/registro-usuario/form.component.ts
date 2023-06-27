@@ -36,7 +36,8 @@ export class FormComponent implements OnInit {
     console.log("ha realizado un clic")
     //this.usuario=this.persona
     this.persona.activo = true;
-    this.persona.tipo = 2;
+    
+    
 
 
 
@@ -100,7 +101,7 @@ export class FormComponent implements OnInit {
     } else {
       if (cedula.length === 10) {
         this.usuarioservice.obtenerPersonasCedula(cedula).subscribe(
-          response =>( this.persona = response)
+          response =>( this.persona = response,this.persona.fenixId=response.alumno_docenteId)
 
 
         )

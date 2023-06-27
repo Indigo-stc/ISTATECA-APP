@@ -5,6 +5,7 @@ import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Bibliotecario } from '../models/Bibliotecario_Cargo';
 import { PersonaP } from '../models/PersonaP'; import { Usuario } from '../models/Usuario';
+import { PersonaFenix } from '../models/PersonaFenix';
 ;
 @Injectable({
   providedIn: 'root'
@@ -28,7 +29,7 @@ export class RegistroUsuarioService {
   updatePersona(persona: Persona) {
     return this.http.put<Persona>(this.urlendpointeditarpers + "/" + persona.id, persona);
   }
-  obtenerPersonasCedula(cedula: string): Observable<Persona> {
+  obtenerPersonasCedula(cedula: string): Observable<PersonaFenix> {
     //return of(CLIENTES)
     return this.http.get<Persona>(this.urlendpoint2 + "/" + cedula);
 
