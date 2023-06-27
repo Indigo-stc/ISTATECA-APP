@@ -15,7 +15,7 @@
         <h3>Cedula bibliotecario:</h3>
       </label>
       <div class="col-sm-5">
-        <h6><input #cedulas type="text" class="form-control text-center" (ngModel)="personaP.cedula"
+        <h6><input #cedulas type="text" class="form-control text-center" (ngModel)="persona.cedula"
             placeholder="Ingrese un numero de cedula" name="cedula" required></h6>
 
             <div class="row"  style="display: flex; margin-left: 131%; border: 1px solid rgb(3, 0, 0); width: 30%; margin-top: -10%;">
@@ -33,7 +33,7 @@
     
         </div>
       </div>
-      <button type="button" (click)="buscarFenix(cedulas.value,nombre.value)" class="btn btn-outline-secondary"
+      <button type="button" (click)="buscarFenix(cedulas.value)" class="btn btn-outline-secondary"
         style="display: flex; margin-left: 1%; height: 10%; margin-top: 5px;">
         <img
           src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fbusqueda.png?alt=media&token=2b59078d-0ef5-4fa4-85c6-396ea7c1c97c"
@@ -53,8 +53,8 @@
         <h3>Nombres:</h3>
       </label>
       <div class="col-sm-5">
-        <h6><input #nombre type="text" class="form-control text-center" (ngModel)="personaP.nombres"
-            value="{{personaP.nombres}}" placeholder="Aqui apareceran sus datos" name="nombre" required>
+        <h6><input #nombre type="text" class="form-control text-center" (ngModel)="persona.nombres"
+            value="{{persona.nombres}}" placeholder="Aqui apareceran sus datos" name="nombre" required>
         </h6>
       </div>
     </div>
@@ -63,8 +63,8 @@
         <h3>Celular:</h3>
       </label>
       <div class="col-sm-5">
-        <h6><input type="number" class="form-control text-center" (ngModel)="personaP.celular"
-            value="{{personaP.celular}}" placeholder="Aqui apareceran sus datos" name="celular" required>
+        <h6><input type="number" class="form-control text-center" (ngModel)="persona.celular"
+            value="{{persona.celular}}" placeholder="Aqui apareceran sus datos" name="celular" required>
         </h6>
       </div>
     </div>
@@ -73,8 +73,8 @@
         <h3>Email:</h3>
       </label>
       <div class="col-sm-5">
-        <h6><input type="email" class="form-control text-center" (ngModel)="personaP.correo"
-            value="{{personaP.correo}}" placeholder="Aqui apareceran sus datos" name="correo" required>
+        <h6><input type="email" class="form-control text-center" (ngModel)="persona.correo"
+            value="{{persona.correo}}" placeholder="Aqui apareceran sus datos" name="correo" required>
         </h6>
       </div>
     </div>
@@ -88,14 +88,14 @@
 
 
         <h2>
-          <input class="form-check-input" type="radio" name="flexRadioDefault1" value="0" id="admin"
+          <input class="form-check-input" type="radio" name="flexRadioDefault1" value="4" id="admin"
             (ngModel)="persona.tipo" required>
           &nbsp;&nbsp;<label class="form-check-label" for="flexRadioDefault3">
             Administrador
           </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 
-          <input class="form-check-input" type="radio" name="flexRadioDefault1" value="1" id="biblioteca"
+          <input class="form-check-input" type="radio" name="flexRadioDefault1" value="3" id="biblioteca"
             (ngModel)="persona.tipo" required>
           &nbsp;&nbsp;<label class="form-check-label" for="flexRadioDefault4">
             Bibliotecario

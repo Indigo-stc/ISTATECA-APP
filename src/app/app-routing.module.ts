@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DirectivaComponent } from './directiva/directiva.component';
 import { DevolverLibroComponent } from './devolver-libro/devolver-libro.component';
 import { RegistroUsuarioComponent } from './registro-usuario/registro-usuario.component';
 import { ReporteSugerenciasComponent } from './reporte-sugerencias/reporte-sugerencias.component';
@@ -21,24 +20,23 @@ import { VistaRegistroNewComponent } from './vista-registro-new/vista-registro-n
 import { AuthGuard } from '@auth0/auth0-angular';
 
 const routes: Routes = [
-  { path: 'app-directiva', component: DirectivaComponent },
-  { path: 'app-devolver-libro', component: DevolverLibroComponent, canActivate: [AuthGuard], data: { expectedRoles: ['ROLE_STUD'] } },
-  { path: 'app-registro-usuario', component: RegistroUsuarioComponent, canActivate: [AuthGuard], data: { expectedRoles: ['ROLE_STUD'] } },
-  { path: 'app-reporte-sugerencias', component: ReporteSugerenciasComponent, canActivate: [AuthGuard], data: { expectedRoles: ['ROLE_STUD'] } },
-  { path: 'app-reporte-libros', component: ReporteLibrosComponent },
-  { path: '', component: InicioSesionComponent, pathMatch: 'full' },
-  { path: 'app-form', component: FormComponent },
-  { path: 'app-form-bibliotecario', component: FormComponentb },
-  { path: 'app-form-editBibliotecario', component: FormEditBComponent },
-  { path: 'app-form-editUsuario', component: FormEditComponent },
-  { path: 'app-home', component: HomeComponent },
-  { path: 'app-registro-bibliotecario', component: RegistroBibliotecarioComponent },
-  { path: 'app-lista-bibliotecarios', component: ListaBibliotecariosComponent },
-  { path: 'app-listas', component: ListasComponent },
-  { path: 'app-lista-solicitudes-pendientes', component: ListaSolicitudesPendientesComponent },
-  { path: 'app-solicitud-libro', component: SolicitudLibroComponent },
-  { path: 'app-solicitud-libro-domicilio', component: SolicitudLibroDomicilioComponent },
-  { path: 'app-vista-registro-new', component: VistaRegistroNewComponent },
+      {path: 'app-devolver-libro', component: DevolverLibroComponent, canActivate: [AuthGuard], data: { expectedRoles: ['ROLE_STUD'] } },
+      {path: 'app-registro-usuario', component: RegistroUsuarioComponent},
+      {path: 'app-reporte-sugerencias', component: ReporteSugerenciasComponent},
+      {path: 'app-reporte-libros', component: ReporteLibrosComponent},
+      {path: '', component: InicioSesionComponent, pathMatch:'full'},
+      {path: 'app-form', component: FormComponent},
+      {path: 'app-form-bibliotecario', component: FormComponentb},
+      {path: 'app-form-editBibliotecario', component: FormEditBComponent},
+      {path: 'app-form-editUsuario', component: FormEditComponent},
+      {path: 'app-home', component: HomeComponent},
+      {path: 'app-registro-bibliotecario', component: RegistroBibliotecarioComponent},
+      {path: 'app-lista-bibliotecarios', component: ListaBibliotecariosComponent},
+      {path: 'app-listas', component: ListasComponent},
+      {path: 'app-lista-solicitudes-pendientes', component: ListaSolicitudesPendientesComponent},
+      {path: 'app-solicitud-libro', component: SolicitudLibroComponent},
+      {path: 'app-solicitud-libro-domicilio', component: SolicitudLibroDomicilioComponent},
+      {path: 'app-vista-registro-new', component: VistaRegistroNewComponent},
 ];
 
 @NgModule({

@@ -74,7 +74,10 @@ thead {
 }
 
 
-
+.input2 {
+  background-color: transparent;
+  border: 1px solid transparent;
+}
 
 button {
   margin-left: 70%;
@@ -118,9 +121,14 @@ button:hover span {
   justify-content: center;
 }
 
-.details{
+.details {
   font-size: medium;
   width: 60%;
+}
+
+.details2 {
+  font-size: medium;
+  width: 80%;
 }
 
 .content {

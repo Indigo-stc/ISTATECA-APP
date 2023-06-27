@@ -18,16 +18,20 @@ export class ListaSolicitudesPendientesComponent implements OnInit {
   recibidos?: boolean;
   nodevuelto?: boolean;
   restituido?: boolean;
+  destruido?:boolean;
   buscar?: boolean;
 
   constructor(private prestamoService: prestamoService, private router: Router) { }
 
   ngOnInit(): void {
+    localStorage.removeItem('solicitudCompleta'); 
+    localStorage.removeItem('estadoR'); 
     this.pendientes = true;
     this.prestados = false;
     this.recibidos = false;
     this.nodevuelto = false;
     this.restituido = false;
+    this.destruido = false;
     this.buscar = false;
     this.prestamoService.listarxestado(1).subscribe(
       response => {
@@ -55,6 +59,21 @@ export class ListaSolicitudesPendientesComponent implements OnInit {
     localStorage.setItem("AceptarSolicitud", objetoString);
     this.router.navigate(['/app-devolver-libro']);
   }
+  devolucionR(prestamo: Prestamo) {
+    const objetoString = JSON.stringify(prestamo);
+    localStorage.setItem("AceptarSolicitud", objetoString);
+    this.router.navigate(['/app-devolver-libro']);
+    localStorage.setItem("estadoR", 6+"");
+    this.router.navigate(['/app-devolver-libro']);
+  }
+
+  solicitudCompleta(prestamo: Prestamo) {
+    const objetoString = JSON.stringify(prestamo);
+    localStorage.setItem("AceptarSolicitud", objetoString);
+    this.router.navigate(['/app-devolver-libro']);
+    localStorage.setItem("solicitudCompleta",1+"");
+    this.router.navigate(['/app-devolver-libro']);
+  }
 
   listaPendientes(): void {
     this.ngOnInit();
@@ -73,6 +92,7 @@ export class ListaSolicitudesPendientesComponent implements OnInit {
     this.recibidos = false;
     this.nodevuelto = false;
     this.restituido = false;
+    this.destruido = false;
     this.buscar = false;
   }
   listaRecibidos(): void {
@@ -88,6 +108,7 @@ export class ListaSolicitudesPendientesComponent implements OnInit {
     this.recibidos = true;
     this.nodevuelto = false;
     this.restituido = false;
+    this.destruido = false;
     this.buscar = false;
   }
   listaNoDevueltos(): void {
@@ -101,6 +122,7 @@ export class ListaSolicitudesPendientesComponent implements OnInit {
     this.pendientes = false;
     this.prestados = false;
     this.recibidos = false;
+    this.destruido = false;
     this.nodevuelto = true;
     this.restituido = false;
     this.buscar = false;
@@ -118,7 +140,23 @@ export class ListaSolicitudesPendientesComponent implements OnInit {
     this.prestados = false;
     this.recibidos = false;
     this.nodevuelto = false;
+    this.destruido = false;
     this.restituido = true;
+    this.buscar = false;
+  }
+  listaDestruidos(): void {
+    this.prestamoService.listarxestado(4).subscribe(
+      response => {
+        this.listaprestamos = response;
+      }
+
+    );
+    this.pendientes = false;
+    this.prestados = false;
+    this.recibidos = false;
+    this.nodevuelto = false;
+    this.destruido = true;
+    this.restituido = false;
     this.buscar = false;
   }
 
@@ -152,14 +190,13 @@ export class ListaSolicitudesPendientesComponent implements OnInit {
     return nombreEstado;
   }
 
-
-
   onKeydownEvent(event: KeyboardEvent, buscar2: String): void {
     this.pendientes = false;
     this.prestados = false;
     this.recibidos = false;
     this.nodevuelto = false;
     this.restituido = false;
+    this.destruido = false;
     //buscar
     this.buscar = true;
 

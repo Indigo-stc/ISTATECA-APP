@@ -21,7 +21,7 @@ export class Libro{
     indiceDos?: string;
     indiceTres?: string;
     dimenciones?: string;
-    estadoLibro?: string;
+    estadoLibro?: number;
     activo?:boolean;
     urlImagen?: string;
     urlDigital?: string;

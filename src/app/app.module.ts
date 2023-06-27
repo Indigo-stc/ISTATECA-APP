@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import {FooterComponent} from './footer/footer.component';
-import { DirectivaComponent } from './directiva/directiva.component';
 import { RouterModule } from '@angular/router';
 import{HTTP_INTERCEPTORS, HttpClientModule, HttpClientXsrfModule} from '@angular/common/http';
 import { RegistroUsuarioService } from './services/registro-usuario.service';
@@ -30,17 +29,20 @@ import { ReporteLibrosComponent } from './reporte-libros/reporte-libros.componen
 import { ReporteSugerenciasComponent } from './reporte-sugerencias/reporte-sugerencias.component';
 import { SolicitudLibroDomicilioComponent } from './solicitud-libro-domicilio/solicitud-libro-domicilio.component';
 import { AppRoutingModule } from './app-routing.module';
+
 import { AuthModule } from '@auth0/auth0-angular';
 import { LoginComponent } from './auth/login/login.component';
 import { LogoutComponent } from './auth/logout/logout.component';
 import { LibraryInterceptor } from './interceptors/library.interceptor';
 import { AuthGuard } from './guards/auth.guard';
 
+import { RegistroTipoComponent } from './registro-tipo/registro-tipo.component';
+import { RegistroAutorComponent } from './registro-autor/registro-autor.component';
+
 @NgModule({
   declarations: [
     AppComponent,
     FooterComponent,
-    DirectivaComponent,
     HeaderComponent,
     RegistroUsuarioComponent,
     InicioSesionComponent,
@@ -61,7 +63,8 @@ import { AuthGuard } from './guards/auth.guard';
     SolicitudLibroDomicilioComponent,
     LoginComponent,
     LogoutComponent,
-
+    RegistroTipoComponent,
+    RegistroAutorComponent,
   ],
   imports: [
     BrowserModule,

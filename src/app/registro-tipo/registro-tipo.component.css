@@ -12,8 +12,8 @@ body {
 
 
 .card {
-    width: 90%;
-    height: 100%;
+    width: 40%;
+    height: 60%;
     margin-top: 3%;
     background-color: transparent;
     box-shadow: rgba(0, 0, 0, 0.4) 10px 20px 30px, rgba(0, 0, 0, 0.3) 10px 1px 53px 3px, rgba(1, 0, 0, 0.2) 0px -1px 3px inset;
@@ -46,20 +46,19 @@ h1 {
 }
 
 .table {
+    margin-top: -15%;
     width: 95%;
-    height: auto;
     border: 1px solid #004f9f;
-    margin-left: 3%;
-    margin-top: 2%;
-    margin-bottom: 2%;
 }
 
-.cabezera {
-    background-color: #023b76;
-    color: white;
+.table1 {
+    width: 95%;
+    border: 1px solid #004f9f;
+    margin-top: -1.5%;
+    text-align: left;
 }
 
-.subcabezera {
+thead {
     background-color: #004f9f;
     color: white;
 }
@@ -69,65 +68,86 @@ h1 {
     height: 100%;
     overflow-y: scroll;
     display: flex;
-    margin: 2%;
-
-}
-
-.tablas {
-    width: 50%;
-}
-
-form {
-    width: 40%;
-}
-
-input {
-    height: 70%;
-}
-
-.buscar {
-    width: 60%;
-    height: 20%;
-    display: flex;
-    justify-content: start;
-    align-items: start;
-}
-
-.btn {
-    background-color: transparent;
-    width: 2%;
-}
-
-button {
-    width: 30%;
-    margin-left: 2%;
-    display: flex;
     justify-content: center;
     align-items: center;
-    font-family: inherit;
-    font-weight: 500;
-    font-size: 12px;
-    padding: 0.8em 1.3em 0.8em 0.9em;
-    color: white;
-    background: #1C69B7;
-    border: none;
-    border-radius: 16px;
+    flex-direction: column;
 }
 
-button img {
+
+
+
+button {
+    margin-left: 70%;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    font-family: inherit;
+    font-weight: 500;
+    font-size: 17px;
+    padding: 0.8em 1.3em 0.8em 0.9em;
+    color: white;
+    background: linear-gradient(90deg, #004f9f, #023b76);
+    letter-spacing: 0.05em;
+    border-radius: 16px;
+    border: 1px solid white;
+}
+
+button svg {
     margin-right: 3px;
-    transform: rotate(30deg);
-    transition: transform 0.5s cubic-bezier(0.76, 0, 0.24, 1);
+    transform: rotate(0deg);
+    transition: transform 0.50s cubic-bezier(0.76, 0, 0.24, 1);
 }
 
 button span {
     transition: transform 0.5s cubic-bezier(0.76, 0, 0.24, 1);
 }
 
-button:hover img {
-    transform: translateX(5px) rotate(90deg);
+button:hover svg {
+    transform: translateX(2px) rotate(-20deg);
 }
 
 button:hover span {
     transform: translateX(7px);
+    border: 1px solid white;
+}
+
+
+.input-box {
+    display: flex;
+    width: 160%;
+    margin-top: 1%;
+    margin-left: -30%;
+}
+
+input {
+    width: 1000%;
+}
+
+.details {
+    width: 40%;
+}
+
+.content {
+    width: 100%;
+}
+
+p {
+    text-align: left;
+    margin-left: 8%;
+    font-size: 20px;
+    color: #023b76;
+}
+
+input {
+    margin-left: 1%;
+    height: 10%;
+    width: 80%;
+    margin-right: 1%;
+}
+
+.combo {
+    margin-left: 1%;
+    height: 10%;
+    width: 80%;
+    margin-right: 1%;
+    color: black;
 }
