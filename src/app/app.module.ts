@@ -30,6 +30,8 @@ import { ReporteLibrosComponent } from './reporte-libros/reporte-libros.componen
 import { ReporteSugerenciasComponent } from './reporte-sugerencias/reporte-sugerencias.component';
 import { SolicitudLibroDomicilioComponent } from './solicitud-libro-domicilio/solicitud-libro-domicilio.component';
 import { AppRoutingModule } from './app-routing.module';
+import { RegistroTipoComponent } from './registro-tipo/registro-tipo.component';
+import { RegistroAutorComponent } from './registro-autor/registro-autor.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +56,8 @@ import { AppRoutingModule } from './app-routing.module';
     ReporteLibrosComponent,
     ReporteSugerenciasComponent,
     SolicitudLibroDomicilioComponent,
+    RegistroTipoComponent,
+    RegistroAutorComponent,
 
   ],
   imports: [

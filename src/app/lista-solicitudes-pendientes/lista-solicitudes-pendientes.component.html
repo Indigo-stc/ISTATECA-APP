@@ -17,6 +17,7 @@
       <button (click)="listaRecibidos()">Recibidos</button>
       <button (click)="listaNoDevueltos()">No devuelto</button>
       <button (click)="listaRestituidos()">Restituido</button>
+      <button (click)="listaDestruidos()">Libros Destruidos</button>
     </div>
 
 
@@ -62,11 +63,8 @@
           <tr *ngFor="let prestamo of listaprestamos">
             <td>{{prestamo.idSolicitante?.cedula}}</td>
             <td>{{prestamo.libro?.titulo}}</td>
-            <<td *ngIf="prestamo.estadoPrestamo === 3; ">Recibidos</td>
-              <td style="display: flex; justify-content: center;">
-                <button (click)="aceptarDomicilio(prestamo)">Aceptar Solitud Domicilio</button>&nbsp;
-                <button (click)="aceptar(prestamo)">Aceptar Solitud Institución</button>
-              </td>
+            <td *ngIf="prestamo.estadoPrestamo === 3; ">Recibidos</td>
+            <button (click)="solicitudCompleta(prestamo)">Ver Prestamo</button>&nbsp;
           </tr>
         </tbody>
 
@@ -76,8 +74,7 @@
             <td>{{prestamo.libro?.titulo}}</td>
             <td *ngIf="prestamo.estadoPrestamo === 5; ">No devuelto</td>
             <td style="display: flex; justify-content: center;">
-              <button (click)="aceptarDomicilio(prestamo)">Aceptar Solitud Domicilio</button>&nbsp;
-              <button (click)="aceptar(prestamo)">Aceptar Solitud Institución</button>
+              <button (click)="devolucion(prestamo)">Recibir libro</button>&nbsp;
             </td>
           </tr>
         </tbody>
@@ -88,12 +85,20 @@
             <td>{{prestamo.libro?.titulo}}</td>
             <td *ngIf="prestamo.estadoPrestamo === 6; ">Restituido</td>
             <td style="display: flex; justify-content: center;">
-              <button (click)="aceptarDomicilio(prestamo)">Aceptar Solitud Domicilio</button>&nbsp;
-              <button (click)="aceptar(prestamo)">Aceptar Solitud Institución</button>
+              <button (click)="solicitudCompleta(prestamo)">Ver Prestamo</button>&nbsp;
             </td>
           </tr>
         </tbody>
-
+        <tbody class="text-center" *ngIf="destruido==true">
+          <tr *ngFor="let prestamo of listaprestamos">
+            <td>{{prestamo.idSolicitante?.cedula}}</td>
+            <td>{{prestamo.libro?.titulo}}</td>
+            <td *ngIf="prestamo.estadoPrestamo === 4; ">Libro Destruido</td>
+            <td style="display: flex; justify-content: center;">
+              <button (click)="devolucionR(prestamo)">Restituir libro</button>&nbsp;
+            </td>
+          </tr>
+        </tbody>
         <tbody class="text-center" *ngIf="buscar==true">
           <tr *ngFor="let prestamo of listaprestamos">
             <td>{{prestamo.idSolicitante?.cedula}}</td>
@@ -105,6 +110,15 @@
             </td>
             <td style="display: flex; justify-content: center;" *ngIf="prestamo.estadoPrestamo == 2; ">
               <button (click)="devolucion(prestamo)">Formulario de devolución</button>&nbsp;
+            </td>
+            <td style="display: flex; justify-content: center;" *ngIf="prestamo.estadoPrestamo == 3 || prestamo.estadoPrestamo == 6">
+              <button (click)="solicitudCompleta(prestamo)">Ver Prestamo</button>&nbsp;
+            </td>
+            <td style="display: flex; justify-content: center;" *ngIf="prestamo.estadoPrestamo == 4">
+              <button (click)="devolucionR(prestamo)">Restituir libro</button>&nbsp;
+            </td>
+            <td style="display: flex; justify-content: center;" *ngIf="prestamo.estadoPrestamo == 5">
+              <button (click)="devolucion(prestamo)">Recibir libro</button>&nbsp;
             </td>
           </tr>
         </tbody>

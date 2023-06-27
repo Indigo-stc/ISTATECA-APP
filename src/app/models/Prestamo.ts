@@ -5,7 +5,7 @@ import { Persona } from "./Persona";
 export class Prestamo {
     id?: number;
     activo?: boolean;
-    documentoHabilitante?: string;
+    documentoHabilitante?: number;
     escaneoMatriz?:string;
     estadoLibro?: number;
     estadoPrestamo?: number;
@@ -16,5 +16,6 @@ export class Prestamo {
     carrera?: Carrera;
     idEntrega?:Persona;
     idSolicitante?:Persona;
+    idRecibido?:Persona;
     libro?: Libro;
 }
