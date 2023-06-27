@@ -7,7 +7,7 @@
 </header>
 
 <body class="elemento" >
-  <form #login="ngForm"  ngNativeValidate style="align-items: center;" (ngSubmit)="createbibliotecario(login)">
+  <form #login="ngForm"  ngNativeValidate style="align-items: center;" (ngSubmit)="create()">
 
 
     <div style="display: flex; width: 80; ">
@@ -15,7 +15,7 @@
         <h3>Cedula bibliotecario:</h3>
       </label>
       <div class="col-sm-5">
-        <h6><input #cedulas type="text" class="form-control text-center" (ngModel)="persona.cedula"
+        <h6><input #cedulas type="text" class="form-control text-center" [(ngModel)]="persona.cedula"
             placeholder="Ingrese un numero de cedula" name="cedula" required></h6>
 
             <div class="row"  style="display: flex; margin-left: 131%; border: 1px solid rgb(3, 0, 0); width: 30%; margin-top: -10%;">
@@ -53,8 +53,8 @@
         <h3>Nombres:</h3>
       </label>
       <div class="col-sm-5">
-        <h6><input #nombre type="text" class="form-control text-center" (ngModel)="persona.nombres"
-            value="{{persona.nombres}}" placeholder="Aqui apareceran sus datos" name="nombre" required>
+        <h6><input #nombre type="text" class="form-control text-center" [(ngModel)]="persona.nombres"
+             placeholder="Aqui apareceran sus datos" name="nombre" required>
         </h6>
       </div>
     </div>
@@ -63,8 +63,8 @@
         <h3>Celular:</h3>
       </label>
       <div class="col-sm-5">
-        <h6><input type="number" class="form-control text-center" (ngModel)="persona.celular"
-            value="{{persona.celular}}" placeholder="Aqui apareceran sus datos" name="celular" required>
+        <h6><input type="number" class="form-control text-center" [(ngModel)]="persona.celular"
+             placeholder="Aqui apareceran sus datos" name="celular" required>
         </h6>
       </div>
     </div>
@@ -73,8 +73,8 @@
         <h3>Email:</h3>
       </label>
       <div class="col-sm-5">
-        <h6><input type="email" class="form-control text-center" (ngModel)="persona.correo"
-            value="{{persona.correo}}" placeholder="Aqui apareceran sus datos" name="correo" required>
+        <h6><input type="email" class="form-control text-center" [(ngModel)]="persona.correo"
+             placeholder="Aqui apareceran sus datos" name="correo" required>
         </h6>
       </div>
     </div>
@@ -89,14 +89,14 @@
 
         <h2>
           <input class="form-check-input" type="radio" name="flexRadioDefault1" value="4" id="admin"
-            (ngModel)="persona.tipo" required>
+            [(ngModel)]="persona.tipo" required>
           &nbsp;&nbsp;<label class="form-check-label" for="flexRadioDefault3">
             Administrador
           </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 
           <input class="form-check-input" type="radio" name="flexRadioDefault1" value="3" id="biblioteca"
-            (ngModel)="persona.tipo" required>
+            [(ngModel)]="persona.tipo" required>
           &nbsp;&nbsp;<label class="form-check-label" for="flexRadioDefault4">
             Bibliotecario
           </label>
@@ -117,7 +117,7 @@
         <h3>Fecha de inicio:</h3>
       </label>
       <div class="col-sm-5">
-        <h6><input type="date" (ngModel)="bibliotecarios.fechaInicio" class="form-control text-center"
+        <h6><input type="date" [(ngModel)]="bibliotecarios.fechaInicio" class="form-control text-center"
             placeholder="Ingrese la fecha de entrada" name="usuario" required>
         </h6>
       </div>
@@ -129,7 +129,7 @@
         <h3>Fecha de salida:</h3>
       </label>
       <div class="col-sm-5">
-        <h6><input type="date" class="form-control text-center" (ngModel)="bibliotecarios.fechaFin"
+        <h6><input type="date" class="form-control text-center" [(ngModel)]="bibliotecarios.fechaFin"
             placeholder="Ingrese la fecha de salida" name="usuario" required>
         </h6>
       </div>
@@ -145,14 +145,14 @@
 
         <h2>
           <input class="form-check-input" type="radio" name="flexRadioDefault" value="true" id="activo"
-            (ngModel)="bibliotecarios.activoBibliotecario" required>
+          [(ngModel)]="bibliotecarios.activoBibliotecario" required>
           &nbsp;&nbsp;<label class="form-check-label" for="flexRadioDefault1">
             Activo
           </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 
           <input class="form-check-input" type="radio" name="flexRadioDefault" value="false" id="inactivo"
-            (ngModel)="bibliotecarios.activoBibliotecario" required>
+          [(ngModel)]="bibliotecarios.activoBibliotecario" required>
           &nbsp;&nbsp;<label class="form-check-label" for="flexRadioDefault2">
             Inactivo
           </label>

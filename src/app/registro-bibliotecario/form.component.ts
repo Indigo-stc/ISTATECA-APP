@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms';
 
 import Swal from 'sweetalert2';
+import { RegistroUsuarioService } from '../services/registro-usuario.service';
 
 @Component({
   selector: 'app-form-bibliotecario',
@@ -19,15 +20,78 @@ export class FormComponentb implements OnInit {
   bibliotecarioE:Bibliotecario={};
   idb?:number;
 
-  constructor(private bibliotecarioservice: RegistroBibliotecarioService, private router: Router) { }
+  constructor(private usuarioservice: RegistroUsuarioService,private bibliotecarioservice: RegistroBibliotecarioService, private router: Router) { }
 
   ngOnInit(): void {
   }
 
-  public createbibliotecario(login: NgForm) {
+  public create(): void {
+    console.log("ha realizado un clic")
+    //this.usuario=this.persona
+    this.persona.activo = true;
+    
+    
+
+
+
+    console.log(this.persona)
+
+    if(this.persona.celular==="" ){
+      Swal.fire({
+        title: '<strong>Verifique su Cedula!</strong>',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#012844',
+        icon: 'warning'
+      })
+    }else{
+    this.usuarioservice.createPersona(this.persona).subscribe(
+      
+      response => {var personaJSONSET = JSON.stringify(response);
+        localStorage.setItem("persona", personaJSONSET),console.log(response),this.bibliotecarios.persona = response
+       /*,this.router.navigate([''])*/
+        //Swal.fire('Usuario Guardado','Te damos la bienvenida "'+this.usuario.persona?.nombres+'" te has registrado con exito','success')
+        Swal.fire({
+          title: '<strong>¡Usuario Guardado!</strong>',
+          confirmButtonText: 'OK',
+          confirmButtonColor: '#012844',
+          icon: 'success',
+          html:
+            '<b>' + response.nombres + '</b><br>' +
+            'te has registrado con exito'
+        });
+        this.createbibliotecario()
+      },error=>(
+        this.usuarioservice.obtenerCedula(this.persona.cedula+"").subscribe(
+          response=>(
+            alert(response.nombres),this.editarPersona(response)
+          )
+        )
+        
+        
+      
+      )
+      
+    )
+    }
+
+  }
+
+  editarPersona(persona:Persona){
+    persona.tipo=this.persona.tipo
+    persona.correo=this.persona.correo
+    this.usuarioservice.updatePersona(persona).subscribe(
+      response=>{
+        console.log(response)
+        this.bibliotecarios.persona=response
+      }
+    )
+  }
+
+  public createbibliotecario() {
+    
 
     console.log("ha realizado un clic")
-    this.bibliotecarios.persona = this.persona
+    
     this.persona.activo = true;
 
     
@@ -46,25 +110,34 @@ export class FormComponentb implements OnInit {
           'te has registrado con exito'
       })
     }
-    ); login.reset();
+    );
   }
 
   buscarFenix(cedula: string) {
+
+
     if (cedula == "") {
       alert('INGRESE UNA CEDULA')
     } else {
-      console.log(cedula)
-      this.bibliotecarioservice.obtenerPersonasCedula(cedula).subscribe(
-        response => (this.persona = response,this.persona.fenixId=response.alumno_docenteId)
+      if (cedula.length === 10) {
+        this.usuarioservice.obtenerPersonasCedula(cedula).subscribe(
+          response =>( this.persona = response,this.persona.fenixId=response.alumno_docenteId)
 
 
-      )
-      
+        )
+        console.log(this.persona.cedula);
+        if (this.persona.cedula == undefined) {
+
+          
+        }
+      }else{
+
+        this.persona.nombres=""
+        this.persona.apellidos=""
+        this.persona.celular=""
+      }
+
     }
-
-
-
-
 
 
 

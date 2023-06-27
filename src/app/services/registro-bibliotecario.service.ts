@@ -8,7 +8,7 @@ import { PersonaFenix } from '../models/PersonaFenix';
   providedIn: 'root'
 })
 export class RegistroBibliotecarioService {
-  private urlendpoint:string='http://localhost:8080/api/crearbibliotecario';
+  private urlendpoint:string='http://localhost:8080/bibliotecariocargo/crear';
   private urlendpoint1:string='http://localhost:8080/api/listarbibliotecario';
   private urlendpoint2:string='http://localhost:8080/api/bibliotecario_x_cedula';
   private urlendpointFenix: string = 'http://localhost:8080/usuariofenix/buscarusuario';
