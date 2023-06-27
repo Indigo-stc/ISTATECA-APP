@@ -73,7 +73,8 @@ export class VistaRegistroNewComponent implements OnInit {
     private rutas: Router,
     private bibliotecarioservice: RegistroBibliotecarioService,
     private ListaT: ListasService,
-    private ActaDonacionService: ActaDonacionService
+    private ActaDonacionService: ActaDonacionService,
+    private formBuilder: FormBuilder
   ) { //this.buildForm(); 
   }
 
@@ -125,24 +126,24 @@ export class VistaRegistroNewComponent implements OnInit {
 
   //Validar URL
 
-  // private buildForm() {
-  //   const reg = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
-  //   this.form = this.formBuilder.group({
-  //     codigo_dewey: ['',  [Validators.required]],
-  //     titulo: ['', [Validators.required]],
-  //     cod_ISBN: ['', [Validators.required]],
-  //     email: ['', [Validators.required, Validators.email]],
-  //     anio_publicacion: ['', [Validators.required, Validators.maxLength(4)]],
-  //     url_digital: ['', [Validators.required]],
-  //     gender: ['', [Validators.required]],
-  //   });
+   private buildForm() {
+    const reg = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
+    this.form = this.formBuilder.group({
+      codigo_dewey: ['',  [Validators.required]],
+      titulo: ['', [Validators.required]],
+      cod_ISBN: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      anio_publicacion: ['', [Validators.required, Validators.maxLength(4)]],
+      url_digital: ['', [Validators.required]],
+      gender: ['', [Validators.required]],
+    });
 
-  //   this.form.valueChanges
-  //   .subscribe(value => {
-  //     console.log(value);
+    this.form.valueChanges
+    .subscribe(value => {
+      console.log(value);
 
-  //   });
-  // }
+    });
+  }
 
 
   onKeydownEvent(event: KeyboardEvent, titulo: String): void {
@@ -184,14 +185,6 @@ export class VistaRegistroNewComponent implements OnInit {
     const archivocapturado = event.target.files[0]
     this.extraerBase64(archivocapturado).then((imagen: any) => {
       this.previsualizacion = imagen.base;
-
-
-
-
-
-
-
-
     })
 
   }
