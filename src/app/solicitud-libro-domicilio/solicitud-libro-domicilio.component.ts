@@ -6,6 +6,8 @@ import { Carrera } from '../models/Carrera';
 import Swal from 'sweetalert2';
 import { doch } from '../solicitud-libro/doch';
 import { prestamoService } from '../services/prestamo.service';
+import { Persona } from '../models/Persona';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -15,20 +17,25 @@ import { prestamoService } from '../services/prestamo.service';
 })
 export class SolicitudLibroDomicilioComponent implements OnInit {
   prestamo: Prestamo = new Prestamo();
+  persona: Persona= new Persona();
+  reporteV: string = "";
   carreras:Carrera[]=[];
   mostrar: boolean = false;
   doch: doch[] = []
   variable?: number;
   car: Carrera = new Carrera;
   idC?:number;
-
+documentoH?:number;
   documentos: doch = new doch;
   names?: string[] = [];
 
   step = 1;
   totalSteps = 2;
-  constructor(private carreraService: CarreraService,private PrestamoService: prestamoService) { }
+  constructor(private router: Router,private carreraService: CarreraService,private PrestamoService: prestamoService) { }
   ngOnInit(): void {
+    this.reporteV = localStorage.getItem('persona') + "";
+    let usuarioJSON = localStorage.getItem('persona') + "";
+    this.persona = JSON.parse(usuarioJSON);
     var solicitudJSONGET = localStorage.getItem("AceptarSolicitud");
     var solicitud = JSON.parse(solicitudJSONGET + "");
     this.prestamo = solicitud;
@@ -54,15 +61,22 @@ export class SolicitudLibroDomicilioComponent implements OnInit {
   seleccionT(e: any) {
     this.idC = e.target.value;
   }
-
+  seleccionD(e: any) {
+    this.documentoH = e.target.value;
+  }
 
   guardar() {
+    
     this.prestamo.estadoPrestamo=2;
     this.prestamo.carrera = this.car;
-    if (this.idC != undefined) {
+    this.prestamo.idEntrega=this.persona;
+    
+    if (this.idC != undefined && this.documentoH!=undefined) {
+      this.prestamo.documentoHabilitante=this.documentoH;
       this.carreraService.obtenerCarreraId(this.idC).subscribe(
         response => {
           this.prestamo.carrera = response;
+          console.log(this.prestamo.carrera);
           this.PrestamoService.update(this.prestamo).subscribe(
             response => {
               Swal.fire({
@@ -72,6 +86,7 @@ export class SolicitudLibroDomicilioComponent implements OnInit {
                 showConfirmButton: false,
                 timer: 1500
               })
+              this.router.navigate(['/app-lista-solicitudes-pendientes']);
             }
           );
         }

@@ -10,6 +10,7 @@ export class Prestamo {
     estadoLibro?: number;
     estadoPrestamo?: number;
     fechaEntrega?: Date;
+    fechaFin?: Date;
     fechaMaxima?: Date;
     fechaDevolucion?: Date;
     tipoPrestamo?:number;
