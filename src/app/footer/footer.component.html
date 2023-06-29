@@ -7,6 +7,7 @@
         d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
     </svg>
     <textarea class="form-control" placeholder="Dejanos una sugerencias de algun libro" id="floatingTextarea"></textarea>
+
     <button>
       <svg xmlns="http://www.w3.org/2000/svg" style="margin-top: -30%;" width="16" height="16" fill="currentColor"
         class="bi bi-send-fill" viewBox="0 0 16 16">
@@ -15,6 +16,36 @@
       </svg>
     </button>
   </div>
+<hr />
+<button
+  style="margin: 50px; padding: 10px"
+  type="button"
+  class="btn btn-primary"
+  (click)="openPopup()">Sugerencias de Libros
+</button>
+<div
+  class="modal"
+  tabindex="-1"
+  role="dialog"
+  [ngStyle]="{'display':displayStyle}">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Sugierenos un nuevo Libro</h4>
+      </div>
+      <div class="modal-body">
+        <textarea class="form-control" placeholder="Dejanos una sugerencias de algun libro" id="floatingTextarea"></textarea>
+  
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" 
+                (click)="closePopup()">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 
   <div class="contenedor">
     <div class="tarjeta">
