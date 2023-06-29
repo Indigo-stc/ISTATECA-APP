@@ -17,9 +17,10 @@ import { ListaSolicitudesPendientesComponent } from './lista-solicitudes-pendien
 import { SolicitudLibroComponent } from './solicitud-libro/solicitud-libro.component';
 import { SolicitudLibroDomicilioComponent } from './solicitud-libro-domicilio/solicitud-libro-domicilio.component';
 import { VistaRegistroNewComponent } from './vista-registro-new/vista-registro-new.component';
+import { AuthGuard } from '@auth0/auth0-angular';
 
 const routes: Routes = [
-      {path: 'app-devolver-libro', component: DevolverLibroComponent},
+      {path: 'app-devolver-libro', component: DevolverLibroComponent, canActivate: [AuthGuard], data: { expectedRoles: ['ROLE_STUD'] } },
       {path: 'app-registro-usuario', component: RegistroUsuarioComponent},
       {path: 'app-reporte-sugerencias', component: ReporteSugerenciasComponent},
       {path: 'app-reporte-libros', component: ReporteLibrosComponent},

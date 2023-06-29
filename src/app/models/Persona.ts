@@ -12,4 +12,5 @@ export class Persona {
     tipo?:number;
     password?: string;
     fenixId?: number;
+    authStatus?: string
 }

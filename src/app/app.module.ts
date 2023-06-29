@@ -4,7 +4,7 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import {FooterComponent} from './footer/footer.component';
 import { RouterModule } from '@angular/router';
-import{HttpClientModule} from '@angular/common/http';
+import{HTTP_INTERCEPTORS, HttpClientModule, HttpClientXsrfModule} from '@angular/common/http';
 import { RegistroUsuarioService } from './services/registro-usuario.service';
 import { RegistroUsuarioComponent } from './registro-usuario/registro-usuario.component';
 import { InicioSesionComponent } from './inicio-sesion/inicio-sesion.component';
@@ -29,6 +29,13 @@ import { ReporteLibrosComponent } from './reporte-libros/reporte-libros.componen
 import { ReporteSugerenciasComponent } from './reporte-sugerencias/reporte-sugerencias.component';
 import { SolicitudLibroDomicilioComponent } from './solicitud-libro-domicilio/solicitud-libro-domicilio.component';
 import { AppRoutingModule } from './app-routing.module';
+
+import { AuthModule } from '@auth0/auth0-angular';
+import { LoginComponent } from './auth/login/login.component';
+import { LogoutComponent } from './auth/logout/logout.component';
+import { LibraryInterceptor } from './interceptors/library.interceptor';
+import { AuthGuard } from './guards/auth.guard';
+
 import { RegistroTipoComponent } from './registro-tipo/registro-tipo.component';
 import { RegistroAutorComponent } from './registro-autor/registro-autor.component';
 
@@ -54,9 +61,10 @@ import { RegistroAutorComponent } from './registro-autor/registro-autor.componen
     ReporteLibrosComponent,
     ReporteSugerenciasComponent,
     SolicitudLibroDomicilioComponent,
+    LoginComponent,
+    LogoutComponent,
     RegistroTipoComponent,
     RegistroAutorComponent,
-
   ],
   imports: [
     BrowserModule,
@@ -65,8 +73,29 @@ import { RegistroAutorComponent } from './registro-autor/registro-autor.componen
     FormsModule,
     AutocompleteLibModule,
     ReactiveFormsModule,
+    AuthModule.forRoot({
+      domain: 'dev-7dy745w33mkcupyd.us.auth0.com',
+      clientId: 'xIoWfIWlh1g4usMBPOfitARq9Pm5nfHF',
+      authorizationParams: {
+        redirect_uri: window.location.origin
+      }
+    }),
+    HttpClientXsrfModule.withOptions({
+      cookieName: 'XSRF-TOKEN',
+      headerName: 'X-XSRF-TOKEN',
+    }),
   ],
-  providers: [RegistroUsuarioService, PaginaInicioService, PersonaService,RegistroLibroService],
+  providers: [
+    RegistroUsuarioService,
+    PaginaInicioService,
+    PersonaService,
+    RegistroLibroService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LibraryInterceptor,
+      multi: true
+    },
+    AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
