@@ -28,7 +28,7 @@ export class FormEditBComponent implements OnInit {
   constructor(public bibliotecarioservice: RegistroBibliotecarioService, private router: Router) { }
 
   ngOnInit(): void {
-    this.reporteV = localStorage.getItem('bibliotecario') + "";
+    this.reporteV = localStorage.getItem('persona') + "";
     console.log("Bibliotecario: " + this.reporteV + "")
     this.buscar(this.reporteV + "");
 
