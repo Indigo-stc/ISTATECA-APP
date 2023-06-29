@@ -11,7 +11,7 @@ export class RegistroLibroService {
   private urlendpoint:string='http://localhost:8080/libro/crear';
   private urlendpoint1:string='http://localhost:8080/api/listarlibros';
   private urlBuscarLibro: string ='http://localhost:8080/api/listarlibrosxnombre';
-  private urlListarAutor: string = 'http://localhost:8080/api/listarautor';
+  private urlListarAutor: string = 'http://localhost:8080/autor/listar';
   private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'})
 
   constructor(private http:HttpClient) { }
