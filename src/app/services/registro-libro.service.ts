@@ -16,7 +16,7 @@ export class RegistroLibroService {
 
   constructor(private http:HttpClient) { }
 
-  create(libro:Libro):Observable<Libro>{
+  create(libro:any):Observable<Libro>{
     return this.http.post<Libro>(this.urlendpoint, libro, {headers: this.httpHeaders})
   }
 

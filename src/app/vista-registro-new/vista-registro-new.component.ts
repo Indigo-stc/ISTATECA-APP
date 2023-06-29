@@ -67,6 +67,39 @@ export class VistaRegistroNewComponent implements OnInit {
   public previsualizacion?: string
   public PDF?: string
   public archivos: any = []
+
+
+  // Trabajar con Reactive Froms
+  public librosF : FormGroup= new FormGroup({
+    codigoDewey: new FormControl(""),
+    titulo: new FormControl(""),
+    subtitulo: new FormControl(""),
+    tipo: new FormControl(""),
+    adquisicion: new FormControl(""),
+    anioPublicacion:new FormControl(""),
+    editor: new FormControl(""),
+    ciudad: new FormControl(""),
+    numPaginas: new FormControl(""),
+    area: new FormControl(""),
+    conIsbn: new FormControl(""),
+    idioma: new FormControl(""),
+    descripcion: new FormControl(""),
+    indiceUno: new FormControl(""),
+    indiceDos: new FormControl(""),
+    indiceTres: new FormControl(""),
+    dimenciones: new FormControl(""),
+    estadoLibro: new FormControl(""),
+    urlImagen:new FormControl(""),
+    activo: new FormControl(""),
+    urlDigital: new FormControl(""),
+    fechaCreacion: new FormControl(""),
+    persona: new FormControl(''),
+    disponibilidad: new FormControl(true),
+    nombreDonante: new FormControl(''),
+    urlActaDonacion: new FormControl('')
+  });
+  // fon de Reactive Forms
+
   constructor(
     private sanitizer: DomSanitizer,
     private libroservice: RegistroLibroService,
@@ -75,7 +108,7 @@ export class VistaRegistroNewComponent implements OnInit {
     private ListaT: ListasService,
     private ActaDonacionService: ActaDonacionService,
     private formBuilder: FormBuilder
-  ) { //this.buildForm(); 
+  ) { this.buildForm(); 
   }
 
   ngOnInit(): void {
@@ -129,7 +162,7 @@ export class VistaRegistroNewComponent implements OnInit {
    private buildForm() {
     const reg = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
     this.form = this.formBuilder.group({
-      codigo_dewey: ['',  [Validators.required]],
+      codigoDewey: ['',  [Validators.required]],
       titulo: ['', [Validators.required]],
       cod_ISBN: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
@@ -254,7 +287,7 @@ export class VistaRegistroNewComponent implements OnInit {
     this.Libro.tipo = this.tipo
    // this.Libro.bibliotecario = this.bibliotecarios
    // this.Libro.bibliotecario = this.bibliotecarioE
-
+    
     //console.log(this.Libro.bibliotecario)
 
     //this.bibliotecarioE.id_bibliotecario = this.Libro.bibliotecario.id_bibliotecario
@@ -265,7 +298,7 @@ export class VistaRegistroNewComponent implements OnInit {
 
     let campoFaltante = this.validarCampos();
     if (campoFaltante === '') {
-      this.libroservice.create(this.Libro).subscribe(
+      this.libroservice.create(this.librosF).subscribe(
         Response => {
           this.Libro
           Swal.fire({
