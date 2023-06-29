@@ -143,13 +143,13 @@ export class HeaderComponent implements DoCheck, OnInit {
                         localStorage.setItem('persona', usuarioJSON);
                         switch (role) {
                             case 'ROLE_STUD':
-                                this.router.navigate(['/director-carrera']);
+                                this.router.navigate(['/app-home']);
                                 break;
                             case 'ROLE_ADMIN':
-                                this.router.navigate(['/sup-admin']);
+                                this.router.navigate(['/app-home']);
                                 break;
                             case 'ROLE_ADMIN':
-                                this.router.navigate(['/sup-admin']);
+                                this.router.navigate(['/app-home']);
                                 break;
                             default:
                                 this.router.navigate(['../login']);

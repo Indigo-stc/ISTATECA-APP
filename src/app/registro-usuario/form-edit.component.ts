@@ -16,6 +16,7 @@ export class FormEditComponent implements OnInit {
   reporteV: String = "";
   public usuario: Usuario = new Usuario();
   persona: Persona = {};
+  persona2: Persona = {};
   personaP: PersonaP = {};
   usuarioE: Usuario = {};
   id?: number;
@@ -27,10 +28,12 @@ export class FormEditComponent implements OnInit {
   ngOnInit(): void {
     
 
-    var personaJSONGET = localStorage.getItem("usuario");
-    var personget = JSON.parse(personaJSONGET + "");
-    this.buscar("1")
-    console.log(personget)
+    var personaJSONGET = localStorage.getItem("persona");
+    this.persona2 = JSON.parse(personaJSONGET + "");
+    if(this.persona2.id!=undefined){
+      this.buscar(this.persona2.id);
+    }
+    
   }
 
 
@@ -63,7 +66,7 @@ export class FormEditComponent implements OnInit {
             icon: 'success',
             html:
             
-              'El usuario<br><b>'+this.usuario.per_nombres+'</b><br>'+
+              'El usuario<br><b>'+this.persona2.nombres+' '+this.persona2.apellidos+'</b><br>'+
               'ha sido actualizado correctamente'
           
          }
@@ -77,9 +80,9 @@ export class FormEditComponent implements OnInit {
 
 
 
-  buscar(idss: string) {
+  buscar(idss: number) {
 
-    this.id = Number.parseInt(idss)
+    this.id = idss;
 
     this.usuarioservice.obtenerPersonasId(this.id).subscribe(
       response => {
