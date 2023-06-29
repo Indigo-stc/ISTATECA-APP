@@ -139,6 +139,8 @@ export class HeaderComponent implements DoCheck, OnInit {
                     if (sessionStorage.getItem('userdetails')) {
                         this.usuario = JSON.parse(sessionStorage.getItem('userdetails')!);
                         const role = localStorage.getItem('roles');
+                        let usuarioJSON = JSON.stringify(this.usuario);
+                        localStorage.setItem('persona', usuarioJSON);
                         switch (role) {
                             case 'ROLE_STUD':
                                 this.router.navigate(['/director-carrera']);
