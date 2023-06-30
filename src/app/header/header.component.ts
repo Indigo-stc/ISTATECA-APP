@@ -8,6 +8,7 @@ import { Persona } from "../models/Persona";
 import { getCookie } from "typescript-cookie";
 import { catchError, throwError } from "rxjs";
 import jwt_decode from 'jwt-decode';
+import Swal from 'sweetalert2';
 
 @Component({
     selector: 'app-header',
@@ -15,14 +16,13 @@ import jwt_decode from 'jwt-decode';
     styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements DoCheck, OnInit {
-    reporteV: string = "";
+    persona:Persona=new Persona();
     reporteN: string = "";
 
-    mostrar: boolean = false;
-    mostrarr: boolean = false;
-    mostrar1: boolean = false;
-    mostrar2: boolean = false;
-    mostrar3: boolean = false;
+    sinSesion: boolean = false;
+    estudiante: boolean = false;
+    bibliotecario: boolean = false;
+    admin: boolean = false;
 
     constructor(private router: Router, private notificacionesService: NotificacionesService,
         public auth: AuthService,
@@ -43,30 +43,26 @@ export class HeaderComponent implements DoCheck, OnInit {
 
     }
     ngDoCheck(): void {
-        /* this.reporteV=JSON.parse(localStorage.getItem('rol')+"");
-         console.log("Rol del Usuario: "+this.reporteV+"")
-         if (parseInt(this.reporteV) == 0) {
-             this.mostrar = true;
-             this.mostrarr = true;
-             this.mostrar2 = true;
-             this.mostrar3=false;
-         } else if (parseInt(this.reporteV) ==9) {
-             this.mostrar = false;
-             this.mostrar3=true;
-         } else if (parseInt(this.reporteV)== 2) {
-             this.mostrar = true;
-             this.mostrar2 = false;
-             this.mostrarr = false;
-             this.mostrar3=false;
-         } else if (parseInt(this.reporteV) == 1) {
-             this.mostrar = true;
-             this.mostrar2 = true;
-             this.mostrarr = false;
-             this.mostrar3=false;
+        this.persona=JSON.parse(localStorage.getItem('persona')+"");
+         console.log("Rol del Usuario: "+this.persona.tipo+"")
+         if (this.persona.tipo == 1 || this.persona.tipo==2) {
+            //estudiante
+            this.sinSesion=false;
+            this.estudiante=true;
+            this.sinSesion
+         } else if (this.persona.tipo== 3) {
+            //bibliotecario
+            this.sinSesion=false;
+            this.bibliotecario=true;
+            this.admin=false
+         } else if (this.persona.tipo == 4) {
+            //administrador
+            this.sinSesion=false;
+            this.admin=true;
+            this.bibliotecario=false
+         }else{
+            this.sinSesion=true
          }
- 
-         this.reporteN= InicioSesionComponent.nomb
-         */
     }
 
     iniciarSesion() {
@@ -144,6 +140,7 @@ export class HeaderComponent implements DoCheck, OnInit {
                         switch (role) {
                             case 'ROLE_STUD':
                                 this.router.navigate(['/app-home']);
+                               
                                 break;
                             case 'ROLE_ADMIN':
                                 this.router.navigate(['/app-home']);
@@ -152,7 +149,7 @@ export class HeaderComponent implements DoCheck, OnInit {
                                 this.router.navigate(['/app-home']);
                                 break;
                             default:
-                                this.router.navigate(['../login']);
+                                this.router.navigate(['../app-home']);
                                 console.log('Selected role is unknown.');
                                 break;
                         }

@@ -24,32 +24,26 @@
     <table class="table table-bordered table-stripped scroll table-hover destacado" >
       <thead class="text-center cabezera">
         <tr>
-          <th>Modificar</th>
           <th>Cédula</th>
           <th>Nombre</th>
           <th>Rol</th>
-          <th>Fecha Inicio</th>
-          <th>Fecha Final</th>
           <th>Estado</th>
         </tr>
 
       </thead>
         <tbody class="text-center" *ngIf=bus>
-         <!-- <tr *ngFor="let bibliotecario of bibliotecarios">
-            <td><input class="form-check-input" type="checkbox" role="switch" ></td>
-            <td #cedula>{{bibliotecario.persona?.cedula}}</td>
-            <td #cedula>{{bibliotecario.persona?.nombres}}</td>
-            <td #rol *ngIf="bibliotecario.persona?.rol==0 else menor">Administrador</td>
+         <tr *ngFor="let bibliotecario of bibliotecarios">
+            <td #cedula>{{bibliotecario.cedula}}</td>
+            <td #cedula>{{bibliotecario.nombres}}</td>
+            <td #rol *ngIf="bibliotecario.tipo==4 else menor">Administrador</td>
             <ng-template #menor>
-              <p>Bibliotecario</p>
+              <p *ngIf="bibliotecario.tipo==3">Bibliotecario</p>
             </ng-template>
-            <td #fechainic >{{bibliotecario.fecha_inicio }}</td>
-            <td #fechafin>{{bibliotecario.fecha_fin}}</td>
-            <td #activo *ngIf="bibliotecario.activo_bibliotecario else mm">Activo</td>
+            <td #activo *ngIf="bibliotecario.activo else mm">Activo</td>
             <ng-template #mm>
               <p>Inactivo</p>
             </ng-template>
-          </tr>-->
+          </tr>
         </tbody>
         
         <tbody class="text-center" *ngIf="buscarval">

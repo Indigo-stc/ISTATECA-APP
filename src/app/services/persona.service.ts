@@ -11,7 +11,7 @@ export class PersonaService {
   private urlendpoint: string = 'http://localhost:8080/api/validarLogin';
   private urlendpoint1: string = 'http://localhost:8080/api/num_rol';
   private urlendpoint2: string = 'http://localhost:8080/api/validarPersona';
-  private urlendpoint3: string = 'http://localhost:8080/api/tipocliente';
+  private urlendpoint3: string = 'http://localhost:8080/persona/listar';
   private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' })
   constructor(private http: HttpClient) { }
   validarLogin(usuario: String, clave: String):Observable<boolean>{
@@ -25,6 +25,9 @@ export class PersonaService {
   val_persona(usuario:String, clave:String):Observable<Persona>{
     let res=this.urlendpoint2+"?usuario="+usuario+"&clave="+clave;
     return this.http.get<Persona>(res);
+  }
+  getPersonas(): Observable<Persona[]> {
+    return this.http.get<Persona[]>(this.urlendpoint3);
   }
  /* tipo_usuario(id_persona:number, rol:number):Observable<Usuario>{
     let res=this.urlendpoint3+"?id_persona="+id_persona+"&rol="+rol;

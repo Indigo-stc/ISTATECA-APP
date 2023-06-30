@@ -47,3 +47,7 @@
   background-color: #1862AD;
   transform: translateX(-50%) scaleY(1.3) scaleX(0.8);
 }
+
+.usuario{
+  color: white;
+}

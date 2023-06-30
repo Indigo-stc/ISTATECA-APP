@@ -7,32 +7,30 @@
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="container-fluid">
+    <div class="container-fluid" >
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0" *ngIf="sinSesion==false">
           <div>
             <li class="nav-item ">
-              <a class="nav-link active" href="#" routerLink="/app-registro-bibliotecario">
+              <a class="nav-link active" href="#" routerLink="/app-registro-bibliotecario" *ngIf="admin">
                 <img
                   src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fagregar-usuario%20(1).png?alt=media&token=c04b535c-bdbd-4f71-9d57-1688666ddd43"
                   alt="" width="25" height="25"></a>
             </li>
           </div>
           <li class="nav-item">
-            <a class="nav-link active" href="#" routerLink="/app-vista-registro-new">
+            <a class="nav-link active" href="#" routerLink="/app-vista-registro-new" *ngIf="admin || bibliotecario">
               <img
                 src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fagregar%20(1).png?alt=media&token=077d2984-4b56-4b72-a862-7be65d5f4832"
                 alt="" width="25" height="25"></a>
-
-
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="#" routerLink="/app-listas">
+            <a class="nav-link active" href="#" routerLink="/app-listas" *ngIf="admin || bibliotecario">
               <img
                 src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Flista.png?alt=media&token=95e8450f-1aee-4a02-9068-4550a86f63e5"
                 alt="" width="25" height="25"></a>
           </li>
-          <li class="nav-item dropdown">
+          <li class="nav-item dropdown" *ngIf="admin || bibliotecario">
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
               <img
                 src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Freporte-de-negocios.png?alt=media&token=b47985f5-b219-4d8e-ace8-0095991d1aaf"
@@ -48,7 +46,7 @@
         </ul>
 
 
-        <div>
+        <div *ngIf="sinSesion==false && admin || bibliotecario" >
           <button type="button" class="position-relative" style="background:transparent ; border-color: transparent"
             (click)="ocultar()" routerLink="/app-lista-solicitudes-pendientes">
             <img
@@ -62,7 +60,7 @@
           </button>
         </div>
         &nbsp;&nbsp;
-        <div class="dropdown">
+        <div class="dropdown" *ngIf="sinSesion==false">
           <a class="btn btn-primary dropdown-item" style="background:transparent ; border-color: white"
             routerLink="/app-form-editUsuario">
 
@@ -71,27 +69,18 @@
               width="25" height="25">
           </a>
         </div>
-        <div class="dropdown">
-          <a class="btn btn-primary dropdown-item" style="background:transparent ; border-color: white"
-            routerLink="/app-form-editBibliotecario">
-
-            <img
-              src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fconfiguracion.png?alt=media&token=300f3996-9d7f-4d7b-8bd5-3641c4e53031"
-              width="25" height="25">
-          </a>
-        </div>
         &nbsp;&nbsp;
         
-        <app-login *ngIf="(auth.isAuthenticated$ | async) === false">
+        <app-login  class="boton" *ngIf="(auth.isAuthenticated$ | async) === false">
         </app-login>
       
-        <app-logout *ngIf="auth.isAuthenticated$ | async">
+        <app-logout class="boton" *ngIf="auth.isAuthenticated$ | async">
         </app-logout>
 
         <ul *ngIf="auth.user$ | async as user">
-          <li>{{ user.name }}</li>
-          <li>{{ user.email }}</li>
-        </ul>`
+          <li class="usuario">{{ user.name }}</li>
+          <li class="usuario">{{ user.email }}</li>
+        </ul>
       </div>
       
     </div>
