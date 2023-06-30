@@ -9,28 +9,28 @@
     </button>
     <div class="container-fluid" >
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0" *ngIf="sinSesion==false">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0" >
           <div>
             <li class="nav-item ">
-              <a class="nav-link active" href="#" routerLink="/app-registro-bibliotecario" *ngIf="admin">
+              <a class="nav-link active" href="#" routerLink="/app-registro-bibliotecario" >
                 <img
                   src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fagregar-usuario%20(1).png?alt=media&token=c04b535c-bdbd-4f71-9d57-1688666ddd43"
                   alt="" width="25" height="25"></a>
             </li>
           </div>
           <li class="nav-item">
-            <a class="nav-link active" href="#" routerLink="/app-vista-registro-new" *ngIf="admin || bibliotecario">
+            <a class="nav-link active" href="#" routerLink="/app-vista-registro-new" >
               <img
                 src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fagregar%20(1).png?alt=media&token=077d2984-4b56-4b72-a862-7be65d5f4832"
                 alt="" width="25" height="25"></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="#" routerLink="/app-listas" *ngIf="admin || bibliotecario">
+            <a class="nav-link active" href="#" routerLink="/app-listas" >
               <img
                 src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Flista.png?alt=media&token=95e8450f-1aee-4a02-9068-4550a86f63e5"
                 alt="" width="25" height="25"></a>
           </li>
-          <li class="nav-item dropdown" *ngIf="admin || bibliotecario">
+          <li class="nav-item dropdown" >
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
               <img
                 src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Freporte-de-negocios.png?alt=media&token=b47985f5-b219-4d8e-ace8-0095991d1aaf"
@@ -46,7 +46,7 @@
         </ul>
 
 
-        <div *ngIf="sinSesion==false && admin || bibliotecario" >
+        <div >
           <button type="button" class="position-relative" style="background:transparent ; border-color: transparent"
             (click)="ocultar()" routerLink="/app-lista-solicitudes-pendientes">
             <img
@@ -60,7 +60,7 @@
           </button>
         </div>
         &nbsp;&nbsp;
-        <div class="dropdown" *ngIf="sinSesion==false">
+        <div class="dropdown" >
           <a class="btn btn-primary dropdown-item" style="background:transparent ; border-color: white"
             routerLink="/app-form-editUsuario">
 
