@@ -12,7 +12,7 @@
     <div class="container" >
         <div class="title">Registro de Libros</div>
         <div class="content">
-            <form [formGroup]="librosF" >
+            <form [formGroup]="librosF" (ngSubmit)="crearLibro()" >
                 <div class="step-counter">
                     Paso {{ step }} de {{ totalSteps }} 
                 <div class="user-details" *ngIf="step === 1">
@@ -81,7 +81,7 @@
                     <div class="input-box">
                         <span class="details">Estado:</span>
                         <select class="form-select" id="estadoLibro" formControlName="estadoLibro">
-                            <option value="">Selecciona una opción</option>
+                            <option selected disabled value="">Selecciona una opción</option>
                             <option value="1">Bueno</option>
                             <option value="2">Regular</option>
                             <option value="3">Malo</option>
@@ -164,7 +164,7 @@
                         </div>
                         <div class="row mb" style="align-content: center;">
                             <span class="details">Tipo:</span>
-                        <select  formControlName="tipo" name="TipoSelect" (change)="seleccionT($event)"
+                        <select   name="TipoSelect" (change)="seleccionT($event)"
                             class="form-select" aria-label="Default select example">
                             <option selected disabled value="0">Seleccione</option>
                             <option #TSelect *ngFor="let tipo of Tipoe" value="{{tipo.id}}">{{tipo.nombre}}
@@ -250,6 +250,7 @@
                         <span class="details">Disponibilidad:</span>
                         <div class="form-group">
                           <select class="form-select" name="disponibilidad" formControlName="disponibilidad" required>
+                            <option  value="0" selected disabled   [selected]="librosF.controls['disponibilidad'].value === '0'">Seleccione</option>
                             <option value="true">Disponible</option>
                             <option value="false">No Disponible</option>
                           </select>
@@ -264,12 +265,6 @@
                 
             </div>
 
-
-
-
-
-
-
                 <div class="button text-center">
                     <button type="button" class="btn btn-outline-secondary btn-lg mx-3" (click)="retroceder1()"
                         *ngIf="step > 1">
@@ -279,8 +274,7 @@
                         *ngIf="step < 8">
                         Siguiente <i class="fas fa-arrow-right"></i>
                     </button>
-                    <button type="submit" class="btn btn-outline-success btn-lg mx-3" *ngIf="step === 8"
-                        >
+                    <button type="submit" class="btn btn-outline-success btn-lg mx-3" *ngIf="step === 8">
                         Guardar libro <i class="fas fa-paper-plane">
                             <img src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fagregar%20libro.png?alt=media&token=b7f639da-1aaa-4d12-8133-a59742d32d87"
                             width=25 height=25 align="center"></i>

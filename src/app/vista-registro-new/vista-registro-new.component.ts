@@ -11,7 +11,7 @@ import { RegistroBibliotecarioService } from '../services/registro-bibliotecario
 import { Persona } from '../models/Persona';
 import Swal from 'sweetalert2';
 import { registerLocaleData } from '@angular/common';
-import { Observable } from 'rxjs';
+import { Observable, catchError, map, throwError } from 'rxjs';
 import { ActaDonacionService } from '../services/acta-donacion.service';
 import { RegistroLibroService } from '../services/registro-libro.service';
 
@@ -29,10 +29,10 @@ export class VistaRegistroNewComponent implements OnInit {
   reporteV: String = "";
   reporteV2: String = "";
   bibliotecarioE: Bibliotecario = {};
-  persona: Persona = {};
+  persona?: String;
   Tipoe: Tipo[] = []
   guardar: boolean = true;
-  form!: FormGroup;
+  cedulabiblio?: String;
 
   opcionSeleccionado: string = '0';
   verSeleccion: string = '';
@@ -74,7 +74,7 @@ export class VistaRegistroNewComponent implements OnInit {
     codigoDewey: new FormControl(""),
     titulo: new FormControl(""),
     subtitulo: new FormControl(""),
-    tipo: new FormControl(""),
+    tipo: new FormControl(null),
     adquisicion: new FormControl(""),
     anioPublicacion:new FormControl(""),
     editor: new FormControl(""),
@@ -93,11 +93,15 @@ export class VistaRegistroNewComponent implements OnInit {
     activo: new FormControl(""),
     urlDigital: new FormControl(""),
     fechaCreacion: new FormControl(""),
-    persona: new FormControl(''),
+    persona: new FormControl(null),
     disponibilidad: new FormControl(true),
     nombreDonante: new FormControl(''),
     urlActaDonacion: new FormControl('')
   });
+
+
+
+
   // fon de Reactive Forms
 
   constructor(
@@ -108,22 +112,22 @@ export class VistaRegistroNewComponent implements OnInit {
     private ListaT: ListasService,
     private ActaDonacionService: ActaDonacionService,
     private formBuilder: FormBuilder
-  ) { this.buildForm(); 
+  ) { //this.buildForm(); 
   }
 
   ngOnInit(): void {
     this.reporteV = localStorage.getItem('bibliotecario') + "";
     this.reporteV2 = localStorage.getItem('nombrebibliotecario') + "";
     console.log("Bibliotecario: " + this.reporteV + " Nombre:" + this.reporteV2);
-
-    this.buscar(this.reporteV + '')
+    this.librosF.controls['disponibilidad'].setValue('0');
+    
     this.ListaT.obtenerTipos().subscribe(
       TipoS => this.Tipoe = TipoS
 
     );
 
     this.obtenerAutor()
-
+      this.buscar()
 
   }
   public dato!: Observable<any['']>;
@@ -159,24 +163,24 @@ export class VistaRegistroNewComponent implements OnInit {
 
   //Validar URL
 
-   private buildForm() {
-    const reg = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
-    this.form = this.formBuilder.group({
-      codigoDewey: ['',  [Validators.required]],
-      titulo: ['', [Validators.required]],
-      cod_ISBN: ['', [Validators.required]],
-      email: ['', [Validators.required, Validators.email]],
-      anio_publicacion: ['', [Validators.required, Validators.maxLength(4)]],
-      url_digital: ['', [Validators.required]],
-      gender: ['', [Validators.required]],
-    });
+  //  private buildForm() {
+  //   const reg = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
+  //   this.form = this.formBuilder.group({
+  //     codigoDewey: ['',  [Validators.required]],
+  //     titulo: ['', [Validators.required]],
+  //     cod_ISBN: ['', [Validators.required]],
+  //     email: ['', [Validators.required, Validators.email]],
+  //     anio_publicacion: ['', [Validators.required, Validators.maxLength(4)]],
+  //     url_digital: ['', [Validators.required]],
+  //     gender: ['', [Validators.required]],
+  //   });
 
-    this.form.valueChanges
-    .subscribe(value => {
-      console.log(value);
+  //   this.form.valueChanges
+  //   .subscribe(value => {
+  //     console.log(value);
 
-    });
-  }
+  //   });
+  // }
 
 
   onKeydownEvent(event: KeyboardEvent, titulo: String): void {
@@ -253,25 +257,25 @@ export class VistaRegistroNewComponent implements OnInit {
 
 
   //Capturar Persona
-  buscar(idss: string) {
+  buscar() {
 
-    this.idb = Number.parseInt(idss)
+    // this.persona= localStorage.getItem('persona') + "";
+    
+    // console.log(this.persona)
 
-    this.bibliotecarioservice.obtenerBibliotecarioId(this.idb).subscribe(
-      bibliotecarioE => {
-        /*this.bibliotecarioE = bibliotecarioE, this.persona.cedula = bibliotecarioE.persona?.cedula, this.persona.nombres = bibliotecarioE.persona?.nombres, this.persona.celular = bibliotecarioE.persona?.celular
-          , this.persona.correo = bibliotecarioE.persona?.correo, this.persona.usuario = bibliotecarioE.persona?.usuario, this.persona.clave = bibliotecarioE.persona?.clave, this.persona.rol = bibliotecarioE.persona?.rol
-*/
-      }
-    )
+    // this.bibliotecarioservice.obtenerBibliotecarioId(this.cedulabiblio).subscribe(
+    //   bibliotecarioE => {
+  
+    //   }
+    // )
   }
 
 
 
   // Getter for easy access
-  get s_url() {
-    return this.form.get('s_url');
-  }
+  // get s_url() {
+  //   return this.form.get('s_url');
+  // }
 
   //Guardar Libro
 
@@ -294,39 +298,40 @@ export class VistaRegistroNewComponent implements OnInit {
     this.Libro.tipo.id = this.idT
     //this.Libro.imagen= this.previsualizacion
     this.Libro.activo = true;
+    
+    const librosFCopy = JSON.parse(JSON.stringify(this.librosF.getRawValue()));
+    this.libroservice.create(librosFCopy).subscribe(
+      Response => {
+        this.Libro
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: '<strong>Has registrado un Libro</strong>',
+          showConfirmButton: false,
+          timer: 1500
+        }) 
+        console.log(this.libroservice);
+        setTimeout(() => {
+          location.reload();
+        }, 1000);
+
+      }
+      
 
 
-    let campoFaltante = this.validarCampos();
-    if (campoFaltante === '') {
-      this.libroservice.create(this.librosF).subscribe(
-        Response => {
-          this.Libro
-          Swal.fire({
-            position: 'center',
-            icon: 'success',
-            title: '<strong>Has registrado un Libro</strong>',
-            showConfirmButton: false,
-            timer: 1500
-          }) 
-          console.log(this.libroservice);
-          setTimeout(() => {
-            location.reload();
-          }, 1000);
-
-        }
-        
-
-
-      );
-    } else {
-      Swal.fire({
-        position: 'center',
-        icon: 'info',
-        title: `El campo ${campoFaltante} es requerido`,
-        showConfirmButton: false,
-        timer: 2000
-      });
-    }
+    );
+    // let campoFaltante = this.validarCampos();
+    // if (campoFaltante === '') {
+      
+    // } else {
+    //   Swal.fire({
+    //     position: 'center',
+    //     icon: 'info',
+    //     title: `El campo ${campoFaltante} es requerido`,
+    //     showConfirmButton: false,
+    //     timer: 2000
+    //   });
+    // }
 
 
     //reg.reset();
@@ -336,55 +341,55 @@ export class VistaRegistroNewComponent implements OnInit {
 
 
   validarCampos() {
-   if (!this.Libro.codigoDewey) {
-      return 'Código Dewey';
-    } else if (!this.Libro.conIsbn) {
-      return 'Código ISBN';
-    } else if (!this.Libro.indiceUno) {
-      return 'Indice 1';
-    } else if (!this.Libro.indiceDos) {
-      return 'Indice 2';
-    } else if (!this.Libro.indiceTres) {
-      return 'Indice 3';
-    } else if (!this.Libro.adquisicion) {
-      return 'Adquisicion';
-    } else if (!this.Libro.descripcion) {
-      return 'Descripción';
-    } else if (!this.Libro.dimenciones) {
-      return 'Dimensiones';
-    } else if (!this.Libro.numPaginas) {
-      return 'N° de Paginas';
-    } else if (!this.Libro.idioma) {
-      return 'Idioma';
-    } else if (!this.Libro.estadoLibro) {
-      return 'Estado libro';
-    } else if (!this.Libro.titulo) {
-      return 'Titulo del Libro';
-    } else if (!this.Libro.editor) {
-      return 'Editor';
-    } else if (!this.Libro.area) {
-      return 'Area';
-    } else if (!this.Libro.anioPublicacion) {
-      return 'Año de Publicación';
+  //  if (!this.Libro.codigoDewey) {
+  //     return 'Código Dewey';
+  //   } else if (!this.Libro.conIsbn) {
+  //     return 'Código ISBN';
+  //   } else if (!this.Libro.indiceUno) {
+  //     return 'Indice 1';
+  //   } else if (!this.Libro.indiceDos) {
+  //     return 'Indice 2';
+  //   } else if (!this.Libro.indiceTres) {
+  //     return 'Indice 3';
+  //   } else if (!this.Libro.adquisicion) {
+  //     return 'Adquisicion';
+  //   } else if (!this.Libro.descripcion) {
+  //     return 'Descripción';
+  //   } else if (!this.Libro.dimenciones) {
+  //     return 'Dimensiones';
+  //   } else if (!this.Libro.numPaginas) {
+  //     return 'N° de Paginas';
+  //   } else if (!this.Libro.idioma) {
+  //     return 'Idioma';
+  //   } else if (!this.Libro.estadoLibro) {
+  //     return 'Estado libro';
+  //   } else if (!this.Libro.titulo) {
+  //     return 'Titulo del Libro';
+  //   } else if (!this.Libro.editor) {
+  //     return 'Editor';
+  //   } else if (!this.Libro.area) {
+  //     return 'Area';
+  //   } else if (!this.Libro.anioPublicacion) {
+  //     return 'Año de Publicación';
 /*     } else if (!this.Libro.autor) {
       return 'Autor'; */
 /*     } else if (!this.Libro.tipo) {
       return 'Tipo libro'; */
 /*     } else if (!this.Libro.imagen) {
       return 'Imagen'; */
-    } else if (!this.Libro.fechaCreacion) {
-      return 'Fecha de Creación';
-    }else if (!this.Libro.urlActaDonacion) {
-      return 'URL Digital';
-    }else if (!this.Libro.ciudad) {
-      return 'Ciudad';
-    }else if (!this.Libro.disponibilidad) {
-      return 'Disponibilidad'; 
-    }else if (!this.Libro.nombreDonante) {
-      return 'Nombre Donante';
-    }else {
-      return '';
-    }
+    // } else if (!this.Libro.fechaCreacion) {
+    //   return 'Fecha de Creación';
+    // }else if (!this.Libro.urlActaDonacion) {
+    //   return 'URL Digital';
+    // }else if (!this.Libro.ciudad) {
+    //   return 'Ciudad';
+    // }else if (!this.Libro.disponibilidad) {
+    //   return 'Disponibilidad'; 
+    // }else if (!this.Libro.nombreDonante) {
+    //   return 'Nombre Donante';
+    // }else {
+    //   return '';
+    // }
   }
 
   
