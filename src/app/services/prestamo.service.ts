@@ -14,6 +14,7 @@ export class prestamoService {
   private urlEndPoint2: string = 'http://localhost:8080/prestamo/listarxcedula'
   private urlEditar: string = 'http://localhost:8080/prestamo/editar';
   private urlEndPointCrearPrestamo: string = 'http://localhost:8080/prestamo/crear';
+  private urlEndPointFechas: string = 'http://localhost:8080/prestamo/reporteprestamos';
 
   private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' })
   constructor(private http: HttpClient) { }
@@ -41,5 +42,11 @@ export class prestamoService {
     let res = this.urlEndPoint2 + '?cedula=' + cedula;
     return this.http.get<Prestamo[]>(res);
   }
+
+  entreFechas(inicio: String, fin: String): Observable<Prestamo[]> {
+    let res = this.urlEndPointFechas + '?inicio=' + inicio + '?fin=' + fin;
+    return this.http.get<Prestamo[]>(res);
+  }
+
 
 }

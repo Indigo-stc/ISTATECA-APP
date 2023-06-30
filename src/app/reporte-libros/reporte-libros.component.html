@@ -3,49 +3,92 @@
         height="60" width="200" style="margin-left: 10%; margin-top: 1%;">
 </div>
 
+
 <body>
     <div class="card">
         <h1>Reporte de libros por carrera</h1>
-        <div class="contenedor">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">Carrera</th>
-                        <th scope="col">Docentes</th>
-                        <th scope="col">Estudiantes</th>
-                        <th scope="col">Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                    </tr>
-                </tbody>
-            </table>
-    
-    
-            <table class="table1">
-                <thead>
-                    <tr>
-                        <th scope="col">&nbsp;&nbsp;Titulos de Libros</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>&nbsp;&nbsp;&nbsp;&nbsp;@mdo</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        
+        <form class=" buscar">
+            <!--             <input class="form-control me-2" (keyup)="onKeydownEvent($event, buscaer.value)" #buscaer 
+              placeholder="Buscar" aria-label="Buscar" style="background-color: #e5e7e8; border-color: #2e2f5e" /> -->
 
-        <button type="submit" class="boton btn btn-primary">
-            Imprimir &nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer" viewBox="0 0 16 16">
-                <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/>
-                <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z"/>
-              </svg></button>
+            <div class="campos">
+                <label style="color:#023b76">Buscar por:</label>
+                <select style="border: 1px solid #004f9f" (keyup)="onKeydownEvent($event, buscaer.value)" #buscaer>
+                    <option disabled selected>Seleccione una opción</option>
+                    <option *ngFor="let openn of race">
+                        {{ openn.nombre }}</option>
+                </select>
+            </div>
+            
+            <div class="fech1">
+                <label for="fechaInicio" style="color:#023b76">Fecha Inicio:</label>
+                <input type="date" id="fechaInicio" name="fechaInicio" formControlName="fechaInicio"
+                    style="border: 1px solid #004f9f" required>
+            </div>
+
+            <div class="fech2">
+                <label for="fechaFin" style="color:#023b76">Fecha Fin:</label>
+                <input type="date" id="fechaFin" name="fechaFin" formControlName="fechaFin"
+                    style="border: 1px solid #004f9f" required>
+            </div>
+
+
+            <button class="btn" (click)="buscame(buscaer.value)">
+                
+                <img
+                    src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fbusqueda.png?alt=media&token=2b59078d-0ef5-4fa4-85c6-396ea7c1c97c">
+            </button>
+
+            <button (click)="downloadPDF()">
+                Imprimir &nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-printer" viewBox="0 0 16 16">
+                    <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z" />
+                    <path
+                        d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z" />
+                </svg></button>
+        </form>
+
+        <!--         <div class="Titulo">
+            <p style="color:#023b76"><strong>INSTITUTO UNIVERSITARIO DEL AZUAY</strong> </p>
+            <p style="color:#023b76">{{ DateNow() }}</p>
+        </div> -->
+
+        <div class="contenedor" id="htmlData">
+            <div class="tablas">
+                <table class="table">
+                    <thead class="subcabezera">
+                        <tr>
+                            <th>Carrera</th>
+                            <th>Docentes</th>
+                            <th>Estudiantes</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let prestamo of listaprestamos">
+                            <td>{{prestamo.carrera?.nombre}}</td>
+                            <td>{{prestamo.idEntrega?.nombres}}</td>
+                            <td>{{prestamo.idSolicitante?.nombres}}</td>
+                            <td>{{prestamo.id}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="tablas">
+                <table class="table">
+                    <thead class="subcabezera">
+                        <tr>
+                            <th>Titulo de libros</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-center">
+                        <tr *ngFor="let prestamo of listaprestamos">
+                            <td>{{ prestamo.libro?.titulo }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </body>
