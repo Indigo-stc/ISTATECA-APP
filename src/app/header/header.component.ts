@@ -43,7 +43,7 @@ export class HeaderComponent implements DoCheck, OnInit {
 
     }
     ngDoCheck(): void {
-        this.persona=JSON.parse(localStorage.getItem('persona')+"");
+        /*this.persona=JSON.parse(localStorage.getItem('persona')+"");
          console.log("Rol del Usuario: "+this.persona.tipo+"")
          if (this.persona.tipo == 1 || this.persona.tipo==2) {
             //estudiante
@@ -62,7 +62,7 @@ export class HeaderComponent implements DoCheck, OnInit {
             this.bibliotecario=false
          }else{
             this.sinSesion=true
-         }
+         }*/
     }
 
     iniciarSesion() {

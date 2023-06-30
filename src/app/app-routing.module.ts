@@ -18,6 +18,8 @@ import { SolicitudLibroComponent } from './solicitud-libro/solicitud-libro.compo
 import { SolicitudLibroDomicilioComponent } from './solicitud-libro-domicilio/solicitud-libro-domicilio.component';
 import { VistaRegistroNewComponent } from './vista-registro-new/vista-registro-new.component';
 import { AuthGuard } from '@auth0/auth0-angular';
+import { RegistroAutorComponent } from './registro-autor/registro-autor.component';
+import { RegistroTipoComponent } from './registro-tipo/registro-tipo.component';
 
 const routes: Routes = [
       {path: 'app-devolver-libro', component: DevolverLibroComponent, canActivate: [AuthGuard], data: { expectedRoles: ['ROLE_STUD'] } },
@@ -37,6 +39,8 @@ const routes: Routes = [
       {path: 'app-solicitud-libro', component: SolicitudLibroComponent},
       {path: 'app-solicitud-libro-domicilio', component: SolicitudLibroDomicilioComponent},
       {path: 'app-vista-registro-new', component: VistaRegistroNewComponent},
+      {path: 'app-registro-autor', component: RegistroAutorComponent},
+      {path: 'app-registro-tipo', component: RegistroTipoComponent},
 ];
 
 @NgModule({
