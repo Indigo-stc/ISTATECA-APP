@@ -5,14 +5,11 @@ import Swal from 'sweetalert2';
 import { Libro } from '../models/Libro';
 import { PersonaFenix } from '../models/PersonaFenix';
 import { CarreraService } from '../services/carrera.service';
-import { PaginaInicioService } from '../services/pagina-inicio.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Prestamo } from '../models/Prestamo';
 import { Carrera } from '../models/Carrera';
-import { PersonaService } from '../services/persona.service';
 import { prestamoService } from '../services/prestamo.service';
-
 
 
 @Component({
@@ -33,41 +30,27 @@ export class ReporteLibrosComponent implements OnInit {
 
 
   constructor(private listCarrera: CarreraService,
-    private listPage: PaginaInicioService,
-    private ObtCarreraId: CarreraService,
     private prestamoService: prestamoService,
     private router: Router) { }
-id:any;
+  id: any;
 
 
   ngOnInit(): void {
-    this.listPage.getLibros().subscribe(
-      pagina => this.paginas = pagina);
-    this.listCarrera.getCarreras().subscribe(
-      carre => this.race = carre); 
-      this.recibidos = false;
-      this.prestamoService.listarxestado(3).subscribe(
-        response => {
-          this.listaprestamos = response;
-        }
-      );   
-  }
-
-  listaRecibidos(): void {
+    /*     this.listPage.getLibros().subscribe(
+          pagina => this.paginas = pagina); */
+    this.getCarrera();
+    this.recibidos = false;
     this.prestamoService.listarxestado(3).subscribe(
       response => {
         this.listaprestamos = response;
-        console.log("Lista Prestamos: " + this.listaprestamos.length);
+        this.filteredList = this.listaprestamos
       }
-
     );
-    this.recibidos = true;
-    this.buscar = false;
   }
 
-  getNombreEstado(numeroEstado: number | undefined): string {
-    let nombreEstado = 'Desconocido'; // Valor predeterminado si el número del estado es undefined
 
+  getNombreEstado(numeroEstado: number | undefined): string {
+    let nombreEstado = 'Desconocido';
     if (numeroEstado !== undefined) {
       switch (numeroEstado) {
         case 1:
@@ -79,11 +62,8 @@ id:any;
         case 3:
           nombreEstado = 'Recibido';
           break;
-
-        // Agrega más casos según tus necesidades
       }
     }
-
     return nombreEstado;
   }
 
@@ -147,6 +127,20 @@ id:any;
       doc.setFontSize(fontSizeDate);
       doc.text(date, dateX, 40);
 
+      //firm
+      doc.setFontSize(15);
+      doc.setTextColor("#023b76");
+
+      const firstSignatureName = "Firma:______________________________";
+
+      const firstSignatureX = 20; 
+      const firstSignatureY = pageHeight - 50; 
+
+      doc.text(firstSignatureName, firstSignatureX, firstSignatureY);
+      doc.setFontSize(12);
+
+
+
       setTimeout(() => {
         const filename = `${new Date().toISOString()}_reporte.pdf`;
         const pdfOutput = doc.output('blob');
@@ -164,8 +158,6 @@ id:any;
     }, 1000);
   }
 
-
-
   DateNow(): string {
     const fechaActual = new Date();
     const options: Intl.DateTimeFormatOptions = {
@@ -181,81 +173,70 @@ id:any;
     fechaFin: new FormControl()
   });
 
-/*   search(busca: string, ciudad: string) {
-    this.paginainicioService.buscarLibro(busca).subscribe(
-      response => {
-        console.log(response);
-        if (response == null) {
-          Swal.fire({
-            title: '<strong>Libro no encontrado</strong>',
-            confirmButtonText: 'error',
-            confirmButtonColor: '#012844',
-            icon: 'error',
-          });
-          this.ngOnInit();
-        } else {
-          // Filtra las fechas y la ciudad que coincidan con los valores de búsqueda
-          const filteredData = this.paginas.filter((item: any) => {
-            const fechaInicio = new Date(item.fechaInicio);
-            const fechaFin = new Date(item.fechaFin);
-            const fechaBuscada = new Date(busca);
-  
-            return (
-              fechaInicio <= fechaBuscada &&
-              fechaFin >= fechaBuscada &&
-              item.ciudad.toLowerCase() === ciudad.toLowerCase()
-            );
-          });
-  
-          if (filteredData.length > 0) {
-            this.paginas = filteredData;
-          } else {
-            Swal.fire({
-              title: '<strong>No se encontraron resultados</strong>',
-              confirmButtonText: 'Aceptar',
-              confirmButtonColor: '#012844',
-              icon: 'info',
-            });
-          }
-        }
+  getCarrera() {
+    this.listCarrera.getCarreras().subscribe(
+      carre => this.race = carre);
+  }
+
+
+/*   onSearch(id: number): void {
+    Swal.fire({
+      title: '¿Esta seguro?',
+      showCancelButton: true,
+      confirmButtonText: 'OK',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.value) {
+        this.listCarrera.obtenerCarreraId(id).subscribe(
+          data => {
+            this.getCarrera();
+          },
+        );
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire(
+          'Cancelado',
+        )
       }
-    );
+    });
   } */
 
-  bus: boolean = true;
-  buscarval: boolean = false;
+
+  getDate(start: string, end: string) {
+    this.prestamoService.entreFechas(start, end).subscribe(
+      fec => this.listaprestamos = fec);
+  }
 
 
-   buscame(nombre: String) {
-    this.bus = false;
-    this.listPage.buscarLibro(nombre).subscribe(
-      pagina => {
-        this.paginas = pagina
-        console.log(this.paginas.length);
-        this.buscarval = true;
+  startFecha: string = ""
+  endFecha: string = "";
+  buscars(start: string, end: string): void {
+    this.prestamoService.entreFechas(start, end).subscribe(
+      response => {
+        console.log(response);
+        this.listaprestamos = response;
+      },
+      error => {
+        console.error(error);
       }
-    )
-  } 
-
-  
-  
-    onKeydownEvent(event: KeyboardEvent, titulo: String): void {
-      if (titulo == "") {
-      this.ngOnInit();
-    }
+    );
   }
 
 
-  onChange($event:any){
+  selectedRace: string = "";
+  filteredList: any[] = [];
 
+  filter(e: Event) {
+    this.selectedRace = (e.target as HTMLInputElement).value;
+    this.filteredList = this.listaprestamos.filter(prestamo => prestamo.carrera?.nombre === this.selectedRace);
   }
-  
+  getLibroTitulo(prestamo: any): string {
+    return prestamo.libro?.titulo || "";
+  }
 
-  
-  
-  
-  
-  
+
+
+
+
 
 
 

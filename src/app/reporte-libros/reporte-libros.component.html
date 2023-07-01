@@ -13,28 +13,28 @@
 
             <div class="campos">
                 <label style="color:#023b76">Buscar por:</label>
-                <select style="border: 1px solid #004f9f" (keyup)="onKeydownEvent($event, buscaer.value)" #buscaer>
+                <select (change)="filter($event)" style="border: 1px solid #004f9f">
                     <option disabled selected>Seleccione una opción</option>
                     <option *ngFor="let openn of race">
                         {{ openn.nombre }}</option>
                 </select>
             </div>
-            
+
             <div class="fech1">
                 <label for="fechaInicio" style="color:#023b76">Fecha Inicio:</label>
-                <input type="date" id="fechaInicio" name="fechaInicio" formControlName="fechaInicio"
+                <input type="date" [(ngModel)]="startFecha" placeholder="Fecha de inicio"
                     style="border: 1px solid #004f9f" required>
             </div>
 
             <div class="fech2">
                 <label for="fechaFin" style="color:#023b76">Fecha Fin:</label>
-                <input type="date" id="fechaFin" name="fechaFin" formControlName="fechaFin"
+                <input type="date" [(ngModel)]="endFecha" placeholder="Fecha de fin"
                     style="border: 1px solid #004f9f" required>
             </div>
 
 
-            <button class="btn" (click)="buscame(buscaer.value)">
-                
+            <button class="btn" (click)="buscars(startFecha, endFecha)">
+
                 <img
                     src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fbusqueda.png?alt=media&token=2b59078d-0ef5-4fa4-85c6-396ea7c1c97c">
             </button>
@@ -65,7 +65,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let prestamo of listaprestamos">
+                        <tr *ngFor="let prestamo of filteredList">
                             <td>{{prestamo.carrera?.nombre}}</td>
                             <td>{{prestamo.idEntrega?.nombres}}</td>
                             <td>{{prestamo.idSolicitante?.nombres}}</td>
@@ -80,11 +80,15 @@
                     <thead class="subcabezera">
                         <tr>
                             <th>Titulo de libros</th>
+<!--                             <th>Inicio</th>
+                            <th>Fin</th> -->
                         </tr>
                     </thead>
                     <tbody class="text-center">
-                        <tr *ngFor="let prestamo of listaprestamos">
+                        <tr *ngFor="let prestamo of filteredList">
                             <td>{{ prestamo.libro?.titulo }}</td>
+<!--                             <td>{{ prestamo.fechaEntrega }}</td>
+                            <td>{{ prestamo.fechaFin}}</td> -->
                         </tr>
                     </tbody>
                 </table>
