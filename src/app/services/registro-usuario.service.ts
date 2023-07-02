@@ -15,6 +15,7 @@ export class RegistroUsuarioService {
   private urlendpointcrearpers: string = 'http://localhost:8080/persona/crear';
   private urlendpointeditarpers: string = 'http://localhost:8080/persona/editar';
   private urlendpointbuscar: string = 'http://localhost:8080/persona/personaxcedula';
+  private urlendpointbuscarfuncion: string = 'http://localhost:8080/persona/personadocente';
   private urlendpoint2: string = 'http://localhost:8080/usuariofenix/buscarusuario';
   private urlendpoint3: string = 'http://localhost:8080/api/editarusuario';
   private urlendpoint4: string = 'http://localhost:8080/persona/buscar';
@@ -27,6 +28,11 @@ export class RegistroUsuarioService {
   createPersona(persona: Persona): Observable<Persona> {
     return this.http.post<Persona>(this.urlendpointcrearpers, persona, { headers: this.httpHeaders })
   }
+
+  createPersonaFuncion(persona: Persona): Observable<Persona> {
+    return this.http.post<Persona>(this.urlendpointcrearpers, persona, { headers: this.httpHeaders })
+  }
+
   updatePersona(persona: Persona) {
     return this.http.put<Persona>(this.urlendpointeditarpers + "/" + persona.id, persona);
   }
@@ -39,6 +45,11 @@ export class RegistroUsuarioService {
   obtenerPersonasCedula(cedula: string): Observable<PersonaFenix> {
     //return of(CLIENTES)
     return this.http.get<Persona>(this.urlendpoint2 + "/" + cedula);
+
+  }
+  obtenerPersonasFuncion(cedula: string): Observable<Persona> {
+    //return of(CLIENTES)
+    return this.http.get<Persona>(this.urlendpointbuscarfuncion + "/" + cedula);
 
   }
   obtenerPersonasId(id: number) {

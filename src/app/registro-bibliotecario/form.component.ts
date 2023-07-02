@@ -19,10 +19,23 @@ export class FormComponentb implements OnInit {
 
   bibliotecarioE:Bibliotecario={};
   idb?:number;
-
+  step = 1;
+  totalSteps = 2;
   constructor(private usuarioservice: RegistroUsuarioService,private bibliotecarioservice: RegistroBibliotecarioService, private router: Router) { }
 
   ngOnInit(): void {
+  }
+  avanzar1() {
+    if (this.step < this.totalSteps) {
+      this.step++;
+    }else{
+      this.create();
+    }
+  }
+  retroceder1() {
+    if (this.step > 1) {
+      this.step--;
+    }
   }
 
   public create(): void {
@@ -120,8 +133,8 @@ export class FormComponentb implements OnInit {
       alert('INGRESE UNA CEDULA')
     } else {
       if (cedula.length === 10) {
-        this.usuarioservice.obtenerPersonasCedula(cedula).subscribe(
-          response =>( this.persona = response,this.persona.fenixId=response.alumno_docenteId)
+        this.usuarioservice.obtenerPersonasFuncion(cedula).subscribe(
+          response =>( this.persona = response)
 
 
         )

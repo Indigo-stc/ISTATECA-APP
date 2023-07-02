@@ -1,181 +1,157 @@
+<div class="imagen">
+  <img
+    src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/logos%2Flogo%20normal%20peque%C3%B1o.png?alt=media&token=59a16c73-3229-4ba7-81be-567aae799d61"
+    height="60" width="200" style="margin-left: 10%; margin-top: 1%;">
+</div>
+<!--FORMULARIO-->
+
+<body class="elemento">
+  <div class="card">
+    <h1>Registro de personal</h1>
+    <div class="content">
+      <form ngNativeValidate (ngSubmit)="avanzar1()">
+        <div class="step-counter">
+          <p>Paso {{ step }} de {{ totalSteps }} </p>
+          <div class="user-details" *ngIf="step === 1">
+            <div class="input-box">
+              <span class="details">Cedula bibliotecario:</span>
+              <input #cedulas type="text" class="form-control text-center" (keyup)="buscarFenix(cedulas.value)" [(ngModel)]="persona.cedula"
+                placeholder="Ingrese un numero de cedula" name="cedula" required>
+              <button type="button" (click)="buscarFenix(cedulas.value)" class="btn btn-outline-secondary"
+                style="display: flex; margin-left: 1%; height: 10%; margin-top: 5px;">
+                <img
+                  src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fbusqueda.png?alt=media&token=2b59078d-0ef5-4fa4-85c6-396ea7c1c97c"
+                  width="20" height="20">
+              </button>
+            </div>
+
+            <div class="input-box">
+              <span class="details">Nombres:</span>
+              <input #nombre type="text" class="form-control text-center" [(ngModel)]="persona.nombres"
+                placeholder="Aqui apareceran sus datos" name="nombre" required>
 
 
+            </div>
+
+            <div class="input-box">
+              <span class="details">Apellidos:</span>
+              <input #apellidos type="text" class="form-control text-center" [(ngModel)]="persona.apellidos"
+                placeholder="Aqui apareceran sus datos" name="apellidos" required>
 
 
-<header>
-  <h4><strong>Registro del Bibliotecario</strong></h4><br>
-</header>
+            </div>
 
-<body class="elemento" >
-  <form #login="ngForm"  ngNativeValidate style="align-items: center;" (ngSubmit)="create()">
+            <div class="input-box">
+              <span class="details">Celular:</span>
+              <input type="number" class="form-control text-center" [(ngModel)]="persona.celular"
+                placeholder="Aqui apareceran sus datos" name="celular" required>
 
 
-    <div style="display: flex; width: 80; ">
-      <label for="cedula" class="col-sm-3 col-form-label">
-        <h3>Cedula bibliotecario:</h3>
-      </label>
-      <div class="col-sm-5">
-        <h6><input #cedulas type="text" class="form-control text-center" [(ngModel)]="persona.cedula"
-            placeholder="Ingrese un numero de cedula" name="cedula" required></h6>
+            </div>
 
-            <div class="row"  style="display: flex; margin-left: 131%; border: 1px solid rgb(3, 0, 0); width: 30%; margin-top: -10%;">
+            <div class="input-box">
+              <span class="details">Email:</span>
+              <input type="email" class="form-control text-center" [(ngModel)]="persona.correo"
+                placeholder="Aqui apareceran sus datos" name="correo" required>
+
+
+            </div>
+
+            
+
+          </div>
+
+
+          <div class="user-details" *ngIf="step === 2">
+            
+
+            <div class="input-box">
+              <span class="details">Rol:</span>
+
+              
+              
+                <input class="form-check-input" type="radio" name="flexRadioDefault1" value="4" id="admin"
+                  [(ngModel)]="persona.tipo" style="height: 20px; width: 20px;" required>
+                <label class="form-check-label" for="flexRadioDefault3">
+                  Administrador
+                </label>
+
+                &nbsp;&nbsp;&nbsp;&nbsp;
+                <input class="form-check-input" type="radio" name="flexRadioDefault1" value="3" id="biblioteca"
+                  [(ngModel)]="persona.tipo" style="height: 20px; width: 20px; " required><label class="form-check-label" style="border-color: blue;" for="flexRadioDefault4">
+                  Bibliotecario
+                </label>
+              
+
+
+            </div>
+
+            <div class="input-box">
+              <span class="details">Estado:</span>
+              
+                <input class="form-check-input" type="radio" name="flexRadioDefault" value="true" id="activo"
+                  [(ngModel)]="bibliotecarios.activoBibliotecario" style="height: 20px; width: 20px;" required>
+                &nbsp;&nbsp;<label class="form-check-label" for="flexRadioDefault1">
+                  Activo
+                </label>&nbsp;&nbsp;&nbsp;&nbsp;
       
-              <button class="btn" type="submit" id="guardar" style="background-color:transparent">
-                <img
-                  src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fguardar.png?alt=media&token=4325fe8d-024f-4aca-bd99-b5439360b821"
-                  width=30 height=30 align="center">
-                Guardar</button>
-              <button class="btn" style="background-color:transparent" routerLink="/app-lista-bibliotecarios">
-                <img
-                  src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Flistas.png?alt=media&token=97df573d-51ec-4d24-8b96-d68164b717ff"
-                  width=30 height=30 align="center">
-                Lista</button>
-    
+      
+                <input class="form-check-input" type="radio" name="flexRadioDefault" value="false" id="inactivo"
+                  [(ngModel)]="bibliotecarios.activoBibliotecario" style="height: 20px; width: 20px;" required>
+                &nbsp;&nbsp;<label class="form-check-label" for="flexRadioDefault2">
+                  Inactivo
+                </label>
+              
+
+
+            </div>
+
+          </div>
+
+
+
+
         </div>
-      </div>
-      <button type="button" (click)="buscarFenix(cedulas.value)" class="btn btn-outline-secondary"
-        style="display: flex; margin-left: 1%; height: 10%; margin-top: 5px;">
-        <img
-          src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fbusqueda.png?alt=media&token=2b59078d-0ef5-4fa4-85c6-396ea7c1c97c"
-          width="20" height="20">
-      </button>
 
-      
+
+
+
+
+
+        <div class="button text-center">
+          <button type="button" class="btn btn-outline-secondary btn-lg mx-3" (click)="retroceder1()" *ngIf="step > 1">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+              class="bi bi-chevron-double-left" viewBox="0 0 16 16">
+              <path fill-rule="evenodd"
+                d="M8.354 1.646a.5.5 0 0 1 0 .708L2.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
+              <path fill-rule="evenodd"
+                d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
+            </svg> Retroceder
+          </button>
+          <button type="submit" class="btn btn-outline-primary btn-lg mx-3"  *ngIf="step < 2">
+            Siguiente <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+              class="bi bi-chevron-double-right" viewBox="0 0 16 16">
+              <path fill-rule="evenodd"
+                d="M3.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L9.293 8 3.646 2.354a.5.5 0 0 1 0-.708z" />
+              <path fill-rule="evenodd"
+                d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z" />
+            </svg>
+          </button>
+          <button type="submit" class="btn btn-outline-success btn-lg mx-3" *ngIf="step === 2">
+            Guardar <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+              class="bi bi-folder-check" viewBox="0 0 16 16">
+              <path
+                d="m.5 3 .04.87a1.99 1.99 0 0 0-.342 1.311l.637 7A2 2 0 0 0 2.826 14H9v-1H2.826a1 1 0 0 1-.995-.91l-.637-7A1 1 0 0 1 2.19 4h11.62a1 1 0 0 1 .996 1.09L14.54 8h1.005l.256-2.819A2 2 0 0 0 13.81 3H9.828a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 6.172 1H2.5a2 2 0 0 0-2 2zm5.672-1a1 1 0 0 1 .707.293L7.586 3H2.19c-.24 0-.47.042-.683.12L1.5 2.98a1 1 0 0 1 1-.98h3.672z" />
+              <path
+                d="M15.854 10.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.707 0l-1.5-1.5a.5.5 0 0 1 .707-.708l1.146 1.147 2.646-2.647a.5.5 0 0 1 .708 0z" />
+            </svg>
+          </button>
+        </div>
+
+
+      </form>
     </div>
+  </div>
 
-    
-    
-
-
-
-    <div class="row mb-3">
-      <label for="nombres" class="col-sm-3 col-form-label">
-        <h3>Nombres:</h3>
-      </label>
-      <div class="col-sm-5">
-        <h6><input #nombre type="text" class="form-control text-center" [(ngModel)]="persona.nombres"
-             placeholder="Aqui apareceran sus datos" name="nombre" required>
-        </h6>
-      </div>
-    </div>
-    <div class="row mb-3">
-      <label for="celular" class="col-sm-3 col-form-label">
-        <h3>Celular:</h3>
-      </label>
-      <div class="col-sm-5">
-        <h6><input type="number" class="form-control text-center" [(ngModel)]="persona.celular"
-             placeholder="Aqui apareceran sus datos" name="celular" required>
-        </h6>
-      </div>
-    </div>
-    <div class="row mb-3">
-      <label for="correo" class="col-sm-3 col-form-label">
-        <h3>Email:</h3>
-      </label>
-      <div class="col-sm-5">
-        <h6><input type="email" class="form-control text-center" [(ngModel)]="persona.correo"
-             placeholder="Aqui apareceran sus datos" name="correo" required>
-        </h6>
-      </div>
-    </div>
-
-
-    <div class="row mb-3">
-      <label for="usuario" class="col-sm-3 col-form-label">
-        <h3>Rol:</h3>
-      </label>
-      <div class="col-sm-6">
-
-
-        <h2>
-          <input class="form-check-input" type="radio" name="flexRadioDefault1" value="4" id="admin"
-            [(ngModel)]="persona.tipo" required>
-          &nbsp;&nbsp;<label class="form-check-label" for="flexRadioDefault3">
-            Administrador
-          </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-
-          <input class="form-check-input" type="radio" name="flexRadioDefault1" value="3" id="biblioteca"
-            [(ngModel)]="persona.tipo" required>
-          &nbsp;&nbsp;<label class="form-check-label" for="flexRadioDefault4">
-            Bibliotecario
-          </label>
-        </h2>
-
-
-
-      </div>
-    </div>
-
-
-
-
-
-
-    <div class="row mb-3">
-      <label for="usuario" class="col-sm-3 col-form-label">
-        <h3>Fecha de inicio:</h3>
-      </label>
-      <div class="col-sm-5">
-        <h6><input type="date" [(ngModel)]="bibliotecarios.fechaInicio" class="form-control text-center"
-            placeholder="Ingrese la fecha de entrada" name="usuario" required>
-        </h6>
-      </div>
-    </div>
-
-
-    <div class="row mb-3">
-      <label for="usuario" class="col-sm-3 col-form-label">
-        <h3>Fecha de salida:</h3>
-      </label>
-      <div class="col-sm-5">
-        <h6><input type="date" class="form-control text-center" [(ngModel)]="bibliotecarios.fechaFin"
-            placeholder="Ingrese la fecha de salida" name="usuario" required>
-        </h6>
-      </div>
-    </div>
-
-
-    <div class="row mb-3">
-      <label for="usuario" class="col-sm-3 col-form-label">
-        <h3>Estado:</h3>
-      </label>
-      <div class="col-sm-6">
-
-
-        <h2>
-          <input class="form-check-input" type="radio" name="flexRadioDefault" value="true" id="activo"
-          [(ngModel)]="bibliotecarios.activoBibliotecario" required>
-          &nbsp;&nbsp;<label class="form-check-label" for="flexRadioDefault1">
-            Activo
-          </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-
-          <input class="form-check-input" type="radio" name="flexRadioDefault" value="false" id="inactivo"
-          [(ngModel)]="bibliotecarios.activoBibliotecario" required>
-          &nbsp;&nbsp;<label class="form-check-label" for="flexRadioDefault2">
-            Inactivo
-          </label>
-        </h2>
-
-
-
-      </div>
-    </div>
-    
-
-    
-
-
-
-  </form>
-
-
-
-
-  <h1>
-    <img
-      src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/logos%2Flogo%20normal%20peque%C3%B1o.png?alt=media&token=59a16c73-3229-4ba7-81be-567aae799d61"
-      class="rounded float-start" alt="" width="200" height="50">
-  </h1>
 </body>
+

@@ -7,7 +7,7 @@
   <div class="row mb-3">
        <label for="cedula" class="col-sm-3 col-form-label"> <h3>Cédula del bibliotecario:</h3></label>
        <div class="col-sm-5">
-         <h6><input #cedulas  type="number" class="form-control text-center" (ngModel)="persona.cedula" placeholder="Ingrese un numero de cedula" name="cedula" readonly required>
+         <h6><input #cedulas  type="number" class="form-control text-center" [(ngModel)]="persona.cedula" placeholder="Ingrese un numero de cedula" name="cedula" readonly required>
         </h6>
          </div>
      </div>
@@ -17,21 +17,21 @@
      <div class="row mb-3">
        <label for="nombres" class="col-sm-3 col-form-label"><h3>Nombres:</h3></label>
        <div class="col-sm-5">
-         <h6><input #nombre type="text" class="form-control text-center" (ngModel)="persona.nombres"  placeholder="Aqui apareceran sus datos" name="nombre" readonly  required>
+         <h6><input #nombre type="text" class="form-control text-center" [(ngModel)]="persona.nombres"  placeholder="Aqui apareceran sus datos" name="nombre" readonly  required>
              </h6>
          </div>
      </div>
      <div class="row mb-3">
        <label for="celular" class="col-sm-3 col-form-label"><h3>Celular:</h3></label>
        <div class="col-sm-5">
-         <h6><input type="number" class="form-control text-center" (ngModel)="persona.celular"  placeholder="Aqui apareceran sus datos"   name="celular"  required>
+         <h6><input type="number" class="form-control text-center" [(ngModel)]="persona.celular"  placeholder="Aqui apareceran sus datos"   name="celular"  required>
            </h6>
        </div>
      </div>
    <div class="row mb-3">
      <label for="correo" class="col-sm-3 col-form-label"><h3>Email:</h3></label>
      <div class="col-sm-5">
-       <h6><input type="email" class="form-control text-center" (ngModel)="persona.correo" placeholder="Aqui apareceran sus datos"  name="correo"  required>
+       <h6><input type="email" class="form-control text-center" [(ngModel)]="persona.correo" placeholder="Aqui apareceran sus datos"  name="correo"  required>
            </h6>
        </div>
    </div>
@@ -44,7 +44,7 @@
                <h6>
                 <div class="input-group">
                 <input type="datetime" style="width : 50px; height: 40px; font-size: small;" class="row mb-8" value="Fecha Anterior: {{bibliotecarioE.fechaInicio }}" class="form-control text-center" placeholder="Fecha Anterior"  name="fecha_inicio" readonly>
-                <input type="date" (ngModel)="bibliotecarios.fechaInicio"  class="form-control text-center" placeholder="Ingrese la fecha de entrada"  name="fecha_inicio" required>
+                <input type="date" [(ngModel)]="bibliotecarios.fechaInicio"  class="form-control text-center" placeholder="Ingrese la fecha de entrada"  name="fecha_inicio" required>
               </div> 
               </h6>
              </div>
@@ -57,7 +57,7 @@
                <h6>
                 <div class="input-group">
                   <input type="datetime" style="width : 50px; height: 40px; font-size: small;" class="row mb-8" value="Fecha Anterior: {{bibliotecarioE.fechaFin }}" class="form-control text-center" placeholder="Fecha Anterior"  name="fecha_inicio" readonly>
-                <input type="date" class="form-control text-center" (ngModel)="bibliotecarios.fechaFin" placeholder="Ingrese la fecha de salida"  name="fecha_fin" required>
+                <input type="date" class="form-control text-center" [(ngModel)]="bibliotecarios.fechaFin" placeholder="Ingrese la fecha de salida"  name="fecha_fin" required>
               </div> 
               </h6>
              </div>
@@ -75,13 +75,13 @@
 
 
 
-                <input class="form-check-input" type="radio"  name="flexRadioDefault" value="true" id="activo" (ngModel)="bibliotecarios.activoBibliotecario" required>
+                <input class="form-check-input" type="radio"  name="flexRadioDefault" value="true" id="activo" [(ngModel)]="bibliotecarios.activoBibliotecario" required>
                 &nbsp;&nbsp;<label class="form-check-label" for="flexRadioDefault1">
                   Activo
                 </label>&nbsp;&nbsp;&nbsp;&nbsp;
               
               
-                <input class="form-check-input" type="radio" name="flexRadioDefault" value="false" id="inactivo" (ngModel)="bibliotecarios.activoBibliotecario" required>
+                <input class="form-check-input" type="radio" name="flexRadioDefault" value="false" id="inactivo" [(ngModel)]="bibliotecarios.activoBibliotecario" required>
                 &nbsp;&nbsp;<label class="form-check-label" for="flexRadioDefault2">
                   Inactivo
                 </label>
