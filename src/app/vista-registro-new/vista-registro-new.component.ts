@@ -13,7 +13,7 @@ import Swal from 'sweetalert2';
 import { registerLocaleData } from '@angular/common';
 import { Observable, catchError, map, throwError } from 'rxjs';
 import { ActaDonacionService } from '../services/acta-donacion.service';
-import { RegistroLibroService } from '../services/registro-libro.service';
+import { LibroService } from '../services/libro.service';
 
 
 @Component({
@@ -106,7 +106,7 @@ export class VistaRegistroNewComponent implements OnInit {
 
   constructor(
     private sanitizer: DomSanitizer,
-    private libroservice: RegistroLibroService,
+    private libroservice: LibroService,
     private rutas: Router,
     private bibliotecarioservice: RegistroBibliotecarioService,
     private ListaT: ListasService,
@@ -134,7 +134,7 @@ export class VistaRegistroNewComponent implements OnInit {
 
 
   obtenerAutor(): void {
-    this.dato = this.libroservice.obtenerAutores();
+    this.dato = this.ListaT.obtenerAutores();
     console.log(this.dato + "Holii");
 
 
@@ -190,7 +190,7 @@ export class VistaRegistroNewComponent implements OnInit {
   }
 
   buscarLibxNomb(nombre: String) {
-    this.libroservice.obtenerLibro(nombre).subscribe(
+    this.libroservice.buscarLibro(nombre).subscribe(
       data => {
         this.libros = data;
       }

@@ -1,6 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
+import { StorageService } from 'src/app/services/storage.service';
 
 @Component({
   selector: 'app-logout',
@@ -8,7 +9,7 @@ import { AuthService } from '@auth0/auth0-angular';
 })
 export class LogoutComponent {
 
-  constructor(
+  constructor( private storageService:StorageService,
     public auth: AuthService,
     @Inject(DOCUMENT) private doc: Document
   ) {}
@@ -17,6 +18,7 @@ export class LogoutComponent {
 
   logout(): void {
     this.auth.logout();
+    this.storageService.clean();
   }
 
 }

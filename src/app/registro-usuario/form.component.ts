@@ -4,7 +4,6 @@ import { NgForm } from '@angular/forms';
 import { RegistroUsuarioService } from '../services/registro-usuario.service';
 import { Usuario } from '../models/Usuario';
 import { Persona } from '../models/Persona';
-import { InicioSesionComponent } from '../inicio-sesion/inicio-sesion.component';
 import { RouterLink } from '@angular/router';
 import { PersonaP } from '../models/PersonaP';
 import Swal from 'sweetalert2';

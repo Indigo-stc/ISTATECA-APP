@@ -1,5 +1,4 @@
 import { Component, OnInit, DoCheck, Input } from "@angular/core";
-import { InicioSesionComponent } from "../inicio-sesion/inicio-sesion.component";
 import { Router } from '@angular/router';
 import { NotificacionesService } from "../services/notificaciones.service";
 import { AuthService, User } from "@auth0/auth0-angular";
@@ -16,65 +15,19 @@ import Swal from 'sweetalert2';
     styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements DoCheck, OnInit {
-    persona:Persona=new Persona();
+    persona: Persona = new Persona();
     reporteN: string = "";
-
     sinSesion: boolean = false;
     estudiante: boolean = false;
     bibliotecario: boolean = false;
     admin: boolean = false;
+    usu: boolean = true;
 
-    constructor(private router: Router, private notificacionesService: NotificacionesService,
-        public auth: AuthService,
-        private logSer: LoginService) { }
-
-
-
-    get nuevosRegistros() {
-
-        return this.notificacionesService.nuevosRegistros;
+    constructor(private router: Router, private notificacionesService: NotificacionesService, public auth: AuthService, private logSer: LoginService) { }
 
 
 
-    }
-
-    public ocultar() {
-        this.notificacionesService.nuevosRegistros = 0;
-
-    }
-    ngDoCheck(): void {
-        /*this.persona=JSON.parse(localStorage.getItem('persona')+"");
-         console.log("Rol del Usuario: "+this.persona.tipo+"")
-         if (this.persona.tipo == 1 || this.persona.tipo==2) {
-            //estudiante
-            this.sinSesion=false;
-            this.estudiante=true;
-            this.sinSesion
-         } else if (this.persona.tipo== 3) {
-            //bibliotecario
-            this.sinSesion=false;
-            this.bibliotecario=true;
-            this.admin=false
-         } else if (this.persona.tipo == 4) {
-            //administrador
-            this.sinSesion=false;
-            this.admin=true;
-            this.bibliotecario=false
-         }else{
-            this.sinSesion=true
-         }*/
-    }
-
-    iniciarSesion() {
-        this.router.navigate(['']);
-    }
-    cerrarSesion() {
-        this.router.navigate(['']);
-        localStorage.removeItem('persona');
-    }
-
-    user?: User = new User;
-    usuario = new Persona();
+    get nuevosRegistros() { return this.notificacionesService.nuevosRegistros; }
 
     ngOnInit(): void {
         this.auth.isAuthenticated$.subscribe(
@@ -93,12 +46,54 @@ export class HeaderComponent implements DoCheck, OnInit {
         )
     }
 
+
+    ngDoCheck(): void {
+        this.persona = JSON.parse(localStorage.getItem('persona') + "");
+        if (this.persona != null) {
+            if (this.persona.tipo == 1 || this.persona.tipo == 2) {
+                //estudiante
+                this.sinSesion = false;
+                this.estudiante = true;
+                this.sinSesion
+            } else if (this.persona.tipo == 3) {
+                //bibliotecario
+                this.sinSesion = false;
+                this.bibliotecario = true;
+                this.admin = false
+            } else if (this.persona.tipo == 4) {
+                //administrador
+                this.sinSesion = false;
+                this.admin = true;
+                this.bibliotecario = false
+            }
+        } else {
+            this.sinSesion = true
+        }
+    }
+    public ocultar() {
+        this.notificacionesService.nuevosRegistros = 0;
+
+    }
+    user?: User = new User;
+    usuario = new Persona();
+
+
     verificar(email: string, nombres: string) {
         this.logSer.verificar(email, nombres).subscribe({
             next: response => {
                 console.log('HOLAAAAA');
             },
             error: error => {
+                if (error.status === 400) {
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: '<strong> Credenciales Incorrectas</strong><br>  Verifica tu cuenta',
+                        showConfirmButton: false,
+                        timer: 3000
+                    })
+                }
+                
                 if (error.status === 200) {
                     this.validateUser(this.usuario)
                 }
@@ -111,6 +106,13 @@ export class HeaderComponent implements DoCheck, OnInit {
             catchError(error => {
                 if (error.status === 401) {
                     console.log('BAD CREDENTIALS')
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        title: '<strong> Credenciales Incorrectas</strong><br>  Verifica tu cuenta',
+                        showConfirmButton: false,
+                        timer: 3000
+                    })
                     //this.toastr.error('Credenciales incorrectas', 'Error de autenticación');
                 }
                 return throwError(error);
@@ -133,23 +135,25 @@ export class HeaderComponent implements DoCheck, OnInit {
                     } //Arreglar que cuando ingrese con un segundo intento se cree el xsrf
 
                     if (sessionStorage.getItem('userdetails')) {
+
                         this.usuario = JSON.parse(sessionStorage.getItem('userdetails')!);
                         const role = localStorage.getItem('roles');
                         let usuarioJSON = JSON.stringify(this.usuario);
                         localStorage.setItem('persona', usuarioJSON);
+
                         switch (role) {
                             case 'ROLE_STUD':
-                                this.router.navigate(['/app-home']);
-                               
+                                this.router.navigate(['/']);
+
                                 break;
                             case 'ROLE_ADMIN':
-                                this.router.navigate(['/app-home']);
+                                this.router.navigate(['/']);
                                 break;
                             case 'ROLE_ADMIN':
-                                this.router.navigate(['/app-home']);
+                                this.router.navigate(['/']);
                                 break;
                             default:
-                                this.router.navigate(['../app-home']);
+                                this.router.navigate(['../']);
                                 console.log('Selected role is unknown.');
                                 break;
                         }

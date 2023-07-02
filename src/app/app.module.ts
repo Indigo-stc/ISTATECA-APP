@@ -7,17 +7,15 @@ import { RouterModule } from '@angular/router';
 import{HTTP_INTERCEPTORS, HttpClientModule, HttpClientXsrfModule} from '@angular/common/http';
 import { RegistroUsuarioService } from './services/registro-usuario.service';
 import { RegistroUsuarioComponent } from './registro-usuario/registro-usuario.component';
-import { InicioSesionComponent } from './inicio-sesion/inicio-sesion.component';
 import { FormComponent } from './registro-usuario/form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RegistroBibliotecarioComponent } from './registro-bibliotecario/registro-bibliotecario.component'
-import { PaginaInicioService } from './services/pagina-inicio.service';
 import { ListaBibliotecariosComponent } from './lista-bibliotecarios/lista-bibliotecarios.component';
 import { ListasComponent } from './listas/listas.component';
 import { ListaSolicitudesPendientesComponent } from './lista-solicitudes-pendientes/lista-solicitudes-pendientes.component';
 import { PersonaService } from './services/persona.service';
 import { FormComponentb } from './registro-bibliotecario/form.component';
-import { RegistroLibroService } from './services/registro-libro.service';
+import { LibroService } from './services/libro.service';
 import { SolicitudLibroComponent } from './solicitud-libro/solicitud-libro.component';
 import { FormEditComponent } from './registro-usuario/form-edit.component';
 import { FormEditBComponent } from './registro-bibliotecario/form-edit-b.component';
@@ -45,7 +43,6 @@ import { RegistroAutorComponent } from './registro-autor/registro-autor.componen
     FooterComponent,
     HeaderComponent,
     RegistroUsuarioComponent,
-    InicioSesionComponent,
     FormComponent,
     FormComponentb,
     RegistroBibliotecarioComponent,
@@ -87,9 +84,8 @@ import { RegistroAutorComponent } from './registro-autor/registro-autor.componen
   ],
   providers: [
     RegistroUsuarioService,
-    PaginaInicioService,
+    LibroService,
     PersonaService,
-    RegistroLibroService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: LibraryInterceptor,

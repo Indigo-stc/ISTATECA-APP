@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg" style="background-image: linear-gradient(90deg,#0067CF,#023b76);">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#" style="color: #e3eaef" routerLink="/app-home"> <img
+    <a class="navbar-brand" href="#" style="color: #e3eaef" routerLink="/"> <img
         src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/logos%2Flogo%20blanco.png?alt=media&token=0fd4deda-5a8c-4db7-89eb-05e8c1e1643c"
         alt="" width="100" height="30"></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
@@ -9,28 +9,28 @@
     </button>
     <div class="container-fluid" >
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0" >
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0" *ngIf="sinSesion!=true">
           <div>
-            <li class="nav-item ">
+            <li class="nav-item " *ngIf="admin==true">
               <a class="nav-link active" href="#" routerLink="/app-registro-bibliotecario" >
                 <img
                   src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fagregar-usuario%20(1).png?alt=media&token=c04b535c-bdbd-4f71-9d57-1688666ddd43"
                   alt="" width="25" height="25"></a>
             </li>
           </div>
-          <li class="nav-item">
+          <li class="nav-item" *ngIf="estudiante==false">
             <a class="nav-link active" href="#" routerLink="/app-vista-registro-new" >
               <img
                 src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fagregar%20(1).png?alt=media&token=077d2984-4b56-4b72-a862-7be65d5f4832"
                 alt="" width="25" height="25"></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link active" href="#" routerLink="/app-listas" >
+            <a class="nav-link active" href="#" routerLink="/app-listas" *ngIf="estudiante==false">
               <img
                 src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Flista.png?alt=media&token=95e8450f-1aee-4a02-9068-4550a86f63e5"
                 alt="" width="25" height="25"></a>
           </li>
-          <li class="nav-item dropdown" >
+          <li class="nav-item dropdown" *ngIf="estudiante==false">
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
               <img
                 src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Freporte-de-negocios.png?alt=media&token=b47985f5-b219-4d8e-ace8-0095991d1aaf"
@@ -46,7 +46,7 @@
         </ul>
 
 
-        <div >
+        <div *ngIf="sinSesion!=true">
           <button type="button" class="position-relative" style="background:transparent ; border-color: transparent"
             (click)="ocultar()" routerLink="/app-lista-solicitudes-pendientes">
             <img
@@ -60,7 +60,7 @@
           </button>
         </div>
         &nbsp;&nbsp;
-        <div class="dropdown" >
+        <div class="dropdown" *ngIf="sinSesion!=true">
           <a class="btn btn-primary dropdown-item" style="background:transparent ; border-color: white"
             routerLink="/app-form-editUsuario">
 
@@ -77,7 +77,7 @@
         <app-logout class="boton" *ngIf="auth.isAuthenticated$ | async">
         </app-logout>
 
-        <ul *ngIf="auth.user$ | async as user">
+        <ul *ngIf="auth.user$ | async as user"  >
           <li class="usuario">{{ user.name }}</li>
           <li class="usuario">{{ user.email }}</li>
         </ul>
