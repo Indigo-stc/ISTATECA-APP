@@ -1,34 +1,27 @@
 <body>
-<hr />
-<button
-  style="margin: 50px; padding: 10px"
-  type="button"
-  class="btn btn-primary"
-  (click)="openPopup()">Sugerencias de Libros
-</button>
-<div
-  class="modal"
-  tabindex="-1"
-  role="dialog"
-  [ngStyle]="{'display':displayStyle}">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Sugierenos un nuevo Libro</h4>
-      </div>
-      <div class="modal-body">
-        <textarea class="form-control" placeholder="Dejanos una sugerencias de algun libro" id="floatingTextarea"></textarea>
-  
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" 
-                (click)="closePopup()">
-          Close
-        </button>
+  <hr />
+  <button style="margin: 50px; padding: 10px" type="button" class="btn btn-primary" (click)="openPopup()">Sugerencias de
+    Libros
+  </button>
+  <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayStyle}">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Sugierenos un nuevo Libro</h4>
+        </div>
+        <div class="modal-body">
+          <textarea class="form-control" placeholder="Dejanos una sugerencias de algun libro"
+            id="floatingTextarea"></textarea>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" (click)="closePopup()">
+            Close
+          </button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
   <div class="contenedor">
     <div class="tarjeta">

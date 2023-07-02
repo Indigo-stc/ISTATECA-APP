@@ -14,19 +14,7 @@ body {
     border-radius: 2%;
 }
 
-textarea {
-    width: 90%;
-    height: 20px;
-    margin-left: 2%;
-    margin-top: 1%;
-    margin-bottom: 1%;
-}
 
-* {
-    margin-top: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
 
 .contenedor-principal {
     width: 100%;

@@ -4,7 +4,6 @@ import { DevolverLibroComponent } from './devolver-libro/devolver-libro.componen
 import { RegistroUsuarioComponent } from './registro-usuario/registro-usuario.component';
 import { ReporteSugerenciasComponent } from './reporte-sugerencias/reporte-sugerencias.component';
 import { ReporteLibrosComponent } from './reporte-libros/reporte-libros.component';
-import { InicioSesionComponent } from './inicio-sesion/inicio-sesion.component';
 import { FormComponent } from './registro-usuario/form.component';
 import { FormComponentb } from './registro-bibliotecario/form.component';
 import { FormEditBComponent } from './registro-bibliotecario/form-edit-b.component';
@@ -26,12 +25,11 @@ const routes: Routes = [
       {path: 'app-registro-usuario', component: RegistroUsuarioComponent},
       {path: 'app-reporte-sugerencias', component: ReporteSugerenciasComponent},
       {path: 'app-reporte-libros', component: ReporteLibrosComponent},
-      {path: '', component: InicioSesionComponent, pathMatch:'full'},
       {path: 'app-form', component: FormComponent},
       {path: 'app-form-bibliotecario', component: FormComponentb},
       {path: 'app-form-editBibliotecario', component: FormEditBComponent},
       {path: 'app-form-editUsuario', component: FormEditComponent},
-      {path: 'app-home', component: HomeComponent},
+      {path: '', component: HomeComponent},
       {path: 'app-registro-bibliotecario', component: RegistroBibliotecarioComponent},
       {path: 'app-lista-bibliotecarios', component: ListaBibliotecariosComponent},
       {path: 'app-listas', component: ListasComponent},
