@@ -7,6 +7,7 @@ import { NgForm } from '@angular/forms';
 
 import Swal from 'sweetalert2';
 import { RegistroUsuarioService } from '../services/registro-usuario.service';
+import { PersonaService } from '../services/persona.service';
 
 @Component({
   selector: 'app-form-bibliotecario',
@@ -21,7 +22,7 @@ export class FormComponentb implements OnInit {
   idb?:number;
   step = 1;
   totalSteps = 2;
-  constructor(private usuarioservice: RegistroUsuarioService,private bibliotecarioservice: RegistroBibliotecarioService, private router: Router) { }
+  constructor(private usuarioservice: RegistroUsuarioService,private bibliotecarioservice: RegistroBibliotecarioService, private router: Router, private personaServices:PersonaService) { }
 
   ngOnInit(): void {
   }
@@ -39,16 +40,7 @@ export class FormComponentb implements OnInit {
   }
 
   public create(): void {
-    console.log("ha realizado un clic")
-    //this.usuario=this.persona
     this.persona.activo = true;
-    
-    
-
-
-
-    console.log(this.persona)
-
     if(this.persona.celular==="" ){
       Swal.fire({
         title: '<strong>Verifique su Cedula!</strong>',
@@ -57,12 +49,8 @@ export class FormComponentb implements OnInit {
         icon: 'warning'
       })
     }else{
-    this.usuarioservice.createPersona(this.persona).subscribe(
-      
-      response => {var personaJSONSET = JSON.stringify(response);
-        localStorage.setItem("persona", personaJSONSET),console.log(response),this.bibliotecarios.persona = response
-       /*,this.router.navigate([''])*/
-        //Swal.fire('Usuario Guardado','Te damos la bienvenida "'+this.usuario.persona?.nombres+'" te has registrado con exito','success')
+    this.usuarioservice.createPersonaFuncion(this.persona).subscribe(
+      response => {
         Swal.fire({
           title: '<strong>¡Usuario Guardado!</strong>',
           confirmButtonText: 'OK',
@@ -79,11 +67,7 @@ export class FormComponentb implements OnInit {
             alert(response.nombres),this.editarPersona(response)
           )
         )
-        
-        
-      
       )
-      
     )
     }
 
@@ -92,7 +76,7 @@ export class FormComponentb implements OnInit {
   editarPersona(persona:Persona){
     persona.tipo=this.persona.tipo
     persona.correo=this.persona.correo
-    this.usuarioservice.updatePersona(persona).subscribe(
+    this.personaServices.updatePersona(persona).subscribe(
       response=>{
         console.log(response)
         this.bibliotecarios.persona=response
@@ -101,16 +85,7 @@ export class FormComponentb implements OnInit {
   }
 
   public createbibliotecario() {
-    
-
-    console.log("ha realizado un clic")
-    
     this.persona.activo = true;
-
-    
-
-    console.log(this.bibliotecarios.persona)
-    console.log(this.persona.tipo)
     this.bibliotecarioservice.create(this.bibliotecarios).subscribe(
       response => { this.bibliotecarios 
       Swal.fire({
@@ -119,18 +94,25 @@ export class FormComponentb implements OnInit {
         confirmButtonColor: '#012844',
         icon: 'success',
         html:
-          '<b>'+this.bibliotecarios.persona?.nombres+'</b><br>'+
+          '<b>'+this.bibliotecarios.persona?.nombres+' '+this.bibliotecarios.persona?.apellidos+'</b><br>'+
           'te has registrado con exito'
       })
+      this.router.navigate([''])
     }
     );
+    
   }
 
   buscarFenix(cedula: string) {
 
 
     if (cedula == "") {
-      alert('INGRESE UNA CEDULA')
+      Swal.fire({
+        confirmButtonColor: '#012844',
+        icon: 'warning',
+        title: 'Ups...',
+        text: 'Ingrese la cédula'
+      })
     } else {
       if (cedula.length === 10) {
         this.usuarioservice.obtenerPersonasFuncion(cedula).subscribe(

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Usuario } from '../models/Usuario';
 import { Persona } from '../models/Persona';
 import { PersonaP } from '../models/PersonaP';
+import { PersonaService } from '../services/persona.service';
 import { ErrorHandler } from '@angular/core';
 import Swal from 'sweetalert2';
 
@@ -23,7 +24,7 @@ export class FormEditComponent implements OnInit {
 
 
 
-  constructor(private usuarioservice: RegistroUsuarioService, private router: Router) { }
+  constructor(private usuarioservice: RegistroUsuarioService, private router: Router,private  personaServices:PersonaService) { }
 
   ngOnInit(): void {
     
@@ -55,7 +56,7 @@ export class FormEditComponent implements OnInit {
       if (result.isConfirmed) {
         
         
-        this.usuarioservice.updatePersona(persona)
+        this.personaServices.updatePersona(persona)
           .subscribe(data => {
             this.persona = data
           })

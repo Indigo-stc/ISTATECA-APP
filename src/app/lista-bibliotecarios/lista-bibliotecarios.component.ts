@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { RegistroBibliotecarioService } from '../services/registro-bibliotecario.service';
-import { Bibliotecario } from '../models/Bibliotecario_Cargo';
 import { Persona } from '../models/Persona';
 import { PersonaService } from '../services/persona.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-lista-bibliotecarios',
   templateUrl: './lista-bibliotecarios.component.html',
@@ -10,25 +9,24 @@ import { PersonaService } from '../services/persona.service';
 })
 export class ListaBibliotecariosComponent implements OnInit {
   bibliotecarios: Persona[] = [];
-  bibli: Bibliotecario = new Bibliotecario;
+  Bibliotecario:Persona=new Persona();
   val: String = "";
-  bus: boolean = true;
+  bus?: boolean;
   buscarval: boolean = false;
 
-  constructor(private personaService: PersonaService) { }
+  constructor(private personaService: PersonaService,  private router: Router) { }
 
   ngOnInit(): void {
     this.personaService.getPersonas().subscribe(
       response => {
         response.forEach(element => {
-          if (element.tipo== 3) {
+          if (element.tipo== 3 || element.tipo==4) {
             this.bibliotecarios.push(element);
           }
         });
       }
     );
-    this.buscarval = false;
-    this.bus = true;
+    this.bus = false;
   }
   onKeydownEvent(event: KeyboardEvent, cedula:String): void {
     if(cedula==""){
@@ -39,13 +37,18 @@ export class ListaBibliotecariosComponent implements OnInit {
 
   buscar(cedula: String) {
     console.log("Cedula: "+cedula);
-    this.bus = false;
-      /*this.bibliotecarioservice.buscarBibliotecarios(cedula).subscribe(data => {
-        this.bibli = data;
-        this.buscarval = true;
-      });*/
+    this.bus = true;
+    this.personaService.listarxcedula(cedula).subscribe(
+      response => {
+        this.Bibliotecario=response;
+      }
+    );
   }
 
- 
+ modificar(bibliotecario:Persona){
+  const objetoString = JSON.stringify(bibliotecario);
+    localStorage.setItem("ModificarBliotecario", objetoString);
+    this.router.navigate(['/app-form-editBibliotecario']);
+ }
 
 }

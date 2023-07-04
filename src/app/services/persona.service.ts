@@ -12,6 +12,8 @@ export class PersonaService {
   private urlendpoint1: string = 'http://localhost:8080/api/num_rol';
   private urlendpoint2: string = 'http://localhost:8080/api/validarPersona';
   private urlendpoint3: string = 'http://localhost:8080/persona/listar';
+  private urlendpointBuscarCedula: string = 'http://localhost:8080/persona/personaxcedula';
+  private urlendpointeditarpers: string = 'http://localhost:8080/persona/editar';
   private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' })
   constructor(private http: HttpClient) { }
   validarLogin(usuario: String, clave: String):Observable<boolean>{
@@ -28,6 +30,14 @@ export class PersonaService {
   }
   getPersonas(): Observable<Persona[]> {
     return this.http.get<Persona[]>(this.urlendpoint3);
+  }
+  listarxcedula(cedula: String)
+    : Observable<Persona> {
+    let res = this.urlendpointBuscarCedula + "/"+cedula;
+    return this.http.get<Persona>(res);
+  }
+  updatePersona(persona: Persona) {
+    return this.http.put<Persona>(this.urlendpointeditarpers + "/" + persona.id, persona);
   }
  /* tipo_usuario(id_persona:number, rol:number):Observable<Usuario>{
     let res=this.urlendpoint3+"?id_persona="+id_persona+"&rol="+rol;

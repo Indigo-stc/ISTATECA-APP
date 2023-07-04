@@ -30,39 +30,36 @@
           </tr>
 
         </thead>
-        <tbody class="text-center" *ngIf=bus>
+        <tbody class="text-center" *ngIf=!bus>
           <tr *ngFor="let bibliotecario of bibliotecarios">
             <td #cedula>{{bibliotecario.cedula}}</td>
-            <td #cedula>{{bibliotecario.nombres}}</td>
+            <td #cedula>{{bibliotecario.nombres}}&nbsp;{{ bibliotecario.apellidos}}</td>
             <td #rol *ngIf="bibliotecario.tipo==4 else menor">Administrador</td>
             <ng-template #menor>
               <td *ngIf="bibliotecario.tipo==3">Bibliotecario</td>
             </ng-template>
             <td #activo *ngIf="bibliotecario.activo else mm">Activo</td>
             <ng-template #mm>
-              <p>Inactivo</p>
+              <td>Inactivo</td>
             </ng-template>
-            <td class="td1"><button>Modificar</button></td>
+            <td class="td1"><button (click)="modificar(bibliotecario)">Modificar</button></td>
           </tr>
         </tbody>
 
-        <tbody class="text-center" *ngIf="buscarval">
-          <!--
-          <tr id="">
-            <td><input class="form-check-input" type="checkbox" role="switch"></td>
-            <td>{{bibli.persona?.cedula}}</td>
-            <td #cedula>{{bibli.persona?.nombres}}</td>
-            <td *ngIf="bibli.persona?.rol==0 else menor">Administrador</td>
+        <tbody class="text-center" *ngIf="bus">
+          <tr>
+            <td>{{Bibliotecario.cedula}}</td>
+            <td #cedula>{{Bibliotecario.nombres}}</td>
+            <td *ngIf="Bibliotecario?.tipo==4 else menor">Administrador</td>
             <ng-template #menor>
               <p>Bibliotecario</p>
             </ng-template>
-            <td>{{bibli.fecha_inicio}}</td>
-            <td>{{bibli.fecha_fin| date:'shortDate'}}</td>
-            <td *ngIf="bibli.activo_bibliotecario else mm">Activo</td>
+            <td *ngIf="Bibliotecario.activo else mm">Activo</td>
             <ng-template #mm>
-              <p>Inactivo</p>
+              <td>Inactivo</td>
             </ng-template>
-          </tr>-->
+            <td class="td1"><button (click)="modificar(Bibliotecario)">Modificar</button></td>
+          </tr>
         </tbody>
       </table>
     </div>

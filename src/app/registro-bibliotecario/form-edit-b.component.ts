@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Persona } from '../models/Persona';
 import { PersonaP } from '../models/PersonaP';
 import Swal from 'sweetalert2';
+import { PersonaService } from '../services/persona.service';
 
 @Component({
   selector: 'app-form-editBibliotecario',
@@ -12,41 +13,24 @@ import Swal from 'sweetalert2';
   styleUrls: ['./form-edit-b.component.css']
 })
 export class FormEditBComponent implements OnInit {
-  public reporteV: String = "";
-  public bibliotecarios: Bibliotecario = new Bibliotecario();
   persona: Persona = {};
-  personaP: PersonaP = {};
-  bibliotecarioE: Bibliotecario = {};
-  idb?: number;
-  public  estado?:string;
-  rols?:number;
-  public tipob?:string;
+  public estado?: string;
+  rols?: number;
   RadioAdmin: any = document.getElementById('admin');
   RadioBibliotecario: any = document.getElementById('biblioteca');
 
 
-  constructor(public bibliotecarioservice: RegistroBibliotecarioService, private router: Router) { }
+  constructor(public personaServices: PersonaService, private router: Router) { }
 
   ngOnInit(): void {
-    this.reporteV = localStorage.getItem('persona') + "";
-    console.log("Bibliotecario: " + this.reporteV + "")
-    this.buscar(this.reporteV + "");
-
+    let usuarioJSON = localStorage.getItem('ModificarBliotecario') + "";
+    this.persona = JSON.parse(usuarioJSON);
   }
 
-  onKeydownEvent(event: KeyboardEvent, cedula: string): void {
-    if (cedula == "") {
-      alert('INGRESE UN ID')
-      window.location.reload();
-    }
 
-    if (cedula !== "") {
-      this.buscar(this.reporteV + "");
-    }
 
-  }
 
-  actualizarBibliotecario(bibliotecarios: Bibliotecario) {
+  actualizarBibliotecario(personaM: Persona) {
     Swal.fire({
       title: '¿Quieres guardar los cambios?',
       text: "¡No puede revertir los datos!",
@@ -58,43 +42,60 @@ export class FormEditBComponent implements OnInit {
       confirmButtonText: '¡Si, modificalo!'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.bibliotecarios.persona = this.persona
-        this.bibliotecarios.id = this.bibliotecarioE.id
-        this.persona.id = this.bibliotecarioE.persona?.id
-        this.persona.activo = true;
 
 
-        this.bibliotecarioservice.update(bibliotecarios)
-          .subscribe(data => {
-            this.bibliotecarios = data;
-          })
-          Swal.fire({
-            title: '<strong>¡Bibliotecario Actualizado!</strong>',
-              confirmButtonText: 'OK',
-              confirmButtonColor: '#012844',
-              icon: 'success',
-              html:
-              
-                'El bibliotecario<br><b>'+this.bibliotecarios.persona?.nombres+'</b><br>'+
-                'ha sido actualizado correctamente'
-            
-           }
-           
-          )
-          this.router.navigate(['app-pagina-inicio'])
+        this.personaServices.updatePersona(this.persona)
+          .subscribe({
+            next: response => {
+              Swal.fire({
+                title: '<strong>Personal Actualizado!</strong>',
+                confirmButtonText: 'OK',
+                confirmButtonColor: '#012844',
+                icon: 'success',
+                html:
+
+                  'El bibliotecario<br><b>' + this.persona?.nombres + ' ' + this.persona.apellidos + '</b><br>' +
+                  'ha sido actualizado correctamente'
+
+              });
+              this.router.navigate([''])
+            },
+            error: error => {
+              Swal.fire({
+                title: '<strong>No se pudo actualizar el personal</strong>',
+                confirmButtonColor: '#012844',
+                icon: 'error',
+              });
+            }
+          });
+
 
 
 
       }
     })
-    
 
 
-  
 
-}
 
-  buscar(idss: string) {
+
+  }
+
+  getNombreEstado(estado: boolean | undefined): string {
+    let nombreEstado = 'Desconocido'; // Valor predeterminado si el número del estado es undefined
+
+    if (estado !== undefined) {
+      if (estado == true) {
+        nombreEstado = "Activo";
+      }else{
+        nombreEstado="Inactivo"
+      }
+    }
+
+    return nombreEstado;
+  }
+
+  /*buscar(idss: string) {
 
     this.idb = Number.parseInt(idss)
 
@@ -120,12 +121,12 @@ export class FormEditBComponent implements OnInit {
         }
       }
     )
-  }
-  tipoBibliotecario(rol:string){
-    this.rols=Number.parseInt(rol)
-    if(this.rols==0){
+  }*/
+  tipoBibliotecario(rol: string) {
+    this.rols = Number.parseInt(rol)
+    if (this.rols == 0) {
       alert("Admin")
-    }else if(this.rols==1){
+    } else if (this.rols == 1) {
       alert("bibliotecario")
     }
   }

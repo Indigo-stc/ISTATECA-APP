@@ -33,9 +33,6 @@ export class RegistroUsuarioService {
     return this.http.post<Persona>(this.urlendpointcrearpers, persona, { headers: this.httpHeaders })
   }
 
-  updatePersona(persona: Persona) {
-    return this.http.put<Persona>(this.urlendpointeditarpers + "/" + persona.id, persona);
-  }
 
   obtenerCedula(cedula: string): Observable<Persona> {
     //return of(CLIENTES)
