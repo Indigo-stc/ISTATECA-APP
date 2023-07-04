@@ -22,6 +22,7 @@ export class FormComponentb implements OnInit {
   idb?:number;
   step = 1;
   totalSteps = 2;
+  rol:string=""
   constructor(private usuarioservice: RegistroUsuarioService,private bibliotecarioservice: RegistroBibliotecarioService, private router: Router, private personaServices:PersonaService) { }
 
   ngOnInit(): void {
@@ -38,10 +39,21 @@ export class FormComponentb implements OnInit {
       this.step--;
     }
   }
+  //asignacion de roles
+  onRolSeleccionado() {
+    // Asignar el valor correspondiente a la variable "rolSeleccionado"
+    if (this.persona.tipo == 4) {
+      this.rol = 'ROLE_ADMIN';
+
+    }else if (this.persona.tipo == 3) {
+      this.rol = 'ROLE_BLIB';
+
+    }
+  }
 
   public create(): void {
     this.persona.activo = true;
-    if(this.persona.celular==="" ){
+    if(this.persona.cedula==="" ){
       Swal.fire({
         title: '<strong>Verifique su Cedula!</strong>',
         confirmButtonText: 'OK',
@@ -49,7 +61,7 @@ export class FormComponentb implements OnInit {
         icon: 'warning'
       })
     }else{
-    this.usuarioservice.createPersonaFuncion(this.persona).subscribe(
+    this.usuarioservice.createPersonaFuncion(this.persona,this.rol).subscribe(
       response => {
         Swal.fire({
           title: '<strong>¡Usuario Guardado!</strong>',
@@ -60,14 +72,8 @@ export class FormComponentb implements OnInit {
             '<b>' + response.nombres + '</b><br>' +
             'te has registrado con exito'
         });
-        this.createbibliotecario()
-      },error=>(
-        this.usuarioservice.obtenerCedula(this.persona.cedula+"").subscribe(
-          response=>(
-            alert(response.nombres),this.editarPersona(response)
-          )
-        )
-      )
+        
+      }
     )
     }
 
@@ -116,7 +122,7 @@ export class FormComponentb implements OnInit {
     } else {
       if (cedula.length === 10) {
         this.usuarioservice.obtenerPersonasFuncion(cedula).subscribe(
-          response =>( this.persona = response)
+          response =>( this.persona = response),error=>(alert("no estas registrado"),this.persona.cedula="")
 
 
         )
@@ -130,6 +136,12 @@ export class FormComponentb implements OnInit {
         this.persona.nombres=""
         this.persona.apellidos=""
         this.persona.celular=""
+        this.persona.correo=""
+        this.persona.tipo=undefined
+        this.persona.activo=false
+        this.rol=""
+        
+
       }
 
     }

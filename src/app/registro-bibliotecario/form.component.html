@@ -27,10 +27,10 @@
             <div class="input-box">
               <span class="details">Nombres:</span>
               <input #nombre type="text" class="form-control text-center" [(ngModel)]="persona.nombres"
-                placeholder="Aqui apareceran sus datos" name="nombre" required>
+                placeholder="Aqui apareceran sus datos" name="nombre" required readonly>
               <span class="details">Apellidos:</span>
               <input #apellidos type="text" class="form-control text-center" [(ngModel)]="persona.apellidos"
-                placeholder="Aqui apareceran sus datos" name="apellidos" required>
+                placeholder="Aqui apareceran sus datos" name="apellidos" required readonly>
 
 
             </div>
@@ -54,14 +54,14 @@
             <div class="input-box">
               <span class="details" style="margin-right: 20%;">Rol:</span>
               <input class="form-check-input" type="radio" name="flexRadioDefault1" value="4" id="admin"
-                [(ngModel)]="persona.tipo" style="height: 20px; width: 20px;" required>
+                [(ngModel)]="persona.tipo"  (change)="onRolSeleccionado()" style="height: 20px; width: 20px;" required>
               <label class="form-check-label" for="flexRadioDefault3" style="margin-right: 10%;">
                 Administrador
               </label>
 
               &nbsp;&nbsp;&nbsp;&nbsp;
               <input class="form-check-input" type="radio" name="flexRadioDefault1" value="3" id="biblioteca"
-                [(ngModel)]="persona.tipo" style="height: 20px; width: 20px; " required><label class="form-check-label" for="flexRadioDefault4">
+                [(ngModel)]="persona.tipo"  (change)="onRolSeleccionado()" style="height: 20px; width: 20px; " required><label class="form-check-label" for="flexRadioDefault4">
                 Bibliotecario
               </label>
             </div>

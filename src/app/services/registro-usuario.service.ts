@@ -18,7 +18,7 @@ export class RegistroUsuarioService {
   private urlendpointbuscarfuncion: string = 'http://localhost:8080/persona/personadocente';
   private urlendpoint2: string = 'http://localhost:8080/usuariofenix/buscarusuario';
   private urlendpoint3: string = 'http://localhost:8080/api/editarusuario';
-  private urlendpoint4: string = 'http://localhost:8080/persona/buscar';
+  private urlendpoint4: string = 'http://localhost:8080/persona/registrardocenteadmin';
   private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' })
   constructor(private http: HttpClient) { }
 
@@ -29,10 +29,13 @@ export class RegistroUsuarioService {
     return this.http.post<Persona>(this.urlendpointcrearpers, persona, { headers: this.httpHeaders })
   }
 
-  createPersonaFuncion(persona: Persona): Observable<Persona> {
-    return this.http.post<Persona>(this.urlendpointcrearpers, persona, { headers: this.httpHeaders })
+  createPersonaFuncion(persona: Persona,rol:string): Observable<Persona> {
+    return this.http.post<Persona>(this.urlendpoint4+"?rol="+rol, persona, { headers: this.httpHeaders })
   }
 
+  updatePersona(persona: Persona) {
+    return this.http.put<Persona>(this.urlendpointeditarpers + "/" + persona.id, persona);
+  }
 
   obtenerCedula(cedula: string): Observable<Persona> {
     //return of(CLIENTES)
