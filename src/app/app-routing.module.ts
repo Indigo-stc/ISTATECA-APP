@@ -17,6 +17,7 @@ import { SolicitudLibroComponent } from './solicitud-libro/solicitud-libro.compo
 import { SolicitudLibroDomicilioComponent } from './solicitud-libro-domicilio/solicitud-libro-domicilio.component';
 import { VistaRegistroNewComponent } from './vista-registro-new/vista-registro-new.component';
 import { AuthGuard } from '@auth0/auth0-angular';
+import { RegistroSolicitudComponent } from './registro-solicitud/registro-solicitud.component';
 import { RegistroAutorComponent } from './registro-autor/registro-autor.component';
 import { RegistroTipoComponent } from './registro-tipo/registro-tipo.component';
 
@@ -29,6 +30,7 @@ const routes: Routes = [
       {path: 'app-form-bibliotecario', component: FormComponentb},
       {path: 'app-form-editBibliotecario', component: FormEditBComponent},
       {path: 'app-form-editUsuario', component: FormEditComponent},
+      {path: 'app-registro-solicitud', component: RegistroSolicitudComponent},
       {path: '', component: HomeComponent},
       {path: 'app-registro-bibliotecario', component: RegistroBibliotecarioComponent},
       {path: 'app-lista-bibliotecarios', component: ListaBibliotecariosComponent},

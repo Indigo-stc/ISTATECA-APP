@@ -17,33 +17,42 @@ import { Router } from '@angular/router';
 })
 export class SolicitudLibroComponent implements OnInit {
   prestamo: Prestamo = new Prestamo();
-  persona: Persona= new Persona();
+  prestamo2: Prestamo = new Prestamo();
+  persona: Persona = new Persona();
   carreras: Carrera[] = [];
   car: Carrera = new Carrera;
   reporteV: string = "";
   mostrar: boolean = false;
   doch: doch[] = []
   variable?: number
-  documentoH?:number;
+  documentoH?: number;
 
+  modificar?: boolean;
   documentos: doch = new doch;
   names?: string[] = [];
   idC?: number;
   step = 1;
   totalSteps = 2;
-  constructor(private router: Router,private carreraService: CarreraService, private PrestamoService: prestamoService) { }
+  constructor(private router: Router, private carreraService: CarreraService, private PrestamoService: prestamoService) { }
   ngOnInit(): void {
-    this.reporteV = localStorage.getItem('persona') + "";
-    let usuarioJSON = localStorage.getItem('persona') + "";
-    this.persona = JSON.parse(usuarioJSON);
-    var solicitudJSONGET = localStorage.getItem("AceptarSolicitud");
-    var solicitud = JSON.parse(solicitudJSONGET + "");
-    this.prestamo = solicitud;
-    this.carreraService.getCarreras().subscribe(
-      respose => {
-        this.carreras = respose;
-      }
-    );
+    let prestamoJSON = localStorage.getItem('prestamo') + "";
+    this.prestamo2 = JSON.parse(prestamoJSON);
+    if (this.prestamo2 == undefined || this.prestamo2 == null) {
+      this.modificar = false;
+      let usuarioJSON = localStorage.getItem('persona') + "";
+      this.persona = JSON.parse(usuarioJSON);
+      var solicitudJSONGET = localStorage.getItem("AceptarSolicitud");
+      var solicitud = JSON.parse(solicitudJSONGET + "");
+      this.prestamo = solicitud;
+      console.log(this.prestamo)
+      this.carreraService.getCarreras().subscribe(
+        respose => {
+          this.carreras = respose;
+        }
+      );
+    } else {
+      this.modificar = true;
+    }
 
   }
 
@@ -60,13 +69,13 @@ export class SolicitudLibroComponent implements OnInit {
 
 
   guardar() {
-    
-    this.prestamo.estadoPrestamo=2;
+
+    this.prestamo.estadoPrestamo = 2;
     this.prestamo.carrera = this.car;
-    this.prestamo.idEntrega=this.persona;
-    
-    if (this.idC != undefined && this.documentoH!=undefined) {
-      this.prestamo.documentoHabilitante=this.documentoH;
+    this.prestamo.idEntrega = this.persona;
+
+    if (this.idC != undefined && this.documentoH != undefined) {
+      this.prestamo.documentoHabilitante = this.documentoH;
       this.carreraService.obtenerCarreraId(this.idC).subscribe(
         response => {
           this.prestamo.carrera = response;
@@ -86,7 +95,23 @@ export class SolicitudLibroComponent implements OnInit {
         }
       );
     }
-    
+
+
+  }
+
+  guardar2() {
+    this.PrestamoService.update(this.prestamo2).subscribe(
+      response => {
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: '<strong>Guardado correctamente</strong>',
+          showConfirmButton: false,
+          timer: 1500
+        })
+        this.router.navigate(['/app-lista-solicitudes-pendientes']);
+      }
+    );
 
   }
 

@@ -24,6 +24,7 @@ export class ListaSolicitudesPendientesComponent implements OnInit {
   constructor(private prestamoService: prestamoService, private router: Router) { }
 
   ngOnInit(): void {
+    localStorage.removeItem('prestamo');
     localStorage.removeItem('solicitudCompleta'); 
     localStorage.removeItem('estadoR'); 
     this.pendientes = true;
@@ -36,7 +37,6 @@ export class ListaSolicitudesPendientesComponent implements OnInit {
     this.prestamoService.listarxestado(1).subscribe(
       response => {
         this.listaprestamos = response;
-        console.log("Lista Prestamos: " + this.listaprestamos.length);
       }
 
     );
@@ -83,7 +83,6 @@ export class ListaSolicitudesPendientesComponent implements OnInit {
     this.prestamoService.listarxestado(2).subscribe(
       response => {
         this.listaprestamos = response;
-        console.log("Lista Prestamos: " + this.listaprestamos.length);
       }
 
     );
@@ -99,7 +98,6 @@ export class ListaSolicitudesPendientesComponent implements OnInit {
     this.prestamoService.listarxestado(3).subscribe(
       response => {
         this.listaprestamos = response;
-        console.log("Lista Prestamos: " + this.listaprestamos.length);
       }
 
     );
@@ -115,7 +113,6 @@ export class ListaSolicitudesPendientesComponent implements OnInit {
     this.prestamoService.listarxestado(5).subscribe(
       response => {
         this.listaprestamos = response;
-        console.log("Lista Prestamos: " + this.listaprestamos.length);
       }
 
     );
@@ -132,7 +129,6 @@ export class ListaSolicitudesPendientesComponent implements OnInit {
     this.prestamoService.listarxestado(6).subscribe(
       response => {
         this.listaprestamos = response;
-        console.log("Lista Prestamos: " + this.listaprestamos.length);
       }
 
     );
@@ -188,6 +184,11 @@ export class ListaSolicitudesPendientesComponent implements OnInit {
     }
 
     return nombreEstado;
+  }
+  modificar(prestamo:Prestamo){
+    const objetoString = JSON.stringify(prestamo);
+    localStorage.setItem("prestamo", objetoString);
+    this.router.navigate(['/app-solicitud-libro']);
   }
 
   onKeydownEvent(event: KeyboardEvent, buscar2: String): void {

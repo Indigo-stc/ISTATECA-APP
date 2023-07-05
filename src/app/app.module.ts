@@ -36,6 +36,7 @@ import { AuthGuard } from './guards/auth.guard';
 
 import { RegistroTipoComponent } from './registro-tipo/registro-tipo.component';
 import { RegistroAutorComponent } from './registro-autor/registro-autor.component';
+import { RegistroSolicitudComponent } from './registro-solicitud/registro-solicitud.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { RegistroAutorComponent } from './registro-autor/registro-autor.componen
     LogoutComponent,
     RegistroTipoComponent,
     RegistroAutorComponent,
+    RegistroSolicitudComponent,
   ],
   imports: [
     BrowserModule,

@@ -24,12 +24,28 @@
                 src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fagregar%20(1).png?alt=media&token=077d2984-4b56-4b72-a862-7be65d5f4832"
                 alt="" width="25" height="25"></a>
           </li>
-          <li class="nav-item" *ngIf="estudiante==false">
-            <a class="nav-link active" href="#" routerLink="/app-lista-solicitudes-pendientes" >
+
+          <li class="nav-item dropdown" *ngIf="estudiante==false">
+            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
               <img
-                src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fleyendo.png?alt=media&token=c5b2cfa9-9418-4087-aff0-b7e6f07fbe1b"
-                alt="" width="25" height="25"></a>
+              src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fleyendo.png?alt=media&token=c5b2cfa9-9418-4087-aff0-b7e6f07fbe1b"
+              alt="" width="25" height="25">
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+              *ngIf="nuevosRegistros > 0">
+              {{nuevosRegistros}}
+              <span class="visually-hidden">unread messages</span>
+            </span>
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" routerLink="/app-lista-solicitudes-pendientes">Lista de Solicitudes</a></li>
+              <li>
+                <hr class="dropdown-divider">
+              </li>
+              <li><a class="dropdown-item" routerLink="/app-registro-solicitud">Registrar una Solicitud</a></li>
+            </ul>
           </li>
+
+
           <li class="nav-item dropdown" *ngIf="estudiante==false">
             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">
               <img
@@ -68,11 +84,7 @@
             <img
               src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fnotificacion.png?alt=media&token=d3afd330-3414-4ed6-b131-a498de2ba691"
               alt="" width="25" height="25">
-            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
-              *ngIf="nuevosRegistros > 0">
-              {{nuevosRegistros}}
-              <span class="visually-hidden">unread messages</span>
-            </span>
+           
           </button>
         </div>
         &nbsp;&nbsp;
