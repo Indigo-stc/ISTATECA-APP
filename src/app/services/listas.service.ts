@@ -14,6 +14,7 @@ export class ListasService {
   private urlendpointBuscarAutor:string='http://localhost:8080/autor/listarautoresxnombre';
   private urlendpointBuscarTipo:string='http://localhost:8080/tipo/buscarxnombre';
   private urlendpointTipo:string='http://localhost:8080/tipo/crear';
+  
   private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'})
 
   constructor(private http:HttpClient) { }
@@ -44,4 +45,11 @@ export class ListasService {
     let res = this.urlendpointBuscarTipo+"?nombre="+nombre;
     return this.http.get<Tipo[]>(res);
   }
+  buscarTiposxnombre2(nombre: string)
+    {
+    let res = this.urlendpointBuscarTipo+"?nombre="+nombre;
+    return this.http.get<Tipo>(res);
+  }
+
+
 }
