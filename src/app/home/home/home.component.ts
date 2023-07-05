@@ -124,12 +124,17 @@ export class HomeComponent implements OnInit {
         var overlay = document.getElementById('overlay');
         overlay?.classList.add('active');
         this.notificacionesService.actualizarConteo(1)
+        this.notificar();
         console.log(response);
       }
     );
 
   }
-
+  public notificar(){
+    this.notificacionesService.getNotificacionBibliotecario().subscribe(
+        response =>(console.log(response),this.notificacionesService.notificationlista=response,console.log(this.notificacionesService.notificationlista))
+    )
+}
   confirmar(paginacrear: Libro) {
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {

@@ -8,6 +8,7 @@ import { getCookie } from "typescript-cookie";
 import { catchError, throwError } from "rxjs";
 import jwt_decode from 'jwt-decode';
 import Swal from 'sweetalert2';
+import { Notificacion } from "../models/Notificacion";
 
 @Component({
     selector: 'app-header',
@@ -22,14 +23,20 @@ export class HeaderComponent implements DoCheck, OnInit {
     bibliotecario: boolean = false;
     admin: boolean = false;
     usu: boolean = true;
-
-    constructor(private router: Router, private notificacionesService: NotificacionesService, public auth: AuthService, private logSer: LoginService) { }
-
+    notificacionmensaje:string=""
+    notificationlista: Notificacion[] = [];
+    notificaciones: any[] | undefined;
+    constructor(private router: Router, private notificacionesService: NotificacionesService, public auth: AuthService, private logSer: LoginService) { 
+        
+    }
+    
 
 
     get nuevosRegistros() { return this.notificacionesService.nuevosRegistros; }
 
     ngOnInit(): void {
+
+        this.notificar();
         this.auth.isAuthenticated$.subscribe(
             (isAuthenticaed) => {
                 if (isAuthenticaed) {
@@ -48,6 +55,8 @@ export class HeaderComponent implements DoCheck, OnInit {
 
 
     ngDoCheck(): void {
+        this.notificaciones = this.notificacionesService.getNotificationLista();
+        
         this.persona = JSON.parse(localStorage.getItem('persona') + "");
         if (this.persona != null) {
             if (this.persona.tipo == 1 || this.persona.tipo == 2) {
@@ -70,8 +79,12 @@ export class HeaderComponent implements DoCheck, OnInit {
             this.sinSesion = true
         }
     }
+    alerta(men:string){
+        alert("hola"+men)
+    }
     public ocultar() {
         this.notificacionesService.nuevosRegistros = 0;
+        console.log(this.notificaciones)
 
     }
     user?: User = new User;
@@ -99,6 +112,12 @@ export class HeaderComponent implements DoCheck, OnInit {
                 }
             }
         });
+    }
+
+    public notificar(){
+        this.notificacionesService.getNotificacionBibliotecario().subscribe(
+            response =>(console.log(response),this.notificacionesService.notificationlista=response,console.log(this.notificacionesService.notificationlista))
+        )
     }
 
     validateUser(model: Persona) {

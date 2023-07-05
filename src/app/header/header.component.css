@@ -51,3 +51,167 @@
 .usuario{
   color: white;
 }
+
+
+
+
+
+
+
+
+@import 'https://fonts.googleapis.com/css?family=Material+Icons';
+
+
+
+
+
+.notification-container {
+
+  cursor: default;
+  position: absolute;
+  z-index: 999;
+  top: 0;
+  right: 66%;
+  width: 400px;
+  font-weight: 300;
+  background: white;
+  border-radius: 0.5rem;
+  box-sizing: border-box;
+  box-shadow: 0.5rem 0.5rem 2rem 0 rgba(0, 0, 0, 0.2);
+  animation-name: dropPanel;
+  animation-iteration-count: 1;
+  animation-timing-function: all;
+  animation-duration: 0.75s;
+}
+
+.notification-container h3 {
+  text-transform: uppercase;
+  font-size: 75%;
+  font-weight: 700;
+  color: #84929f;
+  padding: 1.5rem 2rem;
+}
+.notification-container i {
+  color: #b5c4d2;
+  font-size: 140%;
+  @vertical-align (50%);
+  position: absolute;
+}
+.notification-container i.right {
+  right: 2rem;
+}
+.notification-container i.right:hover {
+  opacity: 0.8;
+  cursor: pointer;
+}
+.notification-container em {
+  margin-right: 0.75rem;
+  font-weight: 700;
+  font-size: 115%;
+  color: #b5c4d2;
+  vertical-align: bottom;
+  display: inline-block;
+}
+
+@keyframes dropPanel {
+  0% {
+    opacity: 0;
+    transform: translateY(-100px) scaleY(0.5);
+  }
+}
+.notification {
+  box-sizing: border-box;
+}
+.notification.new {
+  background: #f3f9fd;
+}
+
+input.checkbox[type=checkbox] {
+  display: none;
+}
+input.checkbox[type=checkbox] + label {
+  display: block;
+}
+input.checkbox[type=checkbox]:not(:checked) + label {
+  transition: height 0.25s;
+  height: 0;
+  padding: 0;
+  font-size: 0;
+  border: none;
+}
+input.checkbox[type=checkbox]:not(:checked) + label * {
+  display: none;
+}
+input.checkbox[type=checkbox]:checked + label {
+  height: 3.25rem;
+  padding: 1.125rem 4rem 0.75rem 2rem;
+  font-size: 75%;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.red {
+  color: #f8b2a6 !important;
+}
+
+.teal {
+  color: #7fa6ec;
+}
+
+.gray {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+.gray-bg {
+  background: rgba(255, 255, 255, 0.2) !important;
+}
+
+.primary-button {
+  background: cornflowerblue;
+  border: 2px solid cornflowerblue;
+}
+
+.secondary-button {
+  border: 2px solid #B2B9C5;
+  background: none;
+  color: #B2B9C5;
+}
+
+.left {
+  margin-right: 0.75rem;
+  float: left;
+}
+
+.right {
+  margin-left: 0.75rem;
+  float: right;
+}
+
+spacer {
+  width: 100%;
+}
+
+
+button:hover {
+  opacity: 0.9;
+}
+
+.notification-icon {
+  position: relative;
+  margin-right: 1em;
+  border-radius: 5px;
+  background: #ecf0f1;
+}
+.notification-icon i {
+  margin: 0.5rem;
+}
+.notification-icon:nth-of-type(1) i {
+  background: -webkit-linear-gradient(300deg, #acccea, #6495ed);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.notification-icon:nth-of-type(2) i {
+  background: -webkit-linear-gradient(300deg, #fff9ab, #00b8ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+

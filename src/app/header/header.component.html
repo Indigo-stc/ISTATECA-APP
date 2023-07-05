@@ -79,13 +79,46 @@
         
 
         <div *ngIf="sinSesion!=true">
-          <button type="button" class="position-relative" style="background:transparent ; border-color: transparent"
-            (click)="ocultar()" routerLink="/">
-            <img
-              src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fnotificacion.png?alt=media&token=d3afd330-3414-4ed6-b131-a498de2ba691"
-              alt="" width="25" height="25">
-           
-          </button>
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+              <img
+                src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fnotificacion.png?alt=media&token=d3afd330-3414-4ed6-b131-a498de2ba691"
+                alt="" width="25" height="25">
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+                *ngIf="nuevosRegistros > 0">
+                {{nuevosRegistros}}
+                <span class="visually-hidden">unread messages</span>
+              </span>
+            </button>
+            <div class="dropdown-menu" style="max-width: 200px; background-color: transparent; border: none;"
+              (change)="ocultar()">
+              <div class="notification-container">
+                <h3>Notifications
+                  <i class="material-icons dp48 right">settings</i>
+                </h3>
+                
+
+                <label (click)="ocultar()">
+                  
+                  <table class="table">
+                        
+                    <tbody class="text-center" style="font-size: 70%;">
+                      <tr *ngFor="let mensaje of notificaciones">
+                        <td >El usuario {{mensaje.prestamo?.idSolicitante?.nombres}}
+                          ha solicitado el libro {{mensaje.prestamo?.libro?.titulo}}.</td>
+                        <td>
+                          <button (click)="alerta(mensaje.prestamo?.libro?.titulo)">Revisar</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </label>
+
+
+
+              </div>
+            </div>
+          </div>
         </div>
         &nbsp;&nbsp;
         <div class="dropdown" *ngIf="sinSesion!=true">
