@@ -34,6 +34,8 @@ export class VistaRegistroNewComponent implements OnInit {
   Tipoe: Tipo[] = []
   guardar: boolean = true;
   cedulabiblio?: String = "";
+  nombrebiblio?: String=''
+  displayPopup: boolean = false;
 
   opcionSeleccionado: string = '0';
   verSeleccion: string = '';
@@ -61,6 +63,15 @@ export class VistaRegistroNewComponent implements OnInit {
     if (this.step > 1) {
       this.step--;
     }
+  }
+
+  displayStyle = "none";
+
+  openPopup() {
+    this.displayStyle = "block";
+  }
+  closePopup() {
+    this.displayStyle = "none";
   }
 
 
@@ -323,6 +334,9 @@ export class VistaRegistroNewComponent implements OnInit {
           authStatus: data.authStatus
         }
         this.librosF.get('persona')?.patchValue(datospersona)
+        this.nombrebiblio = data.nombres +' '+ data.apellidos
+        console.log(this.nombrebiblio);
+        
       }
     )
 
