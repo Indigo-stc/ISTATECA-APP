@@ -116,7 +116,9 @@ export class HomeComponent implements OnInit {
     this.prestamos.estadoLibro = 1
     this.prestamos.estadoPrestamo = 1
     this.prestamos.fechaFin = new Date(Date.now());
+    this.prestamos.fechaMaxima = new Date(Date.now());
     this.prestamos.tipoPrestamo = 1
+    console.log(this.prestamos)
 
     this.prestamoService.create(this.prestamos).subscribe(
       response => {

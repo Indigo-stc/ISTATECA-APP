@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Prestamo } from '../models/Prestamo';
 import Swal from 'sweetalert2';
 import { prestamoService } from '../services/prestamo.service';
+import { Notificacion } from '../models/Notificacion';
 
 @Component({
   selector: 'app-lista-solicitudes-pendientes',
@@ -11,7 +12,7 @@ import { prestamoService } from '../services/prestamo.service';
 })
 export class ListaSolicitudesPendientesComponent implements OnInit {
   listaprestamos: Prestamo[] = [];
-
+notificacion:Notificacion=new Notificacion();
   //Tablas
   pendientes?: boolean;
   prestados?: boolean;
@@ -20,13 +21,27 @@ export class ListaSolicitudesPendientesComponent implements OnInit {
   restituido?: boolean;
   destruido?:boolean;
   buscar?: boolean;
+  datosNotificacionP:string=""
 
   constructor(private prestamoService: prestamoService, private router: Router) { }
 
   ngOnInit(): void {
+    let notificacionDato = localStorage.getItem('Dato') + "";
+    this.notificacion = JSON.parse(notificacionDato);
+    if(this.notificacion!=null){
+      this.datosNotificacionP=this.notificacion.prestamo?.idSolicitante?.cedula+""
+    console.log(this.notificacion)
+    }else{
+      console.log(this.notificacion)
+      this.datosNotificacionP=""
+    }
+    
+    
+
     localStorage.removeItem('prestamo');
     localStorage.removeItem('solicitudCompleta'); 
     localStorage.removeItem('estadoR'); 
+    localStorage.removeItem('Dato'); 
     this.pendientes = true;
     this.prestados = false;
     this.recibidos = false;
