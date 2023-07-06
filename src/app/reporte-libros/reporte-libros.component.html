@@ -23,13 +23,13 @@
             <div class="fech1">
                 <label for="fechaInicio" style="color:#023b76">Fecha Inicio:</label>
                 <input type="date" [(ngModel)]="startFecha" placeholder="Fecha de inicio"
-                    style="border: 1px solid #004f9f" required>
+                    style="border: 1px solid #004f9f" name="startFecha" required>
             </div>
 
             <div class="fech2">
                 <label for="fechaFin" style="color:#023b76">Fecha Fin:</label>
                 <input type="date" [(ngModel)]="endFecha" placeholder="Fecha de fin"
-                    style="border: 1px solid #004f9f" required>
+                    style="border: 1px solid #004f9f" name="endFecha" required>
             </div>
 
 
@@ -65,11 +65,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let prestamo of filteredList">
-                            <td>{{prestamo.carrera?.nombre}}</td>
-                            <td>{{prestamo.idEntrega?.nombres}}</td>
-                            <td>{{prestamo.idSolicitante?.nombres}}</td>
-                            <td>{{prestamo.id}}</td>
+                        <tr >
+                            <td></td>
+                            <td>{{totalDoc}}</td>
+                            <td>{{totalEst}}</td>
+                            <td>{{total}}</td>
                         </tr>
                     </tbody>
                 </table>

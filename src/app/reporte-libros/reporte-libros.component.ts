@@ -23,11 +23,15 @@ export class ReporteLibrosComponent implements OnInit {
   paginas: Libro[] = [];
   buscar?: boolean;
   listaprestamos: Prestamo[] = [];
+  listaprestamosest: Prestamo[] = [];
+  listaprestamosdoc: Prestamo[] = [];
   race: Carrera[] = [];
   person: PersonaFenix[] = [];
   recibidos?: boolean;
 
-
+  totalEst: number=0;
+  totalDoc: number=0;
+  total:number=0;
 
   constructor(private listCarrera: CarreraService,
     private prestamoService: prestamoService,
@@ -133,8 +137,8 @@ export class ReporteLibrosComponent implements OnInit {
 
       const firstSignatureName = "Firma:______________________________";
 
-      const firstSignatureX = 20; 
-      const firstSignatureY = pageHeight - 50; 
+      const firstSignatureX = 20;
+      const firstSignatureY = pageHeight - 50;
 
       doc.text(firstSignatureName, firstSignatureX, firstSignatureY);
       doc.setFontSize(12);
@@ -179,26 +183,26 @@ export class ReporteLibrosComponent implements OnInit {
   }
 
 
-/*   onSearch(id: number): void {
-    Swal.fire({
-      title: '¿Esta seguro?',
-      showCancelButton: true,
-      confirmButtonText: 'OK',
-      cancelButtonText: 'Cancelar'
-    }).then((result) => {
-      if (result.value) {
-        this.listCarrera.obtenerCarreraId(id).subscribe(
-          data => {
-            this.getCarrera();
-          },
-        );
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire(
-          'Cancelado',
-        )
-      }
-    });
-  } */
+  /*   onSearch(id: number): void {
+      Swal.fire({
+        title: '¿Esta seguro?',
+        showCancelButton: true,
+        confirmButtonText: 'OK',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.value) {
+          this.listCarrera.obtenerCarreraId(id).subscribe(
+            data => {
+              this.getCarrera();
+            },
+          );
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          Swal.fire(
+            'Cancelado',
+          )
+        }
+      });
+    } */
 
 
   getDate(start: string, end: string) {
@@ -210,10 +214,19 @@ export class ReporteLibrosComponent implements OnInit {
   startFecha: string = ""
   endFecha: string = "";
   buscars(start: string, end: string): void {
-    this.prestamoService.entreFechas(start, end).subscribe(
+    this.prestamoService.prestamoconcarrera(start, end, 0).subscribe(
       response => {
-        console.log(response);
-        this.listaprestamos = response;
+        response.forEach(element => {
+          if (element.tipoPrestamo == 1) {
+            this.listaprestamosest.push(element);
+            this.totalEst = this.listaprestamosest.length;
+          } else if (element.tipoPrestamo == 2) {
+            this.listaprestamosdoc.push(element);
+            this.totalDoc = this.listaprestamosdoc.length;
+          }
+        });
+        this.total=this.totalDoc+this.totalEst;
+        console.log(this.total+" "+this.totalDoc+this.totalEst)
       },
       error => {
         console.error(error);

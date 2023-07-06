@@ -30,10 +30,7 @@ export class FormEditComponent implements OnInit {
     
 
     var personaJSONGET = localStorage.getItem("persona");
-    this.persona2 = JSON.parse(personaJSONGET + "");
-    if(this.persona2.id!=undefined){
-      this.buscar(this.persona2.id);
-    }
+    this.persona = JSON.parse(personaJSONGET + "");
     
   }
 
