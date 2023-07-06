@@ -79,12 +79,22 @@ export class HeaderComponent implements DoCheck, OnInit {
             this.sinSesion = true
         }
     }
-    alerta(men:string){
-        alert("hola"+men)
+    alerta(men:Notificacion){
+        console.log(men)
+        const objetoString = JSON.stringify(men);
+        localStorage.setItem("Dato", objetoString);
+        this.router.navigate(['/app-lista-solicitudes-pendientes'])
     }
     public ocultar() {
         this.notificacionesService.nuevosRegistros = 0;
         console.log(this.notificaciones)
+        
+
+    }
+    public clear() {
+        this.notificacionesService.nuevosRegistros = 0;
+        console.log(this.notificaciones)
+        
 
     }
     user?: User = new User;

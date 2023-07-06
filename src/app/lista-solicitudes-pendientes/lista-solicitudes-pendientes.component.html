@@ -9,7 +9,7 @@
     <h1>Lista de Solicitudes</h1>
     <div class="buscar">
       <form>
-        <input class="form-control me-2" #buscar2 type="search" placeholder="Buscar" aria-label="Buscar"
+        <input class="form-control me-2" #buscar2 type="search" placeholder="Buscar" aria-label="Buscar" [(ngModel)]="datosNotificacionP" name="buscar"
           (keyup)="onKeydownEvent($event, buscar2.value)" style="background-color: #e5e7e8; border-color: #004f9f;">
       </form>
       <button (click)="listaPendientes()">Pendientes</button>
