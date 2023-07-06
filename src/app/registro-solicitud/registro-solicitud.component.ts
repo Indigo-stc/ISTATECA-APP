@@ -22,7 +22,7 @@ export class RegistroSolicitudComponent {
   bibliotecario: Persona = new Persona();
   carreras: Carrera[] = [];
   public dato!: Observable<any['']>;
-  public keyword = 'nombre';
+  public keyword = 'el';
   libros: Libro[] = [];
   idC?: number;
   documentoH?: number;
@@ -31,7 +31,7 @@ export class RegistroSolicitudComponent {
   constructor(private router: Router, private carreraService: CarreraService, private PrestamoService: prestamoService, private personaService: PersonaService, private libroServices: LibroService) { }
 
   ngOnInit(): void {
-    
+
 
     let usuarioJSON = localStorage.getItem('persona') + "";
     this.bibliotecario = JSON.parse(usuarioJSON);
@@ -40,7 +40,7 @@ export class RegistroSolicitudComponent {
         this.carreras = respose;
       }
     );
-    this.obtenerAutor();
+    this.obtenerLibros();
   }
   seleccionT(e: any) {
     this.idC = e.target.value;
@@ -49,9 +49,9 @@ export class RegistroSolicitudComponent {
     this.documentoH = e.target.value;
   }
 
-  obtenerAutor(): void {
+  obtenerLibros(): void {
     this.dato = this.libroServices.obtenerLibros();
-    console.log(this.dato );
+    console.log(this.dato);
   }
   buscarCed(cedula: string) {
     if (cedula == "") {
@@ -74,7 +74,7 @@ export class RegistroSolicitudComponent {
 
 
         )
-      } 
+      }
 
     }
 
@@ -83,7 +83,29 @@ export class RegistroSolicitudComponent {
   }
 
   guardar() {
-
+    this.prestamo.idSolicitante = this.persona;
+    if (this.idC != undefined) {
+      this.carreraService.obtenerCarreraId(this.idC).subscribe(
+        response => {
+          this.prestamo.carrera = response;
+        }
+      );
+    }
+    this.prestamo.documentoHabilitante = this.documentoH;
+    this.prestamo.idEntrega = this.bibliotecario;
+    this.PrestamoService.create(this.prestamo).subscribe(
+      response => (Swal.fire({
+        confirmButtonColor: '#012844',
+        icon: 'success',
+        title: 'Prestamo Guardado',
+        text: 'Se gusrado correcatamente'
+      })),
+      error => (Swal.fire({
+        confirmButtonColor: '#012844',
+        icon: 'error',
+        title: 'No se pudo guardar el prestamo',
+      }))
+    );
   }
 
 }

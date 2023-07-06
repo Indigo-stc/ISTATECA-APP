@@ -7,7 +7,7 @@
 <body class="elemento">
     <div class="card">
         <br>
-        <h1>Ficha de Solicitud para un estudiante</h1>
+        <h1>Ficha de solicitud para una persona externa</h1>
         <div class="content">
             <form ngNativeValidate (ngSubmit)="guardar()">
                 <div class="step-counter">
@@ -15,37 +15,23 @@
                             <div class="input-box">
                                 <span class="details">Cedula:</span>
                                 <input #cedulas type="text" class="form-control text-center"
-                                    (keyup)="buscarCed(cedulas.value)"
-                                    placeholder="Ingrese un numero de cedula" name="cedula" required>
-
-                            <span class="details">Carrera:</span>
-                            <select class="combo form-select" (change)="seleccionT($event)" name="carrera" required>
-                                <option disabled selected>Seleccione una carrera</option>
-                                <option *ngFor="let carrera of carreras" value="{{carrera.id}}"> {{carrera.nombre}}
-                                </option>
-                            </select>
+                                    placeholder="Ingrese un numero de cedula" name="cedula"   required>
                         </div>
                         <div class="input-box">
                             <span class="details">Nombres:</span>
-                            <input type="text" class="form-control" value="{{persona.nombres}}"
+                            <input type="text" class="form-control" 
                                 name="nombres" required>
 
                             <span class="details">Apellidos:</span>
-                            <input type="text" class="form-control" value="{{persona.apellidos}}"
+                            <input type="text" class="form-control" 
                                 name="apellidos" required>
                         </div>
                         <div class="input-box">
-                            <span class="details">Domicilio</span>
-                            <input type="text" class="form-control" value="{{persona.direccion}}"
-                                name="domicilio" required>
-
                             <span class="details">Celular:</span>
-                            <input type="number" value="{{persona.celular}}" class="form-control"
+                            <input type="number"  class="form-control"
                                 name="celular" required>
-                        </div>
-                        <div class="input-box">
                             <span class="details">Correo Electronico:</span>
-                            <input type="email" value="{{persona.correo}}" class="form-control"
+                            <input type="email"  class="form-control"
                                 name="correo" required>
                         </div>
                     </div>
@@ -65,7 +51,7 @@
                                     </ng-template>
                             </div>
                             <span class="details">Codigo:</span>
-                            <input type="text" value="{{prestamo.libro?.codigoDewey}}" class="form-control"
+                            <input type="text"  class="form-control"
                                 name="codigoDewey" required>
                             
                         </div>

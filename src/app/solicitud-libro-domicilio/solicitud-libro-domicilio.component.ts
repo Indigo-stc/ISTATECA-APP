@@ -17,21 +17,21 @@ import { Router } from '@angular/router';
 })
 export class SolicitudLibroDomicilioComponent implements OnInit {
   prestamo: Prestamo = new Prestamo();
-  persona: Persona= new Persona();
+  persona: Persona = new Persona();
   reporteV: string = "";
-  carreras:Carrera[]=[];
+  carreras: Carrera[] = [];
   mostrar: boolean = false;
   doch: doch[] = []
   variable?: number;
   car: Carrera = new Carrera;
-  idC?:number;
-documentoH?:number;
+  idC?: number;
+  documentoH?: number;
   documentos: doch = new doch;
   names?: string[] = [];
 
   step = 1;
   totalSteps = 2;
-  constructor(private router: Router,private carreraService: CarreraService,private PrestamoService: prestamoService) { }
+  constructor(private router: Router, private carreraService: CarreraService, private PrestamoService: prestamoService) { }
   ngOnInit(): void {
     this.reporteV = localStorage.getItem('persona') + "";
     let usuarioJSON = localStorage.getItem('persona') + "";
@@ -49,8 +49,17 @@ documentoH?:number;
   }
 
   avanzar1() {
-    if (this.step < this.totalSteps) {
-      this.step++;
+    if (this.idC != undefined) {
+      if (this.step < this.totalSteps) {
+        this.step++;
+      }
+    } else {
+      Swal.fire({
+        confirmButtonColor: '#012844',
+        icon: 'warning',
+        title: 'Ups...',
+        text: 'Seleccione una Carrera'
+      })
     }
   }
   retroceder1() {
@@ -65,38 +74,64 @@ documentoH?:number;
     this.documentoH = e.target.value;
   }
 
-  guardar() {
-    
-    this.prestamo.estadoPrestamo=2;
-    this.prestamo.carrera = this.car;
-    this.prestamo.idEntrega=this.persona;
-    
-    if (this.idC != undefined && this.documentoH!=undefined) {
-      this.prestamo.documentoHabilitante=this.documentoH;
-      this.carreraService.obtenerCarreraId(this.idC).subscribe(
-        response => {
-          this.prestamo.carrera = response;
-          console.log(this.prestamo.carrera);
-          this.PrestamoService.update(this.prestamo).subscribe(
-            response => {
-              Swal.fire({
-                position: 'center',
-                icon: 'success',
-                title: '<strong>Guardado correctamente</strong>',
-                showConfirmButton: false,
-                timer: 1500
-              })
-              this.router.navigate(['/app-lista-solicitudes-pendientes']);
-            }
-          );
-        }
+  validarFechas(): boolean {
+    if (this.prestamo.fechaEntrega && this.prestamo.fechaMaxima instanceof Date) {
+      const diferenciaDias = Math.floor(
+        (this.prestamo.fechaMaxima.getTime() - this.prestamo.fechaEntrega.getTime()) / (1000 * 60 * 60 * 24)
       );
-    }
-    
 
+      return diferenciaDias <= 5;
+    }
+
+    return false;
   }
 
-  
+
+  guardar() {
+
+    this.prestamo.estadoPrestamo = 2;
+    this.prestamo.carrera = this.car;
+    this.prestamo.idEntrega = this.persona;
+        if (this.validarFechas()) {
+          if (this.idC != undefined && this.documentoH != undefined) {
+            this.prestamo.documentoHabilitante = this.documentoH;
+            this.carreraService.obtenerCarreraId(this.idC).subscribe(
+              response => {
+                this.prestamo.carrera = response;
+                console.log(this.prestamo.carrera);
+                this.PrestamoService.update(this.prestamo).subscribe(
+                  response => {
+                    Swal.fire({
+                      position: 'center',
+                      icon: 'success',
+                      title: '<strong>Guardado correctamente</strong>',
+                      showConfirmButton: false,
+                      timer: 1500
+                    })
+                    this.router.navigate(['/app-lista-solicitudes-pendientes']);
+                  }
+                );
+              }
+            );
+          } else {
+            Swal.fire({
+              confirmButtonColor: '#012844',
+              icon: 'warning',
+              title: 'Ups...',
+              text: 'Seleccione un documento habilitante'
+            })
+          }
+        } else {
+          Swal.fire({
+            confirmButtonColor: '#012844',
+            icon: 'warning',
+            title: 'Ups...',
+            text: 'La fecha de devolucion debe ser maximo en 5 días'
+          })
+        }
+  }
+
+
   activarDoc() {
     this.mostrar = true
   }

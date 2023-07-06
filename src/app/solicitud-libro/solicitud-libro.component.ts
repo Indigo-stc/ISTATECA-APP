@@ -56,15 +56,32 @@ export class SolicitudLibroComponent implements OnInit {
 
   }
 
-  avanzar1() {
-    if (this.step < this.totalSteps) {
-      this.step++;
-    }
-  }
   retroceder1() {
     if (this.step > 1) {
       this.step--;
     }
+  }
+
+
+  avanzar1() {
+    if (this.idC != undefined) {
+      if (this.step < this.totalSteps) {
+        this.step++;
+      }
+    } else {
+      Swal.fire({
+        confirmButtonColor: '#012844',
+        icon: 'warning',
+        title: 'Ups...',
+        text: 'Seleccione una Carrera'
+      })
+    }
+  }
+
+  avanzar() {
+      if (this.step < this.totalSteps) {
+        this.step++;
+      }
   }
 
 
@@ -73,29 +90,43 @@ export class SolicitudLibroComponent implements OnInit {
     this.prestamo.estadoPrestamo = 2;
     this.prestamo.carrera = this.car;
     this.prestamo.idEntrega = this.persona;
-
-    if (this.idC != undefined && this.documentoH != undefined) {
-      this.prestamo.documentoHabilitante = this.documentoH;
-      this.carreraService.obtenerCarreraId(this.idC).subscribe(
-        response => {
-          this.prestamo.carrera = response;
-          console.log(this.prestamo.carrera);
-          this.PrestamoService.update(this.prestamo).subscribe(
-            response => {
-              Swal.fire({
-                position: 'center',
-                icon: 'success',
-                title: '<strong>Guardado correctamente</strong>',
-                showConfirmButton: false,
-                timer: 1500
-              })
-              this.router.navigate(['/app-lista-solicitudes-pendientes']);
-            }
-          );
+        if (this.prestamo.fechaEntrega== this.prestamo.fechaMaxima) {
+          if (this.idC != undefined && this.documentoH != undefined) {
+            this.prestamo.documentoHabilitante = this.documentoH;
+            this.carreraService.obtenerCarreraId(this.idC).subscribe(
+              response => {
+                this.prestamo.carrera = response;
+                console.log(this.prestamo.carrera);
+                this.PrestamoService.update(this.prestamo).subscribe(
+                  response => {
+                    Swal.fire({
+                      position: 'center',
+                      icon: 'success',
+                      title: '<strong>Guardado correctamente</strong>',
+                      showConfirmButton: false,
+                      timer: 1500
+                    })
+                    this.router.navigate(['/app-lista-solicitudes-pendientes']);
+                  }
+                );
+              }
+            );
+          } else {
+            Swal.fire({
+              confirmButtonColor: '#012844',
+              icon: 'warning',
+              title: 'Ups...',
+              text: 'Seleccione un documento habilitante'
+            })
+          }
+        } else {
+          Swal.fire({
+            confirmButtonColor: '#012844',
+            icon: 'warning',
+            title: 'Ups...',
+            text: 'La fecha de devolucion debe ser hoy mismo'
+          })
         }
-      );
-    }
-
 
   }
 

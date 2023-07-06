@@ -9,7 +9,7 @@
     <div class="card">
         <h1>Ficha de Solicitud a Domicilio</h1>
         <div class="content">
-            <form (ngSubmit)="guardar()">
+            <form ngNativeValidate (ngSubmit)="guardar()">
                 <div class="step-counter">
                     <p>Paso {{ step }} de {{ totalSteps }} </p>
                     <div class="user-details" *ngIf="step === 1">
@@ -20,7 +20,7 @@
 
                             <span class="details">Carrera:</span>
                             <select class="combo form-select" (change)="seleccionT($event)" name="carrera" required>
-                                <option disabled selected>Seleccione una carrera</option>
+                                <option selected disabled value="">Seleccione una carrera</option>
                                 <option *ngFor="let carrera of carreras" value="{{carrera.id}}"> {{carrera.nombre}}
                                 </option>
                             </select>
@@ -67,7 +67,7 @@
                                     value="{{persona.nombres||' '||persona.apellidos}}" required>
                         </div>
                         <div class="input-box">
-                            <span class="details">Fecha de Prestamo:</span>
+                            <span class="details">Fecha de Entrega:</span>
                             <input type="date" class="form-control" name="fecha-prestamo" required  [(ngModel)]="prestamo.fechaEntrega">
                         
                             <span class="details">Fecha de Devolucion:</span>
