@@ -7,39 +7,9 @@
 <body>
     <div class="card">
         <h1>Reporte de libros por carrera</h1>
-        <form class=" buscar">
-            <!--             <input class="form-control me-2" (keyup)="onKeydownEvent($event, buscaer.value)" #buscaer 
-              placeholder="Buscar" aria-label="Buscar" style="background-color: #e5e7e8; border-color: #2e2f5e" /> -->
-
-            <div class="campos">
-                <label style="color:#023b76">Buscar por:</label>
-                <select (change)="filter($event)" style="border: 1px solid #004f9f">
-                    <option disabled selected>Seleccione una opción</option>
-                    <option *ngFor="let openn of race">
-                        {{ openn.nombre }}</option>
-                </select>
-            </div>
-
-            <div class="fech1">
-                <label for="fechaInicio" style="color:#023b76">Fecha Inicio:</label>
-                <input type="date" [(ngModel)]="startFecha" placeholder="Fecha de inicio"
-                    style="border: 1px solid #004f9f" name="startFecha" required>
-            </div>
-
-            <div class="fech2">
-                <label for="fechaFin" style="color:#023b76">Fecha Fin:</label>
-                <input type="date" [(ngModel)]="endFecha" placeholder="Fecha de fin"
-                    style="border: 1px solid #004f9f" name="endFecha" required>
-            </div>
-
-
-            <button class="btn" (click)="buscars(startFecha, endFecha)">
-
-                <img
-                    src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fbusqueda.png?alt=media&token=2b59078d-0ef5-4fa4-85c6-396ea7c1c97c">
-            </button>
-
-            <button (click)="downloadPDF()">
+        <button data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="width: 15%;">CONSULTA</button>
+        <form class=" buscarw">
+            <button (click)="downloadPDF()" style="margin-left: 142%;">
                 Imprimir &nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                     class="bi bi-printer" viewBox="0 0 16 16">
                     <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z" />
@@ -47,11 +17,6 @@
                         d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z" />
                 </svg></button>
         </form>
-
-        <!--         <div class="Titulo">
-            <p style="color:#023b76"><strong>INSTITUTO UNIVERSITARIO DEL AZUAY</strong> </p>
-            <p style="color:#023b76">{{ DateNow() }}</p>
-        </div> -->
 
         <div class="contenedor" id="htmlData">
             <div class="tablas">
@@ -65,8 +30,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr >
-                            <td></td>
+                        <tr *ngFor="let prestamo of filteredList">
+                            <td>{{prestamo.carrera?.id}}</td>
                             <td>{{totalDoc}}</td>
                             <td>{{totalEst}}</td>
                             <td>{{total}}</td>
@@ -80,15 +45,11 @@
                     <thead class="subcabezera">
                         <tr>
                             <th>Titulo de libros</th>
-<!--                             <th>Inicio</th>
-                            <th>Fin</th> -->
                         </tr>
                     </thead>
                     <tbody class="text-center">
                         <tr *ngFor="let prestamo of filteredList">
                             <td>{{ prestamo.libro?.titulo }}</td>
-<!--                             <td>{{ prestamo.fechaEntrega }}</td>
-                            <td>{{ prestamo.fechaFin}}</td> -->
                         </tr>
                     </tbody>
                 </table>
@@ -96,3 +57,50 @@
         </div>
     </div>
 </body>
+
+
+<div class="modal" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel" style="color:#023b76">Consultar por carrera</h1>
+                <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"
+                    style="width: 10%;">Cerrar</button>
+            </div>
+
+            <div class="modal-body modal-md">
+                <div class="form-group">
+                    <label class="form-label" for="searchOption" style="color:#023b76; font-weight: bold">Buscar por:</label>
+                    <select class="form-select" id="searchOption" style="border: 1px solid #004f9f" (change)="filter($event)">
+                        <option disabled selected>Seleccione una opción</option>
+                        <option value="All">Todos</option>
+                        <optgroup label="Carreras">
+                            <option *ngFor="let openn of race">{{ openn.nombre }}</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="startDate" style="color:#023b76; font-weight: bold">Fecha de inicio:</label>
+                    <input type="date" class="form-control" id="startDate" [(ngModel)]="startFecha" name="fechaInicio"
+                    style="border: 1px solid #004f9f" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="endDate" style="color:#023b76; font-weight: bold">Fecha de fin:</label>
+                    <input type="date" class="form-control" id="endDate" [(ngModel)]="endFecha" name="fechaFin"
+                    style="border: 1px solid #004f9f" required>
+                </div>
+
+                <button class="btn btn-primary" data-bs-dismiss="modal" (click)="buscars(startFecha, endFecha)"
+                    style="display: block; margin: 0 auto;" [disabled]="!startFecha || !endFecha">
+                    <img src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fbusqueda.png?alt=media&token=2b59078d-0ef5-4fa4-85c6-396ea7c1c97c"
+                        alt="Buscar">
+                </button>
+
+            </div>
+        </div>
+    </div>
+</div>

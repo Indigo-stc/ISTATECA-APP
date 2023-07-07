@@ -12,6 +12,7 @@ import { Carrera } from '../models/Carrera';
 import { prestamoService } from '../services/prestamo.service';
 
 
+
 @Component({
   selector: 'app-reporte-libros',
   templateUrl: './reporte-libros.component.html',
@@ -20,67 +21,30 @@ import { prestamoService } from '../services/prestamo.service';
 export class ReporteLibrosComponent implements OnInit {
 
 
-  paginas: Libro[] = [];
-  buscar?: boolean;
-  listaprestamos: Prestamo[] = [];
-  listaprestamosest: Prestamo[] = [];
-  listaprestamosdoc: Prestamo[] = [];
-  race: Carrera[] = [];
-  person: PersonaFenix[] = [];
-  recibidos?: boolean;
-
-  totalEst: number=0;
-  totalDoc: number=0;
-  total:number=0;
-
   constructor(private listCarrera: CarreraService,
     private prestamoService: prestamoService,
     private router: Router) { }
-  id: any;
 
 
   ngOnInit(): void {
-    /*     this.listPage.getLibros().subscribe(
-          pagina => this.paginas = pagina); */
     this.getCarrera();
-    this.recibidos = false;
-    this.prestamoService.listarxestado(3).subscribe(
-      response => {
-        this.listaprestamos = response;
-        this.filteredList = this.listaprestamos
-      }
-    );
+    this.prestamoService.getPrestamos().subscribe( response =>{
+      this.listaprestamos = response;
+    })
   }
-
-
-  getNombreEstado(numeroEstado: number | undefined): string {
-    let nombreEstado = 'Desconocido';
-    if (numeroEstado !== undefined) {
-      switch (numeroEstado) {
-        case 1:
-          nombreEstado = 'Solicitado';
-          break;
-        case 2:
-          nombreEstado = 'Prestado';
-          break;
-        case 3:
-          nombreEstado = 'Recibido';
-          break;
-      }
-    }
-    return nombreEstado;
-  }
-
 
 
   downloadPDF() {
     Swal.fire({
-      title: "¡Generando el reporte!",
-      text: "Espera un momento...",
+      icon: "info",
+      title: "<span style='color: #007bff; font-size: 24px;'>Generando el reporte</span>",
+      html: "<div style='font-size: 18px;'>Por favor, espera un momento...</div>",
       timer: 2500,
       timerProgressBar: true,
       toast: true,
       position: "center",
+      showConfirmButton: false,
+      background: "#f8f9fa",
     });
 
     setTimeout(() => {
@@ -137,7 +101,7 @@ export class ReporteLibrosComponent implements OnInit {
 
       const firstSignatureName = "Firma:______________________________";
 
-      const firstSignatureX = 20;
+      const firstSignatureX = 175;
       const firstSignatureY = pageHeight - 50;
 
       doc.text(firstSignatureName, firstSignatureX, firstSignatureY);
@@ -172,10 +136,6 @@ export class ReporteLibrosComponent implements OnInit {
   }
 
 
-  form = new FormGroup({
-    fechaInicio: new FormControl(),
-    fechaFin: new FormControl()
-  });
 
   getCarrera() {
     this.listCarrera.getCarreras().subscribe(
@@ -183,44 +143,31 @@ export class ReporteLibrosComponent implements OnInit {
   }
 
 
-  /*   onSearch(id: number): void {
-      Swal.fire({
-        title: '¿Esta seguro?',
-        showCancelButton: true,
-        confirmButtonText: 'OK',
-        cancelButtonText: 'Cancelar'
-      }).then((result) => {
-        if (result.value) {
-          this.listCarrera.obtenerCarreraId(id).subscribe(
-            data => {
-              this.getCarrera();
-            },
-          );
-        } else if (result.dismiss === Swal.DismissReason.cancel) {
-          Swal.fire(
-            'Cancelado',
-          )
-        }
-      });
-    } */
+
+  listaprestamos: Prestamo[] = [];
+  listaprestamosest: Prestamo[] = [];
+  listaprestamosdoc: Prestamo[] = [];
+  race: Carrera[] = [];
+ 
+
+  totalEst: number=0;
+  totalDoc: number=0;
+  total:number=0;
 
 
-  getDate(start: string, end: string) {
-    this.prestamoService.entreFechas(start, end).subscribe(
-      fec => this.listaprestamos = fec);
-  }
-
-
-  startFecha: string = ""
+  startFecha: string = "";
   endFecha: string = "";
+  selectRace:string="";
+
   buscars(start: string, end: string): void {
-    this.prestamoService.prestamoconcarrera(start, end, 0).subscribe(
+    this.prestamoService.prestamoconcarrera(start, end,0).subscribe(
       response => {
         response.forEach(element => {
-          if (element.tipoPrestamo == 1) {
+          this.getCarrera()
+          if (element.tipoPrestamo == 1 ) {
             this.listaprestamosest.push(element);
             this.totalEst = this.listaprestamosest.length;
-          } else if (element.tipoPrestamo == 2) {
+          } else if (element.tipoPrestamo == 2 ) {
             this.listaprestamosdoc.push(element);
             this.totalDoc = this.listaprestamosdoc.length;
           }
@@ -245,9 +192,6 @@ export class ReporteLibrosComponent implements OnInit {
   getLibroTitulo(prestamo: any): string {
     return prestamo.libro?.titulo || "";
   }
-
-
-
 
 
 
