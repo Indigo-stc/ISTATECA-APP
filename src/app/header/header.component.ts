@@ -150,7 +150,7 @@ export class HeaderComponent implements DoCheck, OnInit {
 
     public notificar(){
         this.notificacionesService.getNotificacionBibliotecario().subscribe(
-            response =>(this.notificacionesService.notificationlista=response)
+            response =>(this.notificacionesService.notificationlista=response,this.validarconteo())
         )
     
     }

@@ -101,7 +101,7 @@
                   <table class="table">
 
                     <tbody class="text-center" style="font-size: 70%;">
-                      <tr *ngFor="let mensaje of notificaciones">
+                      <tr *ngFor="let mensaje of notificationlista">
 
                         <td *ngIf="mensaje.mensaje == 1">El usuario "{{mensaje.prestamo?.idSolicitante?.nombres}}" ha
                           solicitado el libro "{{mensaje.prestamo?.libro?.titulo}}".</td>
