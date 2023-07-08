@@ -18,40 +18,43 @@
                             <input type="text" class="form-control" [(ngModel)]="prestamo.id" disabled name="id"
                                 required>
 
-                            <span class="details">Carrera:</span>
-                            <select class="combo form-select" (change)="seleccionT($event)" name="carrera" required>
-                                <option selected disabled value="">Seleccione una carrera</option>
-                                <option *ngFor="let carrera of carreras" value="{{carrera.id}}"> {{carrera.nombre}}
-                                </option>
-                            </select>
+                                <span class="details">Carrera:</span>
+                                <input type="text" class="form-control" *ngIf="carEst==true" value="{{carreraEst}}"
+                                    name="nombres" required disabled>
+                                <select class="combo form-select" *ngIf="carEst==false" (change)="seleccionT($event)"
+                                    name="carrera" required>
+                                    <option disabled selected>Seleccione una carrera</option>
+                                    <option *ngFor="let carrera of carreras" value="{{carrera.id}}"> {{carrera.nombre}}
+                                    </option>
+                                </select>
                         </div>
                         <div class="input-box">
                             <span class="details">Nombres:</span>
-                            <input type="text" class="form-control" value="{{prestamo.idSolicitante?.nombres}}" name="nombre" required>
+                            <input type="text" class="form-control" value="{{prestamo.idSolicitante?.nombres}}" disabled name="nombre" required>
 
                             <span class="details">Apellidos:</span>
-                            <input type="text" class="form-control" value="{{prestamo.idSolicitante?.apellidos}}" name="apellido" required>
+                            <input type="text" class="form-control" value="{{prestamo.idSolicitante?.apellidos}}" disabled name="apellido" required>
                         </div>
                         <div class="input-box">
                             <span class="details">Domicilio</span>
-                            <input type="text" class="form-control" name="domicilio" value="{{prestamo.idSolicitante?.direccion}}" required>
+                            <input type="text" class="form-control" name="domicilio" disabled value="{{prestamo.idSolicitante?.direccion}}" required>
 
                             <span class="details">Celular:</span>
-                            <input type="number" value="{{prestamo.idSolicitante?.celular}}" class="form-control" name="telefono" required>
+                            <input type="number" value="{{prestamo.idSolicitante?.celular}}" disabled class="form-control" name="telefono" required>
                         </div>
                         <div class="input-box">
                             <span class="details">Correo Electronico:</span>
-                            <input type="email" value="{{prestamo.idSolicitante?.correo}}" class="form-control" name="correo" required>
+                            <input type="email" value="{{prestamo.idSolicitante?.correo}}" disabled class="form-control" name="correo" required>
                         </div>
                     </div>
 
                     <div class="user-details" *ngIf="step === 2">
                         <div class="input-box">
                             <span class="details">Titulo:</span>
-                            <input type="text" value="{{prestamo.libro?.titulo}}"  class="form-control" name="titulo" required>
+                            <input type="text" value="{{prestamo.libro?.titulo}}" disabled  class="form-control" name="titulo" required>
                        
                             <span class="details">Codigo:</span>
-                            <input type="text" value="{{prestamo.libro?.codigoDewey}}" class="form-control" name="codigo" required>
+                            <input type="text" value="{{prestamo.libro?.codigoDewey}}" disabled class="form-control" name="codigo" required>
                         </div>
                         <div class="input-box">
                             <span class="details">Documento Habilitante:</span>
@@ -63,15 +66,15 @@
                             </select>
 
                                 <span class="details">Bibliotecario que entrega:</span>
-                                <input type="email" class="form-control" name="correo"
+                                <input type="text" class="form-control" name="correo" disabled
                                     value="{{persona.nombres||' '||persona.apellidos}}" required>
                         </div>
                         <div class="input-box">
                             <span class="details">Fecha de Entrega:</span>
-                            <input type="date" class="form-control" name="fecha-prestamo" required  [(ngModel)]="prestamo.fechaEntrega">
+                            <input type="text" class="form-control" name="fecha-prestamo" required disabled  value="{{fechaHoy}}">
                         
                             <span class="details">Fecha de Devolucion:</span>
-                            <input type="date" class="form-control" name="fecha-devolucion" required  [(ngModel)]="prestamo.fechaMaxima">
+                            <input type="text" class="form-control" name="fecha-devolucion" required disabled value="{{fechaDespues}}">
                         </div>
                     </div>
                 </div>

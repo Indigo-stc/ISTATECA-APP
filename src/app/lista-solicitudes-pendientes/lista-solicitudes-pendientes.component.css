@@ -9,7 +9,11 @@ body {
   background-position: 100%;
 }
 
-
+.header {
+  width: 94%;
+  height: 15%;
+  margin-top: 1%;
+}
 
 .card {
   width: 90%;
@@ -47,8 +51,9 @@ h1 {
   width: 95%;
   border: 1px solid #004f9f;
   margin-left: 3%;
-  margin-top: 2%;
   margin-bottom: 2%;
+  
+  margin-top: -0.1%;
 }
 
 thead {

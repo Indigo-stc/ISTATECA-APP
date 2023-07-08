@@ -17,33 +17,38 @@
           src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fbusqueda.png?alt=media&token=2b59078d-0ef5-4fa4-85c6-396ea7c1c97c" />
       </button>
     </form>
+    <table class="header">
+      <thead class="text-center cabezera">
+        <tr>
+          <th style="width: 6.5%;">Código</th>
+          <th style="width: 21.5%;">Título del Libro</th>
+          <th style="width: 10.5%;">Categoría</th>
+          <th style="width: 12%;">Año de Publicación</th>
+          <th style="width: 30.5%;">Descripción</th>
+          <th>Disposición</th>
+          <th style="width: 8.5%;">Accion</th>
+        </tr>
+      </thead>
+    </table>
+
     <div class="contenedor">
-      <div class="tablas">
         <table class="table ">
-          <thead class="text-center cabezera">
-            <tr>
-              <th>Código</th>
-              <th>Título del Libro</th>
-              <th>Categoría</th>
-              <th>Año de Publicación</th>
-              <th>Descripción</th>
-              <th>Disposición</th>
-              <th>Accion</th>
-            </tr>
-          </thead>
-
-
           <tbody class="text-center" *ngIf="normal">
             <tr *ngFor="let libro of libros">
-              <td>{{ libro.id }}</td>
-              <td>{{ libro.titulo }}</td>
-              <td>{{ libro.area }}</td>
-              <td>{{ libro.anioPublicacion }}</td>
-              <td>{{ libro.descripcion }}</td>
+              <td  style="width: 6.5%;">{{ libro.id }}</td>
+              <td style="width: 21.5%;">{{ libro.titulo }}</td>
+              <td style="width: 10.5%;">{{ libro.area }}</td>
+              <td style="width: 12%;">{{ libro.anioPublicacion }}</td>
+              <td style="width: 30.5%;">{{ libro.descripcion }}</td>
               <td>{{ libro.disponibilidad ? 'Disponible' : 'No disponible' }}</td>
-              <td>
+              <td *ngIf="libro.disponibilidad else menor">
                 <button (click)="SolicitarLibro(libro)">Solicitar</button>
               </td>
+              <ng-template #menor>
+                <td>
+                 Ninguna
+                </td>
+              </ng-template>
             </tr>
           </tbody>
 
@@ -55,15 +60,19 @@
               <td>{{ libro.anioPublicacion }}</td>
               <td>{{ libro.descripcion }}</td>
               <td>{{ libro.disponibilidad ? 'Disponible' : 'No disponible' }}</td>
-              <td>
+              <td *ngIf="libro.disponibilidad else menor" style="width: 8.5%;">
                 <button (click)="SolicitarLibro(libro)">Solicitar</button>
               </td>
+              <ng-template #menor>
+                <td style="width: 8.5%;">
+                 Ninguna
+                </td>
+              </ng-template>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
-  </div>
 
     <div class="overlay" id="overlay">
       <div class="popup" id="popup">

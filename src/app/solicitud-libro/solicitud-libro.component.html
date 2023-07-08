@@ -8,7 +8,7 @@
     <div class="card" *ngIf="!modificar">
         <h1>Ficha de Solicitud en la Institución</h1>
         <div class="content">
-            <form ngNativeValidate  (ngSubmit)="guardar()">
+            <form ngNativeValidate (ngSubmit)="guardar()">
                 <div class="step-counter">
                     <p>Paso {{ step }} de {{ totalSteps }} </p>
                     <div class="user-details" *ngIf="step === 1">
@@ -18,7 +18,10 @@
                                 required>
 
                             <span class="details">Carrera:</span>
-                            <select class="combo form-select" (change)="seleccionT($event)" name="carrera" required>
+                            <input type="text" class="form-control" *ngIf="carEst==true" value="{{carreraEst}}"
+                                name="nombres" required disabled>
+                            <select class="combo form-select" *ngIf="carEst==false" (change)="seleccionT($event)"
+                                name="carrera" required>
                                 <option disabled selected>Seleccione una carrera</option>
                                 <option *ngFor="let carrera of carreras" value="{{carrera.id}}"> {{carrera.nombre}}
                                 </option>
@@ -27,25 +30,25 @@
                         <div class="input-box">
                             <span class="details">Nombres:</span>
                             <input type="text" class="form-control" value="{{prestamo.idSolicitante?.nombres}}"
-                                name="nombres" required>
+                                name="nombres" required disabled>
 
                             <span class="details">Apellidos:</span>
                             <input type="text" class="form-control" value="{{prestamo.idSolicitante?.apellidos}}"
-                                name="apellidos" required>
+                                name="apellidos" required disabled>
                         </div>
                         <div class="input-box">
                             <span class="details">Domicilio</span>
-                            <input type="text" class="form-control" value="{{prestamo.idSolicitante?.direccion}}"
+                            <input type="text" class="form-control" disabled value="{{prestamo.idSolicitante?.direccion}}"
                                 name="domicilio" required>
 
                             <span class="details">Celular:</span>
                             <input type="number" value="{{prestamo.idSolicitante?.celular}}" class="form-control"
-                                name="celular" required>
+                                name="celular" required disabled>
                         </div>
                         <div class="input-box">
                             <span class="details">Correo Electronico:</span>
                             <input type="email" value="{{prestamo.idSolicitante?.correo}}" class="form-control"
-                                name="correo" required>
+                                name="correo" required disabled>
                         </div>
                     </div>
 
@@ -53,11 +56,11 @@
                         <div class="input-box">
                             <span class="details">Titulo:</span>
                             <input type="text" value="{{prestamo.libro?.titulo}}" class="form-control" name="titulo"
-                                required>
+                                required disabled>
 
                             <span class="details">Codigo:</span>
                             <input type="text" value="{{prestamo.libro?.codigoDewey}}" class="form-control"
-                                name="codigoDewey" required>
+                                name="codigoDewey" required disabled>
                         </div>
                         <div class="input-box">
                             <span class="details">Documento Habilitante:</span>
@@ -68,17 +71,17 @@
                                 <option value=3>Pasaporte</option>
                             </select>
                             <span class="details">Bibliotecario que entrega:</span>
-                            <input type="text" class="form-control" name="correo"
-                                value="{{persona.nombres||' '||persona.apellidos}}" required>
+                            <input type="text" class="form-control" name="correo" disabled
+                                value="{{persona.nombres}}&nbsp;{{persona.apellidos}}" required>
                         </div>
                         <div class="input-box">
                             <span class="details">Fecha de Prestamo:</span>
-                            <input type="date" class="form-control" name="fecha_entrega" required
-                                [(ngModel)]="prestamo.fechaEntrega">
+                            <input type="text" class="form-control" name="fecha_entrega"  disabled
+                            value="{{fechaHoy}}">
 
                             <span class="details">Fecha de Devolucion:</span>
-                            <input type="date" class="form-control" name="fecha_devolucion" required
-                                [(ngModel)]="prestamo.fechaMaxima">
+                            <input type="text" class="form-control" name="fecha_devolucion" disabled
+                            value="{{fechaHoy}}">
                         </div>
                     </div>
                 </div>
@@ -128,7 +131,7 @@
     <div class="card" *ngIf="modificar">
         <h1>Ficha de Solicitud Modificar</h1>
         <div class="content">
-            <form ngNativeValidate  (ngSubmit)="guardar2()">
+            <form ngNativeValidate (ngSubmit)="guardar2()">
                 <div class="step-counter">
                     <p>Paso {{ step }} de {{ totalSteps }} </p>
                     <div class="user-details" *ngIf="step === 1">
@@ -138,39 +141,39 @@
                                 required>
 
                             <span class="details">Carrera:</span>
-                            <input type="text" class="form-control" value="{{prestamo2.carrera?.nombre}}" disabled name="id"
-                                required>
+                            <input type="text" class="form-control" value="{{prestamo2.carrera?.nombre}}" disabled
+                                name="id" required>
                         </div>
                         <div class="input-box">
                             <span class="details">Nombres:</span>
-                            <input type="text" class="form-control" disabled value="{{prestamo2.idSolicitante?.nombres}}"
-                                name="nombres" required>
+                            <input type="text" class="form-control" disabled
+                                value="{{prestamo2.idSolicitante?.nombres}}" name="nombres" required>
 
                             <span class="details">Apellidos:</span>
-                            <input type="text" class="form-control" disabled value="{{prestamo2.idSolicitante?.apellidos}}"
-                                name="apellidos" required>
+                            <input type="text" class="form-control" disabled
+                                value="{{prestamo2.idSolicitante?.apellidos}}" name="apellidos" required>
                         </div>
                         <div class="input-box">
                             <span class="details">Domicilio</span>
-                            <input type="text" class="form-control" disabled value="{{prestamo2.idSolicitante?.direccion}}"
-                                name="domicilio" required>
+                            <input type="text" class="form-control" disabled
+                                value="{{prestamo2.idSolicitante?.direccion}}" name="domicilio" required>
 
                             <span class="details">Celular:</span>
-                            <input type="number" value="{{prestamo2.idSolicitante?.celular}}" disabled class="form-control"
-                                name="celular" required>
+                            <input type="number" value="{{prestamo2.idSolicitante?.celular}}" disabled
+                                class="form-control" name="celular" required>
                         </div>
                         <div class="input-box">
                             <span class="details">Correo Electronico:</span>
-                            <input type="email" value="{{prestamo2.idSolicitante?.correo}}" disabled class="form-control"
-                                name="correo" required>
+                            <input type="email" value="{{prestamo2.idSolicitante?.correo}}" disabled
+                                class="form-control" name="correo" required>
                         </div>
                     </div>
 
                     <div class="user-details" *ngIf="step === 2">
                         <div class="input-box">
                             <span class="details">Titulo:</span>
-                            <input type="text" value="{{prestamo2.libro?.titulo}}" disabled class="form-control" name="titulo"
-                                required>
+                            <input type="text" value="{{prestamo2.libro?.titulo}}" disabled class="form-control"
+                                name="titulo" required>
 
                             <span class="details">Codigo:</span>
                             <input type="text" value="{{prestamo2.libro?.codigoDewey}}" disabled class="form-control"
@@ -181,7 +184,7 @@
                             <input type="text" value="{{prestamo2.documentoHabilitante}}" disabled class="form-control"
                                 name="codigoDewey" required>
                             <span class="details">Bibliotecario que entrega:</span>
-                            <input type="text" class="form-control"  disabled
+                            <input type="text" class="form-control" disabled
                                 value="{{prestamo2.idEntrega?.nombres}}{{prestamo.idEntrega?.apellidos}}" required>
                         </div>
                         <div class="input-box">

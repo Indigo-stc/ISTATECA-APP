@@ -111,6 +111,7 @@ export class HomeComponent implements OnInit {
 
 
   public crearPrestamo(paginacrear: any) {
+    if(paginacrear.disponibilidad ==true){
     this.prestamos.libro = paginacrear
     this.prestamos.idSolicitante = this.persona
     this.prestamos.estadoLibro = 1
@@ -128,9 +129,10 @@ export class HomeComponent implements OnInit {
         this.notificacionesService.actualizarConteo(1)
         this.notificar();
         console.log(response);
+        this.ngOnInit();
       }
     );
-
+    }
   }
   public notificar(){
     this.notificacionesService.getNotificacionBibliotecario().subscribe(

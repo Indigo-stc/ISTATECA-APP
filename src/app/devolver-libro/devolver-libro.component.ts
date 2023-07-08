@@ -4,6 +4,7 @@ import { Persona } from '../models/Persona';
 import { prestamoService } from '../services/prestamo.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { format } from 'date-fns';
 
 @Component({
   selector: 'app-devolver-libro',
@@ -20,6 +21,7 @@ export class DevolverLibroComponent implements OnInit {
   hab?: string;
   estado?: string;
   soli?: string;
+  fechaHoy?:string;
 
   solicitudCompleta?: boolean;
 
@@ -37,6 +39,7 @@ export class DevolverLibroComponent implements OnInit {
     
     let soliJSONGET = localStorage.getItem('solicitudCompleta'+"");
     this.soli = JSON.parse(soliJSONGET + "");
+    
     if (this.soli == "1") {
       this.solicitudCompleta = true;
     } else {
@@ -52,6 +55,10 @@ export class DevolverLibroComponent implements OnInit {
     } else if (this.prestamo.documentoHabilitante == 3) {
       this.hab = "Pasaporte";
     }
+
+    const fecha = new Date(Date.now());
+    this.fechaHoy = format(fecha, 'dd/MM/yyyy');
+    this.prestamo.fechaDevolucion=fecha;
   }
   avanzar1() {
     if (this.step < this.totalSteps) {

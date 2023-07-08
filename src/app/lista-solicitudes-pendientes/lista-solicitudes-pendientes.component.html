@@ -9,8 +9,9 @@
     <h1>Lista de Solicitudes</h1>
     <div class="buscar">
       <form>
-        <input class="form-control me-2" #buscar2 type="search" placeholder="Buscar" aria-label="Buscar" [(ngModel)]="datosNotificacionP" name="buscar"
-          (keyup)="onKeydownEvent($event, buscar2.value)" style="background-color: #e5e7e8; border-color: #004f9f;">
+        <input class="form-control me-2" #buscar2 type="search" placeholder="Buscar" aria-label="Buscar"
+          [(ngModel)]="datosNotificacionP" name="buscar" (keyup)="onKeydownEvent($event, buscar2.value)"
+          style="background-color: #e5e7e8; border-color: #004f9f;">
       </form>
       <button (click)="listaPendientes()">Pendientes</button>
       <button (click)="listaPrestados()">Prestados</button>
@@ -19,22 +20,20 @@
       <button (click)="listaRestituidos()">Restituido</button>
       <button (click)="listaDestruidos()">Libros Destruidos</button>
     </div>
-
+    <table class="header">
+      <thead class="text-center cabezera">
+        <tr>
+          <th style="width: 11%;">Cedula</th>
+          <th style="width: 33%">Título del Libro</th>
+          <th>Fecha</th>
+          <th>Estado</th>
+          <th style="width: 35%;">Acciones</th>
+        </tr>
+      </thead>
+    </table>
 
     <div class="contenedor">
       <table class="table">
-        <thead class="text-center cabezera">
-          <tr>
-            <th>Cedula</th>
-            <th>Título del Libro</th>
-            <th>Fecha</th>
-            <th>Estado</th>
-            <th>Acciones</th>
-
-          </tr>
-        </thead>
-
-
         <tbody class="text-center" *ngIf="pendientes==true">
           <tr *ngFor="let prestamo of listaprestamos">
             <td>{{prestamo.idSolicitante?.cedula}}</td>
