@@ -4,6 +4,7 @@ import { Prestamo } from '../models/Prestamo';
 import Swal from 'sweetalert2';
 import { prestamoService } from '../services/prestamo.service';
 import { Notificacion } from '../models/Notificacion';
+import { NotificacionesService } from '../services/notificaciones.service';
 
 @Component({
   selector: 'app-lista-solicitudes-pendientes',
@@ -23,13 +24,15 @@ notificacion:Notificacion=new Notificacion();
   buscar?: boolean;
   datosNotificacionP:string=""
 
-  constructor(private prestamoService: prestamoService, private router: Router) { }
+  constructor(private notificacionesService:NotificacionesService,private prestamoService: prestamoService, private router: Router) { }
 
   ngOnInit(): void {
     let notificacionDato = localStorage.getItem('Dato') + "";
     this.notificacion = JSON.parse(notificacionDato);
+    
     if(this.notificacion!=null){
       this.datosNotificacionP=this.notificacion.prestamo?.idSolicitante?.cedula+""
+      this.editarNotificacion(this.notificacion);
     console.log(this.notificacion)
     }else{
       console.log(this.notificacion)
@@ -56,6 +59,14 @@ notificacion:Notificacion=new Notificacion();
 
     );
   }
+  editarNotificacion(notificacion:Notificacion){
+    notificacion.visto=true
+    this.notificacionesService.updateVisto(notificacion).subscribe(
+        response=>(
+            console.log(response)
+        )
+    )
+}
 
   aceptarDomicilio(prestamo: Prestamo) {
     const objetoString = JSON.stringify(prestamo);

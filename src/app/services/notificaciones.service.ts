@@ -10,7 +10,9 @@ export class NotificacionesService {
   nuevosRegistros: number = 0;
   private urlendpointnotificacionblib: string = 'http://localhost:8080/notificacion/notificacionesbibliotecarios';
   private urlendpointnotificacionper: string = 'http://localhost:8080/notificacion/notificacionesxpersona';
+  private urlendpointeditarnot: string = 'http://localhost:8080/notificacion/editar';
   public notificationlista: any[]=[];
+  public notificationlistaest:any[]=[];
 
   constructor(private http: HttpClient) { }
 
@@ -22,11 +24,16 @@ export class NotificacionesService {
     return this.http.get<Notificacion[]>(this.urlendpointnotificacionblib);
   }
 
-  getNotificacionPersona(): Observable<Notificacion[]> {
-    return this.http.get<Notificacion[]>(this.urlendpointnotificacionper);
+  
+
+  getNotificacionPersona(idSolicitante: number): Observable<Notificacion[]> {
+    return this.http.get<Notificacion[]>(this.urlendpointnotificacionper+ "?idsolicitante=" + idSolicitante);
   }
 
   public getNotificationLista(): any[] {
     return this.notificationlista;
+  }
+  updateVisto(notificacion: Notificacion) {
+    return this.http.put<Notificacion>(this.urlendpointeditarnot + "/" + notificacion.id, notificacion);
   }
 }

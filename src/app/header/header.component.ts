@@ -25,7 +25,10 @@ export class HeaderComponent implements DoCheck, OnInit {
     usu: boolean = true;
     notificacionmensaje:string=""
     notificationlista: Notificacion[] = [];
-    notificaciones: any[] | undefined;
+    notificationlistaest: Notificacion[] = [];
+    notificaciones: Notificacion[] = [];
+    tipoMensaje: number | undefined;
+    personatraida:Persona = new Persona();
     constructor(private router: Router, private notificacionesService: NotificacionesService, public auth: AuthService, private logSer: LoginService) { 
         
     }
@@ -35,8 +38,14 @@ export class HeaderComponent implements DoCheck, OnInit {
     get nuevosRegistros() { return this.notificacionesService.nuevosRegistros; }
 
     ngOnInit(): void {
-
+        
+        var personaJSONGET = localStorage.getItem("persona");
+        this.persona = JSON.parse(personaJSONGET + "");
+        console.log(this.persona)
+        this.notificarEst(this.persona.id!);
         this.notificar();
+        
+        
         this.auth.isAuthenticated$.subscribe(
             (isAuthenticaed) => {
                 if (isAuthenticaed) {
@@ -56,7 +65,7 @@ export class HeaderComponent implements DoCheck, OnInit {
 
     ngDoCheck(): void {
         this.notificaciones = this.notificacionesService.getNotificationLista();
-        
+        // this.notificationlistaest = this.notificacionesService.getNotificationLista();
         this.persona = JSON.parse(localStorage.getItem('persona') + "");
         if (this.persona != null) {
             if (this.persona.tipo == 1 || this.persona.tipo == 2) {
@@ -83,17 +92,32 @@ export class HeaderComponent implements DoCheck, OnInit {
         console.log(men)
         const objetoString = JSON.stringify(men);
         localStorage.setItem("Dato", objetoString);
+        men.visto=true
         this.router.navigate(['/app-lista-solicitudes-pendientes'])
+    }
+    alertaestudiante(men:Notificacion){
+        console.log(men)
+        const objetoString = JSON.stringify(men);
+        localStorage.setItem("Dato", objetoString);
+        men.visto=true
+        this.router.navigate([''])
+    }
+    editarNotificacion(notificacion:Notificacion){
+        this.notificacionesService.updateVisto(notificacion).subscribe(
+            response=>(
+                console.log(response)
+            )
+        )
     }
     public ocultar() {
         this.notificacionesService.nuevosRegistros = 0;
-        console.log(this.notificaciones)
+        
         
 
     }
     public clear() {
         this.notificacionesService.nuevosRegistros = 0;
-        console.log(this.notificaciones)
+        
         
 
     }
@@ -104,7 +128,7 @@ export class HeaderComponent implements DoCheck, OnInit {
     verificar(email: string, nombres: string) {
         this.logSer.verificar(email, nombres).subscribe({
             next: response => {
-                console.log('HOLAAAAA');
+                
             },
             error: error => {
                 if (error.status === 400) {
@@ -126,9 +150,25 @@ export class HeaderComponent implements DoCheck, OnInit {
 
     public notificar(){
         this.notificacionesService.getNotificacionBibliotecario().subscribe(
-            response =>(console.log(response),this.notificacionesService.notificationlista=response,console.log(this.notificacionesService.notificationlista))
+            response =>(this.notificacionesService.notificationlista=response)
         )
+    
     }
+    public notificarEst(id:number){
+        this.notificacionesService.getNotificacionPersona(id).subscribe(
+            response =>(this.notificationlistaest=response,this.validarconteo())
+        )
+
+    
+    }
+    validarconteo(){
+        this.notificationlistaest.forEach(element => {
+            if(element.visto==false){
+                this.notificacionesService.actualizarConteo(1)
+            }
+        });
+    }
+   
 
     validateUser(model: Persona) {
         this.logSer.validateLoginDetails(this.usuario).pipe(
