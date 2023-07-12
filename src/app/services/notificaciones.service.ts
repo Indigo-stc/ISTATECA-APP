@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class NotificacionesService {
   nuevosRegistros: number = 0;
+  nuevosRegistrosEst: number = 0;
   private urlendpointnotificacionblib: string = 'http://localhost:8080/notificacion/notificacionesbibliotecarios';
   private urlendpointnotificacionper: string = 'http://localhost:8080/notificacion/notificacionesxpersona';
   private urlendpointeditarnot: string = 'http://localhost:8080/notificacion/editar';
@@ -18,6 +19,10 @@ export class NotificacionesService {
 
   actualizarConteo(cantidad: number) {
     this.nuevosRegistros += cantidad;
+  }
+
+  actualizarConteoEst(cantidad: number) {
+    this.nuevosRegistrosEst += cantidad;
   }
 
   getNotificacionBibliotecario(): Observable<Notificacion[]> {

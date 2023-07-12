@@ -23,29 +23,38 @@ export class HeaderComponent implements DoCheck, OnInit {
     bibliotecario: boolean = false;
     admin: boolean = false;
     usu: boolean = true;
-    notificacionmensaje:string=""
+    notificacionmensaje: string = ""
     notificationlista: Notificacion[] = [];
     notificationlistaest: Notificacion[] = [];
     notificaciones: Notificacion[] = [];
     tipoMensaje: number | undefined;
-    personatraida:Persona = new Persona();
-    constructor(private router: Router, private notificacionesService: NotificacionesService, public auth: AuthService, private logSer: LoginService) { 
-        
+    personatraida: Persona = new Persona();
+    constructor(private router: Router, private notificacionesService: NotificacionesService, public auth: AuthService, private logSer: LoginService) {
+
     }
-    
+
 
 
     get nuevosRegistros() { return this.notificacionesService.nuevosRegistros; }
+    get nuevosRegistrosEst() { return this.notificacionesService.nuevosRegistrosEst; }
 
     ngOnInit(): void {
-        
+
         var personaJSONGET = localStorage.getItem("persona");
         this.persona = JSON.parse(personaJSONGET + "");
-        console.log(this.persona)
-        this.notificarEst(this.persona.id!);
+
+        if (this.persona != null) {
+            this.notificarEst(this.persona.id!);
+            
+            console.log(this.persona)
+        } else {
+            console.log(this.persona)
+
+        }
+
         this.notificar();
-        
-        
+
+
         this.auth.isAuthenticated$.subscribe(
             (isAuthenticaed) => {
                 if (isAuthenticaed) {
@@ -88,37 +97,42 @@ export class HeaderComponent implements DoCheck, OnInit {
             this.sinSesion = true
         }
     }
-    alerta(men:Notificacion){
+    alerta(men: Notificacion) {
+        this.clear();
         console.log(men)
         const objetoString = JSON.stringify(men);
         localStorage.setItem("Dato", objetoString);
-        men.visto=true
+        men.visto = true
+        alert("blib")
         this.router.navigate(['/app-lista-solicitudes-pendientes'])
     }
-    alertaestudiante(men:Notificacion){
+    alertaestudiante(men: Notificacion) {
+        this.clear();
         console.log(men)
         const objetoString = JSON.stringify(men);
         localStorage.setItem("Dato", objetoString);
-        men.visto=true
+        men.visto = true
+        this.editarNotificacion(men);
+        alert("estudiante")
         this.router.navigate([''])
     }
-    editarNotificacion(notificacion:Notificacion){
+    editarNotificacion(notificacion: Notificacion) {
         this.notificacionesService.updateVisto(notificacion).subscribe(
-            response=>(
+            response => (
                 console.log(response)
             )
         )
     }
     public ocultar() {
         this.notificacionesService.nuevosRegistros = 0;
-        
-        
+
+
 
     }
     public clear() {
-        this.notificacionesService.nuevosRegistros = 0;
-        
-        
+        this.notificacionesService.nuevosRegistrosEst = 0;
+
+
 
     }
     user?: User = new User;
@@ -128,7 +142,7 @@ export class HeaderComponent implements DoCheck, OnInit {
     verificar(email: string, nombres: string) {
         this.logSer.verificar(email, nombres).subscribe({
             next: response => {
-                
+
             },
             error: error => {
                 if (error.status === 400) {
@@ -140,7 +154,7 @@ export class HeaderComponent implements DoCheck, OnInit {
                         timer: 3000
                     })
                 }
-                
+
                 if (error.status === 200) {
                     this.validateUser(this.usuario)
                 }
@@ -148,27 +162,42 @@ export class HeaderComponent implements DoCheck, OnInit {
         });
     }
 
-    public notificar(){
+    public notificar() {
         this.notificacionesService.getNotificacionBibliotecario().subscribe(
-            response =>(this.notificacionesService.notificationlista=response,this.validarconteo())
-        )
-    
-    }
-    public notificarEst(id:number){
-        this.notificacionesService.getNotificacionPersona(id).subscribe(
-            response =>(this.notificationlistaest=response,this.validarconteo())
+            response => (this.notificationlista = response, this.validarconteoB())
         )
 
-    
     }
-    validarconteo(){
-        this.notificationlistaest.forEach(element => {
-            if(element.visto==false){
-                this.notificacionesService.actualizarConteo(1)
-            }
-        });
+    public notificarEst(id: number) {
+        this.notificacionesService.getNotificacionPersona(id).subscribe(
+            response => (this.notificationlistaest = response, this.validarconteo())
+        )
+
+
     }
-   
+    validarconteo() {
+        if(this.notificationlistaest!=null){
+            this.notificationlistaest.forEach(element => {
+                if (element.visto == false && element.mensaje === 3 || element.mensaje === 5 || element.mensaje === 6 || element.mensaje === 7) {
+                    this.notificacionesService.actualizarConteoEst(1)
+                }
+            });
+        }else{
+            
+        }
+        
+    }
+    validarconteoB() {
+        if(this.notificationlista!=null){
+            this.notificationlista.forEach(element => {
+                if (element.visto == false && element.mensaje === 1 || element.mensaje === 4) {
+                    this.notificacionesService.actualizarConteo(1)
+                }
+            });
+        }else{
+            
+        }
+    }
 
     validateUser(model: Persona) {
         this.logSer.validateLoginDetails(this.usuario).pipe(

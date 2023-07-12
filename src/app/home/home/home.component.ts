@@ -126,7 +126,7 @@ export class HomeComponent implements OnInit {
         this.datos = response.idSolicitante?.nombres + "", this.datoslibro = response.libro?.titulo + ""
         var overlay = document.getElementById('overlay');
         overlay?.classList.add('active');
-        this.notificacionesService.actualizarConteo(1)
+        
         this.notificar();
         console.log(response);
         this.ngOnInit();
