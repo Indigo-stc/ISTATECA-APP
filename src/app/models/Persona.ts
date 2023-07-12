@@ -8,7 +8,7 @@ export class Persona {
     nombres?: string;
     apellidos?:string;
     direccion?:string;
-    calificacion?:string;
+    calificacion?:number;
     tipo?:number;
     password?: string;
     fenixId?: number;

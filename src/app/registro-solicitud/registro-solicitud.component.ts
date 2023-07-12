@@ -50,6 +50,7 @@ export class RegistroSolicitudComponent {
       confirmButtonText: 'Aceptar',
       cancelButtonText: 'Cancelar',
       showLoaderOnConfirm: true,
+      
       preConfirm: (texto) => {
         if (texto.length == 10) {
           if (!this.validarSoloLetras(texto)) {
@@ -81,7 +82,9 @@ export class RegistroSolicitudComponent {
 
         }
 
-      }
+      },
+      
+
     }
     )
 
@@ -117,44 +120,27 @@ export class RegistroSolicitudComponent {
     console.log(this.dato);
   }
   buscarCed(cedula: string) {
-    if (cedula == "") {
-      Swal.fire({
-        confirmButtonColor: '#012844',
-        icon: 'warning',
-        title: 'Ups...',
-        text: 'Ingrese la cédula'
-      })
-    } else {
-      if (cedula.length === 10) {
-        this.personaService.listarxcedula(cedula).subscribe(
-          response => {
-            this.persona = response;
-            if (this.persona.tipo == 1) {
-              this.carrera(this.persona.cedula);
-              this.carEst = true;
-            } else {
-              this.carEst = false;
-            }
-          },
-          error => {
-            Swal.fire({
-              confirmButtonColor: '#012844',
-              icon: 'warning',
-              title: 'No encontrado',
-              text: 'El usuario no esta registrado en el sistema de la biblioteca.'
-            }),
-              this.persona.cedula = "";
-            this.router.navigate(['/']);
-          }
-
-
-        )
+    this.personaService.listarxcedula(cedula).subscribe(
+      response => {
+        this.persona = response;
+        if (this.persona.tipo == 1) {
+          this.carrera(this.persona.cedula);
+          this.carEst = true;
+        } else {
+          this.carEst = false;
+        }
+      },
+      error => {
+        Swal.fire({
+          confirmButtonColor: '#012844',
+          icon: 'warning',
+          title: 'No encontrado',
+          text: 'El usuario no esta registrado en el sistema de la biblioteca.'
+        }),
+          this.persona.cedula = "";
+        this.router.navigate(['/']);
       }
-
-    }
-
-
-
+    )
   }
 
   guardar() {

@@ -238,7 +238,14 @@ export class HeaderComponent implements DoCheck, OnInit {
                         const role = localStorage.getItem('roles');
                         let usuarioJSON = JSON.stringify(this.usuario);
                         localStorage.setItem('persona', usuarioJSON);
-
+                        if (this.usuario.celular == undefined || this.usuario.celular == null  && this.usuario.direccion==undefined || this.usuario.direccion==null) {
+                            Swal.fire({
+                                confirmButtonColor: '#012844',
+                                icon: 'warning',
+                                title: 'Llene todos los campos',
+                              })
+                            this.router.navigate(['/app-form-editUsuario']);
+                        } else {
                         switch (role) {
                             case 'ROLE_STUD':
                                 this.router.navigate(['/']);
@@ -256,6 +263,7 @@ export class HeaderComponent implements DoCheck, OnInit {
                                 break;
                         }
                         console.log(role);
+                    }
                     }
                 }
             }

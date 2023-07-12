@@ -64,13 +64,13 @@ export class FormEditComponent implements OnInit {
             icon: 'success',
             html:
             
-              'El usuario<br><b>'+this.persona2.nombres+' '+this.persona2.apellidos+'</b><br>'+
+              'El usuario<br><b>'+this.persona.nombres+' '+this.persona.apellidos+'</b><br>'+
               'ha sido actualizado correctamente'
           
          }
          
         )
-        this.router.navigate(['app-pagina-inicio'])
+        this.router.navigate(['/'])
       }
     })
 

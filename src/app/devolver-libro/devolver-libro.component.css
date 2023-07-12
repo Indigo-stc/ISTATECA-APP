@@ -33,9 +33,6 @@ body {
   transform: scale(1.021);
 }
 
-.card:active {
-  transform: scale(0.95) rotateZ(1.1deg);
-}
 
 h1 {
   margin-top: 3%;
@@ -123,12 +120,12 @@ button:hover span {
 
 .details {
   font-size: medium;
-  width: 60%;
+  width: 40%;
 }
 
 .details2 {
   font-size: medium;
-  width: 80%;
+  width: 40%;
 }
 
 .content {
@@ -155,4 +152,45 @@ input {
   width: 80%;
   margin-right: 1%;
   color: black;
+}
+
+
+
+
+
+
+
+
+
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.container {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+}
+
+.container svg {
+  position: relative;
+  top: 0;
+  left: 0;
+  height: 30px;
+  width: 30px;
+  transition: all 0.3s;
+  fill: #666;
+}
+
+.container svg:hover {
+  transform: scale(1.1);
+}
+
+.container input:checked ~ svg {
+  fill: #ffeb49;
 }

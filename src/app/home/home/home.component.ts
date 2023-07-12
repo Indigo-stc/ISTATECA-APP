@@ -88,6 +88,13 @@ export class HomeComponent implements OnInit {
 
 
   SolicitarLibro(paginacrear: Libro) {
+    if(this.persona.calificacion==0 && this.persona.activo==false){
+      Swal.fire({
+        confirmButtonColor: '#012844',
+        icon: 'error',
+        title: 'Solicitud Denegada',
+      })
+    }else{
     if (this.persona == null) {
       Swal.fire({
         confirmButtonColor: '#012844',
@@ -101,6 +108,7 @@ export class HomeComponent implements OnInit {
       this.confirmar(paginacrear);
       this.generateQRCode(paginacrear.id + "");
     }
+  }
   }
 
   cerrarpopup() {
