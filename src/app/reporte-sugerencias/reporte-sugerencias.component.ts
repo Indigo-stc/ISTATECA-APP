@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core'
+import { Sugerencia } from '../models/Sugerencia'
+import { sugerenciaService } from '../services/sugerencia.service';
+
 
 @Component({
   selector: 'app-reporte-sugerencias',
@@ -7,9 +10,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ReporteSugerenciasComponent implements OnInit {
 
-  constructor() { }
+  sugerencias:Sugerencia[]=[];
+
+  constructor(private sugerenciasService:sugerenciaService) { }
 
   ngOnInit(): void {
+    this.sugerenciasService.getSugerencia().subscribe(
+      Sugerencias => this.sugerencias=Sugerencias
+    );
   }
 
 }
