@@ -8,16 +8,20 @@ import { Observable } from 'rxjs';
   })
 export class sugerenciaService{
 
-  private urlCrearsugerencia:String = 'http://localhost:8080/sugerencia/crear';
+  private urlCrearsugerencia: string = 'http://localhost:8080/sugerencia/crear';
   private urlEndPoint: string = 'http://localhost:8080/sugerencia/listar'
 
   
   private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' })
   constructor(private http: HttpClient) { }
 
-  /*create(sugerencias: Sugerencia): Observable<Sugerencia> {
+  create(sugerencias: Sugerencia): Observable<Sugerencia> {
     return this.http.post<Sugerencia>(this.urlCrearsugerencia, sugerencias,{headers:this.httpHeaders})
 
-  }*/
+  }
+
+  getSugerencia():Observable<Sugerencia[]> {
+    return this.http.get<Sugerencia[]>(this.urlEndPoint);
+  }
   
 }
