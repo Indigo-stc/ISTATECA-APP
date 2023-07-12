@@ -29,6 +29,13 @@ export class HeaderComponent implements DoCheck, OnInit {
     notificaciones: Notificacion[] = [];
     tipoMensaje: number | undefined;
     personatraida: Persona = new Persona();
+    datosLiro: string="";
+    datosLibro2: string | undefined;
+    datosLibro3: string | undefined;
+    datosPrest: string | undefined;
+    datosPrest2: string | undefined;
+    datosPrest3: string | undefined;
+    datosPrest4: string | undefined;
     constructor(private router: Router, private notificacionesService: NotificacionesService, public auth: AuthService, private logSer: LoginService) {
 
     }
@@ -107,13 +114,58 @@ export class HeaderComponent implements DoCheck, OnInit {
         this.router.navigate(['/app-lista-solicitudes-pendientes'])
     }
     alertaestudiante(men: Notificacion) {
+
         this.clear();
         console.log(men)
         const objetoString = JSON.stringify(men);
         localStorage.setItem("Dato", objetoString);
         men.visto = true
         this.editarNotificacion(men);
-        alert("estudiante")
+        this.datosLiro=""+men.prestamo?.libro?.titulo
+        this.datosLibro2=""+men.prestamo?.libro?.descripcion
+        if(men.prestamo?.libro?.estadoLibro==1){
+            this.datosLibro3="Bueno"
+
+        }else  if(men.prestamo?.libro?.estadoLibro==2){
+            this.datosLibro3="Regular"
+
+        }else  if(men.prestamo?.libro?.estadoLibro==3){
+            this.datosLibro3="Malo"
+
+        }
+        
+
+        this.datosPrest3=""+men.prestamo?.idEntrega?.nombres
+        
+        if(men.prestamo?.estadoPrestamo==1){
+            this.datosPrest="Solicitado"
+
+        }else  if(men.prestamo?.estadoPrestamo==2){
+            this.datosPrest="Prestado"
+
+        }else  if(men.prestamo?.estadoPrestamo==3){
+            this.datosPrest="Recibido"
+
+        }else  if(men.prestamo?.estadoPrestamo==4){
+            this.datosPrest="Libro destruido"
+
+        }else  if(men.prestamo?.estadoPrestamo==5){
+            this.datosPrest="No devuelto"
+
+        }else  if(men.prestamo?.estadoPrestamo==6){
+            this.datosPrest="Restituido"
+
+        }else  if(men.prestamo?.estadoPrestamo==7){
+            this.datosPrest="Rechazado"
+
+        }else  if(men.prestamo?.estadoPrestamo==7){
+            this.datosPrest="Aprobado"
+
+        }
+        this.datosPrest2=""+men.prestamo?.fechaMaxima
+        this.datosPrest4=""+men.prestamo?.fechaFin
+        var overlay = document.getElementById('overlay');
+        overlay?.classList.add('active');
         this.router.navigate([''])
     }
     editarNotificacion(notificacion: Notificacion) {
@@ -135,6 +187,10 @@ export class HeaderComponent implements DoCheck, OnInit {
 
 
     }
+    cerrarpopup() {
+        var overlay = document.getElementById('overlay');
+        overlay?.classList.remove('active');
+      }
     user?: User = new User;
     usuario = new Persona();
 
@@ -264,7 +320,7 @@ export class HeaderComponent implements DoCheck, OnInit {
                         }
                         console.log(role);
                     }
-                    }
+                }
                 }
             }
         );

@@ -290,6 +290,8 @@
                             <div class="text">Revisar</div>
                           </button>
 
+                          
+
                           <button class="Btn" *ngIf="mensaje.visto"
                             style="  top:  100%; background-color: rgb(129, 242, 129);">
 
@@ -373,6 +375,35 @@
         </ul>
       </div>
 
+    </div>
+    <div class="overlay" id="overlay">
+      <div class="popup" id="popup">
+        <h3>Vista previa </h3>
+
+        <h4><strong>Titulo del libro solicitado:</strong> {{datosLiro}}<br><strong>Descripción del libro solicitado:</strong> {{datosLibro2}}
+          <br><strong>Estado del libro solicitado:</strong> {{datosLibro3}}
+          <hr>
+          <strong>Nombre del bibliotecario que registra:</strong> {{datosPrest3}}
+          <br><strong>Estado del prestamo:</strong> {{datosPrest}}
+          <br><strong>Fecha de entrega al solicitante:</strong> {{datosPrest4}}
+          <br><strong>Fecha maxima de devolución:</strong> {{datosPrest2}}</h4>
+        
+        <button style="width: 100%;
+        margin-left: 2%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: inherit;
+        font-weight: 500;
+        font-size: 12px;
+        padding: 0.8em 1.3em 0.8em 0.9em;
+        color: white;
+        background: #1C69B7;
+        border: none;
+        border-radius: 16px;"  id="cerrarpopup" class="btn-outline-primary"  (click)="cerrarpopup()" >
+          <FONT COLOR="white">Aceptar</FONT>
+        </button>
+      </div>
     </div>
 
   </div>
