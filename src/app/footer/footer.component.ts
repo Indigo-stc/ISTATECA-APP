@@ -1,4 +1,7 @@
 import { Component, OnInit } from "@angular/core";
+import { Persona } from "../models/Persona";
+import { Sugerencia } from "../models/Sugerencia";
+import { sugerenciaService } from "../services/sugerencia.service";
 
 @Component({
     selector: 'app-footer',
@@ -7,11 +10,21 @@ import { Component, OnInit } from "@angular/core";
 
 })
 export class FooterComponent implements OnInit{
-    ngOnInit(): void {
-       // throw new Error("Method not implemented.");
+  sugerencia : Sugerencia = new Sugerencia();
+  persona: Persona = new Persona();
+
+
+  constructor (private sugerenciaService: sugerenciaService) {}
+
+    ngOnInit(){
+      let usuarioJSON = localStorage.getItem('persona') + "";
+    this.persona = JSON.parse(usuarioJSON);
     }
     autor: any = {nombre: 'Johann', apellido: 'Arizaga'}
 
+   
+   
+   
     displayStyle = "none";
   
   openPopup() {
