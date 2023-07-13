@@ -26,7 +26,7 @@ export class VistaRegistroNewComponent implements OnInit {
 
   bibliotecarios: Bibliotecario = {};
   tipo: Tipo = new Tipo;
-  file: any;
+  imagen?: File;
   reporteV: String = "";
   reporteV2: String = "";
   bibliotecarioE: Bibliotecario = {};
@@ -38,7 +38,7 @@ export class VistaRegistroNewComponent implements OnInit {
   displayPopup: boolean = false;
 
   opcionSeleccionado: string = '0';
-  verSeleccion: string = '';
+  idlibro?: number=0;
 
   idb?: number;
   nombreT: string = '';
@@ -273,6 +273,7 @@ export class VistaRegistroNewComponent implements OnInit {
 
   capturarImagen(event: any): any {
     const archivocapturado = event.target.files[0]
+    this.imagen = event.target.files[0]
     this.extraerBase64(archivocapturado).then((imagen: any) => {
       this.previsualizacion = imagen.base;
     })
@@ -366,21 +367,41 @@ export class VistaRegistroNewComponent implements OnInit {
     console.log(librosFCopy);
 
     this.libroservice.create(librosFCopy).subscribe(
-      Response => {
-
-
+      (Response : Libro) => {
         this.Libro
-        Swal.fire({
-          position: 'center',
-          icon: 'success',
-          title: '<strong>Has registrado un Libro</strong>',
-          showConfirmButton: false,
-          timer: 1500
-        })
-        console.log(this.libroservice);
-        setTimeout(() => {
-          location.reload();
-        }, 1000);
+        this.idlibro = Response.id
+        console.log(this.idlibro);
+        
+        if (this.imagen) {
+          if (this.idlibro) {
+            this.libroservice.subirImagen(this.idlibro, this.imagen).subscribe(
+              (response: any) => {
+                console.log('Imagen subida:', response);
+                Swal.fire({
+                  position: 'center',
+                  icon: 'success',
+                  title: '<strong>Has registrado un Libro</strong>',
+                  showConfirmButton: false,
+                  timer: 1500
+                })
+                
+                setTimeout(() => {
+                  //location.reload();
+                }, 1000);
+              },
+              (error: any) => {
+                console.error('Error al subir la imagen:', error);
+                // Maneja el error de acuerdo a tus necesidades
+              }
+            );
+          } else {
+            console.warn('El ID del libro es undefined.');
+          }
+        } else {
+          console.warn('No se ha seleccionado ningún archivo.');
+        }
+
+       
 
       }
 

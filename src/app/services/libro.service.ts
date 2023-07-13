@@ -12,6 +12,7 @@ export class LibroService {
   private urlendpoint1: string = 'http://localhost:8080/libro/listar';
   private urlBuscarLibro: string = 'http://localhost:8080/libro/listarlibrosxnombre';
   private urlListarAutor: string = 'http://localhost:8080/autor/listar';
+  private guardarImagen: string = 'http://localhost:8080/libro/subirimagen';
   private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' })
 
   constructor(private http: HttpClient) { }
@@ -26,6 +27,13 @@ export class LibroService {
     : Observable<Libro[]> {
     let res = this.urlBuscarLibro + '/' + nombre;
     return this.http.get<Libro[]>(res);
+  }
+
+  subirImagen(id: number, imagen: File): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('imagen', imagen);
+
+    return this.http.post<any>(`${this.guardarImagen}/${id}`, formData);
   }
 }
 
