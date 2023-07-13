@@ -9,6 +9,7 @@ import { catchError, throwError } from "rxjs";
 import jwt_decode from 'jwt-decode';
 import Swal from 'sweetalert2';
 import { Notificacion } from "../models/Notificacion";
+import jsPDF from "jspdf";
 
 @Component({
     selector: 'app-header',
@@ -161,10 +162,10 @@ export class HeaderComponent implements DoCheck, OnInit {
         }else  if(men.prestamo?.estadoPrestamo==7){
             this.datosPrest="Aprobado"
 
-        }
+        }   
         this.datosPrest2=""+men.prestamo?.fechaMaxima
         this.datosPrest4=""+men.prestamo?.fechaFin
-        var overlay = document.getElementById('overlay');
+        var overlay = document.getElementById('overlay1');
         overlay?.classList.add('active');
         this.router.navigate([''])
     }
@@ -183,13 +184,13 @@ export class HeaderComponent implements DoCheck, OnInit {
     }
     public clear() {
         this.notificacionesService.nuevosRegistrosEst = 0;
-
+        this.notificacionesService.nuevosRegistros = 0;
 
 
     }
     cerrarpopup() {
-        var overlay = document.getElementById('overlay');
-        overlay?.classList.remove('active');
+        var overlay1 = document.getElementById('overlay1');
+        overlay1?.classList.remove('active');
       }
     user?: User = new User;
     usuario = new Persona();
@@ -326,8 +327,82 @@ export class HeaderComponent implements DoCheck, OnInit {
         );
     }
 
+    //REPORTE CERTIFICADO DE NO ADEUDO
+    generatePDF(persona: Persona) {
 
+        const doc = new jsPDF();
+        const imageUrl = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXotrlX_YA5yRNS_64iVeeWmrizuGvbmxg6iJhwMh9w-0ZJY7WTSMbWypW5fKMKRIqPz8&usqp=CAU'; // URL de la imagen que deseas cargar
+    
+        // Cargar la imagen desde la URL
+        doc.addImage(imageUrl, 'PNG', 10, 8, 10, 10);
+        const text = 'BANCO SU BANCO Guayaquil- Ecuador\nTelf:044099653\nBancosubanco.com';
+        doc.setFontSize(8);
+        doc.text(text, 20, 10);
+    
 
+    
+    
+    
+        
+    
+    
+        // Agregar tabla de 3 filas por 3 columnas
+        const form3 = [
+          [{ content: 'CERTIFICADO DE NO ADEUDO', colSpan: 6, styles: { halign: 'center', fillColor: '#FFFFFF', textColor: '#FFFFFF', fontStyle: 'bold' } }],
+          
+          [{ content: 'fecha', colSpan: 6, styles: { halign: 'left', fillColor: '#FFFFFF', textColor: '#FFFFFF', fontStyle: 'normal' } }],
+         
+
+          //persona
+          [{ content: 'Yo JULIANA PICHAZACA, en mi carácter de Jefe de la Unidad de Servicio de Biblioteca del Instituto Superior Tecnológico del Azuay, hago constar que la estudiante de la carrera Tecnología en Desarrollo Infantil:', colSpan: 6, styles: { halign: 'center', fillColor: '#FFFFFF', textColor: '#000000', fontStyle: 'normal' } }],
+          
+          [{ content: persona.nombres + ' ' + persona.apellidos+' CI: '+persona.cedula, colSpan: 6, styles: { halign: 'center', fillColor: '#FFFFFF', textColor: '#000000', fontStyle: 'normal' } }],
+
+          [{ content: 'No tiene adeudo de los libros en la biblioteca a mi cargo. Se extiende la presente para los fines que a la interesada convenga.', colSpan: 6, styles: { halign: 'center', fillColor: '#FFFFFF', textColor: '#000000', fontStyle: 'normal' } }],
+          
+          [{ content: 'Atentamente:', colSpan: 6, styles: { halign: 'center', fillColor: '#FFFFFF', textColor: '#000000', fontStyle: 'normal' } }],
+          [{ content: 'Mgtr. Juliana Rocío Pichazaca Tenesaca Jefe de la Unidad de Servicio de Biblioteca', colSpan: 6, styles: { halign: 'center', fillColor: '#FFFFFF', textColor: '#000000', fontStyle: 'normal' } }],
+
+          [{ content: 'Dirección: Av. Octavio Chacón 1-98 y Primera Transversal Teléfono: (07) 2809-551 / Celular: 0995363076   E-mail: secretaria@tecazuay.edu.ec Cuenca – Ecuador', colSpan: 6, styles: { halign: 'center', fillColor: '#FFFFFF', textColor: '#000000', fontStyle: 'normal' } }],
+          //datos
+          
+          // Agrega más filas según sea necesario
+        ];
+        (doc as any).autoTable({
+          body: form3,
+          tableWidth: 'auto',
+          startY:40,
+          didParseCell: function (data: any) {
+            if (data.row.index === 0 || data.row.index === 1 || data.row.index === 3) {
+              // Establecer color de fondo
+              data.cell.styles.fillColor = '#FFFFFF';
+    
+              // Establecer color de letra
+              data.cell.styles.textColor = '#000000';
+            }
+    
+            // Añadir bordes
+            
+            
+    
+            // Establecer estilo de borde para las celdas superiores
+            if (data.row.index === 0) {
+              data.cell.styles.borderTopStyle = 'solid';
+            }
+    
+          }
+    
+        });
+    
+    
+    
+        
+    
+        
+        
+        // Guardar el documento PDF
+        doc.save('Certificado de no adeudo.pdf');
+      }
 }
 
 
