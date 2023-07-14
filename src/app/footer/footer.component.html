@@ -12,7 +12,17 @@
         <div class="modal-body">
           <textarea class="form-control" placeholder="Dejanos una sugerencias de algun libro"
             id="floatingTextarea"></textarea>
-
+        </div>
+        <div class="p-col-12 p-md-4">
+          <span class="details">Carrera:</span>
+                            <input type="text" class="form-control" *ngIf="carEst==true" value="{{carreraEst}}"
+                                name="nombres" required disabled>
+                            <select class="combo form-select" *ngIf="carEst==false" (change)="seleccionT($event)"
+                                name="carrera" required>
+                                <option disabled selected>Seleccione una carrera</option>
+                                <option *ngFor="let carrera of carreras" value="{{carrera.id}}"> {{carrera.nombre}}
+                                </option>
+                            </select>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-danger" (click)="closePopup()">

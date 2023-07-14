@@ -2,6 +2,8 @@ import { Component, OnInit } from "@angular/core";
 import { Persona } from "../models/Persona";
 import { Sugerencia } from "../models/Sugerencia";
 import { sugerenciaService } from "../services/sugerencia.service";
+import { Carrera } from "../models/Carrera";
+import { CarreraService } from "../services/carrera.service";
 
 @Component({
     selector: 'app-footer',
@@ -12,16 +14,26 @@ import { sugerenciaService } from "../services/sugerencia.service";
 export class FooterComponent implements OnInit{
   sugerencia : Sugerencia = new Sugerencia();
   persona: Persona = new Persona();
+  carrera: Carrera = new Carrera();
+  carreraEst?: string;
+
+  carreras: Carrera[] = [];
+  carEst?: boolean;
+  idC?: number;
+
+  
 
 
-  constructor (private sugerenciaService: sugerenciaService) {}
+  constructor (private sugerenciaService: sugerenciaService, private CarreraService: CarreraService) {}
 
     ngOnInit(){
-      let usuarioJSON = localStorage.getItem('persona') + "";
+     let usuarioJSON = localStorage.getItem('persona') + "";
     this.persona = JSON.parse(usuarioJSON);
     }
-    autor: any = {nombre: 'Johann', apellido: 'Arizaga'}
-
+    
+    seleccionT(e: any) {
+      this.idC = e.target.value;
+    }
    
    
    
