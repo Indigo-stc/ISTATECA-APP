@@ -6,5 +6,4 @@ export class Tercero{
     correo?:string;
     nombre?:string;
     telefono?:string;
-    prestamo?:Prestamo;
 }

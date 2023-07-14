@@ -1,8 +1,5 @@
 body {
   height: 80vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   padding: 10px;
   background-image: url(https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/logos%2Ffondo-blanco.jpg?alt=media&token=c8998dec-d6d9-4e39-a6f4-7aff45ede80d);
   background-repeat: no-repeat;
@@ -15,10 +12,39 @@ body {
   margin-top: 1%;
 }
 
-.card {
-  width: 90%;
-  height: 90%;
+.menu {
+  width: 20%;
+  height: 80%;
+  margin-left: -3%;
+  border: 1px solid #004f9f;
+  position: absolute;
+  background-image: linear-gradient(90deg,#0067CF,white);
+   z-index: 0;
+}
+
+.menuOp {
+  background-color: #004f9f;
+  color: white;
+  height: 50%;
+  text-align: center;
+  width: 100%;
+  margin-left: -2%;
   margin-top: 3%;
+  border-radius: 0%;
+  margin-right: -2%;
+  border: 1px solid #004f9f;
+}
+
+.menuOp:hover {
+  background-color: white;
+  color: #004f9f;
+}
+
+.card {
+  width: 78%;
+  height: 90%;
+  margin-top: 1%;
+  margin-left: 20%;
   background-color: transparent;
   box-shadow: rgba(0, 0, 0, 0.4) 10px 20px 30px, rgba(0, 0, 0, 0.3) 10px 1px 53px 3px, rgba(1, 0, 0, 0.2) 0px -1px 3px inset;
   text-align: center;
@@ -48,11 +74,11 @@ h1 {
 }
 
 .table {
-  width: 95%;
+  width: 95.4%;
   border: 1px solid #004f9f;
   margin-left: 3%;
   margin-bottom: 2%;
-  
+
   margin-top: -0.1%;
 }
 

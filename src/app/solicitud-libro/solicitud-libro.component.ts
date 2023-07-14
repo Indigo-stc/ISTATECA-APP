@@ -126,7 +126,6 @@ export class SolicitudLibroComponent implements OnInit {
 
 
   guardar() {
-
     this.prestamo.estadoPrestamo = 2;
     this.prestamo.carrera = this.car;
     this.prestamo.idEntrega = this.persona;
@@ -144,7 +143,7 @@ export class SolicitudLibroComponent implements OnInit {
         if (this.carreraEst != undefined) {
           this.prestamo.carrera = this.carreraEstu;
         }
-
+console.log(this.prestamo)
         this.PrestamoService.update(this.prestamo).subscribe(
           response => {
             Swal.fire({

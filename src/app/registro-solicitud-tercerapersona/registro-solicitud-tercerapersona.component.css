@@ -74,7 +74,8 @@ body {
   
   
   
-  button {
+
+  .button5 {
     margin-top: 1%;
     margin-bottom: 4%;
     font-family: inherit;
@@ -87,22 +88,29 @@ body {
     border-radius: 16px;
   }
   
-  button svg {
+  .button5 svg {
     margin-right: 3px;
     transform: rotate(0deg);
     transition: transform 0.50s cubic-bezier(0.76, 0, 0.24, 1);
   }
   
-  button span {
+  .button5 span {
     transition: transform 0.5s cubic-bezier(0.76, 0, 0.24, 1);
   }
   
-  button:hover svg {
+  .button5:hover svg {
     transform: translateX(2px) rotate(-20deg);
   }
   
-  button:hover span {
+  .button5:hover span {
     transform: translateX(7px);
+  }
+  
+  .botones{
+    height: 0%;
+    font-size: small;
+    margin-bottom: -0.5%;
+    margin-right: 1%;
   }
   
   
@@ -144,3 +152,54 @@ body {
   .details{
     width: 30%;
   }
+
+  
+.botonB {
+  height: 100%;
+  width: 100%;
+  background-color: transparent;
+  border: 1px solid transparent;
+  font-size: 12px;
+  color: black;
+}
+
+.lib {
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+.complet-container {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: auto;
+  flex-direction: column;
+  width: 300px;
+  margin-left: 20%;
+  border: 1px solid #004f9f;
+  background-color: white;
+}
+
+.complet {
+  border-radius: 3px;
+  text-align: center;
+  width: auto;
+  color: black;
+  border-color: 1px solid #004f9f;
+}
+
+.botonB {
+  display: block;
+  margin-bottom: 5px;
+  border-color: 1px solid #004f9f;
+}
+
+.otroLib {
+  background-color: #004f9f;
+  color: white;
+  font-size: 10px;
+  width: auto;
+  height: 10%;
+}

@@ -1,33 +1,43 @@
-<div class="imagen">
-  <img
-    src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/logos%2Flogo%20normal%20peque%C3%B1o.png?alt=media&token=59a16c73-3229-4ba7-81be-567aae799d61"
-    height="60" width="200" style="margin-left: 10%; margin-top: 1%;">
-</div>
-
 <body>
+  <div class="menu">
+    <ul>
+      <button class="menuOp" (click)="listaPendientes()">Solicitudes Pendientes</button>
+      <button class="menuOp" (click)="listaPrestados()">Solicitudes Prestado</button>
+      <button class="menuOp" (click)="listaRecibidos()">Solicitudes Recibidas</button>
+      <button class="menuOp" (click)="listaNoDevueltos()">Libros No Devueltos</button>
+      <button class="menuOp" (click)="listaRestituidos()">Libros Restituido</button>
+      <button class="menuOp" (click)="listaDestruidos()">Libros Destruidos o Perdidos</button>
+    </ul>
+  </div>
+  <div class="imagen">
+    <img
+      src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/logos%2Flogo%20normal%20peque%C3%B1o.png?alt=media&token=59a16c73-3229-4ba7-81be-567aae799d61"
+      height="40" width="150" style="margin-left: 20%; margin-top: 1%;">
+  </div>
+
   <div class="card">
-    <h1>Lista de Solicitudes</h1>
+    <h1 *ngIf="pendientes==true">Lista de Solicitudes Pendientes</h1>
+    <h1 *ngIf="prestados==true">Lista de Solicitudes Prestado</h1>
+    <h1 *ngIf="recibidos==true">Lista de Solicitudes Recibidos</h1>
+    <h1 *ngIf="nodevuelto==true">Libros No devueltos</h1>
+    <h1 *ngIf="restituido==true">Libros Restituidos</h1>
+    <h1 *ngIf="destruido==true">Libros Destruidos o Predidos</h1>
+    <h1 *ngIf="buscar==true">Buscar</h1>
     <div class="buscar">
       <form>
         <input class="form-control me-2" #buscar2 type="search" placeholder="Buscar" aria-label="Buscar"
           [(ngModel)]="datosNotificacionP" name="buscar" (keyup)="onKeydownEvent($event, buscar2.value)"
           style="background-color: #e5e7e8; border-color: #004f9f;">
       </form>
-      <button (click)="listaPendientes()">Pendientes</button>
-      <button (click)="listaPrestados()">Prestados</button>
-      <button (click)="listaRecibidos()">Recibidos</button>
-      <button (click)="listaNoDevueltos()">No devuelto</button>
-      <button (click)="listaRestituidos()">Restituido</button>
-      <button (click)="listaDestruidos()">Libros Destruidos</button>
     </div>
     <table class="header">
       <thead class="text-center cabezera">
         <tr>
           <th style="width: 11%;">Cedula</th>
-          <th style="width: 33%">Título del Libro</th>
-          <th>Fecha</th>
-          <th>Estado</th>
-          <th style="width: 35%;">Acciones</th>
+          <th style="width: 20%">Título del Libro</th>
+          <th style="width: 15%;">Fecha</th>
+          <th style="width: 15%;">Estado</th>
+          <th style="width: 60%;">Acciones</th>
         </tr>
       </thead>
     </table>
@@ -36,11 +46,18 @@
       <table class="table">
         <tbody class="text-center" *ngIf="pendientes==true">
           <tr *ngFor="let prestamo of listaprestamos">
-            <td>{{prestamo.idSolicitante?.cedula}}</td>
-            <td>{{prestamo.libro?.titulo}}</td>
-            <td>{{prestamo.fechaFin}}</td>
-            <td>{{ getNombreEstado(prestamo.estadoPrestamo) }}</td>
-            <td style="display: flex; justify-content: center;">
+            <td style="width: 11%;" *ngIf="prestamo.tipoPrestamo == 1 || prestamo.tipoPrestamo==2; else menor">
+              {{prestamo.idSolicitante?.cedula}}
+            </td>
+            <ng-template #menor>
+              <td style="width: 11%;" *ngIf="prestamo.estadoPrestamo == 3;">
+                {{prestamo.fechaEntrega}}
+              </td>
+            </ng-template>
+            <td style="width: 20%">{{prestamo.libro?.titulo}}</td>
+            <td style="width: 15%;">{{prestamo.fechaFin}}</td>
+            <td style="width: 15%;">{{ getNombreEstado(prestamo.estadoPrestamo) }}</td>
+            <td style="width: 60; display: flex;">
               <button (click)="aceptarDomicilio(prestamo)">Aceptar Solitud Domicilio</button>&nbsp;
               <button (click)="aceptar(prestamo)">Aceptar Solitud Institución</button>
             </td>
@@ -49,35 +66,55 @@
 
         <tbody class="text-center" *ngIf="prestados==true">
           <tr *ngFor="let prestamo of listaprestamos">
-            <td>{{prestamo.idSolicitante?.cedula}}</td>
-            <td>{{prestamo.libro?.titulo}}</td>
-            <td>{{prestamo.fechaEntrega}}</td>
-            <td>{{ getNombreEstado(prestamo.estadoPrestamo) }}</td>
-            <td style="display: flex; justify-content: center;">
+            <td style="width: 11%;" *ngIf="prestamo.tipoPrestamo == 1 || prestamo.tipoPrestamo==2; else menor">
+              {{prestamo.idSolicitante?.cedula}}
+            </td>
+            <ng-template #menor>
+              <td style="width: 11%;" *ngIf="prestamo.estadoPrestamo == 3;">
+                {{prestamo.fechaEntrega}}
+              </td>
+            </ng-template>
+            <td style="width: 20%">{{prestamo.libro?.titulo}}</td>
+            <td  style="width: 15%;">{{prestamo.fechaEntrega}}</td>
+            <td  style="width: 15%;">{{ getNombreEstado(prestamo.estadoPrestamo) }}</td>
+            <td style=" width: 60; height: 100%; display: flex;">
               <button (click)="devolucion(prestamo)">Formulario de devolución</button>&nbsp;
               <button (click)="modificar(prestamo)">Modificar</button>&nbsp;
-
             </td>
           </tr>
         </tbody>
 
         <tbody class="text-center" *ngIf="recibidos==true">
           <tr *ngFor="let prestamo of listaprestamos">
-            <td>{{prestamo.idSolicitante?.cedula}}</td>
-            <td>{{prestamo.libro?.titulo}}</td>
+            <td style="width: 11%;" *ngIf="prestamo.tipoPrestamo == 1 || prestamo.tipoPrestamo==2; else menor">
+              {{prestamo.idSolicitante?.cedula}}
+            </td>
+            <ng-template #menor>
+              <td style="width: 11%;" *ngIf="prestamo.estadoPrestamo == 3;">
+                {{prestamo.fechaEntrega}}
+              </td>
+            </ng-template>
+            <td style="width: 33%">{{prestamo.libro?.titulo}}</td>
             <td>{{prestamo.fechaDevolucion}}</td>
             <td>{{ getNombreEstado(prestamo.estadoPrestamo) }}</td>
-            <button (click)="solicitudCompleta(prestamo)">Ver Prestamo</button>&nbsp;
+           <td style=" width: 35%;"> <button (click)="solicitudCompleta(prestamo)">Ver Prestamo</button>&nbsp;</td>
           </tr>
         </tbody>
 
         <tbody class="text-center" *ngIf="nodevuelto==true">
           <tr *ngFor="let prestamo of listaprestamos">
-            <td>{{prestamo.idSolicitante?.cedula}}</td>
-            <td>{{prestamo.libro?.titulo}}</td>
+            <td style="width: 11%;" *ngIf="prestamo.tipoPrestamo == 1 || prestamo.tipoPrestamo==2; else menor">
+              {{prestamo.idSolicitante?.cedula}}
+            </td>
+            <ng-template #menor>
+              <td style="width: 11%;" *ngIf="prestamo.estadoPrestamo == 3;">
+                {{prestamo.fechaEntrega}}
+              </td>
+            </ng-template>
+            <td style="width: 33%">{{prestamo.libro?.titulo}}</td>
             <td style="color: crimson;">{{prestamo.fechaMaxima}}</td>
             <td>{{ getNombreEstado(prestamo.estadoPrestamo) }}</td>
-            <td style="display: flex; justify-content: center;">
+            <td style="display: flex; justify-content: center;  width: 35%;">
               <button (click)="devolucion(prestamo)">Recibir libro</button>&nbsp;
             </td>
           </tr>
@@ -85,81 +122,105 @@
 
         <tbody class="text-center" *ngIf="restituido==true">
           <tr *ngFor="let prestamo of listaprestamos">
-            <td>{{prestamo.idSolicitante?.cedula}}</td>
-            <td>{{prestamo.libro?.titulo}}</td>
+            <td style="width: 11%;" *ngIf="prestamo.tipoPrestamo == 1 || prestamo.tipoPrestamo==2; else menor">
+              {{prestamo.idSolicitante?.cedula}}
+            </td>
+            <ng-template #menor>
+              <td style="width: 11%;" *ngIf="prestamo.estadoPrestamo == 3;">
+                {{prestamo.fechaEntrega}}
+              </td>
+            </ng-template>
+            <td style="width: 33%">{{prestamo.libro?.titulo}}</td>
             <td>{{prestamo.fechaDevolucion}}</td>
             <td>{{ getNombreEstado(prestamo.estadoPrestamo) }}</td>
-            <td style="display: flex; justify-content: center;">
+            <td style="display: flex; justify-content: center;  width: 35%;">
               <button (click)="solicitudCompleta(prestamo)">Ver Prestamo</button>&nbsp;
             </td>
           </tr>
         </tbody>
+
         <tbody class="text-center" *ngIf="destruido==true">
           <tr *ngFor="let prestamo of listaprestamos">
-            <td>{{prestamo.idSolicitante?.cedula}}</td>
-            <td>{{prestamo.libro?.titulo}}</td>
-            <td>{{prestamo.fechaDevolucion}}</td>
+            <td style="width: 11%;" *ngIf="prestamo.tipoPrestamo == 1 || prestamo.tipoPrestamo==2; else menor">
+              {{prestamo.idSolicitante?.cedula}}
+            </td>
+            <ng-template #menor>
+              <td style="width: 11%;" *ngIf="prestamo.estadoPrestamo == 3;">
+                {{prestamo.fechaEntrega}}
+              </td>
+            </ng-template>
+            <td style="width: 33%">{{prestamo.libro?.titulo}}</td>
+            <td >{{prestamo.fechaDevolucion}}</td>
             <td>{{ getNombreEstado(prestamo.estadoPrestamo) }}</td>
-            <td style="display: flex; justify-content: center;">
+            <td style="display: flex; justify-content: center;  width: 35%;">
               <button (click)="devolucionR(prestamo)">Restituir libro</button>&nbsp;
             </td>
           </tr>
         </tbody>
         <tbody class="text-center" *ngIf="buscar==true">
           <tr *ngFor="let prestamo of listaprestamos">
-            <td>{{prestamo.idSolicitante?.cedula}}</td>
-            <td>{{prestamo.libro?.titulo}}</td>
+            <td style="width: 11%;" *ngIf="prestamo.tipoPrestamo == 1 || prestamo.tipoPrestamo==2; else menor">
+              {{prestamo.idSolicitante?.cedula}}
+            </td>
+            <ng-template #menor>
+              <td style="width: 11%;" *ngIf="prestamo.estadoPrestamo == 3;">
+                {{prestamo.fechaEntrega}}
+              </td>
+            </ng-template>
+            <td style="width: 33%">{{prestamo.libro?.titulo}}</td>
 
-            <td style="display: flex; justify-content: center;" *ngIf="prestamo.estadoPrestamo == 1; else menor">
+            <td  *ngIf="prestamo.estadoPrestamo == 1; else menor">
               {{prestamo.fechaFin}}
             </td>
             <ng-template #menor>
-              <td style="display: flex; justify-content: center;" *ngIf="prestamo.estadoPrestamo == 2; else menor2">
+              <td  *ngIf="prestamo.estadoPrestamo == 2; else menor2">
                 {{prestamo.fechaEntrega}}
               </td>
             </ng-template>
 
             <ng-template #menor2>
-              <td style="display: flex; justify-content: center;"
+              <td 
                 *ngIf="prestamo.estadoPrestamo == 3 || prestamo.estadoPrestamo == 6 || prestamo.estadoPrestamo == 4 else menor3">
                 {{prestamo.fechaDevolucion}}
               </td>
             </ng-template>
             <ng-template #menor3>
-              <td style="display: flex; justify-content: center;" *ngIf="prestamo.estadoPrestamo == 5">
+              <td  *ngIf="prestamo.estadoPrestamo == 5">
                 {{prestamo.fechaMaxima}}
               </td>
             </ng-template>
 
             <td>{{ getNombreEstado(prestamo.estadoPrestamo) }}</td>
 
-            <td style="display: flex; justify-content: center;" *ngIf="prestamo.estadoPrestamo == 1; else ll ">
+            <td  *ngIf="prestamo.estadoPrestamo == 1; else ll " style=" width: 35%;">
               <button (click)="aceptarDomicilio(prestamo)">Aceptar Solitud Domicilio</button>&nbsp;
               <button (click)="aceptar(prestamo)">Aceptar Solitud Institución</button>
             </td>
             <ng-template #ll>
-              <td style="display: flex; justify-content: center;" *ngIf="prestamo.estadoPrestamo == 2; else ll2 ">
+              <td  *ngIf="prestamo.estadoPrestamo == 2; else ll2 " style=" width: 35%;">
                 <button (click)="devolucion(prestamo)">Formulario de devolución</button>&nbsp;
               </td>
             </ng-template>
             <ng-template #ll2>
-              <td style="display: flex; justify-content: center;"
-                *ngIf="prestamo.estadoPrestamo == 3 || prestamo.estadoPrestamo == 6" else ll3>
+              <td
+                *ngIf="prestamo.estadoPrestamo == 3 || prestamo.estadoPrestamo == 6" else ll3 style=" width: 35%;">
                 <button (click)="solicitudCompleta(prestamo)">Ver Prestamo</button>&nbsp;
               </td>
             </ng-template>
             <ng-template #ll3>
-              <td style="display: flex; justify-content: center;" *ngIf="prestamo.estadoPrestamo == 4 else ll4">
+              <td  *ngIf="prestamo.estadoPrestamo == 4 else ll4" style=" width: 35%;">
                 <button (click)="devolucionR(prestamo)">Restituir libro</button>&nbsp;
               </td>
             </ng-template>
             <ng-template #ll4>
-              <td style="display: flex; justify-content: center;" *ngIf="prestamo.estadoPrestamo == 5">
+              <td  *ngIf="prestamo.estadoPrestamo == 5" style=" width: 35%;">
                 <button (click)="devolucion(prestamo)">Recibir libro</button>&nbsp;
               </td>
             </ng-template>
           </tr>
         </tbody>
+
+       
       </table>
     </div>
   </div>

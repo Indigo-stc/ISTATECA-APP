@@ -13,60 +13,51 @@ import { NotificacionesService } from '../services/notificaciones.service';
 })
 export class ListaSolicitudesPendientesComponent implements OnInit {
   listaprestamos: Prestamo[] = [];
-notificacion:Notificacion=new Notificacion();
+  notificacion: Notificacion = new Notificacion();
   //Tablas
   pendientes?: boolean;
   prestados?: boolean;
   recibidos?: boolean;
   nodevuelto?: boolean;
   restituido?: boolean;
-  destruido?:boolean;
+  destruido?: boolean;
   buscar?: boolean;
-  datosNotificacionP:string=""
+  datosNotificacionP: string = ""
 
-  constructor(private notificacionesService:NotificacionesService,private prestamoService: prestamoService, private router: Router) { }
+  constructor(private notificacionesService: NotificacionesService, private prestamoService: prestamoService, private router: Router) { }
 
   ngOnInit(): void {
+    this.listaPendientes();
+
     let notificacionDato = localStorage.getItem('Dato') + "";
     this.notificacion = JSON.parse(notificacionDato);
-    
-    if(this.notificacion!=null){
-      this.datosNotificacionP=this.notificacion.prestamo?.idSolicitante?.cedula+""
+
+    if (this.notificacion != null) {
+      this.datosNotificacionP = this.notificacion.prestamo?.idSolicitante?.cedula + ""
       this.editarNotificacion(this.notificacion);
-    console.log(this.notificacion)
-    }else{
       console.log(this.notificacion)
-      this.datosNotificacionP=""
+    } else {
+      this.datosNotificacionP = ""
     }
-    
-    
+
+
 
     localStorage.removeItem('prestamo');
-    localStorage.removeItem('solicitudCompleta'); 
-    localStorage.removeItem('estadoR'); 
-    localStorage.removeItem('Dato'); 
-    this.pendientes = true;
-    this.prestados = false;
-    this.recibidos = false;
-    this.nodevuelto = false;
-    this.restituido = false;
-    this.destruido = false;
-    this.buscar = false;
-    this.prestamoService.listarxestado(1).subscribe(
-      response => {
-        this.listaprestamos = response;
-      }
+    localStorage.removeItem('solicitudCompleta');
+    localStorage.removeItem('estadoR');
+    localStorage.removeItem('Dato');
 
-    );
+
+
   }
-  editarNotificacion(notificacion:Notificacion){
-    notificacion.visto=true
+  editarNotificacion(notificacion: Notificacion) {
+    notificacion.visto = true
     this.notificacionesService.updateVisto(notificacion).subscribe(
-        response=>(
-            console.log(response)
-        )
+      response => (
+        console.log(response)
+      )
     )
-}
+  }
 
   aceptarDomicilio(prestamo: Prestamo) {
     const objetoString = JSON.stringify(prestamo);
@@ -89,7 +80,7 @@ notificacion:Notificacion=new Notificacion();
     const objetoString = JSON.stringify(prestamo);
     localStorage.setItem("AceptarSolicitud", objetoString);
     this.router.navigate(['/app-devolver-libro']);
-    localStorage.setItem("estadoR", 6+"");
+    localStorage.setItem("estadoR", 6 + "");
     this.router.navigate(['/app-devolver-libro']);
   }
 
@@ -97,15 +88,31 @@ notificacion:Notificacion=new Notificacion();
     const objetoString = JSON.stringify(prestamo);
     localStorage.setItem("AceptarSolicitud", objetoString);
     this.router.navigate(['/app-devolver-libro']);
-    localStorage.setItem("solicitudCompleta",1+"");
+    localStorage.setItem("solicitudCompleta", 1 + "");
     this.router.navigate(['/app-devolver-libro']);
   }
 
   listaPendientes(): void {
-    this.ngOnInit();
+    this.listaprestamos = [];
+
+    this.prestamoService.listarxestado(1).subscribe(
+      response => {
+            this.listaprestamos=response;
+      }
+
+    );
+
+    this.pendientes = true;
+    this.prestados = false;
+    this.recibidos = false;
+    this.nodevuelto = false;
+    this.restituido = false;
+    this.destruido = false;
+    this.buscar = false;
   }
 
   listaPrestados(): void {
+    this.listaprestamos=[];
     this.prestamoService.listarxestado(2).subscribe(
       response => {
         this.listaprestamos = response;
@@ -121,6 +128,7 @@ notificacion:Notificacion=new Notificacion();
     this.buscar = false;
   }
   listaRecibidos(): void {
+    this.listaprestamos=[];
     this.prestamoService.listarxestado(3).subscribe(
       response => {
         this.listaprestamos = response;
@@ -136,6 +144,7 @@ notificacion:Notificacion=new Notificacion();
     this.buscar = false;
   }
   listaNoDevueltos(): void {
+    this.listaprestamos=[];
     this.prestamoService.listarxestado(5).subscribe(
       response => {
         this.listaprestamos = response;
@@ -152,6 +161,7 @@ notificacion:Notificacion=new Notificacion();
 
   }
   listaRestituidos(): void {
+    this.listaprestamos=[];
     this.prestamoService.listarxestado(6).subscribe(
       response => {
         this.listaprestamos = response;
@@ -167,6 +177,7 @@ notificacion:Notificacion=new Notificacion();
     this.buscar = false;
   }
   listaDestruidos(): void {
+    this.listaprestamos=[];
     this.prestamoService.listarxestado(4).subscribe(
       response => {
         this.listaprestamos = response;
@@ -211,7 +222,8 @@ notificacion:Notificacion=new Notificacion();
 
     return nombreEstado;
   }
-  modificar(prestamo:Prestamo){
+
+  modificar(prestamo: Prestamo) {
     const objetoString = JSON.stringify(prestamo);
     localStorage.setItem("prestamo", objetoString);
     this.router.navigate(['/app-solicitud-libro']);

@@ -6,13 +6,13 @@ import { Carrera } from "../models/Carrera";
 import { CarreraService } from "../services/carrera.service";
 
 @Component({
-    selector: 'app-footer',
-    templateUrl:'./footer.component.html',
-    styleUrls:['./footer.component.css']
+  selector: 'app-footer',
+  templateUrl: './footer.component.html',
+  styleUrls: ['./footer.component.css']
 
 })
-export class FooterComponent implements OnInit{
-  sugerencia : Sugerencia = new Sugerencia();
+export class FooterComponent implements OnInit {
+  sugerencia: Sugerencia = new Sugerencia();
   persona: Persona = new Persona();
   carrera: Carrera = new Carrera();
   carreraEst?: string;
@@ -20,26 +20,31 @@ export class FooterComponent implements OnInit{
   carreras: Carrera[] = [];
   carEst?: boolean;
   car: Carrera = new Carrera;
-  idC?: number;
-
-  
 
 
-  constructor (private sugerenciaService: sugerenciaService, private CarreraService: CarreraService) {}
 
-    ngOnInit(){
-     let usuarioJSON = localStorage.getItem('persona') + "";
+
+  constructor(private sugerenciaService: sugerenciaService, private CarreraService: CarreraService) { }
+
+  ngOnInit() {
+    let usuarioJSON = localStorage.getItem('persona') + "";
     this.persona = JSON.parse(usuarioJSON);
-    }
-    
-    seleccionT(e: any) {
-      this.idC = e.target.value;
-    }
-   
-   
-   
-    displayStyle = "none";
-  
+    this.CarreraService.getCarreras().subscribe(
+      response => {
+        this.carreras = response;
+        console.log
+      }
+    );
+  }
+
+  seleccionT(e: any) {
+    this.car = e.target.value;
+  }
+
+
+
+  displayStyle = "none";
+
   openPopup() {
     this.displayStyle = "block";
   }

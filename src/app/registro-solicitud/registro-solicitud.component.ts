@@ -11,6 +11,7 @@ import { LibroService } from '../services/libro.service';
 import Swal from 'sweetalert2';
 import { Observable } from 'rxjs';
 import { format } from 'date-fns';
+import { catchError, throwError } from "rxjs";
 
 @Component({
   selector: 'app-registro-solicitud',
@@ -22,17 +23,29 @@ export class RegistroSolicitudComponent {
   persona: Persona = new Persona();
   bibliotecario: Persona = new Persona();
   carreras: Carrera[] = [];
-  public dato!: Observable<any['']>;
-  public keyword = 'el';
   libros: Libro[] = [];
-  idC?: number;
+  libro: Libro = new Libro();
+
+  public dat!: Observable<any['']>;
+  keyword = '';
+
+
   documentoH?: number;
+  idC?: number;
+  idLibro?: number;
+
   carreraEst?: string;
-  carEst?: boolean;
-  fechaHoy?: string;
   fechaDespues?: string;
-  prestIn?: boolean;
+  fechaHoy?: string;
+
+
   boton: boolean = false;
+  selectLib?: boolean = false;;
+  selectLib2?: boolean;
+  prestIn?: boolean;
+  carEst?: boolean;
+
+
 
 
   constructor(private router: Router, private carreraService: CarreraService, private PrestamoService: prestamoService, private personaService: PersonaService, private libroServices: LibroService) { }
@@ -40,7 +53,6 @@ export class RegistroSolicitudComponent {
   ngOnInit(): void {
     let usuarioJSON = localStorage.getItem('persona') + "";
     this.bibliotecario = JSON.parse(usuarioJSON);
-
     Swal.fire({
       title: 'Escriba la cédula de la persona',
       text: 'La persona debe estar registrada en el sistema',
@@ -50,7 +62,7 @@ export class RegistroSolicitudComponent {
       confirmButtonText: 'Aceptar',
       cancelButtonText: 'Cancelar',
       showLoaderOnConfirm: true,
-      
+
       preConfirm: (texto) => {
         if (texto.length == 10) {
           if (!this.validarSoloLetras(texto)) {
@@ -61,7 +73,6 @@ export class RegistroSolicitudComponent {
                 this.carreras = response;
               }
             );
-            this.obtenerLibros();
           } else {
             this.router.navigate(['/']);
             Swal.fire({
@@ -83,7 +94,7 @@ export class RegistroSolicitudComponent {
         }
 
       },
-      
+
 
     }
     )
@@ -91,11 +102,33 @@ export class RegistroSolicitudComponent {
 
   }
 
+
+  onKeydownEvent(event: KeyboardEvent, buscar: string): void {
+    this.selectLib2 = false;
+    this.libroServices.buscarLibro(buscar).subscribe(
+      reponse => {
+        console.log(reponse)
+        this.libros = reponse;
+      })
+  }
+
+  seleccionarlibro(libro2: Libro) {
+    this.libro = libro2;
+    this.selectLib = true;
+    this.selectLib2 = true;
+  }
+
+  otroLib() {
+    this.libro = new Libro;
+    this.libros = [];
+    this.selectLib = false;
+    this.selectLib2 = undefined;
+  }
+
   validarSoloLetras(cadena: string): boolean {
     const patron = /^[A-Za-z]+$/;
     return patron.test(cadena);
   }
-
 
   carrera(cedula?: string) {
     if (cedula != undefined) {
@@ -107,18 +140,14 @@ export class RegistroSolicitudComponent {
     }
   }
 
-
   seleccionT(e: any) {
     this.idC = e.target.value;
   }
+
   seleccionD(e: any) {
     this.documentoH = e.target.value;
   }
 
-  obtenerLibros(): void {
-    this.dato = this.libroServices.obtenerLibros();
-    console.log(this.dato);
-  }
   buscarCed(cedula: string) {
     this.personaService.listarxcedula(cedula).subscribe(
       response => {
@@ -145,6 +174,16 @@ export class RegistroSolicitudComponent {
 
   guardar() {
     this.prestamo.idSolicitante = this.persona;
+    this.prestamo.libro = this.libro;
+    this.prestamo.fechaFin = new Date(Date.now());
+    this.prestamo.fechaDevolucion = new Date(Date.now());
+    this.prestamo.estadoLibro = 1;
+    this.prestamo.estadoPrestamo=1;
+    if (this.persona.tipo == 1) {
+      this.prestamo.tipoPrestamo = 1;
+    } else {
+      this.prestamo.tipoPrestamo = 2;
+    }
     if (this.idC != undefined) {
       this.carreraService.obtenerCarreraId(this.idC).subscribe(
         response => {
@@ -154,18 +193,25 @@ export class RegistroSolicitudComponent {
     }
     this.prestamo.documentoHabilitante = this.documentoH;
     this.prestamo.idEntrega = this.bibliotecario;
+    console.log(this.prestamo)
     this.PrestamoService.create(this.prestamo).subscribe(
-      response => (Swal.fire({
-        confirmButtonColor: '#012844',
-        icon: 'success',
-        title: 'Prestamo Guardado',
-        text: 'Se gusrado correcatamente'
-      })),
-      error => (Swal.fire({
-        confirmButtonColor: '#012844',
-        icon: 'error',
-        title: 'No se pudo guardar el prestamo',
-      }))
+      response => {
+        Swal.fire({
+          confirmButtonColor: '#012844',
+          icon: 'success',
+          title: 'Prestamo Guardado',
+          text: 'Se guardo correcatamente'
+        })
+        this.router.navigate(['/app-lista-solicitudes-pendientes']);
+      },
+      error => {
+        console.log(error);
+        Swal.fire({
+          confirmButtonColor: '#012844',
+          icon: 'error',
+          title: 'No se pudo guardar el prestamo',
+        })
+      }
     );
   }
 
