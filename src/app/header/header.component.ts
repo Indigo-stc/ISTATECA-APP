@@ -116,7 +116,7 @@ export class HeaderComponent implements DoCheck, OnInit {
         const objetoString = JSON.stringify(men);
         localStorage.setItem("Dato", objetoString);
         men.visto = true
-        alert("blib")
+
         this.router.navigate(['/app-lista-solicitudes-pendientes'])
     }
     alertaestudiante(men: Notificacion) {
