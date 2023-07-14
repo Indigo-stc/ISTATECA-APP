@@ -28,7 +28,7 @@ export class HeaderComponent implements DoCheck, OnInit {
     bibliotecario: boolean = false;
     admin: boolean = false;
     usu: boolean = true;
-    carrera:Carrera= new Carrera();
+    carrera: Carrera = new Carrera();
     notificacionmensaje: string = ""
     notificationlista: Notificacion[] = [];
     notificationlistaest: Notificacion[] = [];
@@ -42,7 +42,7 @@ export class HeaderComponent implements DoCheck, OnInit {
     datosPrest2: string | undefined;
     datosPrest3: string | undefined;
     datosPrest4: string | undefined;
-    constructor(private router: Router, private notificacionesService: NotificacionesService, public auth: AuthService, private logSer: LoginService,private carreraService:CarreraService,private usuarioService:RegistroUsuarioService) {
+    constructor(private router: Router, private notificacionesService: NotificacionesService, public auth: AuthService, private logSer: LoginService, private carreraService: CarreraService, private usuarioService: RegistroUsuarioService) {
 
     }
 
@@ -64,7 +64,7 @@ export class HeaderComponent implements DoCheck, OnInit {
             console.log(this.persona)
 
         }
-        
+
         this.notificar();
 
 
@@ -250,7 +250,18 @@ export class HeaderComponent implements DoCheck, OnInit {
 
     }
     validarconteoB() {
-        if (this.notificationlista != null) {
+
+        console.log(this.notificationlista.length)
+        for (let index = 0; index < this.notificationlista.length; index++) {
+            if (this.notificationlista[index].visto === false) {
+                
+                console.log(this.notificationlista[index].mensaje)
+                this.notificacionesService.actualizarConteo(1)
+            }
+
+        }
+
+        /* if (this.notificationlista != null) {
             this.notificationlista.forEach(element => {
                 if (element.visto == false && element.mensaje === 1 || element.mensaje === 4) {
                     this.notificacionesService.actualizarConteo(1)
@@ -258,7 +269,7 @@ export class HeaderComponent implements DoCheck, OnInit {
             });
         } else {
 
-        }
+        } */
     }
 
     validateUser(model: Persona) {
@@ -332,11 +343,11 @@ export class HeaderComponent implements DoCheck, OnInit {
         );
     }
 
-    obtenerCarrera(persona:Persona){
+    obtenerCarrera(persona: Persona) {
         this.carreraService.carreraest(persona.cedula!).subscribe(
-            response=>(
+            response => (
                 console.log(response),
-                this.carrera=response,
+                this.carrera = response,
                 console.log(this.carrera)
             )
         )
@@ -344,7 +355,7 @@ export class HeaderComponent implements DoCheck, OnInit {
 
     //REPORTE CERTIFICADO DE NO ADEUDO
     generatePDF(persona: Persona) {
-        
+
         const fechaactual = new Date(Date.now());
         // Obtén el nombre del día de la semana
         const nombreDia = obtenerNombreDiaSemana(fechaactual.getDay());
@@ -395,37 +406,37 @@ export class HeaderComponent implements DoCheck, OnInit {
         // Agregar tabla de 3 filas por 3 columnas
         const form3 = [
 
-            [{ content: 'CERTIFICADO DE NO ADEUDO', colSpan: 6, styles: { halign: 'center', fillColor: '#FFFFFF',fontSize: 20, textColor: '#FFFFFF', fontStyle: 'bold' } }],
+            [{ content: 'CERTIFICADO DE NO ADEUDO', colSpan: 6, styles: { halign: 'center', fillColor: '#FFFFFF', fontSize: 20, textColor: '#FFFFFF', fontStyle: 'bold' } }],
 
-            [{ content: 'Cuenca, '+fechaFormateada, colSpan: 6, styles: { halign: 'right', fillColor: '#FFFFFF',fontSize: 15, textColor: '#FFFFFF', fontStyle: 'normal' } }],
+            [{ content: 'Cuenca, ' + fechaFormateada, colSpan: 6, styles: { halign: 'right', fillColor: '#FFFFFF', fontSize: 15, textColor: '#FFFFFF', fontStyle: 'normal' } }],
 
 
             //persona
-            [{ content: 'Yo JULIANA PICHAZACA, en mi carácter de Jefe de la Unidad de Servicio de Biblioteca del Instituto Superior Tecnológico del Azuay, hago constar que el estudiante de la carrera '+this.carrera.nombre+' :', colSpan: 6, styles: { halign: 'center',fontSize: 15, fillColor: '#FFFFFF', textColor: '#000000', fontStyle: 'normal' } }],
+            [{ content: 'Yo JULIANA PICHAZACA, en mi carácter de Jefe de la Unidad de Servicio de Biblioteca del Instituto Superior Tecnológico del Azuay, hago constar que el estudiante de la carrera ' + this.carrera.nombre + ' :', colSpan: 6, styles: { halign: 'center', fontSize: 15, fillColor: '#FFFFFF', textColor: '#000000', fontStyle: 'normal' } }],
 
-            [{ content: persona.nombres + ' ' + persona.apellidos + ' CI: ' + persona.cedula, colSpan: 6, styles: { halign: 'center', fillColor: '#FFFFFF',fontSize: 15, textColor: '#000000', fontStyle: 'bold' } }],
+            [{ content: persona.nombres + ' ' + persona.apellidos + ' CI: ' + persona.cedula, colSpan: 6, styles: { halign: 'center', fillColor: '#FFFFFF', fontSize: 15, textColor: '#000000', fontStyle: 'bold' } }],
 
-            [{ content: 'No tiene adeudo de los libros en la biblioteca a mi cargo.\nSe extiende la presente para los fines que al interesado le convenga.', colSpan: 6, styles: { halign: 'center',fontSize: 15, fillColor: '#FFFFFF', textColor: '#000000', fontStyle: 'normal' } }],
+            [{ content: 'No tiene adeudo de los libros en la biblioteca a mi cargo.\nSe extiende la presente para los fines que al interesado le convenga.', colSpan: 6, styles: { halign: 'center', fontSize: 15, fillColor: '#FFFFFF', textColor: '#000000', fontStyle: 'normal' } }],
 
-            [{ content: 'Atentamente:', colSpan: 6, styles: { halign: 'center', fillColor: '#FFFFFF',fontSize: 15, textColor: '#000000', fontStyle: 'normal' } }],
-            [{ content: 'Mgtr. Juliana Rocío Pichazaca Tenesaca Jefe de la Unidad de Servicio de Biblioteca', colSpan: 6, styles: { halign: 'center',fontSize: 15, fillColor: '#FFFFFF', textColor: '#000000', fontStyle: 'bold' } }],
-            
+            [{ content: 'Atentamente:', colSpan: 6, styles: { halign: 'center', fillColor: '#FFFFFF', fontSize: 15, textColor: '#000000', fontStyle: 'normal' } }],
+            [{ content: 'Mgtr. Juliana Rocío Pichazaca Tenesaca Jefe de la Unidad de Servicio de Biblioteca', colSpan: 6, styles: { halign: 'center', fontSize: 15, fillColor: '#FFFFFF', textColor: '#000000', fontStyle: 'bold' } }],
+
             //espacios
-            [{ content: '', colSpan: 6, styles: { halign: 'center', fillColor: '#FFFFFF',fontSize: 20, textColor: '#FFFFFF', fontStyle: 'bold' } }],
-            [{ content: '', colSpan: 6, styles: { halign: 'center', fillColor: '#FFFFFF',fontSize: 20, textColor: '#FFFFFF', fontStyle: 'bold' } }],
-            [{ content: '', colSpan: 6, styles: { halign: 'center', fillColor: '#FFFFFF',fontSize: 20, textColor: '#FFFFFF', fontStyle: 'bold' } }],
+            [{ content: '', colSpan: 6, styles: { halign: 'center', fillColor: '#FFFFFF', fontSize: 20, textColor: '#FFFFFF', fontStyle: 'bold' } }],
+            [{ content: '', colSpan: 6, styles: { halign: 'center', fillColor: '#FFFFFF', fontSize: 20, textColor: '#FFFFFF', fontStyle: 'bold' } }],
+            [{ content: '', colSpan: 6, styles: { halign: 'center', fillColor: '#FFFFFF', fontSize: 20, textColor: '#FFFFFF', fontStyle: 'bold' } }],
 
-            [{ content: '____________________', colSpan: 6, styles: { halign: 'center',fontSize: 15, fillColor: '#FFFFFF', textColor: '#000000', fontStyle: 'bold' } }],
-            [{ content: 'Firma del estudiante', colSpan: 6, styles: { halign: 'center',fontSize: 15, fillColor: '#FFFFFF', textColor: '#000000', fontStyle: 'bold' } }],
+            [{ content: '____________________', colSpan: 6, styles: { halign: 'center', fontSize: 15, fillColor: '#FFFFFF', textColor: '#000000', fontStyle: 'bold' } }],
+            [{ content: 'Firma del estudiante', colSpan: 6, styles: { halign: 'center', fontSize: 15, fillColor: '#FFFFFF', textColor: '#000000', fontStyle: 'bold' } }],
 
-//espacios
-            
-            [{ content: '', colSpan: 6, styles: { halign: 'center', fillColor: '#FFFFFF',fontSize: 20, textColor: '#FFFFFF', fontStyle: 'bold' } }],
-            [{ content: '', colSpan: 6, styles: { halign: 'center', fillColor: '#FFFFFF',fontSize: 20, textColor: '#FFFFFF', fontStyle: 'bold' } }],
+            //espacios
+
+            [{ content: '', colSpan: 6, styles: { halign: 'center', fillColor: '#FFFFFF', fontSize: 20, textColor: '#FFFFFF', fontStyle: 'bold' } }],
+            [{ content: '', colSpan: 6, styles: { halign: 'center', fillColor: '#FFFFFF', fontSize: 20, textColor: '#FFFFFF', fontStyle: 'bold' } }],
 
 
-            [{ content: 'Dirección: Av. Octavio Chacón 1-98 y Primera Transversal\n Teléfono: (07) 2809-551 / Celular: 0995363076\nE-mail: secretaria@tecazuay.edu.ec', colSpan: 6, styles: { halign: 'center',fontSize: 15, fillColor: '#FFFFFF', textColor: '#000000', fontStyle: 'normal' } }],
-            [{ content: 'Cuenca – Ecuador', colSpan: 6, styles: { halign: 'center', fillColor: '#FFFFFF',fontSize: 15, textColor: '#000000', fontStyle: 'bold' } }],
+            [{ content: 'Dirección: Av. Octavio Chacón 1-98 y Primera Transversal\n Teléfono: (07) 2809-551 / Celular: 0995363076\nE-mail: secretaria@tecazuay.edu.ec', colSpan: 6, styles: { halign: 'center', fontSize: 15, fillColor: '#FFFFFF', textColor: '#000000', fontStyle: 'normal' } }],
+            [{ content: 'Cuenca – Ecuador', colSpan: 6, styles: { halign: 'center', fillColor: '#FFFFFF', fontSize: 15, textColor: '#000000', fontStyle: 'bold' } }],
             //datos
 
             // Agrega más filas según sea necesario
@@ -463,7 +474,7 @@ export class HeaderComponent implements DoCheck, OnInit {
 
 
         // Guardar el documento PDF
-        doc.save('Certificado de no adeudo_'+persona.nombres+'.pdf');
+        doc.save('Certificado de no adeudo_' + persona.nombres + '.pdf');
     }
 }
 
