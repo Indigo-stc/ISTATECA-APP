@@ -135,7 +135,7 @@ export class RegistroSolicitudTercerapersonaComponent {
     this.selectLib2 = undefined;
   }
 
-  consultarID(){
+  consultarID() {
   }
 
 
@@ -162,12 +162,21 @@ export class RegistroSolicitudTercerapersonaComponent {
     this.prestamo.tipoPrestamo = 3;
     this.PrestamoService.create(this.prestamo).subscribe(
       response => {
-        Swal.fire({
-          confirmButtonColor: '#012844',
-          icon: 'success',
-          title: 'Prestamo Guardado',
-          text: 'Se guardo correcatamente'
-        })
+        this.terceroPrestamo.prestamo = response;
+        this.terceroPrestamo.tercero = this.tercero;
+        this.TerceroServices.createTerPres(this.terceroPrestamo).subscribe(
+          response => {
+            console.log(this.terceroPrestamo);
+            console.log(response);
+            Swal.fire({
+              confirmButtonColor: '#012844',
+              icon: 'success',
+              title: 'Guardado Correctamente',
+            })
+            this.router.navigate(['/app-lista-solicitudes-pendientes']);
+          }
+        );
+
       },
       error => {
         console.log(error);
@@ -179,21 +188,7 @@ export class RegistroSolicitudTercerapersonaComponent {
       }
     );
 
-    this.terceroPrestamo.prestamo = this.prestamo;
-    this.terceroPrestamo.tercero = this.tercero;
-    console.log(this.terceroPrestamo);
-    this.TerceroServices.createTerPres(this.terceroPrestamo).subscribe(
-      response => {
-        console.log(response)
-        Swal.fire({
-          confirmButtonColor: '#012844',
-          icon: 'success',
-          title: 'Tercerossss Guardado',
-          text: 'Se guardo correcatamente'
-        })
-        this.router.navigate(['/app-lista-solicitudes-pendientes']);
-      }
-    );
+
 
   }
 }
