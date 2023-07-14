@@ -4,6 +4,7 @@ import { Sugerencia } from "../models/Sugerencia";
 import { sugerenciaService } from "../services/sugerencia.service";
 import { Carrera } from "../models/Carrera";
 import { CarreraService } from "../services/carrera.service";
+import Swal from "sweetalert2";
 
 @Component({
   selector: 'app-footer',
@@ -48,7 +49,22 @@ export class FooterComponent implements OnInit {
   openPopup() {
     this.displayStyle = "block";
   }
-  closePopup() {
-    this.displayStyle = "none";
+  
+ 
+  GuardarSuger(){
+    this.sugerencia.carrera = this.car;
+    this.sugerencia.estado = true;
+    this.sugerenciaService.create(this.sugerencia).subscribe(
+      (data:Sugerencia)=>{
+        console.log(data);
+        this.displayStyle = "none";
+        Swal.fire(' Guardado',' Guardado con exito en el sistema','success');
+
+      }, (error) => {
+        console.log(error);
+        Swal.fire('Error', 'Nose Guardo ', 'error');
+      }
+    )
   }
+
 }

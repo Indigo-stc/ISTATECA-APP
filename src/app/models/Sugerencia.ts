@@ -8,5 +8,5 @@ export class Sugerencia {
     estado?: boolean;
     idpersona?: Persona;
 
-    Carrera?: Carrera;
+    carrera?: Carrera;
 }
