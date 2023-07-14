@@ -97,7 +97,9 @@ export class ListaSolicitudesPendientesComponent implements OnInit {
 
     this.prestamoService.listarxestado(1).subscribe(
       response => {
-            this.listaprestamos=response;
+        if(response!=null){
+        this.listaprestamos = response;
+        }
       }
 
     );
@@ -112,7 +114,7 @@ export class ListaSolicitudesPendientesComponent implements OnInit {
   }
 
   listaPrestados(): void {
-    this.listaprestamos=[];
+    this.listaprestamos = [];
     this.prestamoService.listarxestado(2).subscribe(
       response => {
         this.listaprestamos = response;
@@ -128,7 +130,7 @@ export class ListaSolicitudesPendientesComponent implements OnInit {
     this.buscar = false;
   }
   listaRecibidos(): void {
-    this.listaprestamos=[];
+    this.listaprestamos = [];
     this.prestamoService.listarxestado(3).subscribe(
       response => {
         this.listaprestamos = response;
@@ -144,7 +146,7 @@ export class ListaSolicitudesPendientesComponent implements OnInit {
     this.buscar = false;
   }
   listaNoDevueltos(): void {
-    this.listaprestamos=[];
+    this.listaprestamos = [];
     this.prestamoService.listarxestado(5).subscribe(
       response => {
         this.listaprestamos = response;
@@ -161,7 +163,7 @@ export class ListaSolicitudesPendientesComponent implements OnInit {
 
   }
   listaRestituidos(): void {
-    this.listaprestamos=[];
+    this.listaprestamos = [];
     this.prestamoService.listarxestado(6).subscribe(
       response => {
         this.listaprestamos = response;
@@ -177,7 +179,7 @@ export class ListaSolicitudesPendientesComponent implements OnInit {
     this.buscar = false;
   }
   listaDestruidos(): void {
-    this.listaprestamos=[];
+    this.listaprestamos = [];
     this.prestamoService.listarxestado(4).subscribe(
       response => {
         this.listaprestamos = response;
