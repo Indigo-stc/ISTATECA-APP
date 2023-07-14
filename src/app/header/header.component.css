@@ -293,7 +293,7 @@ button:hover {
 }
 
 
-.overlay1 {
+.overlay {
   z-index: 1;
   background: rgba(0, 0, 0, .3);
   position: fixed;
@@ -307,11 +307,11 @@ button:hover {
   visibility: hidden;
 }
 
-.overlay1.active {
+.overlay.active {
   visibility: visible;
 }
 
-.popup1 {
+.popup {
   background: #f8f8f8;
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.3);
   border-radius: 3px;
@@ -323,7 +323,7 @@ button:hover {
 
 }
 
-.popup1 .btn-cerrar-popup {
+.popup .btn-cerrar-popup {
   font-size: 16px;
   line-height: 18px;
   display: block;
@@ -332,11 +332,11 @@ button:hover {
   transition: .3s ease all;
 }
 
-.popup1 .btn-cerrar-popup:hover {
+.popup .btn-cerrar-popup:hover {
   color: #000;
 }
 
-.popup1 h3 {
+.popup h3 {
 
 
   margin-top: 3%;
@@ -346,7 +346,7 @@ button:hover {
   color: #004f9f;
 }
 
-.popup1 h4 {
+.popup h4 {
   font-size: 16px;
   margin-bottom: 40px;
 }
