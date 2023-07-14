@@ -10,12 +10,18 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">Sugerencias:</th>
+                        <th scope="col">Cedula</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Carrera</th>
+                        <th scope="col">Descripcion</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Mark</td>
+                    <tr *ngFor="let sugerencia of sugerencias" >
+                        <td>{{ sugerencia.idpersona?.cedula}}</td>
+                        <td>{{ sugerencia.fecha}}</td>
+                        <td>{{ sugerencia.carrera?.nombre}}</td>
+                        <td>{{ sugerencia.descripcion}}</td>
                     </tr>
                 </tbody>
             </table>

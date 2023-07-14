@@ -18,10 +18,11 @@ export class FooterComponent implements OnInit {
   carrera: Carrera = new Carrera();
   carreraEst?: string;
 
+
   carreras: Carrera[] = [];
   carEst?: boolean;
   car: Carrera = new Carrera;
-
+  idC?: number;
 
 
 
@@ -39,7 +40,7 @@ export class FooterComponent implements OnInit {
   }
 
   seleccionT(e: any) {
-    this.car = e.target.value;
+    this.idC = e.target.value;
   }
 
 
@@ -52,19 +53,45 @@ export class FooterComponent implements OnInit {
   
  
   GuardarSuger(){
-    this.sugerencia.carrera = this.car;
+    
     this.sugerencia.estado = true;
-    this.sugerenciaService.create(this.sugerencia).subscribe(
-      (data:Sugerencia)=>{
-        console.log(data);
+    this.sugerencia.fecha = new Date(Date.now());
+    this.sugerencia.idpersona= this.persona
+    if(this.idC)
+    this.CarreraService.obtenerCarreraId(this.idC).subscribe
+    (
+      response=>{
+        console.log(response);
+        this.sugerencia.carrera=response})
+   
+    console.log(this.sugerencia);
+    this.sugerenciaService.create(this.sugerencia).subscribe({
+     
+     next: response=>{
+      this.displayStyle = "none";
+      Swal.fire(' Guardado',' Guardado con exito en el sistema','success');
+     },
+     error: error =>{
+      console.log(error);
+      if (error.status===400){
+        Swal.fire({
+          position:'center',
+          icon:'error',
+        })
+      }
+     }
+     
+      /*next: response=>{
+        console.log(response);
         this.displayStyle = "none";
         Swal.fire(' Guardado',' Guardado con exito en el sistema','success');
 
       }, (error) => {
         console.log(error);
-        Swal.fire('Error', 'Nose Guardo ', 'error');
-      }
-    )
+        Swal.fire('Error', 'error de guadado', 'error');
+      }*/
+  
+  });
   }
 
 }

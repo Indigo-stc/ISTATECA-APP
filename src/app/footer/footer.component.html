@@ -10,14 +10,14 @@
           <h4 class="modal-title">Sugierenos un nuevo Libro</h4>
         </div>
         <div class="modal-body">
-          <textarea class="form-control" placeholder="Dejanos una sugerencias de algun libro"
+          <textarea class="form-control" placeholder="Dejanos una sugerencias de algun libro" [(ngModel)]="sugerencia.descripcion" name="descripcion"
             id="floatingTextarea"></textarea>
         </div>
         <div class="p-col-12 p-md-4">
           <span class="details">Carrera:</span>
           <select class="combo form-select" (change)="seleccionT($event)" name="carrera" required>
             <option disabled selected>Seleccione una carrera</option>
-            <option *ngFor="let carrera of carreras" value="{{carrera}}"> {{carrera.nombre}}
+            <option *ngFor="let carrera of carreras" value="{{carrera.id}}"> {{carrera.nombre}}
             </option>
           </select>
         </div>

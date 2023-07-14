@@ -10,13 +10,17 @@ import { sugerenciaService } from '../services/sugerencia.service';
 })
 export class ReporteSugerenciasComponent implements OnInit {
 
+  
   sugerencias:Sugerencia[]=[];
 
   constructor(private sugerenciasService:sugerenciaService) { }
 
   ngOnInit(): void {
     this.sugerenciasService.getSugerencia().subscribe(
-      Sugerencias => this.sugerencias=Sugerencias
+      response =>{
+        this.sugerencias=response
+        console.log("problemas"+response.length)
+      } 
     );
   }
 
