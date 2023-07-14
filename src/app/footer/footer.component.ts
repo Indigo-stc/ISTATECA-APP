@@ -19,6 +19,7 @@ export class FooterComponent implements OnInit{
 
   carreras: Carrera[] = [];
   carEst?: boolean;
+  car: Carrera = new Carrera;
   idC?: number;
 
   
