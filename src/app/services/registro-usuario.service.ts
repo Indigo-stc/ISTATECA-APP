@@ -11,7 +11,7 @@ import { PersonaFenix } from '../models/PersonaFenix';
   providedIn: 'root'
 })
 export class RegistroUsuarioService {
-  private urlendpoint: string = 'http://localhost:8080/api/crearusuario';
+  private urlendpointlistarpersonas: string = 'http://localhost:8080/persona/listar';
   private urlendpointcrearpers: string = 'http://localhost:8080/persona/crear';
   private urlendpointeditarpers: string = 'http://localhost:8080/persona/editar';
   private urlendpointbuscar: string = 'http://localhost:8080/persona/personaxcedula';
@@ -55,9 +55,9 @@ export class RegistroUsuarioService {
   obtenerPersonasId(id: number) {
     return this.http.get<Persona>(this.urlendpoint4 + "/" + id)
   }
-  obtenerUsuarios(): Observable<Usuario[]> {
+  obtenerUsuarios(): Observable<Persona[]> {
     //return of(CLIENTES)
-    return this.http.get<Usuario[]>(this.urlendpoint);
+    return this.http.get<Persona[]>(this.urlendpointlistarpersonas);
   }
 
   update(usuario: Usuario) {

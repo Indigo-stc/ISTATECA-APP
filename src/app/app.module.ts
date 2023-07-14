@@ -38,6 +38,7 @@ import { RegistroTipoComponent } from './registro-tipo/registro-tipo.component';
 import { RegistroAutorComponent } from './registro-autor/registro-autor.component';
 import { RegistroSolicitudComponent } from './registro-solicitud/registro-solicitud.component';
 import { RegistroSolicitudTercerapersonaComponent } from './registro-solicitud-tercerapersona/registro-solicitud-tercerapersona.component';
+import { ListaDocentesComponent } from './lista-docentes/lista-docentes.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import { RegistroSolicitudTercerapersonaComponent } from './registro-solicitud-t
     RegistroAutorComponent,
     RegistroSolicitudComponent,
     RegistroSolicitudTercerapersonaComponent,
+    ListaDocentesComponent,
   ],
   imports: [
     BrowserModule,
