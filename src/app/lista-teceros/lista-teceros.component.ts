@@ -1,3 +1,4 @@
+
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
@@ -8,27 +9,32 @@ import { LibroService } from '../services/libro.service';
 import { NotificacionesService } from '../services/notificaciones.service';
 import { RegistroUsuarioService } from '../services/registro-usuario.service';
 import { setDate } from 'date-fns';
+import { terceroService } from '../services/tercero.service';
+import { Tercero } from '../models/Tercero';
 
 @Component({
-  selector: 'app-lista-docentes',
-  templateUrl: './lista-docentes.component.html',
-  styleUrls: ['./lista-docentes.component.css']
+  selector: 'app-lista-teceros',
+  templateUrl: './lista-teceros.component.html',
+  styleUrls: ['./lista-teceros.component.css']
 })
-export class ListaDocentesComponent implements OnInit{
+export class ListaTecerosComponent implements OnInit{
   persona: Persona = new Persona();
-  personasTipo2: Persona[] = [];
-  personasTipo2b: Persona = new Persona();
+  personasTipo2: Tercero[] = [];
+  personasTipo2b: Tercero = new Tercero();
   listapersonavalida: Persona[] = [];
   datos: string = "";
   buscar: boolean = true;
   normal: boolean = false;
 
-  constructor( private router: Router, private router1: Router, private notificacionesService: NotificacionesService,private usuarioService:RegistroUsuarioService) { }
+  constructor( private usuarioService:RegistroUsuarioService,private terceroservice: terceroService) { }
 
   ngOnInit(): void {
-    this.usuarioService.obtenerUsuarios().subscribe(
-      personas => (this.validarDocente(personas))
+
+
+    this.terceroservice.obtenerTerceros().subscribe(
+      response => (this.personasTipo2=response)
     );
+      
 
     this.buscar = false;
     this.normal = true;
@@ -58,7 +64,7 @@ export class ListaDocentesComponent implements OnInit{
     if (cedula == "") {
       this.ngOnInit();
     }else{
-      this.usuarioService.obtenerCedula(cedula+"").subscribe(
+      this.terceroservice.terceroxcedula(cedula+"").subscribe(
         response=>(
           console.log(response),this.personasTipo2b=response,
           this.buscar = true

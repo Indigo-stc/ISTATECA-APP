@@ -39,6 +39,7 @@ import { RegistroAutorComponent } from './registro-autor/registro-autor.componen
 import { RegistroSolicitudComponent } from './registro-solicitud/registro-solicitud.component';
 import { RegistroSolicitudTercerapersonaComponent } from './registro-solicitud-tercerapersona/registro-solicitud-tercerapersona.component';
 import { ListaDocentesComponent } from './lista-docentes/lista-docentes.component';
+import { ListaTecerosComponent } from './lista-teceros/lista-teceros.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { ListaDocentesComponent } from './lista-docentes/lista-docentes.componen
     RegistroSolicitudComponent,
     RegistroSolicitudTercerapersonaComponent,
     ListaDocentesComponent,
+    ListaTecerosComponent,
   ],
   imports: [
     BrowserModule,
