@@ -2,14 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import Swal from 'sweetalert2';
-import { Libro } from '../models/Libro';
-import { PersonaFenix } from '../models/PersonaFenix';
 import { CarreraService } from '../services/carrera.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { FormControl, FormGroup } from '@angular/forms';
 import { Prestamo } from '../models/Prestamo';
 import { Carrera } from '../models/Carrera';
 import { prestamoService } from '../services/prestamo.service';
+import { Router } from '@angular/router';
 
 
 
@@ -28,7 +25,8 @@ export class ReporteLibrosComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCarrera();
-    this.prestamoService.getPrestamos().subscribe( response =>{
+    this.popPup();
+    this.prestamoService.getPrestamos().subscribe(response => {
       this.listaprestamos = response;
     })
   }
@@ -108,7 +106,6 @@ export class ReporteLibrosComponent implements OnInit {
       doc.setFontSize(12);
 
 
-
       setTimeout(() => {
         const filename = `${new Date().toISOString()}_reporte.pdf`;
         const pdfOutput = doc.output('blob');
@@ -136,44 +133,47 @@ export class ReporteLibrosComponent implements OnInit {
   }
 
 
-
   getCarrera() {
     this.listCarrera.getCarreras().subscribe(
       carre => this.race = carre);
   }
 
 
-
   listaprestamos: Prestamo[] = [];
   listaprestamosest: Prestamo[] = [];
   listaprestamosdoc: Prestamo[] = [];
   race: Carrera[] = [];
- 
 
-  totalEst: number=0;
-  totalDoc: number=0;
-  total:number=0;
+
+  totalEst: number = 0;
+  totalDoc: number = 0;
+  total: number = 0;
 
 
   startFecha: string = "";
   endFecha: string = "";
-  selectRace:string="";
+
+
 
   buscars(start: string, end: string): void {
-    this.prestamoService.prestamoconcarrera(start, end,0).subscribe(
+    this.listaprestamosest = [];
+    this.listaprestamosdoc = [];
+    this.totalEst = 0;
+    this.totalDoc = 0;
+    this.prestamoService.prestamoconcarrera(start, end, 0).subscribe(
       response => {
         response.forEach(element => {
           this.getCarrera()
-          if (element.tipoPrestamo == 1 ) {
+          if (element.tipoPrestamo == 1) {
             this.listaprestamosest.push(element);
             this.totalEst = this.listaprestamosest.length;
-          } else if (element.tipoPrestamo == 2 ) {
+          } else if (element.tipoPrestamo == 2) {
             this.listaprestamosdoc.push(element);
             this.totalDoc = this.listaprestamosdoc.length;
           }
         });
-        this.total=this.totalDoc+this.totalEst;
-        console.log(this.total+" "+this.totalDoc+this.totalEst)
+        this.total = this.totalDoc + this.totalEst;
+        console.log(this.total + " " + this.totalDoc + this.totalEst)
       },
       error => {
         console.error(error);
@@ -187,12 +187,51 @@ export class ReporteLibrosComponent implements OnInit {
 
   filter(e: Event) {
     this.selectedRace = (e.target as HTMLInputElement).value;
-    this.filteredList = this.listaprestamos.filter(prestamo => prestamo.carrera?.nombre === this.selectedRace);
+    if (this.selectedRace === "All") {
+      this.filteredList = this.listaprestamos;
+    } else {
+      this.filteredList = this.listaprestamos.filter(prestamo => prestamo.carrera?.nombre === this.selectedRace);
+    }
   }
+
   getLibroTitulo(prestamo: any): string {
     return prestamo.libro?.titulo || "";
   }
 
+
+  popPup() {
+    const welcomeMessage = "¿Estás seguro de consultar?";
+    const titleColor = "#007bff";
+
+    Swal.fire({
+      icon: 'question',
+      title: `<span style="color: ${titleColor}; font-size: 24px;">${welcomeMessage}</span>`,
+      showCancelButton: true,
+      confirmButtonText: 'Aceptar',
+      cancelButtonText: 'Cancelar',
+      customClass: {
+        popup: 'swal2-popup-custom',
+        icon: 'swal2-icon-custom',
+        confirmButton: 'swal2-button-custom swal2-button-confirm',
+        cancelButton: 'swal2-button-custom swal2-button-cancel'
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setTimeout(() => {
+          this.redirectToConsultarButton();
+        }, 100);
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        this.router.navigate(['/']);
+      }
+    });
+  }
+
+  redirectToConsultarButton() {
+    const consultarButton = document.getElementById('consultarButton') as HTMLButtonElement;
+    if (consultarButton) {
+      consultarButton.click();
+    }
+  }
 
 
 

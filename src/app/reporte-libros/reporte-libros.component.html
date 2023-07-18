@@ -7,7 +7,7 @@
 <body>
     <div class="card">
         <h1>Reporte de libros por carrera</h1>
-        <button data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="width: 15%;">CONSULTA</button>
+        <button id="consultarButton"data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="width: 15%;">CONSULTAR</button>
         <form class=" buscarw">
             <button (click)="downloadPDF()" style="margin-left: 142%;">
                 Imprimir &nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -18,7 +18,7 @@
                 </svg></button>
         </form>
 
-        <div class="contenedor" id="htmlData">
+        <div class="contenedor">
             <div class="tablas">
                 <table class="table">
                     <thead class="subcabezera">
@@ -59,47 +59,49 @@
 </body>
 
 
+
+
+
 <div class="modal" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg">
-
         <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="staticBackdropLabel" style="color:#023b76">Consultar por carrera</h1>
+            <div class="modal-header" style="text-align: center;">
+                <img src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/logos%2Flogo%20normal%20peque%C3%B1o.png?alt=media&token=59a16c73-3229-4ba7-81be-567aae799d61"
+                    height="40" width="210" style="margin-right:1%; margin-top: 0%">
                 <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"
                     style="width: 10%;">Cerrar</button>
             </div>
-
             <div class="modal-body modal-md">
                 <div class="form-group">
-                    <label class="form-label" for="searchOption" style="color:#023b76; font-weight: bold">Buscar por:</label>
-                    <select class="form-select" id="searchOption" style="border: 1px solid #004f9f" (change)="filter($event)">
+                    <label class="form-label" for="searchOption" style="color:#023b76; font-weight: bold">Buscar
+                        por:</label>
+                    <select class="form-select" id="searchOption" style="border: 1px solid #004f9f"
+                        (change)="filter($event)">
                         <option disabled selected>Seleccione una opción</option>
                         <option value="All">Todos</option>
                         <optgroup label="Carreras">
-                            <option *ngFor="let openn of race">{{ openn.nombre }}</option>
+                            <option *ngFor="let openn of race" >{{ openn.nombre }}</option>
                         </optgroup>
                     </select>
                 </div>
-
                 <div class="form-group">
-                    <label class="form-label" for="startDate" style="color:#023b76; font-weight: bold">Fecha de inicio:</label>
+                    <label class="form-label" for="startDate" style="color:#023b76; font-weight: bold">Fecha de
+                        inicio:</label>
                     <input type="date" class="form-control" id="startDate" [(ngModel)]="startFecha" name="fechaInicio"
-                    style="border: 1px solid #004f9f" required>
+                        style="border: 1px solid #004f9f" required>
                 </div>
-
                 <div class="form-group">
-                    <label class="form-label" for="endDate" style="color:#023b76; font-weight: bold">Fecha de fin:</label>
+                    <label class="form-label" for="endDate" style="color:#023b76; font-weight: bold">Fecha de
+                        fin:</label>
                     <input type="date" class="form-control" id="endDate" [(ngModel)]="endFecha" name="fechaFin"
-                    style="border: 1px solid #004f9f" required>
+                        style="border: 1px solid #004f9f" required>
                 </div>
-
                 <button class="btn btn-primary" data-bs-dismiss="modal" (click)="buscars(startFecha, endFecha)"
                     style="display: block; margin: 0 auto;" [disabled]="!startFecha || !endFecha">
                     <img src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fbusqueda.png?alt=media&token=2b59078d-0ef5-4fa4-85c6-396ea7c1c97c"
                         alt="Buscar">
                 </button>
-
             </div>
         </div>
     </div>
