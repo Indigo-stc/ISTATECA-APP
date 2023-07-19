@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Autor } from '../models/Autor';
 import { Tipo } from '../models/Tipo';
 import { Observable} from 'rxjs';
+import { Etiqueta } from '../models/Etiqueta';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,7 @@ export class ListasService {
   private urlendpointBuscarAutor:string='http://localhost:8080/autor/listarautoresxnombre';
   private urlendpointBuscarTipo:string='http://localhost:8080/tipo/buscarxnombre';
   private urlendpointTipo:string='http://localhost:8080/tipo/crear';
+  private listarEtiqueta:string='http://localhost:8080/etiqueta/listar';
   
   private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'})
 
@@ -49,6 +51,10 @@ export class ListasService {
     {
     let res = this.urlendpointBuscarTipo+"?nombre="+nombre;
     return this.http.get<Tipo>(res);
+  }
+
+  obteneEtiquetas(): Observable<Etiqueta[]> {
+    return this.http.get<Etiqueta[]>(this.listarEtiqueta);
   }
 
 

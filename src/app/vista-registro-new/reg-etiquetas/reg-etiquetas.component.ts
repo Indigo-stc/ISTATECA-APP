@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Etiqueta } from 'src/app/models/Etiqueta';
+import { ListasService } from 'src/app/services/listas.service';
 
 @Component({
   selector: 'app-reg-etiquetas',
@@ -7,14 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegEtiquetasComponent implements OnInit{
 
+etiquetas: Etiqueta[]=[]
+  
+
+  constructor(private listaservice: ListasService){
+
+  }
 
   ngOnInit(): void {
-    
+    this.listaservice.obteneEtiquetas().subscribe(
+      eti=> this.etiquetas = eti
+    )
   }
 
-  constructor(){
-
-  }
-  
 
 }
