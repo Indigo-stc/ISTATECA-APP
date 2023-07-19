@@ -17,6 +17,7 @@ import { LibroService } from '../services/libro.service';
 import { PersonaService } from '../services/persona.service';
 
 
+
 @Component({
   selector: 'app-vista-registro-new',
   templateUrl: './vista-registro-new.component.html',
@@ -146,7 +147,8 @@ export class VistaRegistroNewComponent implements OnInit {
     private ListaT: ListasService,
     private ActaDonacionService: ActaDonacionService,
     private personaservice: PersonaService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+   
   ) { //this.buildForm(); 
   }
 
@@ -371,9 +373,13 @@ export class VistaRegistroNewComponent implements OnInit {
         this.Libro
         this.idlibro = Response.id
         console.log(this.idlibro);
+       
         
         if (this.imagen) {
           if (this.idlibro) {
+            //guarda id del ,ibro en local storage
+            window.localStorage.setItem('idlibro',this.idlibro.toString())
+
             this.libroservice.subirImagen(this.idlibro, this.imagen).subscribe(
               (response: any) => {
                 console.log('Imagen subida:', response);
