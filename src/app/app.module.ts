@@ -40,6 +40,7 @@ import { RegistroSolicitudComponent } from './registro-solicitud/registro-solici
 import { RegistroSolicitudTercerapersonaComponent } from './registro-solicitud-tercerapersona/registro-solicitud-tercerapersona.component';
 import { ListaDocentesComponent } from './lista-docentes/lista-docentes.component';
 import { ListaTecerosComponent } from './lista-teceros/lista-teceros.component';
+import { RegEtiquetasComponent } from './vista-registro-new/reg-etiquetas/reg-etiquetas.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { ListaTecerosComponent } from './lista-teceros/lista-teceros.component';
     RegistroSolicitudTercerapersonaComponent,
     ListaDocentesComponent,
     ListaTecerosComponent,
+    RegEtiquetasComponent,
   ],
   imports: [
     BrowserModule,

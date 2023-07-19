@@ -23,6 +23,7 @@ import { RegistroTipoComponent } from './registro-tipo/registro-tipo.component';
 import { RegistroSolicitudTercerapersonaComponent } from './registro-solicitud-tercerapersona/registro-solicitud-tercerapersona.component';
 import { ListaDocentesComponent } from './lista-docentes/lista-docentes.component';
 import { ListaTecerosComponent } from './lista-teceros/lista-teceros.component';
+import { RegEtiquetasComponent } from './vista-registro-new/reg-etiquetas/reg-etiquetas.component';
 
 const routes: Routes = [
       {path: 'app-devolver-libro', component: DevolverLibroComponent, canActivate: [AuthGuard], data: { expectedRoles: ['ROLE_STUD'] } },
@@ -46,7 +47,8 @@ const routes: Routes = [
       {path: 'app-registro-autor', component: RegistroAutorComponent},
       {path: 'app-registro-tipo', component: RegistroTipoComponent},
       {path: 'app-lista-docentes', component: ListaDocentesComponent},
-      {path: 'app-lista-terceros', component: ListaTecerosComponent}
+      {path: 'app-lista-terceros', component: ListaTecerosComponent},
+      {path: 'app-registro-etiquetas', component: RegEtiquetasComponent},
 ];
 
 @NgModule({

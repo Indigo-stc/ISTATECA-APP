@@ -28,7 +28,6 @@ export class LibroService {
     let res = this.urlBuscarLibro + '/' + nombre;
     return this.http.get<Libro[]>(res);
   }
-
   subirImagen(id: number, imagen: File): Observable<any> {
     const formData: FormData = new FormData();
     formData.append('imagen', imagen);
