@@ -46,14 +46,9 @@
       <table class="table">
         <tbody class="text-center" *ngIf="pendientes==true">
           <tr *ngFor="let prestamo of listaprestamos">
-            <td style="width: 11%;" *ngIf="prestamo.tipoPrestamo == 1 || prestamo.tipoPrestamo==2; else menor">
+            <td style="width: 11%;" *ngIf="prestamo.tipoPrestamo == 1 || prestamo.tipoPrestamo==2;">
               {{prestamo.idSolicitante?.cedula}}
             </td>
-            <ng-template #menor>
-              <td style="width: 11%;" *ngIf="prestamo.estadoPrestamo == 3;">
-                {{prestamo.fechaEntrega}}
-              </td>
-            </ng-template>
             <td style="width: 20%">{{prestamo.libro?.titulo}}</td>
             <td style="width: 15%;">{{prestamo.fechaFin}}</td>
             <td style="width: 15%;">{{ getNombreEstado(prestamo.estadoPrestamo) }}</td>
@@ -66,14 +61,9 @@
 
         <tbody class="text-center" *ngIf="prestados==true">
           <tr *ngFor="let prestamo of listaprestamos">
-            <td style="width: 11%;" *ngIf="prestamo.tipoPrestamo == 1 || prestamo.tipoPrestamo==2; else menor">
+            <td style="width: 11%;" *ngIf="prestamo.tipoPrestamo == 1 || prestamo.tipoPrestamo==2;">
               {{prestamo.idSolicitante?.cedula}}
             </td>
-            <ng-template #menor>
-              <td style="width: 11%;" *ngIf="prestamo.estadoPrestamo == 3;">
-                {{prestamo.fechaEntrega}}
-              </td>
-            </ng-template>
             <td style="width: 20%">{{prestamo.libro?.titulo}}</td>
             <td  style="width: 15%;">{{prestamo.fechaEntrega}}</td>
             <td  style="width: 15%;">{{ getNombreEstado(prestamo.estadoPrestamo) }}</td>
@@ -103,14 +93,9 @@
 
         <tbody class="text-center" *ngIf="nodevuelto==true">
           <tr *ngFor="let prestamo of listaprestamos">
-            <td style="width: 11%;" *ngIf="prestamo.tipoPrestamo == 1 || prestamo.tipoPrestamo==2; else menor">
+            <td style="width: 11%;" *ngIf="prestamo.tipoPrestamo == 1 || prestamo.tipoPrestamo==2;">
               {{prestamo.idSolicitante?.cedula}}
             </td>
-            <ng-template #menor>
-              <td style="width: 11%;" *ngIf="prestamo.estadoPrestamo == 3;">
-                {{prestamo.fechaEntrega}}
-              </td>
-            </ng-template>
             <td style="width: 33%">{{prestamo.libro?.titulo}}</td>
             <td style="color: crimson;">{{prestamo.fechaMaxima}}</td>
             <td>{{ getNombreEstado(prestamo.estadoPrestamo) }}</td>
@@ -122,14 +107,9 @@
 
         <tbody class="text-center" *ngIf="restituido==true">
           <tr *ngFor="let prestamo of listaprestamos">
-            <td style="width: 11%;" *ngIf="prestamo.tipoPrestamo == 1 || prestamo.tipoPrestamo==2; else menor">
+            <td style="width: 11%;" *ngIf="prestamo.tipoPrestamo == 1 || prestamo.tipoPrestamo==2;">
               {{prestamo.idSolicitante?.cedula}}
             </td>
-            <ng-template #menor>
-              <td style="width: 11%;" *ngIf="prestamo.estadoPrestamo == 3;">
-                {{prestamo.fechaEntrega}}
-              </td>
-            </ng-template>
             <td style="width: 33%">{{prestamo.libro?.titulo}}</td>
             <td>{{prestamo.fechaDevolucion}}</td>
             <td>{{ getNombreEstado(prestamo.estadoPrestamo) }}</td>
@@ -141,14 +121,9 @@
 
         <tbody class="text-center" *ngIf="destruido==true">
           <tr *ngFor="let prestamo of listaprestamos">
-            <td style="width: 11%;" *ngIf="prestamo.tipoPrestamo == 1 || prestamo.tipoPrestamo==2; else menor">
+            <td style="width: 11%;" *ngIf="prestamo.tipoPrestamo == 1 || prestamo.tipoPrestamo==2;">
               {{prestamo.idSolicitante?.cedula}}
             </td>
-            <ng-template #menor>
-              <td style="width: 11%;" *ngIf="prestamo.estadoPrestamo == 3;">
-                {{prestamo.fechaEntrega}}
-              </td>
-            </ng-template>
             <td style="width: 33%">{{prestamo.libro?.titulo}}</td>
             <td >{{prestamo.fechaDevolucion}}</td>
             <td>{{ getNombreEstado(prestamo.estadoPrestamo) }}</td>
@@ -159,14 +134,9 @@
         </tbody>
         <tbody class="text-center" *ngIf="buscar==true">
           <tr *ngFor="let prestamo of listaprestamos">
-            <td style="width: 11%;" *ngIf="prestamo.tipoPrestamo == 1 || prestamo.tipoPrestamo==2; else menor">
+            <td style="width: 11%;" *ngIf="prestamo.tipoPrestamo == 1 || prestamo.tipoPrestamo==2;">
               {{prestamo.idSolicitante?.cedula}}
             </td>
-            <ng-template #menor>
-              <td style="width: 11%;" *ngIf="prestamo.estadoPrestamo == 3;">
-                {{prestamo.fechaEntrega}}
-              </td>
-            </ng-template>
             <td style="width: 33%">{{prestamo.libro?.titulo}}</td>
 
             <td  *ngIf="prestamo.estadoPrestamo == 1; else menor">

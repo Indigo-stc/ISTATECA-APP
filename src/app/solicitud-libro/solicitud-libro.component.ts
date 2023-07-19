@@ -130,7 +130,7 @@ export class SolicitudLibroComponent implements OnInit {
     this.prestamo.carrera = this.car;
     this.prestamo.idEntrega = this.persona;
     if (this.prestamo.fechaEntrega == this.prestamo.fechaMaxima) {
-      if (this.idC != undefined || this.documentoH != undefined) {
+      if (this.idC != undefined || this.documentoH != undefined || this.documentoH==0) {
         this.prestamo.documentoHabilitante = this.documentoH;
         if (this.idC != undefined) {
           this.carreraService.obtenerCarreraId(this.idC).subscribe(

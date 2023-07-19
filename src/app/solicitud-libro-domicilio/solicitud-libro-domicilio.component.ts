@@ -121,7 +121,7 @@ export class SolicitudLibroDomicilioComponent implements OnInit {
     this.prestamo.estadoPrestamo = 2;
     this.prestamo.carrera = this.car;
     this.prestamo.idEntrega = this.persona;
-      if (this.idC != undefined || this.documentoH != undefined) {
+      if (this.idC != undefined || this.documentoH != undefined || this.documentoH==0) {
         this.prestamo.documentoHabilitante = this.documentoH;
         if (this.idC != undefined) {
           this.carreraService.obtenerCarreraId(this.idC).subscribe(

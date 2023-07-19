@@ -16,8 +16,7 @@
                                 <span class="details">Cedula:</span>
                                 <input #cedula type="text" class="form-control text-center"  (keyup)="onKeydownEvent($event, cedula.value)"
                                     placeholder="Ingrese un numero de cedula" name="cedula" [(ngModel)]="tercero.cedula"  required>
-                        </div>
-                        <div class="input-box">
+
                             <span class="details">Nombres:</span>
                             <input type="text" class="form-control" 
                                 name="nombre" [(ngModel)]="tercero.nombre" required>
@@ -31,7 +30,7 @@
                                 name="correo" [(ngModel)]="tercero.correo" required>
                         </div>
                     </div>
-
+<hr>
                     <div class="input-box">
                         <span class="details">Titulo del libro:</span>
                         <div class="lib" *ngIf="selectLib==false">
@@ -47,9 +46,8 @@
                             required>
 
                     </div>
-                        <div class="input-box">
-                           
-                        </div>
+
+                    <hr>
                         <div class="input-box">
                             <span class="details">Documento Habilitante:</span>
                             <select class="combo form-select" (change)="seleccionD($event)" name="carrera" required>
@@ -61,20 +59,14 @@
                             <span class="details">Bibliotecario que entrega:</span>
                             <input type="text" class="form-control" name="correo" value="{{bibliotecario.nombres}}&nbsp;{{bibliotecario.apellidos}}" disabled>
                         </div>
-                        <div class="input-box" *ngIf="boton==false">
-                            <button type="button" class="button5 botones" (click)="prestInst()"> Prestamo en el instituto</button>
-                            <button type="button"class="button5 botones" (click)="prestDomic()"> Prestamo en el domicilio</button>
-                        </div>
                         <div class="input-box" *ngIf="boton">
                             <span class="details">Fecha de Prestamo:</span>
                             <input type="text" class="form-control" name="fecha_entrega" disabled required
                                 value="{{fechaHoy}}">
     
                             <span class="details">Fecha de Devolucion:</span>
-                            <input type="text" class="form-control" name="fecha_entrega" disabled *ngIf="prestIn==true" required
+                            <input type="text" class="form-control" name="fecha_entrega" disabled required
                                 value="{{fechaHoy}}">
-                            <input type="text" class="form-control" name="fecha_devolucion" disabled *ngIf="prestIn==false" required
-                                value="{{fechaDespues}}">
                         </div>
                     </div>
 

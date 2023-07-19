@@ -14,6 +14,7 @@ export class terceroService {
   private urlEndPointCrear: string = 'http://localhost:8080/tercero/crear';
   private urlEndPointCrear1: string = 'http://localhost:8080/terceroprestamo/crear';
   private urlEndPointListar: string = 'http://localhost:8080/tercero/listar';
+  private urlEndPointListarTerPre: string = 'http://localhost:8080/terceroprestamo/listar';
   private urlEndPointEditar: string = 'http://localhost:8080/tercero/editar';
 
 
@@ -39,5 +40,9 @@ export class terceroService {
   }
   updateTercero(tercero: Tercero) {
     return this.http.put<Tercero>(this.urlEndPointEditar + "/" + tercero.id, tercero);
+  }
+
+  obtenerTerPres(): Observable<TerceroPrestamo[]> {
+    return this.http.get<TerceroPrestamo[]>(this.urlEndPointListarTerPre);
   }
 }

@@ -24,6 +24,7 @@ import { RegistroSolicitudTercerapersonaComponent } from './registro-solicitud-t
 import { ListaDocentesComponent } from './lista-docentes/lista-docentes.component';
 import { ListaTecerosComponent } from './lista-teceros/lista-teceros.component';
 import { RegEtiquetasComponent } from './vista-registro-new/reg-etiquetas/reg-etiquetas.component';
+import { ListaSolicitudesTercerosComponent } from './lista-solicitudes-terceros/lista-solicitudes-terceros.component';
 
 const routes: Routes = [
       {path: 'app-devolver-libro', component: DevolverLibroComponent, canActivate: [AuthGuard], data: { expectedRoles: ['ROLE_STUD'] } },
@@ -37,6 +38,7 @@ const routes: Routes = [
       {path: 'app-registro-solicitud', component: RegistroSolicitudComponent},
       {path: '', component: HomeComponent},
       {path: 'app-registro-bibliotecario', component: RegistroBibliotecarioComponent},
+      {path: 'app-lista-solicitudes-terceros', component: ListaSolicitudesTercerosComponent},
       {path: 'app-lista-bibliotecarios', component: ListaBibliotecariosComponent},
       {path: 'app-listas', component: ListasComponent},
       {path: 'app-lista-solicitudes-pendientes', component: ListaSolicitudesPendientesComponent},
