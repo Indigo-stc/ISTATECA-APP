@@ -47,11 +47,6 @@ body{
   border-radius: 5px;
   background: linear-gradient(135deg, #f0f2f3, #f4f4f5);
 }
-
-.container.table{
-  
-}
-
 .content form .user-details{
   display: flex;
   flex-wrap: wrap;

@@ -8,52 +8,9 @@
         <div class="title">Registro de Etiquetas</div>
         <div class="content">
             <form>
-                <div class="input-box">
-                    <span class="details">Etiquetas Disponibles:</span>
-                    <select   name="EtiquetaSelect"
-                    class="form-select" aria-label="Default select example">
-                    <option selected disabled value="0">Seleccione</option>
-                    <option #TSelect *ngFor="let eti of etiquetas"  value="{{eti.id}}">{{eti.nombre}}
-                    </option>
-                </select>
-                </div>
-
-                <div class="button text-center">
-                    <button type="submit" class="btn btn-outline-success btn-lg mx-3" >
-                        Guardar libro <i class="fas fa-paper-plane">
-                            <img src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fagregar%20libro.png?alt=media&token=b7f639da-1aaa-4d12-8133-a59742d32d87"
-                            width=25 height=25 align="center"></i>
-                    </button>
-                </div>
-
                 
 
             </form>
-            <div class="button text-center">
-                <table class="table mt-3">
-                    
-                    <thead>
-                        <tr>
-                            <th style="align-items: center;">
-                                Etiquetas Asignadas
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                        <tr>
-                            <td>Etiqueta</td>
-                            <td>
-                                <button type="submit" class="btn btn-outline-primary btn-lg mx-3" >
-                                    Eliminar 
-                                </button>
-                            </td>
-                        </tr>
-
-                    </tbody>
-                </table>
-            </div>
-            
 
         </div>
 
