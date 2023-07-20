@@ -75,12 +75,25 @@ export class HeaderComponent implements DoCheck, OnInit {
             (isAuthenticaed) => {
                 if (isAuthenticaed) {
                     this.auth.user$.subscribe(user => {
+                        if (!this.isTecAzuay(user?.email!)) {
+                            Swal.fire({
+                                title: '¡Aviso!',
+                                text: 'No perteneces al TECNOLOGICO DEL AZUAY!',
+                                icon: 'warning',
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: 'Entendido',
+                              }).then((result) => {
+                                if (result.isConfirmed) {
+                                    this.auth.logout();
+                                }
+                              });
+                            return;
+                        }
                         if (user?.email && user?.name) {
                             this.usuario.correo = user.email;
                             this.usuario.password = user.name + user.email;
                             this.verificar(user.email, user.name)
                         }
-                        //this.validateUser(this.usuario)
                     });
                 }
             }
@@ -494,6 +507,13 @@ export class HeaderComponent implements DoCheck, OnInit {
         // Guardar el documento PDF
         doc.save('Certificado de no adeudo_' + persona.nombres + '.pdf');
     }
+
+
+    isTecAzuay(email: string): boolean {
+        const pattern = /@tecazuay\.edu\.ec$/i; // Expresión regular para buscar la terminación "@tecazuay.edu.ec" (el sufijo "$" asegura que la coincidencia esté al final del texto)
+        return pattern.test(email);
+    }
+
 }
 
 
