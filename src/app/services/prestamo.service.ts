@@ -11,6 +11,7 @@ export class prestamoService {
 
   private urlEndPoint: string = 'http://localhost:8080/prestamo/listar';
   private urlEndPoint1: string = 'http://localhost:8080/prestamo/listarxestado'
+  private urlEndPointVerifi: string = 'http://localhost:8080/prestamo/listaractivosxcedula'
   private urlEndPoint2: string = 'http://localhost:8080/prestamo/listarxcedula'
   private urlEditar: string = 'http://localhost:8080/prestamo/editar';
   private urlEndPointCrearPrestamo: string = 'http://localhost:8080/prestamo/crear';
@@ -32,8 +33,7 @@ export class prestamoService {
 
   }
 
-  listarxestado(estado_prestamo: number)
-    : Observable<Prestamo[]> {
+  listarxestado(estado_prestamo: number): Observable<Prestamo[]> {
     let res = this.urlEndPoint1 + '?parametro=' + estado_prestamo;
     return this.http.get<Prestamo[]>(res);
   }
@@ -48,7 +48,12 @@ export class prestamoService {
     return this.http.get<Prestamo[]>(res);
   }
   prestamoconcarrera(inicio: String, fin: String, idC: number): Observable<Prestamo[]> {
-    let res = this.urlEndPointFechas2+'?carreraId='+idC + '&inicio=' + inicio + '&fin=' + fin;
+    let res = this.urlEndPointFechas2 + '?carreraId=' + idC + '&inicio=' + inicio + '&fin=' + fin;
+    return this.http.get<Prestamo[]>(res);
+  }
+
+  verificardeudas(cedula: string): Observable<Prestamo[]> {
+    let res = this.urlEndPointVerifi + '?cedula=' + cedula;
     return this.http.get<Prestamo[]>(res);
   }
 

@@ -5,7 +5,7 @@
 
 
 <body>
-    <div class="card">
+    <div class="card" >
         <h1>Reporte de libros por carrera</h1>
         <button id="consultarButton"data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="width: 15%;">CONSULTAR</button>
         <form class=" buscarw">
@@ -31,7 +31,7 @@
                     </thead>
                     <tbody>
                         <tr *ngFor="let prestamo of filteredList">
-                            <td>{{prestamo.carrera?.id}}</td>
+                            <td>{{prestamo.carrera?.nombre}}</td>
                             <td>{{totalDoc}}</td>
                             <td>{{totalEst}}</td>
                             <td>{{total}}</td>

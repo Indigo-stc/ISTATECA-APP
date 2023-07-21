@@ -14,6 +14,8 @@ import jspdf from "jspdf";
 import { CarreraService } from "../services/carrera.service";
 import { Carrera } from "../models/Carrera";
 import { RegistroUsuarioService } from "../services/registro-usuario.service";
+import { prestamoService } from "../services/prestamo.service";
+import { Prestamo } from "../models/Prestamo";
 
 @Component({
     selector: 'app-header',
@@ -33,6 +35,7 @@ export class HeaderComponent implements DoCheck, OnInit {
     notificationlista: Notificacion[] = [];
     notificationlistaest: Notificacion[] = [];
     notificaciones: Notificacion[] = [];
+    prestamos:Prestamo[]=[];
     tipoMensaje: number | undefined;
     personatraida: Persona = new Persona();
     datosLiro: string = "";
@@ -42,7 +45,7 @@ export class HeaderComponent implements DoCheck, OnInit {
     datosPrest2: string | undefined;
     datosPrest3: string | undefined;
     datosPrest4: string | undefined;
-    constructor(private router: Router, private notificacionesService: NotificacionesService, public auth: AuthService, private logSer: LoginService, private carreraService: CarreraService, private usuarioService: RegistroUsuarioService) {
+    constructor(private router: Router, private notificacionesService: NotificacionesService, public auth: AuthService, private logSer: LoginService, private carreraService: CarreraService, private usuarioService: RegistroUsuarioService, private prestamodervice: prestamoService) {
 
     }
 
@@ -72,12 +75,25 @@ export class HeaderComponent implements DoCheck, OnInit {
             (isAuthenticaed) => {
                 if (isAuthenticaed) {
                     this.auth.user$.subscribe(user => {
+                        if (!this.isTecAzuay(user?.email!)) {
+                            Swal.fire({
+                                title: '¡Aviso!',
+                                text: 'No perteneces al TECNOLOGICO DEL AZUAY!',
+                                icon: 'warning',
+                                confirmButtonColor: '#3085d6',
+                                confirmButtonText: 'Entendido',
+                              }).then((result) => {
+                                if (result.isConfirmed) {
+                                    this.auth.logout();
+                                }
+                              });
+                            return;
+                        }
                         if (user?.email && user?.name) {
                             this.usuario.correo = user.email;
                             this.usuario.password = user.name + user.email;
                             this.verificar(user.email, user.name)
                         }
-                        //this.validateUser(this.usuario)
                     });
                 }
             }
@@ -353,8 +369,23 @@ export class HeaderComponent implements DoCheck, OnInit {
         )
     }
 
+
+   //Verificar
+   verificaradeudo(persona: Persona){
+    this.prestamodervice.verificardeudas(persona.cedula+"").subscribe(
+        response=>(
+            this.prestamos=response
+        )
+    )
+    if(this.prestamos.length===0){
+        alert("No tiene préstamo pendiente")
+    }else{
+        alert("tienes "+this.prestamos.length+" pendientes")
+    }
+   }
     //REPORTE CERTIFICADO DE NO ADEUDO
     generatePDF(persona: Persona) {
+        
 
         const fechaactual = new Date(Date.now());
         // Obtén el nombre del día de la semana
@@ -476,6 +507,13 @@ export class HeaderComponent implements DoCheck, OnInit {
         // Guardar el documento PDF
         doc.save('Certificado de no adeudo_' + persona.nombres + '.pdf');
     }
+
+
+    isTecAzuay(email: string): boolean {
+        const pattern = /@tecazuay\.edu\.ec$/i; // Expresión regular para buscar la terminación "@tecazuay.edu.ec" (el sufijo "$" asegura que la coincidencia esté al final del texto)
+        return pattern.test(email);
+    }
+
 }
 
 
