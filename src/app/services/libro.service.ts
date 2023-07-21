@@ -32,7 +32,10 @@ export class LibroService {
     const formData: FormData = new FormData();
     formData.append('imagen', imagen);
 
-    return this.http.post<any>(`${this.guardarImagen}/${id}`, formData);
+    return this.http.post<any>(`${this.guardarImagen}/${id}`, formData, {
+      responseType: 'text' as 'json', // Establece el tipo de respuesta como texto plano
+      observe: 'response' // Importante para obtener la respuesta completa, incluyendo el status y headers
+    });
   }
 }
 

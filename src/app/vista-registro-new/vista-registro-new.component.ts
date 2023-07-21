@@ -376,7 +376,7 @@ export class VistaRegistroNewComponent implements OnInit {
           if (this.idlibro) {
             this.libroservice.subirImagen(this.idlibro, this.imagen).subscribe(
               (response: any) => {
-                console.log('Imagen subida:', response);
+                console.log('Imagen subida:', response); // No es necesario intentar analizar la respuesta como JSON
                 Swal.fire({
                   position: 'center',
                   icon: 'success',
