@@ -31,6 +31,7 @@ export class FooterComponent implements OnInit {
   ngOnInit() {
     let usuarioJSON = localStorage.getItem('persona') + "";
     this.persona = JSON.parse(usuarioJSON);
+    console.log(this.persona);
     this.CarreraService.getCarreras().subscribe(
       response => {
         this.carreras = response;
@@ -41,6 +42,12 @@ export class FooterComponent implements OnInit {
 
   seleccionT(e: any) {
     this.idC = e.target.value;
+    if(this.idC)
+    this.CarreraService.obtenerCarreraId(this.idC).subscribe
+    (
+      (response:Carrera)=>{
+        console.log(response);
+        this.sugerencia.carrera=response})
   }
 
 
@@ -56,13 +63,8 @@ export class FooterComponent implements OnInit {
     
     this.sugerencia.estado = true;
     this.sugerencia.fecha = new Date(Date.now());
-    this.sugerencia.idpersona= this.persona
-    if(this.idC)
-    this.CarreraService.obtenerCarreraId(this.idC).subscribe
-    (
-      response=>{
-        console.log(response);
-        this.sugerencia.carrera=response})
+    this.sugerencia.persona= this.persona
+    
    
     console.log(this.sugerencia);
     this.sugerenciaService.create(this.sugerencia).subscribe({

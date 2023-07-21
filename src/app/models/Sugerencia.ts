@@ -6,7 +6,7 @@ export class Sugerencia {
     descripcion?: string;
     fecha?: Date;
     estado?: boolean;
-    idpersona?: Persona;
+    persona?: Persona;
 
     carrera?: Carrera;
 }
