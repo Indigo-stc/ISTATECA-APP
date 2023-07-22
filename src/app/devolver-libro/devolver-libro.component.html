@@ -38,7 +38,7 @@
                         <div class="input-box">
                             <span class="details">Estado de entrega del libro:</span>
                             <input type="text" class="form-control" name="domicilio"
-                                value="{{prestamo.libro?.estadoLibro}}" required disabled>
+                                value="{{getNombreEstadoLibro(prestamo.libro?.estadoLibro)}}" required disabled>
                             <span class="details">Estado de actual del libro:</span>
                             <select class="combo form-select" (change)="seleccionT($event)" name="carrera" required>
                                 <option disabled selected>Seleccione alguna</option>
@@ -196,7 +196,7 @@
     </div>
 
     <div class="card" *ngIf="solicitudCompleta==true">
-        <h1>Prestamo</h1>
+        <h1 style="margin-top: -3%;">Prestamo</h1>
         <div class="content">
             <form (ngSubmit)="guardar()">
                 <div class="step-counter">
@@ -259,6 +259,7 @@
                         value="{{prestamo.idRecibido?.nombres}}&nbsp;{{prestamo.idRecibido?.apellidos}}"
                         name="codigoDewey" required>
                 </div>
+                <button routerLink="/app-lista-solicitudes-pendientes">Aceptar</button>
             </form>
         </div>
     </div>

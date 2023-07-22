@@ -35,7 +35,12 @@
         <tr>
           <th style="width: 11%;">Cedula</th>
           <th style="width: 20%">Título del Libro</th>
-          <th style="width: 15%;">Fecha</th>
+          <th style="width: 15%;"  *ngIf="pendientes==true">Fecha de la solicitud</th>
+          <th style="width: 15%;"  *ngIf="prestados==true">Fecha esperada de devolución</th>
+          <th style="width: 15%;"  *ngIf="recibidos==true">Fecha de la devolución</th>
+          <th style="width: 15%;"  *ngIf="nodevuelto==true">Fecha de devolución vencida</th>
+          <th style="width: 15%;"  *ngIf="restituido==true">Fecha de la restitución</th>
+          <th style="width: 15%;"  *ngIf="destruido==true">Fecha en la que devolvió</th>
           <th style="width: 15%;">Estado</th>
           <th style="width: 60%;">Acciones</th>
         </tr>
@@ -76,18 +81,13 @@
 
         <tbody class="text-center" *ngIf="recibidos==true">
           <tr *ngFor="let prestamo of listaprestamos">
-            <td style="width: 11%;" *ngIf="prestamo.tipoPrestamo == 1 || prestamo.tipoPrestamo==2; else menor">
+            <td style="width: 11%;" *ngIf="prestamo.tipoPrestamo == 1 || prestamo.tipoPrestamo==2;">
               {{prestamo.idSolicitante?.cedula}}
             </td>
-            <ng-template #menor>
-              <td style="width: 11%;" *ngIf="prestamo.estadoPrestamo == 3;">
-                {{prestamo.fechaEntrega}}
-              </td>
-            </ng-template>
-            <td style="width: 33%">{{prestamo.libro?.titulo}}</td>
-            <td>{{prestamo.fechaDevolucion}}</td>
-            <td>{{ getNombreEstado(prestamo.estadoPrestamo) }}</td>
-           <td style=" width: 35%;"> <button (click)="solicitudCompleta(prestamo)">Ver Prestamo</button>&nbsp;</td>
+            <td style="width: 20%">{{prestamo.libro?.titulo}}</td>
+            <td  style="width: 15%;">{{prestamo.fechaDevolucion}}</td>
+            <td  style="width: 15%;">{{ getNombreEstado(prestamo.estadoPrestamo) }}</td>
+           <td style="width: 60; height: 100%; display: flex;"> <button (click)="solicitudCompleta(prestamo)">Ver Prestamo</button>&nbsp;</td>
           </tr>
         </tbody>
 
@@ -96,10 +96,10 @@
             <td style="width: 11%;" *ngIf="prestamo.tipoPrestamo == 1 || prestamo.tipoPrestamo==2;">
               {{prestamo.idSolicitante?.cedula}}
             </td>
-            <td style="width: 33%">{{prestamo.libro?.titulo}}</td>
-            <td style="color: crimson;">{{prestamo.fechaMaxima}}</td>
-            <td>{{ getNombreEstado(prestamo.estadoPrestamo) }}</td>
-            <td style="display: flex; justify-content: center;  width: 35%;">
+            <td style="width: 20%">{{prestamo.libro?.titulo}}</td>
+            <td style="color: crimson; width: 15%;">{{prestamo.fechaMaxima}}</td>
+            <td style="width: 15%;">{{ getNombreEstado(prestamo.estadoPrestamo) }}</td>
+            <td style="display: flex; justify-content: center;  width: 60;">
               <button (click)="devolucion(prestamo)">Recibir libro</button>&nbsp;
             </td>
           </tr>
@@ -110,10 +110,10 @@
             <td style="width: 11%;" *ngIf="prestamo.tipoPrestamo == 1 || prestamo.tipoPrestamo==2;">
               {{prestamo.idSolicitante?.cedula}}
             </td>
-            <td style="width: 33%">{{prestamo.libro?.titulo}}</td>
-            <td>{{prestamo.fechaDevolucion}}</td>
-            <td>{{ getNombreEstado(prestamo.estadoPrestamo) }}</td>
-            <td style="display: flex; justify-content: center;  width: 35%;">
+            <td style="width: 20%">{{prestamo.libro?.titulo}}</td>
+            <td style="width: 15%;">{{prestamo.fechaDevolucion}}</td>
+            <td style="width: 15%;">{{ getNombreEstado(prestamo.estadoPrestamo) }}</td>
+            <td style="display: flex; justify-content: center;  width: 60;">
               <button (click)="solicitudCompleta(prestamo)">Ver Prestamo</button>&nbsp;
             </td>
           </tr>
@@ -124,10 +124,10 @@
             <td style="width: 11%;" *ngIf="prestamo.tipoPrestamo == 1 || prestamo.tipoPrestamo==2;">
               {{prestamo.idSolicitante?.cedula}}
             </td>
-            <td style="width: 33%">{{prestamo.libro?.titulo}}</td>
-            <td >{{prestamo.fechaDevolucion}}</td>
-            <td>{{ getNombreEstado(prestamo.estadoPrestamo) }}</td>
-            <td style="display: flex; justify-content: center;  width: 35%;">
+            <td style="width: 20%">{{prestamo.libro?.titulo}}</td>
+            <td style="width: 15%;" >{{prestamo.fechaDevolucion}}</td>
+            <td style="width: 15%;">{{ getNombreEstado(prestamo.estadoPrestamo) }}</td>
+            <td style="display: flex; justify-content: center;  width: 60;">
               <button (click)="devolucionR(prestamo)">Restituir libro</button>&nbsp;
             </td>
           </tr>
@@ -137,53 +137,53 @@
             <td style="width: 11%;" *ngIf="prestamo.tipoPrestamo == 1 || prestamo.tipoPrestamo==2;">
               {{prestamo.idSolicitante?.cedula}}
             </td>
-            <td style="width: 33%">{{prestamo.libro?.titulo}}</td>
+            <td style="width: 20%">{{prestamo.libro?.titulo}}</td>
 
-            <td  *ngIf="prestamo.estadoPrestamo == 1; else menor">
+            <td  *ngIf="prestamo.estadoPrestamo == 1; else menor" style="width: 15%;">
               {{prestamo.fechaFin}}
             </td>
             <ng-template #menor>
-              <td  *ngIf="prestamo.estadoPrestamo == 2; else menor2">
+              <td  *ngIf="prestamo.estadoPrestamo == 2; else menor2" style="width: 15%;">
                 {{prestamo.fechaEntrega}}
               </td>
             </ng-template>
 
             <ng-template #menor2>
-              <td 
+              <td style="width: 15%;"
                 *ngIf="prestamo.estadoPrestamo == 3 || prestamo.estadoPrestamo == 6 || prestamo.estadoPrestamo == 4 else menor3">
                 {{prestamo.fechaDevolucion}}
               </td>
             </ng-template>
             <ng-template #menor3>
-              <td  *ngIf="prestamo.estadoPrestamo == 5">
+              <td  *ngIf="prestamo.estadoPrestamo == 5" style="width: 15%;">
                 {{prestamo.fechaMaxima}}
               </td>
             </ng-template>
 
-            <td>{{ getNombreEstado(prestamo.estadoPrestamo) }}</td>
+            <td style="width: 15%;">{{ getNombreEstado(prestamo.estadoPrestamo) }}</td>
 
-            <td  *ngIf="prestamo.estadoPrestamo == 1; else ll " style=" width: 35%;">
+            <td  *ngIf="prestamo.estadoPrestamo == 1; else ll " style=" width: 60;">
               <button (click)="aceptarDomicilio(prestamo)">Aceptar Solitud Domicilio</button>&nbsp;
               <button (click)="aceptar(prestamo)">Aceptar Solitud Institución</button>
             </td>
             <ng-template #ll>
-              <td  *ngIf="prestamo.estadoPrestamo == 2; else ll2 " style=" width: 35%;">
+              <td  *ngIf="prestamo.estadoPrestamo == 2; else ll2 " style=" width: 60;">
                 <button (click)="devolucion(prestamo)">Formulario de devolución</button>&nbsp;
               </td>
             </ng-template>
             <ng-template #ll2>
               <td
-                *ngIf="prestamo.estadoPrestamo == 3 || prestamo.estadoPrestamo == 6" else ll3 style=" width: 35%;">
+                *ngIf="prestamo.estadoPrestamo == 3 || prestamo.estadoPrestamo == 6" else ll3 style=" width: 60;">
                 <button (click)="solicitudCompleta(prestamo)">Ver Prestamo</button>&nbsp;
               </td>
             </ng-template>
             <ng-template #ll3>
-              <td  *ngIf="prestamo.estadoPrestamo == 4 else ll4" style=" width: 35%;">
+              <td  *ngIf="prestamo.estadoPrestamo == 4 else ll4" style=" width: 60;">
                 <button (click)="devolucionR(prestamo)">Restituir libro</button>&nbsp;
               </td>
             </ng-template>
             <ng-template #ll4>
-              <td  *ngIf="prestamo.estadoPrestamo == 5" style=" width: 35%;">
+              <td  *ngIf="prestamo.estadoPrestamo == 5" style=" width: 60">
                 <button (click)="devolucion(prestamo)">Recibir libro</button>&nbsp;
               </td>
             </ng-template>

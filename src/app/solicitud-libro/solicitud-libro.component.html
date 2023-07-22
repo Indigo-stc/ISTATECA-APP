@@ -38,8 +38,8 @@
                         </div>
                         <div class="input-box">
                             <span class="details">Domicilio</span>
-                            <input type="text" class="form-control" disabled value="{{prestamo.idSolicitante?.direccion}}"
-                                name="domicilio" required>
+                            <input type="text" class="form-control" disabled
+                                value="{{prestamo.idSolicitante?.direccion}}" name="domicilio" required>
 
                             <span class="details">Celular:</span>
                             <input type="number" value="{{prestamo.idSolicitante?.celular}}" class="form-control"
@@ -76,12 +76,11 @@
                         </div>
                         <div class="input-box">
                             <span class="details">Fecha de Prestamo:</span>
-                            <input type="text" class="form-control" name="fecha_entrega"  disabled
-                            value="{{fechaHoy}}">
+                            <input type="text" class="form-control" name="fecha_entrega" disabled value="{{fechaHoy}}">
 
                             <span class="details">Fecha de Devolucion:</span>
                             <input type="text" class="form-control" name="fecha_devolucion" disabled
-                            value="{{fechaHoy}}">
+                                value="{{fechaHoy}}">
                         </div>
                     </div>
                 </div>
@@ -187,14 +186,30 @@
                             <input type="text" class="form-control" disabled
                                 value="{{prestamo2.idEntrega?.nombres}}{{prestamo.idEntrega?.apellidos}}" required>
                         </div>
-                        <div class="input-box">
-                            <span class="details">Fecha de Prestamo:</span>
-                            <input type="date" class="form-control" name="fecha_entrega" required
-                                [(ngModel)]="prestamo2.fechaEntrega">
 
-                            <span class="details">Fecha de Devolucion:</span>
-                            <input type="date" class="form-control" name="fecha_devolucion" required
-                                [(ngModel)]="prestamo2.fechaMaxima">
+                        <div class="input-box">
+                            <span class="details" style="width: 50%;">Fecha anterior de devolución:</span>
+                            <input type="text" class="form-control" name="fecha_entrega" disabled required
+                                value="{{prestamo2.fechaMaxima}}">
+                        </div>
+                        <hr>
+                        <div class="input-box" *ngIf="boton==false">
+                            <button type="button" class="button5 botones" (click)="prestInst()"> Prestamo en el
+                                instituto</button>
+                            <button type="button" class="button5 botones" (click)="prestDomic()"> Prestamo en el
+                                domicilio</button>
+                        </div>
+
+                        <div class="input-box" *ngIf="boton">
+                            <span class="details">Nueva fecha de prestamo:</span>
+                            <input type="text" class="form-control" name="fecha_entrega" disabled required
+                                value="{{fechaHoy}}">
+
+                            <span class="details">Nueva fecha de devolución:</span>
+                            <input type="text" class="form-control" name="fecha_entrega" disabled *ngIf="prestIn==true"
+                                required value="{{fechaHoy}}">
+                            <input type="text" class="form-control" name="fecha_devolucion" disabled
+                                *ngIf="prestIn==false" required value="{{fechaDespues}}">
                         </div>
                     </div>
                 </div>

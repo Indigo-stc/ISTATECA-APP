@@ -121,11 +121,13 @@ export class ListaSolicitudesPendientesComponent implements OnInit {
     this.listaprestamos = [];
     this.prestamoService.listarxestado(2).subscribe(
       response => {
+        if(response!=null){
         response.forEach(element => {
-          if (element.tipoPrestamo!=3) {
+          if (element.tipoPrestamo != 3) {
             this.listaprestamos.push(element);
           }
         });
+      }
       }
 
     );
@@ -141,11 +143,13 @@ export class ListaSolicitudesPendientesComponent implements OnInit {
     this.listaprestamos = [];
     this.prestamoService.listarxestado(3).subscribe(
       response => {
-        response.forEach(element => {
-          if (element.tipoPrestamo!=3) {
-            this.listaprestamos.push(element);
-          }
-        });
+        if (response != null) {
+          response.forEach(element => {
+            if (element.tipoPrestamo != 3) {
+              this.listaprestamos.push(element);
+            }
+          });
+        }
       }
 
     );
@@ -161,11 +165,13 @@ export class ListaSolicitudesPendientesComponent implements OnInit {
     this.listaprestamos = [];
     this.prestamoService.listarxestado(5).subscribe(
       response => {
-        response.forEach(element => {
-          if (element.tipoPrestamo!=3) {
-            this.listaprestamos.push(element);
-          }
-        });
+        if (response != null) {
+          response.forEach(element => {
+            if (element.tipoPrestamo != 3) {
+              this.listaprestamos.push(element);
+            }
+          });
+        }
       }
 
     );
@@ -182,11 +188,13 @@ export class ListaSolicitudesPendientesComponent implements OnInit {
     this.listaprestamos = [];
     this.prestamoService.listarxestado(6).subscribe(
       response => {
+        if(response!=null){
         response.forEach(element => {
-          if (element.tipoPrestamo!=3) {
+          if (element.tipoPrestamo != 3) {
             this.listaprestamos.push(element);
           }
         });
+      }
       }
 
     );
@@ -202,11 +210,13 @@ export class ListaSolicitudesPendientesComponent implements OnInit {
     this.listaprestamos = [];
     this.prestamoService.listarxestado(4).subscribe(
       response => {
+        if(response!=null){
         response.forEach(element => {
-          if (element.tipoPrestamo!=3) {
+          if (element.tipoPrestamo != 3) {
             this.listaprestamos.push(element);
           }
         });
+      }
       }
 
     );

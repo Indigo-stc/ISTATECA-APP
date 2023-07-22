@@ -25,11 +25,13 @@ export class ListaSolicitudesTercerosComponent {
   listaPrestados() {
     this.TerceroService.obtenerTerPres().subscribe(
       response => {
-        response.forEach(element => {
-          if (element.prestamo?.estadoPrestamo == 2) {
-            this.listaterceroP.push(element);
-          }
-        });
+        if (response != null) {
+          response.forEach(element => {
+            if (element.prestamo?.estadoPrestamo == 2) {
+              this.listaterceroP.push(element);
+            }
+          });
+        }
       }
     )
     this.prestados = true;

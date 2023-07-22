@@ -4,7 +4,6 @@ import { Prestamo } from '../models/Prestamo';
 import { CarreraService } from '../services/carrera.service';
 import { Carrera } from '../models/Carrera';
 import Swal from 'sweetalert2';
-import { doch } from '../solicitud-libro/doch';
 import { prestamoService } from '../services/prestamo.service';
 import { Persona } from '../models/Persona';
 import { Router } from '@angular/router';
@@ -23,12 +22,10 @@ export class SolicitudLibroDomicilioComponent implements OnInit {
   reporteV: string = "";
   carreras: Carrera[] = [];
   mostrar: boolean = false;
-  doch: doch[] = []
   variable?: number;
   car: Carrera = new Carrera;
   idC?: number;
   documentoH?: number;
-  documentos: doch = new doch;
   names?: string[] = [];
   carreraEst?: string;
   carEst?: boolean;
@@ -162,24 +159,5 @@ export class SolicitudLibroDomicilioComponent implements OnInit {
   desactivarDoc() {
     this.mostrar = false
   }
-  guardarDoc(doc: string, reg: NgForm) {
-    if (doc == "") {
-      alert("Ingrese un tipo de documento")
-    } else {
-      this.variable = this.doch.length + 1;
-
-
-      this.names?.push(doc)
-      console.log(this.names)
-
-
-
-
-    }
-
-
-    reg.reset();
-
-
-  }
+  
 }

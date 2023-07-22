@@ -136,10 +136,11 @@ export class RegistroSolicitudTercerapersonaComponent {
     this.prestamo.documentoHabilitante = this.documentoH;
     this.prestamo.idEntrega = this.bibliotecario;
     this.prestamo.tipoPrestamo = 3;
+    console.log(this.prestamo);
     this.PrestamoService.create(this.prestamo).subscribe(
       response => {
         this.terceroPrestamo.prestamo = response;
-        this.crearPrestamoTercero();
+       // this.crearPrestamoTercero();
       }
     );
   }

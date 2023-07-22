@@ -77,37 +77,35 @@ thead {
 }
 
 button {
-  margin-left: 70%;
-  margin-top: 1%;
-  margin-bottom: 3%;
+  margin-left: 45%;
+  display: flex;
+  align-items: center;
   font-family: inherit;
-  font-weight: 500;
-  font-size: 17px;
+  font-size: 12px;
   padding: 0.8em 1.3em 0.8em 0.9em;
   color: white;
-  background: linear-gradient(90deg, #004f9f, #023b76);
-  letter-spacing: 0.05em;
+  background: #1C69B7;
+  border: none;
   border-radius: 16px;
 }
 
-button svg {
+button img {
   margin-right: 3px;
-  transform: rotate(0deg);
-  transition: transform 0.50s cubic-bezier(0.76, 0, 0.24, 1);
+  transform: rotate(30deg);
+  transition: transform 0.5s cubic-bezier(0.76, 0, 0.24, 1);
 }
 
 button span {
   transition: transform 0.5s cubic-bezier(0.76, 0, 0.24, 1);
 }
 
-button:hover svg {
-  transform: translateX(2px) rotate(-20deg);
+button:hover img {
+  transform: translateX(5px) rotate(90deg);
 }
 
 button:hover span {
   transform: translateX(7px);
 }
-
 
 .input-box {
   display: flex;

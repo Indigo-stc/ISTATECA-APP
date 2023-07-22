@@ -210,7 +210,7 @@ export class DevolverLibroComponent implements OnInit {
                   }
                 );
               } else {
-
+console.log(this.prestamo)
                 this.prestamo.estadoPrestamo = 3;
                 this.PrestamoService.update(this.prestamo).subscribe(
                   response => {
@@ -226,7 +226,6 @@ export class DevolverLibroComponent implements OnInit {
               }
 
             } else if (this.estadoActual == 3) {
-              console.log("entro")
               Swal.fire({
                 title: 'Libro Destruido',
                 text: 'El prestamo se guardara como libro destruido',

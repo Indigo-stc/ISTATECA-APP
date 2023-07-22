@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm, NgModel } from '@angular/forms';
 import { Prestamo } from '../models/Prestamo';
 import { Carrera } from '../models/Carrera';
 import { CarreraService } from '../services/carrera.service';
 import { prestamoService } from '../services/prestamo.service';
-import { doch } from './doch';
 import Swal from 'sweetalert2';
 import { Persona } from '../models/Persona';
 import { Router } from '@angular/router';
@@ -21,27 +19,37 @@ export class SolicitudLibroComponent implements OnInit {
   prestamo2: Prestamo = new Prestamo();
   persona: Persona = new Persona();
   carreraEstu: Carrera = new Carrera();
-  carreraEst?: string;
+  car: Carrera = new Carrera();
+
   carreras: Carrera[] = [];
-  car: Carrera = new Carrera;
+
+  fechaDespues?: string;
+  carreraEst?: string;
   reporteV: string = "";
-  mostrar: boolean = false;
-  doch: doch[] = []
+  fechaHoy?: string;
+
+
   variable?: number
   documentoH?: number;
-
-  fechaHoy?: string;
-  modificar?: boolean;
-  carEst?: boolean;
-  documentos: doch = new doch;
-  names?: string[] = [];
   idC?: number;
+
+  mostrar: boolean = false;
+  boton: boolean = false;
+  modificar?: boolean;
+  prestIn?: boolean;
+  carEst?: boolean;
+
+
   step = 1;
   totalSteps = 2;
+
+
   constructor(private router: Router, private carreraService: CarreraService, private PrestamoService: prestamoService) { }
+  
   ngOnInit(): void {
     let prestamoJSON = localStorage.getItem('prestamo') + "";
     this.prestamo2 = JSON.parse(prestamoJSON);
+    
     if (this.prestamo2 == undefined || this.prestamo2 == null) {
       this.modificar = false;
 
@@ -50,14 +58,16 @@ export class SolicitudLibroComponent implements OnInit {
 
       var solicitudJSONGET = localStorage.getItem("AceptarSolicitud");
       var solicitud = JSON.parse(solicitudJSONGET + "");
-      const fecha = new Date(Date.now());
-      this.fechaHoy = format(fecha, 'dd/MM/yyyy');
 
       this.prestamo = solicitud;
-      console.log(this.prestamo)
 
+      const fecha = new Date(Date.now());
+      this.fechaHoy = format(fecha, 'dd/MM/yyyy');
       this.prestamo.fechaEntrega = fecha;
       this.prestamo.fechaMaxima = fecha;
+      console.log(this.prestamo)
+
+      
       if (this.prestamo.idSolicitante?.cedula != undefined && this.prestamo.tipoPrestamo == 1) {
         this.carreraService.carreraest(this.prestamo.idSolicitante?.cedula).subscribe(
           respose => {
@@ -124,13 +134,57 @@ export class SolicitudLibroComponent implements OnInit {
     }
   }
 
+  seleccionT(e: any) {
+    this.idC = e.target.value;
+  }
+
+  seleccionD(e: any) {
+    this.documentoH = e.target.value;
+  }
+
+
+  sumarDiasExcluyendoFinesDeSemana(fecha: Date, dias: number): Date {
+    const fechaAuxiliar = new Date(fecha.getTime()); // Clonar la fecha original
+
+    for (let i = 0; i < dias; i++) {
+      fechaAuxiliar.setDate(fechaAuxiliar.getDate() + 1); // Agregar un día
+
+      // Verificar si es sábado o domingo
+      if (fechaAuxiliar.getDay() === 6) { // 6 representa el sábado
+        fechaAuxiliar.setDate(fechaAuxiliar.getDate() + 2); // Saltar al lunes
+      } else if (fechaAuxiliar.getDay() === 0) { // 0 representa el domingo
+        fechaAuxiliar.setDate(fechaAuxiliar.getDate() + 1); // Saltar al lunes
+      }
+    }
+
+    return fechaAuxiliar;
+  }
+
+  prestInst() {
+    const fecha = new Date(Date.now());
+    this.fechaHoy = format(fecha, 'dd/MM/yyyy');
+    this.prestamo2.fechaEntrega = fecha;
+    this.prestamo2.fechaMaxima = fecha;
+    this.prestIn = true;
+    this.boton = true;
+  }
+
+  prestDomic() {
+    const fecha = new Date(Date.now());
+    this.fechaHoy = format(fecha, 'dd/MM/yyyy');
+    this.prestamo2.fechaEntrega = fecha;
+    this.prestamo2.fechaMaxima = this.sumarDiasExcluyendoFinesDeSemana(fecha, 5);
+    this.fechaDespues = format(this.prestamo2.fechaMaxima, 'dd/MM/yyyy');
+    this.prestIn = false;
+    this.boton = true;
+  }
 
   guardar() {
     this.prestamo.estadoPrestamo = 2;
     this.prestamo.carrera = this.car;
     this.prestamo.idEntrega = this.persona;
     if (this.prestamo.fechaEntrega == this.prestamo.fechaMaxima) {
-      if (this.idC != undefined || this.documentoH != undefined || this.documentoH==0) {
+      if (this.idC != undefined || this.documentoH != undefined || this.documentoH == 0) {
         this.prestamo.documentoHabilitante = this.documentoH;
         if (this.idC != undefined) {
           this.carreraService.obtenerCarreraId(this.idC).subscribe(
@@ -143,7 +197,7 @@ export class SolicitudLibroComponent implements OnInit {
         if (this.carreraEst != undefined) {
           this.prestamo.carrera = this.carreraEstu;
         }
-console.log(this.prestamo)
+        console.log(this.prestamo)
         this.PrestamoService.update(this.prestamo).subscribe(
           response => {
             Swal.fire({
@@ -191,41 +245,7 @@ console.log(this.prestamo)
 
   }
 
-  seleccionT(e: any) {
-    this.idC = e.target.value;
-  }
-  seleccionD(e: any) {
-    this.documentoH = e.target.value;
-    console.log(this.documentoH)
-  }
-
-
-  activarDoc() {
-    this.mostrar = true
-  }
-  desactivarDoc() {
-    this.mostrar = false
-  }
-  guardarDoc(doc: string, reg: NgForm) {
-    if (doc == "") {
-      alert("Ingrese un tipo de documento")
-    } else {
-      this.variable = this.doch.length + 1;
-
-
-      this.names?.push(doc)
-      console.log(this.names)
-
-
-
-
-    }
-
-
-    reg.reset();
-
-
-  }
+  
 
 
 
