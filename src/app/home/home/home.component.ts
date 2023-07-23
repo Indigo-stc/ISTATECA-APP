@@ -121,6 +121,7 @@ export class HomeComponent implements OnInit {
   public crearPrestamo(paginacrear: any) {
     if(paginacrear.disponibilidad ==true){
     this.prestamos.libro = paginacrear
+    this.prestamos.activo=true;
     this.prestamos.idSolicitante = this.persona
     this.prestamos.estadoLibro = 1
     this.prestamos.estadoPrestamo = 1

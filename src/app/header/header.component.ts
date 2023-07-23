@@ -16,6 +16,7 @@ import { Carrera } from "../models/Carrera";
 import { RegistroUsuarioService } from "../services/registro-usuario.service";
 import { prestamoService } from "../services/prestamo.service";
 import { Prestamo } from "../models/Prestamo";
+import { Title } from "@angular/platform-browser";
 
 @Component({
     selector: 'app-header',
@@ -24,6 +25,7 @@ import { Prestamo } from "../models/Prestamo";
 })
 export class HeaderComponent implements DoCheck, OnInit {
     persona: Persona = new Persona();
+    personaDeudo: Persona = new Persona();
     reporteN: string = "";
     sinSesion: boolean = false;
     estudiante: boolean = false;
@@ -35,7 +37,8 @@ export class HeaderComponent implements DoCheck, OnInit {
     notificationlista: Notificacion[] = [];
     notificationlistaest: Notificacion[] = [];
     notificaciones: Notificacion[] = [];
-    prestamos:Prestamo[]=[];
+    prestamos: Prestamo[] = [];
+    prestamosnodevueltos: Prestamo[] = [];
     tipoMensaje: number | undefined;
     personatraida: Persona = new Persona();
     datosLiro: string = "";
@@ -82,11 +85,11 @@ export class HeaderComponent implements DoCheck, OnInit {
                                 icon: 'warning',
                                 confirmButtonColor: '#3085d6',
                                 confirmButtonText: 'Entendido',
-                              }).then((result) => {
+                            }).then((result) => {
                                 if (result.isConfirmed) {
                                     this.auth.logout();
                                 }
-                              });
+                            });
                             return;
                         }
                         if (user?.email && user?.name) {
@@ -213,6 +216,10 @@ export class HeaderComponent implements DoCheck, OnInit {
         var overlay1 = document.getElementById('overlay1');
         overlay1?.classList.remove('active');
     }
+    cerrarpopup2() {
+        var overlay2 = document.getElementById('overlay2');
+        overlay2?.classList.remove('active');
+    }
     user?: User = new User;
     usuario = new Persona();
 
@@ -270,7 +277,7 @@ export class HeaderComponent implements DoCheck, OnInit {
         console.log(this.notificationlista.length)
         for (let index = 0; index < this.notificationlista.length; index++) {
             if (this.notificationlista[index].visto === false) {
-                
+
                 console.log(this.notificationlista[index].mensaje)
                 this.notificacionesService.actualizarConteo(1)
             }
@@ -369,23 +376,135 @@ export class HeaderComponent implements DoCheck, OnInit {
         )
     }
 
+    async obtenerPersona() {
+        const { value: cedula } = await Swal.fire({
+            title: 'Verificación de no adeudo',
+            input: 'number',
+            inputLabel: 'Ingrese el numero de cedula del estudiante',
+            inputPlaceholder: 'La cedula es:',
+            inputValidator: (value) => {
+                return new Promise((resolve: any) => {
+                    if (value.length === 10) {
+                        resolve()
+                    } else {
+                        resolve('Ingrese una cedula!')
+                    }
+                })
+            }
+        })
 
-   //Verificar
-   verificaradeudo(persona: Persona){
-    this.prestamodervice.verificardeudas(persona.cedula+"").subscribe(
-        response=>(
-            this.prestamos=response
-        )
-    )
-    if(this.prestamos.length===0){
-        alert("No tiene préstamo pendiente")
-    }else{
-        alert("tienes "+this.prestamos.length+" pendientes")
+        if (cedula) {
+            this.usuarioService.obtenerCedula(cedula).subscribe(
+                response => (
+                    console.log(response),
+                    this.verificarEstudiante(response)
+
+                ), error => (
+                    Swal.fire({ title: 'No se encontro a la persona', icon: "error" })
+                )
+            )
+        }
+
     }
-   }
+
+    //verificarEstudiante
+    verificarEstudiante(per: Persona) {
+        if (per.tipo === 1) {
+            this.personaDeudo = per,
+                this.obtenerCarrera(this.personaDeudo),
+                this.verificaradeudo(per)
+        } else {
+            Swal.fire({
+                title: 'La persona encontrada '+per.nombres +' no es estudiante!',
+                icon:"warning",
+                text: 'Por favor solo los estudiantes pueden obtener el certificado de no adeudo.',
+                html:'¡Verfique nuevamente!',
+                timer: 6000
+            })
+            this.limpiar()
+        }
+    }
+    //limpiar
+    limpiar() {
+        this.prestamos = [],
+            this.personaDeudo = {}
+    }
+    //Confirmar
+    confirmarSeleccion(persona: Persona) {
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-success',
+                cancelButton: 'btn btn-danger'
+            },
+            buttonsStyling: false
+        })
+
+        swalWithBootstrapButtons.fire({
+            title: 'El usuario ' + persona.nombres + ' no tiene prestamos pendientes',
+            text: "¿Desea generar el certificado?",
+            icon: 'question',
+            showCancelButton: true,
+            confirmButtonText: 'Si, generar!',
+            cancelButtonText: 'No, cancelar!',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                swalWithBootstrapButtons.fire(
+                    'Generado!',
+                    'Su certificado esta siendo generado!.',
+                    'success'
+                ), this.generatePDF(persona);
+            } else if (
+                /* Read more about handling dismissals below */
+                result.dismiss === Swal.DismissReason.cancel
+            ) {
+                swalWithBootstrapButtons.fire(
+                    'Cancelado'
+                ), this.limpiar();
+            }
+        })
+    }
+
+    //Confirmar No generar
+    confirmarSeleccionDeuda(persona: Persona, prestamos: Prestamo[]) {
+        console.log(prestamos)
+        this.prestamosnodevueltos = prestamos
+        var overlay2 = document.getElementById('overlay2');
+        overlay2?.classList.add('active');
+        this.limpiar();
+    }
+
+
+    //Verificar
+    verificaradeudo(persona: Persona) {
+        this.prestamodervice.verificardeudas(persona.cedula + "").subscribe(
+            (response: Prestamo[]) => (
+                this.prestamos = response,
+                console.log(response),
+                this.ver(persona, response)
+
+            )
+        )
+
+
+    }
+
+    ver(persona: Persona, prestamos: Prestamo[]) {
+        if (prestamos === null) {
+            
+            this.confirmarSeleccion(persona)
+        } else if (prestamos != null) {
+            
+            this.confirmarSeleccionDeuda(persona, prestamos)
+
+        }
+    }
+
+
     //REPORTE CERTIFICADO DE NO ADEUDO
     generatePDF(persona: Persona) {
-        
+
 
         const fechaactual = new Date(Date.now());
         // Obtén el nombre del día de la semana
@@ -506,6 +625,7 @@ export class HeaderComponent implements DoCheck, OnInit {
 
         // Guardar el documento PDF
         doc.save('Certificado de no adeudo_' + persona.nombres + '.pdf');
+        this.limpiar();
     }
 
 

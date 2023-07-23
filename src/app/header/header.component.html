@@ -34,8 +34,9 @@
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" routerLink="/app-lista-solicitudes-pendientes">Lista de Solicitudes</a></li>
               <li>
-                <li><a class="dropdown-item" routerLink="/app-lista-solicitudes-terceros">Lista de Solicitudes a Terceros</a></li>
-                <li>
+              <li><a class="dropdown-item" routerLink="/app-lista-solicitudes-terceros">Lista de Solicitudes a
+                  Terceros</a></li>
+              <li>
                 <hr class="dropdown-divider">
               </li>
               <li><a class="dropdown-item" routerLink="/app-registro-solicitud">Registrar una Solicitud</a></li>
@@ -64,7 +65,7 @@
                 <hr class="dropdown-divider">
               </li>
               <li><a class="dropdown-item" routerLink="/app-lista-terceros">Lista Terceros</a></li>
-              
+
             </ul>
           </li>
 
@@ -131,7 +132,8 @@
                         </svg><strong>El préstamo
                           del libro "{{mensaje.prestamo?.libro?.titulo}}" al
                           usuario "{{mensaje.prestamo?.idSolicitante?.nombres}}" a superado la fecha de devolución
-                          "{{mensaje.prestamo?.fechaDevolucion}}" ¡Contáctalo al numero: <strong>{{mensaje.prestamo?.idSolicitante?.celular}}</strong>! .</strong> </td>
+                          "{{mensaje.prestamo?.fechaDevolucion}}" ¡Contáctalo al numero:
+                          <strong>{{mensaje.prestamo?.idSolicitante?.celular}}</strong>! .</strong> </td>
 
                       <td *ngIf="mensaje.mensaje == 1">
 
@@ -410,9 +412,9 @@
           </a>
         </div>
 
-        <div class="dropdown" *ngIf="estudiante">
+        <div class="dropdown" *ngIf="bibliotecario || admin">
           <a class="btn btn-primary dropdown-item" style="background:transparent ; border-color: white"
-            title="Generar Certificado de no adeudo" (click)="generatePDF(persona)">
+            title="Generar Certificado de no adeudo" (click)="obtenerPersona()">
 
             <svg xmlns="http://www.w3.org/2000/svg" style="color: rgb(205, 204, 204);" width="20" height="20"
               fill="currentColor" class="bi bi-file-earmark-arrow-down" viewBox="0 0 16 16">
@@ -466,6 +468,39 @@
         background: #1C69B7;
         border: none;
         border-radius: 16px;" id="cerrarpopup" class="btn-outline-primary" (click)="cerrarpopup()">
+          <FONT COLOR="white">Aceptar</FONT>
+        </button>
+      </div>
+    </div>
+
+    <div class="overlay2" id="overlay2">
+      <div class="popup2" id="popup2">
+        <h3>Deudas pendientes<strong style="color: red;"> {{prestamosnodevueltos.length}}</strong></h3>
+
+
+        <h4 *ngFor="let prestamo of prestamosnodevueltos">
+          <hr>
+          <strong>Titulo del libro solicitado:</strong> {{prestamo.libro?.titulo}}<br><strong>Descripción del libro
+            solicitado:</strong> {{prestamo.libro?.descripcion}}<br>
+
+          <strong>Nombre del bibliotecario que registra:</strong> {{prestamo.idEntrega?.nombres}}
+          <br><strong>Fecha de entrega al solicitante:</strong> {{prestamo.fechaEntrega}}
+          <br><strong>Fecha maxima de devolución:</strong> {{prestamo.fechaDevolucion}}
+        </h4>
+
+        <button style="width: 100%;
+        margin-left: 2%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: inherit;
+        font-weight: 500;
+        font-size: 12px;
+        padding: 0.8em 1.3em 0.8em 0.9em;
+        color: white;
+        background: #1C69B7;
+        border: none;
+        border-radius: 16px;" id="cerrarpopup" class="btn-outline-primary" (click)="cerrarpopup2()">
           <FONT COLOR="white">Aceptar</FONT>
         </button>
       </div>
