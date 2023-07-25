@@ -67,13 +67,15 @@ export class FormComponentb implements OnInit {
           title: '<strong>¡Usuario Guardado!</strong>',
           confirmButtonText: 'OK',
           confirmButtonColor: '#012844',
-          icon: 'success',
-          html:
-            '<b>' + response.nombres + '</b><br>' +
-            'te has registrado con exito'
-        });
+          icon: 'success'
+        }),this.router.navigate(['']);
         
-      }
+      },error=>(Swal.fire({
+        title: '<strong>¡Error!</strong>',
+        timer:2000,
+        confirmButtonColor: '#012844',
+        icon: 'error'
+      }))
     )
     }
 
@@ -118,11 +120,19 @@ export class FormComponentb implements OnInit {
         icon: 'warning',
         title: 'Ups...',
         text: 'Ingrese la cédula'
-      })
+      }),this.persona.nombres=""
+      this.persona.apellidos=""
+      this.persona.celular=""
+      this.persona.correo=""
+      this.persona.tipo=undefined
+      this.persona.activo=false
+      this.rol=""
     } else {
       if (cedula.length === 10) {
         this.usuarioservice.obtenerPersonasFuncion(cedula).subscribe(
-          response =>( this.persona = response),error=>(alert("no estas registrado"),this.persona.cedula="")
+          response =>(
+            this.persona = response
+          ),error=>(alert("no estas registrado"),this.persona.cedula="")
 
 
         )
@@ -149,5 +159,7 @@ export class FormComponentb implements OnInit {
 
 
   }
+
+
 
 }

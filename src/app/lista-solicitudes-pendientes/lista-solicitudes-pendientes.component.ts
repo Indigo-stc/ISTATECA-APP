@@ -7,6 +7,8 @@ import { Notificacion } from '../models/Notificacion';
 import { NotificacionesService } from '../services/notificaciones.service';
 import { terceroService } from '../services/tercero.service';
 import { TerceroPrestamo } from '../models/TerceroPrestamo';
+import { Persona } from '../models/Persona';
+import { Carrera } from '../models/Carrera';
 
 @Component({
   selector: 'app-lista-solicitudes-pendientes',
@@ -17,6 +19,7 @@ export class ListaSolicitudesPendientesComponent implements OnInit {
   listaprestamos: Prestamo[] = [];
   listaTercerosPrest: TerceroPrestamo[] = [];
   notificacion: Notificacion = new Notificacion();
+  persona: Persona = new Persona();
   //Tablas
   pendientes?: boolean;
   prestados?: boolean;
@@ -34,6 +37,9 @@ export class ListaSolicitudesPendientesComponent implements OnInit {
 
     let notificacionDato = localStorage.getItem('Dato') + "";
     this.notificacion = JSON.parse(notificacionDato);
+
+    let usuarioJSON = localStorage.getItem('persona') + "";
+    this.persona = JSON.parse(usuarioJSON);
 
     if (this.notificacion != null) {
       this.datosNotificacionP = this.notificacion.prestamo?.idSolicitante?.cedula + ""
@@ -72,6 +78,26 @@ export class ListaSolicitudesPendientesComponent implements OnInit {
     const objetoString = JSON.stringify(prestamo);
     localStorage.setItem("AceptarSolicitud", objetoString);
     this.router.navigate(['/app-solicitud-libro']);
+  }
+
+
+  rechazar(prestamo: Prestamo) {
+    prestamo.estadoPrestamo = 7;
+    prestamo.idEntrega = this.persona;
+    console.log(this.persona)
+    this.prestamoService.update(prestamo).subscribe(
+      response => {
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: '<strong>Solicitud Rechazada Correctamente</strong>',
+          showConfirmButton: false,
+          timer: 1500
+        })
+        this.router.navigate(['/app-lista-solicitudes-pendientes']);
+      }
+    );
+
   }
 
   devolucion(prestamo: Prestamo) {
@@ -121,13 +147,13 @@ export class ListaSolicitudesPendientesComponent implements OnInit {
     this.listaprestamos = [];
     this.prestamoService.listarxestado(2).subscribe(
       response => {
-        if(response!=null){
-        response.forEach(element => {
-          if (element.tipoPrestamo != 3) {
-            this.listaprestamos.push(element);
-          }
-        });
-      }
+        if (response != null) {
+          response.forEach(element => {
+            if (element.tipoPrestamo != 3) {
+              this.listaprestamos.push(element);
+            }
+          });
+        }
       }
 
     );
@@ -188,13 +214,13 @@ export class ListaSolicitudesPendientesComponent implements OnInit {
     this.listaprestamos = [];
     this.prestamoService.listarxestado(6).subscribe(
       response => {
-        if(response!=null){
-        response.forEach(element => {
-          if (element.tipoPrestamo != 3) {
-            this.listaprestamos.push(element);
-          }
-        });
-      }
+        if (response != null) {
+          response.forEach(element => {
+            if (element.tipoPrestamo != 3) {
+              this.listaprestamos.push(element);
+            }
+          });
+        }
       }
 
     );
@@ -210,13 +236,13 @@ export class ListaSolicitudesPendientesComponent implements OnInit {
     this.listaprestamos = [];
     this.prestamoService.listarxestado(4).subscribe(
       response => {
-        if(response!=null){
-        response.forEach(element => {
-          if (element.tipoPrestamo != 3) {
-            this.listaprestamos.push(element);
-          }
-        });
-      }
+        if (response != null) {
+          response.forEach(element => {
+            if (element.tipoPrestamo != 3) {
+              this.listaprestamos.push(element);
+            }
+          });
+        }
       }
 
     );

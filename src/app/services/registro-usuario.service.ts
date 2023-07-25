@@ -29,8 +29,8 @@ export class RegistroUsuarioService {
     return this.http.post<Persona>(this.urlendpointcrearpers, persona, { headers: this.httpHeaders })
   }
 
-  createPersonaFuncion(persona: Persona,rol:string): Observable<Persona> {
-    return this.http.post<Persona>(this.urlendpoint4+"?rol="+rol, persona, { headers: this.httpHeaders })
+  createPersonaFuncion(persona: Persona,rol:string): Observable<any> {
+    return this.http.post<Persona>(this.urlendpoint4+"?rol="+rol, persona, {responseType: 'text' as 'json',observe: 'response'})
   }
 
   updatePersona(persona: Persona) {

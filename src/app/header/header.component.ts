@@ -445,6 +445,7 @@ export class HeaderComponent implements DoCheck, OnInit {
             icon: 'question',
             showCancelButton: true,
             confirmButtonText: 'Si, generar!',
+            confirmButtonColor: '#012844',
             cancelButtonText: 'No, cancelar!',
             reverseButtons: true
         }).then((result) => {
