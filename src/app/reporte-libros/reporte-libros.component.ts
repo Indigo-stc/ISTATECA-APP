@@ -6,7 +6,7 @@ import { Carrera } from '../models/Carrera';
 import { prestamoService } from '../services/prestamo.service';
 import { Router } from '@angular/router';
 import jspdf from 'jspdf';
-
+import { CarreraPrestamo } from '../models/CarreraPrestamo';
 
 
 @Component({
@@ -15,11 +15,31 @@ import jspdf from 'jspdf';
   styleUrls: ['./reporte-libros.component.css']
 })
 export class ReporteLibrosComponent implements OnInit {
+  listaprestamos: Prestamo[] = [];
+  listaprestamosest: Prestamo[] = [];
+  listaprestamosdoc: Prestamo[] = [];
+  carreras: Carrera[] = [];
+  prestamosTodos: Prestamo[] = [];
+
+  totalEst: number = 0;
+  totalDoc: number = 0;
+  total: number = 0;
 
 
-  constructor(private listCarrera: CarreraService,
-    private prestamoService: prestamoService,
-    private router: Router) { }
+  startFecha: string = "";
+  endFecha: string = "";
+  selectedRace: string = "";
+  filteredList: any[] = [];
+
+  todos?: boolean;
+  idC?: number;
+  totalEstudiantesTipo1 = 0;
+  totalDocentesTipo2 = 0;
+
+
+  carrerasPrestamo: CarreraPrestamo[] = [];
+
+  constructor(private listCarrera: CarreraService, private prestamoService: prestamoService, private router: Router) { }
 
 
   ngOnInit(): void {
@@ -30,64 +50,112 @@ export class ReporteLibrosComponent implements OnInit {
     })
   }
 
-  getCarrera() {
-    this.listCarrera.getCarreras().subscribe(
-      carre => this.race = carre);
+  calcularTotalPrestamosTipo(prestamos: Prestamo[], tipo: number): number {
+    return prestamos.filter((prestamo) => prestamo.tipoPrestamo === tipo).length;
   }
 
 
-  listaprestamos: Prestamo[] = [];
-  listaprestamosest: Prestamo[] = [];
-  listaprestamosdoc: Prestamo[] = [];
-  race: Carrera[] = [];
 
-
-  totalEst: number = 0;
-  totalDoc: number = 0;
-  total: number = 0;
-
-
-  startFecha: string = "";
-  endFecha: string = "";
-
+  getCarrera() {
+    this.listCarrera.getCarreras().subscribe(
+      carre => this.carreras = carre);
+  }
 
 
   buscars(start: string, end: string): void {
-    this.listaprestamosest = [];
-    this.listaprestamosdoc = [];
-    this.totalEst = 0;
-    this.totalDoc = 0;
-    this.prestamoService.prestamoconcarrera(start, end, 0).subscribe(
-      response => {
-        response.forEach(element => {
-          this.getCarrera()
-          if (element.tipoPrestamo == 1) {
-            this.listaprestamosest.push(element);
-            this.totalEst = this.listaprestamosest.length;
-          } else if (element.tipoPrestamo == 2) {
-            this.listaprestamosdoc.push(element);
-            this.totalDoc = this.listaprestamosdoc.length;
-          }
+    this.prestamosTodos = [];
+    if (this.todos == true) {
+      this.prestamoService.prestamoconcarrera(start, end, 0).subscribe((data) => {
+        this.prestamosTodos = data;
+
+
+        this.listCarrera.getCarreras().subscribe((carreras) => {
+          this.carrerasPrestamo = [];
+
+          carreras.forEach((carrera) => {
+            console.log(carrera.nombre);
+            this.prestamosTodos.forEach(
+              (prestamo) => {
+                console.log(prestamo)
+                if (carrera.id === prestamo.carrera?.id) {
+                  console.log("entro correctamente")
+                  if (prestamo.tipoPrestamo === 1) {
+                    console.log("estudiante")
+                    this.totalEst = this.totalEst + 1;
+                  } else if (prestamo.tipoPrestamo === 2) {
+                    this.totalDoc = this.totalDoc + 1;
+                    console.log("total DOc: " + this.totalDoc)
+                  }
+                }
+              })
+            this.total = this.totalEst + this.totalDoc;
+            const totalEstudiantesTipo1 = this.totalEst;
+            const totalDocentesTipo2 = this.totalDoc;
+            const totalCarrera = this.total;
+            // Agregar los datos a la lista de carrerasPrestamo
+            this.carrerasPrestamo.push({
+              carrera,
+              totalEstudiantesTipo1,
+              totalDocentesTipo2,
+              totalCarrera,
+            });
+          })
         });
-        this.total = this.totalDoc + this.totalEst;
-        console.log(this.total + " " + this.totalDoc + this.totalEst)
-      },
-      error => {
-        console.error(error);
-      }
-    );
+      });
+    } else {
+      this.listCarrera.getCarreras().subscribe((carreras) => {
+        this.carrerasPrestamo = [];
+
+        // Realizar las consultas por cada carrera
+        carreras.forEach((carrera) => {
+          const id = carrera.id; // Suponiendo que el objeto Carrera tiene un campo 'id'
+          const inicio = start; // Fecha de inicio que desees
+          const fin = end; // Fecha de fin que desees
+
+          // Llamada al servicio para obtener los datos de estudiantes y docentes
+          if (id)
+            this.prestamoService.prestamoconcarrera(inicio, fin, id).subscribe((data) => {
+              if (data != null) {
+                data.forEach((prestamo) => {
+                  if (prestamo.tipoPrestamo === 1 || prestamo.tipoPrestamo === 2) {
+                    this.prestamosTodos.push(prestamo);
+                  }
+                });
+
+
+
+
+
+                const prestamos = data;
+                const totalEstudiantesTipo1 = this.calcularTotalPrestamosTipo(prestamos, 1);
+                const totalDocentesTipo2 = this.calcularTotalPrestamosTipo(prestamos, 2);
+                const totalCarrera = prestamos.length;
+
+                // Agregar los datos a la lista de carrerasPrestamo
+                this.carrerasPrestamo.push({
+                  carrera,
+                  totalEstudiantesTipo1,
+                  totalDocentesTipo2,
+                  totalCarrera,
+                });
+              }
+            });
+        });
+      });
+    }
   }
 
 
-  selectedRace: string = "";
-  filteredList: any[] = [];
+
+
 
   filter(e: Event) {
     this.selectedRace = (e.target as HTMLInputElement).value;
     if (this.selectedRace === "All") {
-      this.filteredList = this.listaprestamos;
+      this.todos = true;
     } else {
-      this.filteredList = this.listaprestamos.filter(prestamo => prestamo.carrera?.nombre === this.selectedRace);
+      this.idC = parseInt(this.selectedRace);
+      this.todos = false;
     }
   }
 

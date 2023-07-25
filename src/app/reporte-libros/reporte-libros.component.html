@@ -5,9 +5,10 @@
 
 
 <body>
-    <div class="card" >
+    <div class="card">
         <h1>Reporte de libros por carrera</h1>
-        <button id="consultarButton"data-bs-toggle="modal" data-bs-target="#staticBackdrop" style="width: 15%;">CONSULTAR</button>
+        <button id="consultarButton" data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+            style="width: 15%;">CONSULTAR</button>
         <form class=" buscarw">
             <button (click)="downloadPDF()" style="margin-left: 142%;">
                 Imprimir &nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -24,17 +25,17 @@
                     <thead class="subcabezera">
                         <tr>
                             <th>Carrera</th>
-                            <th>Docentes</th>
                             <th>Estudiantes</th>
+                            <th>Docentes</th>
                             <th>Total</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let prestamo of filteredList">
-                            <td>{{prestamo.carrera?.nombre}}</td>
-                            <td>{{totalDoc}}</td>
-                            <td>{{totalEst}}</td>
-                            <td>{{total}}</td>
+                        <tr *ngFor="let carreraPrestamo of carrerasPrestamo">
+                            <td>{{ carreraPrestamo.carrera?.nombre }}</td>
+                            <td>{{ carreraPrestamo.totalEstudiantesTipo1 }}</td>
+                            <td>{{ carreraPrestamo.totalDocentesTipo2 }}</td>
+                            <td>{{ carreraPrestamo.totalCarrera }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -48,7 +49,7 @@
                         </tr>
                     </thead>
                     <tbody class="text-center">
-                        <tr *ngFor="let prestamo of filteredList">
+                        <tr *ngFor="let prestamo of prestamosTodos">
                             <td>{{ prestamo.libro?.titulo }}</td>
                         </tr>
                     </tbody>
@@ -80,9 +81,7 @@
                         (change)="filter($event)">
                         <option disabled selected>Seleccione una opción</option>
                         <option value="All">Todos</option>
-                        <optgroup label="Carreras">
-                            <option *ngFor="let openn of race" >{{ openn.nombre }}</option>
-                        </optgroup>
+                        <option *ngFor="let car of carreras" value="{{car.id}}">{{ car.nombre }}</option>
                     </select>
                 </div>
                 <div class="form-group">
