@@ -25,6 +25,7 @@ import { ListaDocentesComponent } from './lista-docentes/lista-docentes.componen
 import { ListaTecerosComponent } from './lista-teceros/lista-teceros.component';
 import { RegEtiquetasComponent } from './vista-registro-new/reg-etiquetas/reg-etiquetas.component';
 import { ListaSolicitudesTercerosComponent } from './lista-solicitudes-terceros/lista-solicitudes-terceros.component';
+import { LoaderComponent } from './loader/loader.component';
 
 const routes: Routes = [
       {path: 'app-devolver-libro', component: DevolverLibroComponent, canActivate: [AuthGuard], data: { expectedRoles: ['ROLE_STUD'] } },
@@ -51,6 +52,7 @@ const routes: Routes = [
       {path: 'app-lista-docentes', component: ListaDocentesComponent},
       {path: 'app-lista-terceros', component: ListaTecerosComponent},
       {path: 'app-registro-etiquetas', component: RegEtiquetasComponent},
+      {path: 'app-loader', component: LoaderComponent},
 ];
 
 @NgModule({

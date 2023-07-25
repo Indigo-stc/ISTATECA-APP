@@ -273,7 +273,7 @@ export class HeaderComponent implements DoCheck, OnInit {
 
     }
     validarconteoB() {
-
+        if (this.notificationlista != null) {
         console.log(this.notificationlista.length)
         for (let index = 0; index < this.notificationlista.length; index++) {
             if (this.notificationlista[index].visto === false) {
@@ -283,16 +283,9 @@ export class HeaderComponent implements DoCheck, OnInit {
             }
 
         }
+    }
 
-        /* if (this.notificationlista != null) {
-            this.notificationlista.forEach(element => {
-                if (element.visto == false && element.mensaje === 1 || element.mensaje === 4) {
-                    this.notificacionesService.actualizarConteo(1)
-                }
-            });
-        } else {
-
-        } */
+        
     }
 
     validateUser(model: Persona) {

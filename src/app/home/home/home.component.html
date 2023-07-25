@@ -34,6 +34,9 @@
     <div class="contenedor">
         <table class="table ">
           <tbody class="text-center" *ngIf="normal">
+            <tr *ngIf="libros.length===0" >
+              <app-loader></app-loader>
+            </tr>
             <tr *ngFor="let libro of libros">
               <td  style="width: 6.5%;">{{ libro.id }}</td>
               <td style="width: 21.5%;">{{ libro.titulo }}</td>
@@ -53,6 +56,9 @@
           </tbody>
 
           <tbody class="text-center" *ngIf="buscar">
+            <tr *ngIf="libros.length===0" >
+              <app-loader></app-loader>
+            </tr>
             <tr *ngFor="let libro of libros">
               <td>{{ libro.id }}</td>
               <td>{{ libro.titulo }}</td>
