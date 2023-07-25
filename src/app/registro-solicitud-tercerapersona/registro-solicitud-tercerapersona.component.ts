@@ -64,9 +64,10 @@ export class RegistroSolicitudTercerapersonaComponent {
     if (cedula.length == 10) {
       this.TerceroServices.terceroxcedula(cedula).subscribe({
         next: response => {
-          console.log(response);
           if (response != null && response != undefined) {
             this.tercero = response;
+            console.log(response);
+            this.terceroPrestamo.tercero=response;
             this.tercerocrear = false;
           }
         },
@@ -123,6 +124,7 @@ export class RegistroSolicitudTercerapersonaComponent {
           title: 'Tercero Creado Correctamente',
           text: 'Se guardo correcatamente'
         })
+        this.crearPrestamo();
       }
     );
   }
@@ -136,16 +138,17 @@ export class RegistroSolicitudTercerapersonaComponent {
     this.prestamo.documentoHabilitante = this.documentoH;
     this.prestamo.idEntrega = this.bibliotecario;
     this.prestamo.tipoPrestamo = 3;
-    console.log(this.prestamo);
     this.PrestamoService.create(this.prestamo).subscribe(
       response => {
         this.terceroPrestamo.prestamo = response;
-       // this.crearPrestamoTercero();
+        this.crearPrestamoTercero();
       }
     );
   }
 
   crearPrestamoTercero(){
+    this.terceroPrestamo.tercero=this.tercero;
+    console.log(this.terceroPrestamo);
     this.TerceroServices.createTerPres(this.terceroPrestamo).subscribe(
       response => {
         Swal.fire({
@@ -153,7 +156,7 @@ export class RegistroSolicitudTercerapersonaComponent {
           icon: 'success',
           title: 'Guardado Correctamente',
         })
-        this.router.navigate(['/app-lista-solicitudes-pendientes']);
+        this.router.navigate(['/app-lista-solicitudes-terceros']);
       }
     );
   }

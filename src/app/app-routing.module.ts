@@ -4,10 +4,8 @@ import { DevolverLibroComponent } from './devolver-libro/devolver-libro.componen
 import { RegistroUsuarioComponent } from './registro-usuario/registro-usuario.component';
 import { ReporteSugerenciasComponent } from './reporte-sugerencias/reporte-sugerencias.component';
 import { ReporteLibrosComponent } from './reporte-libros/reporte-libros.component';
-import { FormComponent } from './registro-usuario/form.component';
 import { FormComponentb } from './registro-bibliotecario/form.component';
 import { FormEditBComponent } from './registro-bibliotecario/form-edit-b.component';
-import { FormEditComponent } from './registro-usuario/form-edit.component';
 import { HomeComponent } from './home/home/home.component';
 import { RegistroBibliotecarioComponent } from './registro-bibliotecario/registro-bibliotecario.component';
 import { ListaBibliotecariosComponent } from './lista-bibliotecarios/lista-bibliotecarios.component';
@@ -26,16 +24,16 @@ import { ListaTecerosComponent } from './lista-teceros/lista-teceros.component';
 import { RegEtiquetasComponent } from './vista-registro-new/reg-etiquetas/reg-etiquetas.component';
 import { ListaSolicitudesTercerosComponent } from './lista-solicitudes-terceros/lista-solicitudes-terceros.component';
 import { LoaderComponent } from './loader/loader.component';
+import { DevolverLibroTerceroComponent } from './devolver-libro-tercero/devolver-libro-tercero.component';
 
 const routes: Routes = [
       {path: 'app-devolver-libro', component: DevolverLibroComponent, canActivate: [AuthGuard], data: { expectedRoles: ['ROLE_STUD'] } },
       {path: 'app-registro-usuario', component: RegistroUsuarioComponent},
       {path: 'app-reporte-sugerencias', component: ReporteSugerenciasComponent},
       {path: 'app-reporte-libros', component: ReporteLibrosComponent},
-      {path: 'app-form', component: FormComponent},
+      {path: 'app-devolver-libro-tercero', component: DevolverLibroTerceroComponent},
       {path: 'app-form-bibliotecario', component: FormComponentb},
       {path: 'app-form-editBibliotecario', component: FormEditBComponent},
-      {path: 'app-form-editUsuario', component: FormEditComponent},
       {path: 'app-registro-solicitud', component: RegistroSolicitudComponent},
       {path: '', component: HomeComponent},
       {path: 'app-registro-bibliotecario', component: RegistroBibliotecarioComponent},

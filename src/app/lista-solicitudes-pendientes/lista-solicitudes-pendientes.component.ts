@@ -93,8 +93,8 @@ export class ListaSolicitudesPendientesComponent implements OnInit {
           title: '<strong>Solicitud Rechazada Correctamente</strong>',
           showConfirmButton: false,
           timer: 1500
-        })
-        this.router.navigate(['/app-lista-solicitudes-pendientes']);
+        });
+        this.ngOnInit();
       }
     );
 
@@ -317,8 +317,13 @@ export class ListaSolicitudesPendientesComponent implements OnInit {
             })
             this.ngOnInit();
           } else {
-
-            this.listaprestamos = response;
+            if(response!=null){
+              response.forEach(element => {
+                if (element.tipoPrestamo != 3) {
+                  this.listaprestamos.push(element);
+                }
+              });
+            }
           }
         }
       );

@@ -28,6 +28,8 @@ export class SolicitudLibroComponent implements OnInit {
   reporteV: string = "";
   fechaHoy?: string;
 
+  fecha?: Date;
+  fechaMax?: Date;
 
   variable?: number
   documentoH?: number;
@@ -44,12 +46,13 @@ export class SolicitudLibroComponent implements OnInit {
   totalSteps = 2;
 
 
+
   constructor(private router: Router, private carreraService: CarreraService, private PrestamoService: prestamoService) { }
-  
+
   ngOnInit(): void {
     let prestamoJSON = localStorage.getItem('prestamo') + "";
     this.prestamo2 = JSON.parse(prestamoJSON);
-    
+
     if (this.prestamo2 == undefined || this.prestamo2 == null) {
       this.modificar = false;
 
@@ -67,7 +70,7 @@ export class SolicitudLibroComponent implements OnInit {
       this.prestamo.fechaMaxima = fecha;
       console.log(this.prestamo)
 
-      
+
       if (this.prestamo.idSolicitante?.cedula != undefined && this.prestamo.tipoPrestamo == 1) {
         this.carreraService.carreraest(this.prestamo.idSolicitante?.cedula).subscribe(
           respose => {
@@ -161,25 +164,23 @@ export class SolicitudLibroComponent implements OnInit {
   }
 
   prestInst() {
-    const fecha = new Date(Date.now());
-    this.fechaHoy = format(fecha, 'dd/MM/yyyy');
-    this.prestamo2.fechaEntrega = fecha;
-    this.prestamo2.fechaMaxima = fecha;
+    this.fecha = new Date(Date.now());
+    this.fechaHoy = format(this.fecha, 'dd/MM/yyyy');
     this.prestIn = true;
     this.boton = true;
   }
 
   prestDomic() {
-    const fecha = new Date(Date.now());
-    this.fechaHoy = format(fecha, 'dd/MM/yyyy');
-    this.prestamo2.fechaEntrega = fecha;
-    this.prestamo2.fechaMaxima = this.sumarDiasExcluyendoFinesDeSemana(fecha, 5);
-    this.fechaDespues = format(this.prestamo2.fechaMaxima, 'dd/MM/yyyy');
+    this.fecha = new Date(Date.now());
+    this.fechaHoy = format(this.fecha, 'dd/MM/yyyy');
+    this.fechaMax = this.sumarDiasExcluyendoFinesDeSemana(this.fecha, 5);
+    this.fechaDespues = format(this.fechaMax, 'dd/MM/yyyy');
     this.prestIn = false;
     this.boton = true;
   }
 
   guardar() {
+    
     this.prestamo.estadoPrestamo = 2;
     this.prestamo.carrera = this.car;
     this.prestamo.idEntrega = this.persona;
@@ -230,6 +231,14 @@ export class SolicitudLibroComponent implements OnInit {
   }
 
   guardar2() {
+    if(this.prestIn==true){
+      this.prestamo2.fechaEntrega = this.fecha;
+      this.prestamo2.fechaMaxima = this.fecha;
+    }else {
+      this.prestamo2.fechaEntrega = this.fecha;
+      if(this.fecha)
+      this.prestamo2.fechaMaxima = this.sumarDiasExcluyendoFinesDeSemana(this.fecha, 5);
+    }
     this.PrestamoService.update(this.prestamo2).subscribe(
       response => {
         Swal.fire({
@@ -245,7 +254,7 @@ export class SolicitudLibroComponent implements OnInit {
 
   }
 
-  
+
 
 
 

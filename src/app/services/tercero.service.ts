@@ -11,11 +11,13 @@ import { TerceroPrestamo } from '../models/TerceroPrestamo';
 export class terceroService {
 
   private urlEndPoint: string = 'http://localhost:8080/tercero/terceroxcedula';
+  
   private urlEndPointCrear: string = 'http://localhost:8080/tercero/crear';
   private urlEndPointCrear1: string = 'http://localhost:8080/terceroprestamo/crear';
   private urlEndPointListar: string = 'http://localhost:8080/tercero/listar';
   private urlEndPointListarTerPre: string = 'http://localhost:8080/terceroprestamo/listar';
   private urlEndPointEditar: string = 'http://localhost:8080/tercero/editar';
+  private urlEndPointEditarTerPre: string = 'http://localhost:8080/tercero/editar';
 
 
   private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -40,6 +42,9 @@ export class terceroService {
   }
   updateTercero(tercero: Tercero) {
     return this.http.put<Tercero>(this.urlEndPointEditar + "/" + tercero.id, tercero);
+  }
+  updateTerceroPrestamo(tercero: TerceroPrestamo) {
+    return this.http.put<Tercero>(this.urlEndPointEditarTerPre + "/" + tercero.id, tercero);
   }
 
   obtenerTerPres(): Observable<TerceroPrestamo[]> {

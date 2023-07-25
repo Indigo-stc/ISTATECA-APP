@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { terceroService } from '../services/tercero.service';
 import { TerceroPrestamo } from '../models/TerceroPrestamo';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-lista-solicitudes-terceros',
@@ -16,13 +17,15 @@ export class ListaSolicitudesTercerosComponent {
   restituido?: boolean;
   destruido?: boolean;
   buscar?: boolean;
-  constructor(private TerceroService: terceroService) { }
+  constructor(private TerceroService: terceroService, private router: Router) { }
 
   ngOnInit(): void {
+    this.listaterceroP = [];
     this.listaPrestados();
   }
 
   listaPrestados() {
+    this.listaterceroP = [];
     this.TerceroService.obtenerTerPres().subscribe(
       response => {
         if (response != null) {
@@ -43,14 +46,108 @@ export class ListaSolicitudesTercerosComponent {
   }
 
   listaRecibidos() {
-
+    this.listaterceroP = [];
+    this.TerceroService.obtenerTerPres().subscribe(
+      response => {
+        if (response != null) {
+          response.forEach(element => {
+            if (element.prestamo?.estadoPrestamo == 3) {
+              this.listaterceroP.push(element);
+            }
+          });
+        }
+      }
+    )
+    this.prestados = false;
+    this.recibidos = true;
+    this.nodevuelto = false;
+    this.restituido = false;
+    this.destruido = false;
+    this.buscar = false;
   }
 
-  listaNoDevueltos() { }
+  listaNoDevueltos() {
+    this.listaterceroP = [];
+    this.TerceroService.obtenerTerPres().subscribe(
+      response => {
+        if (response != null) {
+          response.forEach(element => {
+            if (element.prestamo?.estadoPrestamo == 5) {
+              this.listaterceroP.push(element);
+            }
+          });
+        }
+      }
+    )
+    this.prestados = false;
+    this.recibidos = false;
+    this.nodevuelto = true;
+    this.restituido = false;
+    this.destruido = false;
+    this.buscar = false;
+  }
 
-  listaRestituidos() { }
+  listaRestituidos() {
+    this.listaterceroP = [];
+    this.TerceroService.obtenerTerPres().subscribe(
+      response => {
+        if (response != null) {
+          response.forEach(element => {
+            if (element.prestamo?.estadoPrestamo == 6) {
+              this.listaterceroP.push(element);
+            }
+          });
+        }
+      }
+    )
+    this.prestados = false;
+    this.recibidos = false;
+    this.nodevuelto = false;
+    this.restituido = true;
+    this.destruido = false;
+    this.buscar = false;
+  }
 
-  listaDestruidos() { }
+  listaDestruidos() {
+    this.listaterceroP = [];
+    this.TerceroService.obtenerTerPres().subscribe(
+      response => {
+        if (response != null) {
+          response.forEach(element => {
+            if (element.prestamo?.estadoPrestamo == 4) {
+              this.listaterceroP.push(element);
+            }
+          });
+        }
+      }
+    )
+    this.prestados = false;
+    this.recibidos = false;
+    this.nodevuelto = false;
+    this.restituido = false;
+    this.destruido = true;
+    this.buscar = false;
+  }
+
+  devolver(prestamoTercero: TerceroPrestamo) {
+    const objetoString = JSON.stringify(prestamoTercero);
+    localStorage.setItem("SolicitudTercero", objetoString);
+    this.router.navigate(['/app-devolver-libro-tercero']);
+  }
+
+  devolucionR(prestamo: TerceroPrestamo) {
+    const objetoString = JSON.stringify(prestamo);
+    localStorage.setItem("SolicitudTercero", objetoString);
+    localStorage.setItem("estadoR", 6 + "");
+    this.router.navigate(['/app-devolver-libro-tercero']);
+  }
+
+  solicitudCompleta(prestamo: TerceroPrestamo) {
+    const objetoString = JSON.stringify(prestamo);
+    localStorage.setItem("SolicitudTercero", objetoString);
+    localStorage.setItem("solicitudCompleta", 1 + "");
+    this.router.navigate(['/app-devolver-libro-tercero']);
+  }
 
   getNombreEstado(numeroEstado: number | undefined): string {
     let nombreEstado = 'Desconocido'; // Valor predeterminado si el número del estado es undefined
@@ -94,6 +191,28 @@ export class ListaSolicitudesTercerosComponent {
     if (buscar2 == "") {
       this.ngOnInit();
     } else if (buscar2.length == 10) {
+
+      /*this.TerceroService.buscarPrestamo(buscar2).subscribe(
+        response => {
+          if (response.length == 0) {
+            Swal.fire({
+              title: '<strong>Prestamo no encontrado</strong>',
+              confirmButtonText: 'error',
+              confirmButtonColor: '#012844',
+              icon: 'error',
+            })
+            this.ngOnInit();
+          } else {
+            if(response!=null){
+              response.forEach(element => {
+                if (element.tipoPrestamo != 3) {
+                  this.listaprestamos.push(element);
+                }
+              });
+            }
+          }
+        }
+      );*/
     }
   }
 }

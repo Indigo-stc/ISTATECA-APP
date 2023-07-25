@@ -123,11 +123,14 @@ button:hover span {
 
 .details2 {
   font-size: medium;
-  width: 40%;
+  width: 70%;
 }
 
 .content {
   width: 100%;
+}
+.letra{
+font-size: small;
 }
 
 p {

@@ -159,8 +159,7 @@
 
 
                 <div class="button text-center">
-                    <button type="button" class="btn btn-outline-secondary btn-lg mx-3" (click)="retroceder1()"
-                        *ngIf="step > 1">
+                    <button type="button" class="" style="margin-left: 30%; margin-top: 1%;" (click)="retroceder1()" *ngIf="step > 1">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-chevron-double-left" viewBox="0 0 16 16">
                             <path fill-rule="evenodd"
@@ -169,8 +168,7 @@
                                 d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
                         </svg> Retroceder
                     </button>
-                    <button type="button" class="btn btn-outline-primary btn-lg mx-3" (click)="avanzar1()"
-                        *ngIf="step < 2">
+                    <button type="button" (click)="avanzar1()" *ngIf="step < 2" style="margin-left: 70%;">
                         Siguiente <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-chevron-double-right" viewBox="0 0 16 16">
                             <path fill-rule="evenodd"
@@ -179,7 +177,7 @@
                                 d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z" />
                         </svg>
                     </button>
-                    <button type="submit" class="btn btn-outline-success btn-lg mx-3" *ngIf="step === 2">
+                    <button type="submit" *ngIf="step === 2" style="margin-left: 70%; margin-top: -2.8%; position: absolute;">
                         Guardar <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-folder-check" viewBox="0 0 16 16">
                             <path
@@ -196,7 +194,7 @@
     </div>
 
     <div class="card" *ngIf="solicitudCompleta==true">
-        <h1 style="margin-top: -3%;">Prestamo</h1>
+        <h1 style="margin-top: 0%;">Prestamo</h1>
         <div class="content">
             <form (ngSubmit)="guardar()">
                 <div class="step-counter">
@@ -209,15 +207,18 @@
                         <input type="text" class="input2 form-control"
                             value="{{getNombreEstado(prestamo.estadoPrestamo)}}" disabled name="id" required>
                     </div>
+                    <hr>
                     <div class="input-box">
                         <span class="details2">Cedula del solicitante:</span>
                         <input type="text" class="input2 form-control" value="{{prestamo.idSolicitante?.cedula}}"
                             disabled name="id" required>
                         <span class="details2">Nombre del solicitante:</span>
-                        <input type="text" class="input2 form-control"
-                            value="{{prestamo.idSolicitante?.nombres}}&nbsp;{{prestamo.idSolicitante?.apellidos}}"
+                        <input type="text" class="input2 form-control letra" value="{{prestamo.idSolicitante?.nombres}}"
                             disabled name="id" required>
+                        <input type="text" class="input2 form-control letra" style="margin-left: -12%;"
+                            value="{{prestamo.idSolicitante?.apellidos}}" disabled name="id" required>
                     </div>
+                    <hr>
                     <div class="input-box">
                         <span class="details2">Documento habilitante:</span>
                         <input type="text" class="input2 form-control" value="{{hab}}" disabled name="nombres" required>
@@ -236,7 +237,7 @@
                     </div>
 
                 </div>
-
+                <hr>
                 <div class="input-box">
                     <span class="details2">Fecha entrega:</span>
                     <input type="email" value="{{prestamo.fechaEntrega}}" disabled class="input2 form-control"
@@ -248,16 +249,18 @@
                     <input type="date" class="input2 form-control" value="{{prestamo.fechaDevolucion}}" disabled
                         name="correo" required>
                 </div>
+                <hr>
                 <div class="input-box">
                     <span class="details2">Bibliotecario que entrega:</span>
-                    <input type="text" class="input2 form-control" disabled
-                        value="{{prestamo.idEntrega?.nombres}}&nbsp;{{prestamo.idEntrega?.apellidos}}" name="titulo"
-                        required>
-
+                    <input type="text" class="input2 form-control letra" disabled
+                        value="{{prestamo.idEntrega?.nombres}}" name="titulo" required>
+                    <input type="text" class="input2 form-control letra" style="margin-left: -12%;"
+                        value="{{prestamo.idEntrega?.apellidos}}" disabled name="id" required>
                     <span class="details2">Bibliotecario que recibe:</span>
-                    <input type="text" class="input2 form-control" disabled
-                        value="{{prestamo.idRecibido?.nombres}}&nbsp;{{prestamo.idRecibido?.apellidos}}"
-                        name="codigoDewey" required>
+                    <input type="text" class="input2 letra form-control" disabled
+                        value="{{prestamo.idRecibido?.nombres}}" name="codigoDewey" required>
+                    <input type="text" class="input2 form-control letra" style="margin-left: -12%;"
+                        value="{{prestamo.idRecibido?.apellidos}}" disabled name="id" required>
                 </div>
                 <button routerLink="/app-lista-solicitudes-pendientes">Aceptar</button>
             </form>

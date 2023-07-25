@@ -32,11 +32,11 @@
       <table class="header">
         <thead class="text-center cabezera">
           <tr>
-            <th style="width: 11%;">Cedula</th>
+            <th style="width: 15%;">Cedula</th>
             <th style="width: 20%">Título del Libro</th>
             <th style="width: 15%;">Fecha</th>
             <th style="width: 15%;">Estado</th>
-            <th style="width: 60%;">Acciones</th>
+            <th style="width: 20%;">Acciones</th>
           </tr>
         </thead>
       </table>
@@ -45,14 +45,79 @@
         <table class="table">
           <tbody class="text-center" *ngIf="prestados==true">
             <tr *ngFor="let terceroP of listaterceroP">
-              <td style="width: 11%;" >
-                {{terceroP.prestamo?.idSolicitante?.cedula}}
+              <td style="width: 15%;" >
+                {{terceroP.tercero?.cedula}}
               </td>
               <td style="width: 20%">{{terceroP.prestamo?.libro?.titulo}}</td>
               <td style="width: 15%;">{{terceroP.prestamo?.fechaFin}}</td>
               <td style="width: 15%;">{{ getNombreEstado(terceroP.prestamo?.estadoPrestamo) }}</td>
-              <td style="width: 60; display: flex;">
-                
+              <td style="width: 20%; ">
+                <button (click)="devolver(terceroP)">Devolver Libro</button>&nbsp;
+              </td>
+            </tr>
+          </tbody>
+          <tbody class="text-center" *ngIf="recibidos==true">
+            <tr *ngFor="let terceroP of listaterceroP">
+              <td style="width: 15%;" >
+                {{terceroP.tercero?.cedula}}
+              </td>
+              <td style="width: 20%">{{terceroP.prestamo?.libro?.titulo}}</td>
+              <td style="width: 15%;">{{terceroP.prestamo?.fechaFin}}</td>
+              <td style="width: 15%;">{{ getNombreEstado(terceroP.prestamo?.estadoPrestamo) }}</td>
+              <td style="width: 20%; ">
+                <button (click)="solicitudCompleta(terceroP)">Prestamo Completo</button>&nbsp;
+              </td>
+            </tr>
+          </tbody>
+          <tbody class="text-center" *ngIf="nodevuelto==true">
+            <tr *ngFor="let terceroP of listaterceroP">
+              <td style="width: 15%;" >
+                {{terceroP.tercero?.cedula}}
+              </td>
+              <td style="width: 20%">{{terceroP.prestamo?.libro?.titulo}}</td>
+              <td style="width: 15%; color: red;">{{terceroP.prestamo?.fechaFin}}</td>
+              <td style="width: 15%;">{{ getNombreEstado(terceroP.prestamo?.estadoPrestamo) }}</td>
+              <td style="width: 20%;">
+                <button (click)="devolver(terceroP)">Devolver Libro</button>&nbsp;
+              </td>
+            </tr>
+          </tbody>
+          <tbody class="text-center" *ngIf="restituido==true">
+            <tr *ngFor="let terceroP of listaterceroP">
+              <td style="width: 15%;" >
+                {{terceroP.tercero?.cedula}}
+              </td>
+              <td style="width: 20%">{{terceroP.prestamo?.libro?.titulo}}</td>
+              <td style="width: 15%;">{{terceroP.prestamo?.fechaFin}}</td>
+              <td style="width: 15%;">{{ getNombreEstado(terceroP.prestamo?.estadoPrestamo) }}</td>
+              <td style="width: 20%; ">
+                <button (click)="solicitudCompleta(terceroP)">Prestamo Completo</button>&nbsp;
+              </td>
+            </tr>
+          </tbody>
+          <tbody class="text-center" *ngIf="destruido==true">
+            <tr *ngFor="let terceroP of listaterceroP">
+              <td style="width: 15%;" >
+                {{terceroP.tercero?.cedula}}
+              </td>
+              <td style="width: 20%">{{terceroP.prestamo?.libro?.titulo}}</td>
+              <td style="width: 15%;">{{terceroP.prestamo?.fechaFin}}</td>
+              <td style="width: 15%;">{{ getNombreEstado(terceroP.prestamo?.estadoPrestamo) }}</td>
+              <td style="width: 20%; ">
+                <button (click)="devolucionR(terceroP)">Restituir Libro</button>&nbsp;
+              </td>
+            </tr>
+          </tbody>
+          <tbody class="text-center" *ngIf="buscar==true">
+            <tr *ngFor="let terceroP of listaterceroP">
+              <td style="width: 15%;" >
+                {{terceroP.tercero?.cedula}}
+              </td>
+              <td style="width: 20%">{{terceroP.prestamo?.libro?.titulo}}</td>
+              <td style="width: 15%;">{{terceroP.prestamo?.fechaFin}}</td>
+              <td style="width: 15%;">{{ getNombreEstado(terceroP.prestamo?.estadoPrestamo) }}</td>
+              <td style="width: 20%;">
+                <button (click)="devolver(terceroP)">Devolver Libro</button>&nbsp;
               </td>
             </tr>
           </tbody>

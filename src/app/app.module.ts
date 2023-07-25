@@ -7,7 +7,6 @@ import { RouterModule } from '@angular/router';
 import{HTTP_INTERCEPTORS, HttpClientModule, HttpClientXsrfModule} from '@angular/common/http';
 import { RegistroUsuarioService } from './services/registro-usuario.service';
 import { RegistroUsuarioComponent } from './registro-usuario/registro-usuario.component';
-import { FormComponent } from './registro-usuario/form.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RegistroBibliotecarioComponent } from './registro-bibliotecario/registro-bibliotecario.component'
 import { ListaBibliotecariosComponent } from './lista-bibliotecarios/lista-bibliotecarios.component';
@@ -17,7 +16,6 @@ import { PersonaService } from './services/persona.service';
 import { FormComponentb } from './registro-bibliotecario/form.component';
 import { LibroService } from './services/libro.service';
 import { SolicitudLibroComponent } from './solicitud-libro/solicitud-libro.component';
-import { FormEditComponent } from './registro-usuario/form-edit.component';
 import { FormEditBComponent } from './registro-bibliotecario/form-edit-b.component';
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 import { DevolverLibroComponent } from './devolver-libro/devolver-libro.component';
@@ -50,14 +48,12 @@ import { LoaderComponent } from './loader/loader.component';
     FooterComponent,
     HeaderComponent,
     RegistroUsuarioComponent,
-    FormComponent,
     FormComponentb,
     RegistroBibliotecarioComponent,
     ListaBibliotecariosComponent,
     ListasComponent,
     ListaSolicitudesPendientesComponent,
     SolicitudLibroComponent,
-    FormEditComponent,
     FormEditBComponent,
     DevolverLibroComponent,
     VistaRegistroNewComponent,

@@ -62,7 +62,6 @@ export class RegistroSolicitudComponent {
       confirmButtonText: 'Aceptar',
       cancelButtonText: 'Cancelar',
       showLoaderOnConfirm: true,
-
       preConfirm: (texto) => {
         if (texto.length == 10) {
           if (!this.validarSoloLetras(texto)) {
