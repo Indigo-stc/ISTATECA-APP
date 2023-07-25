@@ -39,6 +39,7 @@ export class VistaRegistroNewComponent implements OnInit {
 
   opcionSeleccionado: string = '0';
   idlibro?: number=0;
+  titulolibro?: string
 
   idb?: number;
   nombreT: string = '';
@@ -146,7 +147,8 @@ export class VistaRegistroNewComponent implements OnInit {
     private ListaT: ListasService,
     private ActaDonacionService: ActaDonacionService,
     private personaservice: PersonaService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private router: Router
   ) { //this.buildForm(); 
   }
 
@@ -177,7 +179,7 @@ export class VistaRegistroNewComponent implements OnInit {
 
   //Conseguir capturar tipo de Libro
   seleccionT(e: any) {
-    console.log(e.target.value);
+   
     this.nombreT = e.target.value;
     this.ListaT.buscarTiposxnombre2(this.nombreT).subscribe(
       (data) => {
@@ -254,6 +256,14 @@ export class VistaRegistroNewComponent implements OnInit {
         this.libros = data;
       }
     )
+  }
+
+  capturarAutor(e:any){
+
+  }
+
+  capturarDonante(e:any){
+      
   }
 
 
@@ -353,7 +363,7 @@ export class VistaRegistroNewComponent implements OnInit {
   //Guardar Libro
 
 
-  public Libro: Libro = new Libro();
+  public libro: Libro = new Libro();
 
   /*disponible?: boolean = this.Libro.disponibilidad;*/
 
@@ -368,12 +378,21 @@ export class VistaRegistroNewComponent implements OnInit {
 
     this.libroservice.create(librosFCopy).subscribe(
       (Response : Libro) => {
-        this.Libro
+        this.libro
         this.idlibro = Response.id
+        this.titulolibro=Response.titulo
         console.log(this.idlibro);
+        
+        if(this.titulolibro){
+          
+          localStorage.setItem('titulolibro', this.titulolibro );
+        }
+        
         
         if (this.imagen) {
           if (this.idlibro) {
+            const exlibro = this.idlibro.toString()
+            window.localStorage.setItem('idlibro', exlibro)
             this.libroservice.subirImagen(this.idlibro, this.imagen).subscribe(
               (response: any) => {
                 console.log('Imagen subida:', response); // No es necesario intentar analizar la respuesta como JSON
@@ -386,6 +405,7 @@ export class VistaRegistroNewComponent implements OnInit {
                 })
                 
                 setTimeout(() => {
+                  this.router.navigate(['app-registro-etiquetas']);
                   //location.reload();
                 }, 1000);
               },

@@ -3,6 +3,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Autor } from '../models/Autor';
 import { Tipo } from '../models/Tipo';
 import { Observable} from 'rxjs';
+import { LibroEtiqueta } from '../models/LibroEtiqueta';
+import { Etiqueta } from '../models/Etiqueta';
+//import { EtiquetaLibro } from '../models/EtiquetaLibro';
+
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +18,9 @@ export class ListasService {
   private urlendpointBuscarAutor:string='http://localhost:8080/autor/listarautoresxnombre';
   private urlendpointBuscarTipo:string='http://localhost:8080/tipo/buscarxnombre';
   private urlendpointTipo:string='http://localhost:8080/tipo/crear';
+  private listarEtiqueta:string='http://localhost:8080/etiqueta/listar';
+  private buscaretiqueta:string='http://localhost:8080/etiqueta/buscar';
+  private crearetiqueta:string='http://localhost:8080/tags/crear';
   
   private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'})
 
@@ -45,11 +52,26 @@ export class ListasService {
     let res = this.urlendpointBuscarTipo+"?nombre="+nombre;
     return this.http.get<Tipo[]>(res);
   }
-  buscarTiposxnombre2(nombre: string)
-    {
+  buscarTiposxnombre2(nombre: string) {
     let res = this.urlendpointBuscarTipo+"?nombre="+nombre;
     return this.http.get<Tipo>(res);
   }
 
+  buscarEtiquetas(id: number): Observable<LibroEtiqueta[]> {
+    let res = this.buscaretiqueta + "/"+id;
+    return this.http.get<LibroEtiqueta[]>(res);
+  }
+
+  obteneEtiquetas(): Observable<Etiqueta[]> {
+    return this.http.get<Etiqueta[]>(this.listarEtiqueta);
+  }
+  buscarEtiqueta(id:number): Observable<Etiqueta> {
+    let res = this.buscaretiqueta + "/"+id;
+    return this.http.get<Etiqueta>(res);
+  }
+
+  createEtiqueta(tipo:LibroEtiqueta):Observable<LibroEtiqueta>{
+    return this.http.post<LibroEtiqueta>(this.crearetiqueta, tipo, {headers: this.httpHeaders})
+  }
 
 }

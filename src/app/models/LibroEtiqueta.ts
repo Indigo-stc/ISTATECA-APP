@@ -1,6 +1,7 @@
-import { Libro } from "./Libro";
 import { Etiqueta } from "./Etiqueta";
-export class EtiquetaLibro{
+import { Libro } from "./Libro";
+
+export class LibroEtiqueta{
     id?: number;
     libro?: Libro;
     etiqueta?: Etiqueta;
