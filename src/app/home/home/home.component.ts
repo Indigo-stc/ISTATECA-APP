@@ -22,6 +22,7 @@ export class HomeComponent implements OnInit {
   datoslibro: string = "";
   buscar: boolean = true;
   normal: boolean = false;
+  mostrar: boolean=false;
 
   constructor(private prestamoService: prestamoService, private libroService: LibroService, private router: Router, private router1: Router, private notificacionesService: NotificacionesService) { }
 
@@ -33,7 +34,11 @@ export class HomeComponent implements OnInit {
     this.normal = true;
     let usuarioJSON = localStorage.getItem('persona') + "";
     this.persona = JSON.parse(usuarioJSON);
-
+    if (this.persona.tipo == 3 || this.persona.tipo == 4) {
+      this.mostrar = true;
+    }else{
+      this.mostrar=false;
+    }
 
   }
 
@@ -88,27 +93,27 @@ export class HomeComponent implements OnInit {
 
 
   SolicitarLibro(paginacrear: Libro) {
-    if(this.persona.calificacion==0 && this.persona.activo==false){
+    if (this.persona.calificacion == 0 && this.persona.activo == false) {
       Swal.fire({
         confirmButtonColor: '#012844',
         icon: 'error',
         title: 'Solicitud Denegada',
       })
-    }else{
-    if (this.persona == null) {
-      Swal.fire({
-        confirmButtonColor: '#012844',
-        icon: 'warning',
-        title: 'Ups...',
-        text: '¡Parece que no has iniciado sesion!'
-
-      })
-      this.router.navigate(['/']);
     } else {
-      this.confirmar(paginacrear);
-      this.generateQRCode(paginacrear.id + "");
+      if (this.persona == null) {
+        Swal.fire({
+          confirmButtonColor: '#012844',
+          icon: 'warning',
+          title: 'Ups...',
+          text: '¡Parece que no has iniciado sesion!'
+
+        })
+        this.router.navigate(['/']);
+      } else {
+        this.confirmar(paginacrear);
+        this.generateQRCode(paginacrear.id + "");
+      }
     }
-  }
   }
 
   cerrarpopup() {
@@ -119,36 +124,36 @@ export class HomeComponent implements OnInit {
 
 
   public crearPrestamo(paginacrear: any) {
-    if(paginacrear.disponibilidad ==true){
-    this.prestamos.libro = paginacrear
-    this.prestamos.activo=true;
-    this.prestamos.idSolicitante = this.persona
-    this.prestamos.estadoLibro = 1
-    this.prestamos.estadoPrestamo = 1
-    this.prestamos.documentoHabilitante=0;
-    this.prestamos.fechaFin = new Date(Date.now());
-    this.prestamos.fechaMaxima = new Date(Date.now());
-    this.prestamos.tipoPrestamo = 1
-    console.log(this.prestamos)
+    if (paginacrear.disponibilidad == true) {
+      this.prestamos.libro = paginacrear
+      this.prestamos.activo = true;
+      this.prestamos.idSolicitante = this.persona
+      this.prestamos.estadoLibro = 1
+      this.prestamos.estadoPrestamo = 1
+      this.prestamos.documentoHabilitante = 0;
+      this.prestamos.fechaFin = new Date(Date.now());
+      this.prestamos.fechaMaxima = new Date(Date.now());
+      this.prestamos.tipoPrestamo = 1
+      console.log(this.prestamos)
 
-    this.prestamoService.create(this.prestamos).subscribe(
-      response => {
-        this.datos = response.idSolicitante?.nombres + "", this.datoslibro = response.libro?.titulo + ""
-        var overlay = document.getElementById('overlay');
-        overlay?.classList.add('active');
-        
-        this.notificar();
-        console.log(response);
-        this.ngOnInit();
-      }
-    );
+      this.prestamoService.create(this.prestamos).subscribe(
+        response => {
+          this.datos = response.idSolicitante?.nombres + "", this.datoslibro = response.libro?.titulo + ""
+          var overlay = document.getElementById('overlay');
+          overlay?.classList.add('active');
+
+          this.notificar();
+          console.log(response);
+          this.ngOnInit();
+        }
+      );
     }
   }
-  public notificar(){
+  public notificar() {
     this.notificacionesService.getNotificacionBibliotecario().subscribe(
-        response =>(console.log(response),this.notificacionesService.notificationlista=response,console.log(this.notificacionesService.notificationlista))
+      response => (console.log(response), this.notificacionesService.notificationlista = response, console.log(this.notificacionesService.notificationlista))
     )
-}
+  }
   confirmar(paginacrear: Libro) {
     const swalWithBootstrapButtons = Swal.mixin({
       customClass: {
@@ -185,5 +190,11 @@ export class HomeComponent implements OnInit {
         )
       }
     })
+  }
+
+  libroCompleto(libro: Libro) {
+    const objetoString = JSON.stringify(libro);
+    localStorage.setItem("LibroCompleto", objetoString);
+    this.router.navigate(['/app-libro-completo']);
   }
 }

@@ -41,6 +41,8 @@ import { ListaTecerosComponent } from './lista-teceros/lista-teceros.component';
 import { RegEtiquetasComponent } from './vista-registro-new/reg-etiquetas/reg-etiquetas.component';
 import { ListaSolicitudesTercerosComponent } from './lista-solicitudes-terceros/lista-solicitudes-terceros.component';
 import { LoaderComponent } from './loader/loader.component';
+import { LibroCompletoComponent } from './libro-completo/libro-completo.component';
+import { DevolverLibroTerceroComponent } from './devolver-libro-tercero/devolver-libro-tercero.component';
 
 @NgModule({
   declarations: [
@@ -72,6 +74,8 @@ import { LoaderComponent } from './loader/loader.component';
     RegEtiquetasComponent,
     ListaSolicitudesTercerosComponent,
     LoaderComponent,
+    LibroCompletoComponent,
+    DevolverLibroTerceroComponent
   ],
   imports: [
     BrowserModule,
