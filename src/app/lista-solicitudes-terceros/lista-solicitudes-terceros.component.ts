@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { terceroService } from '../services/tercero.service';
 import { TerceroPrestamo } from '../models/TerceroPrestamo';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-lista-solicitudes-terceros',
@@ -10,13 +11,15 @@ import { Router } from '@angular/router';
 })
 export class ListaSolicitudesTercerosComponent {
   listaterceroP: TerceroPrestamo[] = [];
+  listaterceroPb: TerceroPrestamo[] = [];
 
   prestados?: boolean;
   recibidos?: boolean;
   nodevuelto?: boolean;
   restituido?: boolean;
   destruido?: boolean;
-  buscar?: boolean;
+  buscar?: boolean=false;
+  buscarv?:boolean
   constructor(private TerceroService: terceroService, private router: Router) { }
 
   ngOnInit(): void {
@@ -192,7 +195,7 @@ export class ListaSolicitudesTercerosComponent {
       this.ngOnInit();
     } else if (buscar2.length == 10) {
 
-      /*this.TerceroService.buscarPrestamo(buscar2).subscribe(
+      this.TerceroService.terceroPrestxcedula(buscar2+"").subscribe(
         response => {
           if (response.length == 0) {
             Swal.fire({
@@ -205,14 +208,14 @@ export class ListaSolicitudesTercerosComponent {
           } else {
             if(response!=null){
               response.forEach(element => {
-                if (element.tipoPrestamo != 3) {
-                  this.listaprestamos.push(element);
-                }
+                
+                  this.listaterceroPb.push(element);
+                
               });
             }
           }
         }
-      );*/
+      );
     }
   }
 }

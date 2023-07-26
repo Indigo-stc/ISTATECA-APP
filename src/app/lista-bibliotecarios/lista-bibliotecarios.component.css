@@ -64,12 +64,18 @@ form {
   width: 40%;
 }
 
+input {
+  height: 70%;
+}
 
 .buscar {
-  width: 60%;
-  height: 40%;
+  width: 80%;
+  height: 44%;
   display: flex;
   justify-content: center;
+  align-items: center;
+  margin-top: -4%;
+  margin-bottom: -4.5%;
 }
 
 button {

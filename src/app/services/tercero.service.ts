@@ -16,6 +16,7 @@ export class terceroService {
   private urlEndPointCrear1: string = 'http://localhost:8080/terceroprestamo/crear';
   private urlEndPointListar: string = 'http://localhost:8080/tercero/listar';
   private urlEndPointListarTerPre: string = 'http://localhost:8080/terceroprestamo/listar';
+  private urlEndPointListarTerPreCed: string = 'http://localhost:8080/terceroprestamo/terceroxcedula';
   private urlEndPointEditar: string = 'http://localhost:8080/tercero/editar';
   private urlEndPointEditarTerPre: string = 'http://localhost:8080/tercero/editar';
 
@@ -34,6 +35,10 @@ export class terceroService {
 
   terceroxcedula(cedula: string) {
     return this.http.get<Tercero>(this.urlEndPoint + "/" + cedula);
+  }
+
+  terceroPrestxcedula(cedula: string) {
+    return this.http.get<TerceroPrestamo[]>(this.urlEndPointListarTerPreCed + "/" + cedula);
   }
 
   obtenerTerceros(): Observable<Tercero[]> {

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Persona } from '../models/Persona';
 import { PersonaService } from '../services/persona.service';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-lista-bibliotecarios',
   templateUrl: './lista-bibliotecarios.component.html',
@@ -28,22 +29,43 @@ export class ListaBibliotecariosComponent implements OnInit {
     );
     this.bus = false;
   }
-  onKeydownEvent(event: KeyboardEvent, cedula:String): void {
-    if(cedula==""){
-     this.ngOnInit();
-    }
 
- }
+ onKeydownEvent(event: KeyboardEvent, cedula: String): void {
+  if (cedula == "") {
+    this.bus = false;
+  }else if(cedula.length===10){
+    this.personaService.listarxcedula(cedula+"").subscribe(
+      response=>(
+        this.Bibliotecario=response,
+        this.bus = true
+      ),(error)=>(
+        this.bus = false,
+        Swal.fire({
+          title: '<strong>¡Usuario no encontrado!</strong>',
+            confirmButtonText: 'OK',
+            confirmButtonColor: '#012844',
+            icon: 'error'
+          
+         }
+         
+        )
+      )
+    )
+  }else if(cedula.length>10){
+    Swal.fire({
+      title: '<strong>¡Ingrese un numero de cedula!</strong>',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#012844',
+        icon: 'error'
+      
+     }
+     
+    )
 
-  buscar(cedula: String) {
-    console.log("Cedula: "+cedula);
-    this.bus = true;
-    this.personaService.listarxcedula(cedula).subscribe(
-      response => {
-        this.Bibliotecario=response;
-      }
-    );
   }
+}
+
+  
 
  modificar(bibliotecario:Persona){
   const objetoString = JSON.stringify(bibliotecario);

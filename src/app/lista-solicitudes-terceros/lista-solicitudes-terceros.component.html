@@ -43,6 +43,19 @@
   
       <div class="contenedor">
         <table class="table">
+          <tbody class="text-center" *ngIf="buscar">
+            <tr *ngFor="let terceroP of listaterceroPb">
+              <td style="width: 15%;" >
+                {{terceroP.tercero?.cedula}}
+              </td>
+              <td style="width: 20%">{{terceroP.prestamo?.libro?.titulo}}</td>
+              <td style="width: 15%;">{{terceroP.prestamo?.fechaFin}}</td>
+              <td style="width: 15%;">{{ getNombreEstado(terceroP.prestamo?.estadoPrestamo) }}</td>
+              <td style="width: 20%; ">
+                <button (click)="devolver(terceroP)">Devolver Libro</button>&nbsp;
+              </td>
+            </tr>
+          </tbody>
           <tbody class="text-center" *ngIf="prestados==true">
             <tr *ngFor="let terceroP of listaterceroP">
               <td style="width: 15%;" >

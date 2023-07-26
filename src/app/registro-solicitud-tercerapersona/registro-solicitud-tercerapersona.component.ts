@@ -67,7 +67,7 @@ export class RegistroSolicitudTercerapersonaComponent {
           if (response != null && response != undefined) {
             this.tercero = response;
             console.log(response);
-            this.terceroPrestamo.tercero=response;
+            this.terceroPrestamo.tercero = response;
             this.tercerocrear = false;
           }
         },
@@ -117,24 +117,42 @@ export class RegistroSolicitudTercerapersonaComponent {
   crearTercero() {
     this.TerceroServices.create(this.tercero).subscribe(
       response => {
-        this.terceroPrestamo.tercero=response;
-        Swal.fire({
-          confirmButtonColor: '#012844',
-          icon: 'success',
-          title: 'Tercero Creado Correctamente',
-          text: 'Se guardo correcatamente'
-        })
-        this.crearPrestamo();
+        this.terceroPrestamo.tercero = response,
+          this.prestamo.libro = this.libro;
+        this.prestamo.fechaDevolucion = undefined;
+        this.prestamo.estadoLibro = 1;
+        this.prestamo.estadoPrestamo = 2;
+        this.prestamo.activo = true;
+        this.prestamo.documentoHabilitante = this.documentoH;
+        this.prestamo.idEntrega = this.bibliotecario;
+        this.prestamo.tipoPrestamo = 3;
+        this.PrestamoService.create(this.prestamo).subscribe(
+          response => {
+            this.terceroPrestamo.prestamo = response;
+            console.log(this.terceroPrestamo);
+            this.TerceroServices.createTerPres(this.terceroPrestamo).subscribe(
+              response => {
+                Swal.fire({
+                  confirmButtonColor: '#012844',
+                  icon: 'success',
+                  title: 'Guardado Correctamente',
+                })
+                this.router.navigate(['/app-lista-solicitudes-terceros']);
+              }
+            );
+          }
+        );
+
       }
     );
   }
 
-  crearPrestamo(){
+  crearPrestamo() {
     this.prestamo.libro = this.libro;
     this.prestamo.fechaDevolucion = undefined;
     this.prestamo.estadoLibro = 1;
     this.prestamo.estadoPrestamo = 2;
-    this.prestamo.activo=true;
+    this.prestamo.activo = true;
     this.prestamo.documentoHabilitante = this.documentoH;
     this.prestamo.idEntrega = this.bibliotecario;
     this.prestamo.tipoPrestamo = 3;
@@ -146,8 +164,8 @@ export class RegistroSolicitudTercerapersonaComponent {
     );
   }
 
-  crearPrestamoTercero(){
-    this.terceroPrestamo.tercero=this.tercero;
+  crearPrestamoTercero() {
+    this.terceroPrestamo.tercero = this.tercero;
     console.log(this.terceroPrestamo);
     this.TerceroServices.createTerPres(this.terceroPrestamo).subscribe(
       response => {
@@ -162,9 +180,8 @@ export class RegistroSolicitudTercerapersonaComponent {
   }
 
   guardar() {
-    if (this.tercerocrear == true) {
-      this.crearTercero();
-    }
-    this.crearPrestamo();
+
+    this.crearTercero();
+
   }
 }
