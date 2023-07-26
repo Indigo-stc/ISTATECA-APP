@@ -66,7 +66,7 @@ export class RegEtiquetasComponent implements OnInit {
   obteneretiqueta(e:any){
     this.idetiqueta = e.target.value
     if(this.idetiqueta){
-      this.listaService.buscarEtiqueta(this.idetiqueta).subscribe(
+      this.listaService.SeleccionarEti(this.idetiqueta).subscribe(
           e => this.etiqueta=e
         )
         console.log(this.etiqueta);
@@ -90,6 +90,13 @@ export class RegEtiquetasComponent implements OnInit {
         
         setTimeout(() => {
           this.router.navigate(['app-registro-etiquetas']);
+          const id = window.localStorage.getItem('idlibro')
+          if (id) {
+            this.idlibro = parseInt(id)
+            this.listaService.buscarEtiquetas(this.idlibro).subscribe(
+              e => this.etiquetaL = e
+            )
+          }
           //location.reload();
         }, 1000);
       }
@@ -99,6 +106,33 @@ export class RegEtiquetasComponent implements OnInit {
   salir(){
     localStorage.clear()
     this.router.navigate(['app-vista-registro-new']);
+  }
+
+  eliminarEti(id:number){
+    this.listaService.eliminarEtiqueta(id).subscribe(
+      Response=>{
+        Swal.fire({
+          position: 'center',
+          icon: 'warning',
+          title: '<strong>Se a eliminado una Etiqueta</strong>',
+          showConfirmButton: false,
+          timer: 1500
+        })
+        
+        setTimeout(() => {
+          this.etiquetaL.splice(0, this.etiquetaL.length)
+          this.router.navigate(['app-registro-etiquetas']);
+          const id = window.localStorage.getItem('idlibro')
+          if (id) {
+            this.idlibro = parseInt(id)
+            this.listaService.buscarEtiquetas(this.idlibro).subscribe(
+              e => this.etiquetaL = e
+            )
+          }
+          //location.reload();
+        }, 1000);
+      }
+    )
   }
 
 }

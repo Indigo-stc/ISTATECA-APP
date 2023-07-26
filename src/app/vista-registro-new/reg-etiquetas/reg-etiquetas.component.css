@@ -5,6 +5,18 @@
   box-sizing: border-box;
   font-family: 'Poppins',sans-serif;
 }
+
+.table {
+  width: 95%;
+  height: auto;
+  border: 1px solid #004f9f;
+  margin-left: 3%;
+  margin-top: 2%;
+  margin-bottom: 2%;
+}
+.tablas {
+  width: 50%;
+}
 .libros {
   overflow-y: scroll;
 }
