@@ -24,6 +24,7 @@ import { ListaTecerosComponent } from './lista-teceros/lista-teceros.component';
 import { RegEtiquetasComponent } from './vista-registro-new/reg-etiquetas/reg-etiquetas.component';
 import { ListaSolicitudesTercerosComponent } from './lista-solicitudes-terceros/lista-solicitudes-terceros.component';
 import { LoaderComponent } from './loader/loader.component';
+import { LibroCompletoComponent } from './libro-completo/libro-completo.component';
 import { DevolverLibroTerceroComponent } from './devolver-libro-tercero/devolver-libro-tercero.component';
 
 const routes: Routes = [
@@ -33,6 +34,7 @@ const routes: Routes = [
       {path: 'app-reporte-libros', component: ReporteLibrosComponent},
       {path: 'app-devolver-libro-tercero', component: DevolverLibroTerceroComponent},
       {path: 'app-form-bibliotecario', component: FormComponentb},
+      {path: 'app-libro-completo', component: LibroCompletoComponent},
       {path: 'app-form-editBibliotecario', component: FormEditBComponent},
       {path: 'app-registro-solicitud', component: RegistroSolicitudComponent},
       {path: '', component: HomeComponent},

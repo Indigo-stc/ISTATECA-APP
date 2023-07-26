@@ -14,7 +14,7 @@ import { terceroService } from '../services/tercero.service';
   templateUrl: './devolver-libro-tercero.component.html',
   styleUrls: ['./devolver-libro-tercero.component.css']
 })
-export class DevolverLibroTerceroComponent {
+export class DevolverLibroTerceroComponent implements OnInit{
   prestamoTercero: TerceroPrestamo = new TerceroPrestamo();
   prestamo: Prestamo = new Prestamo();
   persona: Persona = new Persona();
@@ -34,6 +34,14 @@ export class DevolverLibroTerceroComponent {
   constructor(private router: Router, private TerceroService: terceroService, private PrestamoService: prestamoService, private personaServices: PersonaService) { }
 
   ngOnInit(): void {
+    let soliJSONGET = localStorage.getItem('solicitudCompleta' + "");
+    this.soli = JSON.parse(soliJSONGET + "");
+    if (this.soli == "1") {
+      this.solicitudCompleta = true;
+    } else {
+      this.solicitudCompleta = false;
+    }
+
     let usuarioJSON = localStorage.getItem('persona') + "";
     this.persona = JSON.parse(usuarioJSON);
 
@@ -44,18 +52,10 @@ export class DevolverLibroTerceroComponent {
     var solicitud = JSON.parse(solicitudJSONGET + "");
     this.prestamoTercero = solicitud;
 
-    let soliJSONGET = localStorage.getItem('solicitudCompleta' + "");
-    this.soli = JSON.parse(soliJSONGET + "");
-    if (this.soli == "1") {
-      this.solicitudCompleta = true;
-    } else {
-      this.solicitudCompleta = false;
-    }
-
     this.fecha = new Date(Date.now());
     this.fechaHoy = format(this.fecha, 'dd-MM-yyyy');
 
-   
+
     if (this.prestamoTercero.prestamo) {
       this.prestamo = this.prestamoTercero.prestamo;
     }

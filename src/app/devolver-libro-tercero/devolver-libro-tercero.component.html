@@ -5,7 +5,7 @@
 <!--FORMULARIO-->
 
 <body class="elemento">
-    <div class="card"  *ngIf="solicitudCompleta==false">
+    <div class="card"  *ngIf="!solicitudCompleta">
         <h1>Ficha de devolución para una persona externa</h1>
         <div class="content">
             <form ngNativeValidate (ngSubmit)="guardar()">
