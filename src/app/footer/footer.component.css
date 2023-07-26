@@ -67,11 +67,28 @@ h5 {
 
 
 
+h1 {
+    margin-top: 2%;
+    margin-bottom: 2%;
+    font-size: 25px;
+    font-weight: bold;
+    color: #004f9f;
+    text-align: center;
+}
 
+.input-box {
+    display: flex;
+    max-width: 100%;
+    margin-left: 3%;
+    margin-right: 3%;
+    margin-top: 1%;
+    justify-content: center;
+  }
 
 button {
+    width: 20%;
     margin-top: 1.5%;
-    margin-left: 1.5%;
+    margin-left: 40%;
     margin-bottom: 1.5%;
     background: none;
     border: none;

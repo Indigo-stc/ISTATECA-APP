@@ -5,15 +5,9 @@
   </button>
   <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':displayStyle}">
     <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">Sugierenos un nuevo Libro</h4>
-        </div>
-        <div class="modal-body">
-          <textarea class="form-control" placeholder="Dejanos una sugerencias de algun libro" [(ngModel)]="sugerencia.descripcion" name="descripcion"
-            id="floatingTextarea"></textarea>
-        </div>
-        <div class="p-col-12 p-md-4">
+      <div class="modal-content" style="text-align: center;">
+        <h1>Sugerencias de nuevo libro</h1>
+        <div  class="input-box">
           <span class="details">Carrera:</span>
           <select class="combo form-select" (change)="seleccionT($event)" name="carrera" required>
             <option disabled selected>Seleccione una carrera</option>
@@ -21,11 +15,14 @@
             </option>
           </select>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger" (click)="GuardarSuger()">
-            Guardar
-          </button>
+
+        <div class="modal-body">
+          <textarea class="form-control" placeholder="Dejanos una sugerencias de algun libro"
+            [(ngModel)]="sugerencia.descripcion" name="descripcion" id="floatingTextarea"></textarea>
         </div>
+        <button type="button" class="btn btn-danger" (click)="GuardarSuger()">
+          Guardar
+        </button>
       </div>
     </div>
   </div>
