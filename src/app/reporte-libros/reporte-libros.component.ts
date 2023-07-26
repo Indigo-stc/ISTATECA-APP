@@ -7,6 +7,7 @@ import { prestamoService } from '../services/prestamo.service';
 import { Router } from '@angular/router';
 import jspdf from 'jspdf';
 import { CarreraPrestamo } from '../models/CarreraPrestamo';
+import { Libro } from '../models/Libro';
 
 
 @Component({
@@ -20,6 +21,7 @@ export class ReporteLibrosComponent implements OnInit {
   listaprestamosdoc: Prestamo[] = [];
   carreras: Carrera[] = [];
   prestamosTodos: Prestamo[] = [];
+  libros: Libro[] = [];
 
   totalEst: number = 0;
   totalDoc: number = 0;
@@ -65,6 +67,7 @@ export class ReporteLibrosComponent implements OnInit {
   buscars(start: string, end: string): void {
     this.prestamosTodos = [];
     if (this.todos == true) {
+
       this.prestamoService.prestamoconcarrera(start, end, 0).subscribe((data) => {
         this.prestamosTodos = data;
 
@@ -73,18 +76,16 @@ export class ReporteLibrosComponent implements OnInit {
           this.carrerasPrestamo = [];
 
           carreras.forEach((carrera) => {
-            console.log(carrera.nombre);
+            this.totalEst = 0;
+            this.totalDoc = 0;
+            this.total = 0;
             this.prestamosTodos.forEach(
               (prestamo) => {
-                console.log(prestamo)
                 if (carrera.id === prestamo.carrera?.id) {
-                  console.log("entro correctamente")
                   if (prestamo.tipoPrestamo === 1) {
-                    console.log("estudiante")
                     this.totalEst = this.totalEst + 1;
                   } else if (prestamo.tipoPrestamo === 2) {
                     this.totalDoc = this.totalDoc + 1;
-                    console.log("total DOc: " + this.totalDoc)
                   }
                 }
               })
@@ -99,9 +100,11 @@ export class ReporteLibrosComponent implements OnInit {
               totalDocentesTipo2,
               totalCarrera,
             });
+            this.libros = this.obtenerLibrosSinRepetir(this.prestamosTodos);
           })
         });
       });
+
     } else {
       this.listCarrera.getCarreras().subscribe((carreras) => {
         this.carrerasPrestamo = [];
@@ -138,14 +141,32 @@ export class ReporteLibrosComponent implements OnInit {
                   totalDocentesTipo2,
                   totalCarrera,
                 });
+                this.libros = this.obtenerLibrosSinRepetir(this.prestamosTodos);
               }
             });
         });
       });
+
     }
   }
 
 
+  obtenerLibrosSinRepetir(prestamos: Prestamo[]): Libro[] {
+    const librosSinRepetir: Libro[] = [];
+    const librosIdsVistos = new Set<number>();
+
+    prestamos.forEach((prestamo) => {
+      const libroId = prestamo.libro?.id;
+      if (prestamo.tipoPrestamo === 1 || prestamo.tipoPrestamo === 2) {
+        if (libroId && !librosIdsVistos.has(libroId)) {
+          librosIdsVistos.add(libroId);
+          librosSinRepetir.push(prestamo.libro!);
+        }
+      }
+    });
+
+    return librosSinRepetir;
+  }
 
 
 
@@ -230,46 +251,73 @@ export class ReporteLibrosComponent implements OnInit {
     doc.addImage(encodedUrl, 'PNG', 90, 10, 30, 30);
 
 
-    // Agrega firma
-    const titles = "______________________";
-    const titleXs = 105;
-    const pageHeight = doc.internal.pageSize.height;
-
-    doc.text(titles, titleXs, pageHeight - 20, { align: "center" });
-
-    const titled = "Firma";
-    const fontSizeTitled = 14;
-    const titleXd = 105;
-    const pageHeighd = doc.internal.pageSize.height;
-
-    doc.setFontSize(fontSizeTitled);
-    doc.text(titled, titleXd, pageHeighd - 15, { align: "center" });
-
+    
 
     // Preparar los datos para la tabla del PDF
-    const tableData = [];
-    const rows = this.filteredList;
+    const tableData1 = [];
+    const tableData2 = [];
+    const rows = this.carrerasPrestamo;
+    const rows1 = this.libros;
 
     for (const prestamo of rows) {
-
-      const rowData = [
+      const rowData1 = [
         { content: prestamo.carrera?.nombre, styles: { halign: 'center' } },
-        { content: this.totalDoc, styles: { halign: 'center' } },
-        { content: this.totalEst, styles: { halign: 'center' } },
-        { content: this.total, styles: { halign: 'center' } },
-        { content: prestamo.libro?.titulo },
+        { content: prestamo.totalDocentesTipo2, styles: { halign: 'center' } },
+        { content: prestamo.totalEstudiantesTipo1, styles: { halign: 'center' } },
+        { content: prestamo.totalCarrera, styles: { halign: 'center' } },
       ];
-      tableData.push(rowData);
+      tableData1.push(rowData1);
+    }
+    for (const libro of rows1) {
+      const rowData1 = [
+        { content: libro.titulo, styles: { halign: 'center' } },
+      ];
+      tableData2.push(rowData1);
     }
 
+
+    // Generar la primera tabla
     (doc as any).autoTable({
       tableWidth: 'auto',
       startY: 65,
-      head: [['Carrera', 'Docentes', 'Estudiantes', 'Total', 'Titulo del Libro']],
-      body: tableData,
+      head: [['Carrera', 'Docentes', 'Estudiantes', 'Total']],
+      body: tableData1,
+    });
+    // Obtener la posición vertical final de la primera tabla
+    const lastAutoTable = (doc as any).lastAutoTable;
+    const startYTable2 = lastAutoTable.finalY + 10; // Puedes ajustar el espaciado entre las tablas si lo deseas
 
+    // Generar la segunda tabla
+    (doc as any).autoTable({
+      tableWidth: 'auto',
+      startY: startYTable2, // Ajusta la posición vertical para la segunda tabla según tus necesidades
+      head: [['Titulos de los Libros']],
+      body: tableData2,
     });
 
+// Después de generar la segunda tabla
+
+// Obtener la posición vertical final de la segunda tabla
+const lastAutoTable2 = (doc as any).lastAutoTable;
+const endYTable2 = lastAutoTable2.finalY;
+
+// Agregar firma
+const titles = "______________________";
+const titleXs = 105;
+const pageHeight = doc.internal.pageSize.height;
+
+doc.text(titles, titleXs, endYTable2 + 20, { align: "center" });
+
+// Agregar título "Firma"
+const titled = "Firma";
+const fontSizeTitled = 14;
+const titleXd = 105;
+
+doc.setFontSize(fontSizeTitled);
+doc.text(titled, titleXd, endYTable2 + 25, { align: "center" });
+
+
+    // Guardar el PDF
     doc.save('Reporte por Carrera_' + '.pdf');
   }
 

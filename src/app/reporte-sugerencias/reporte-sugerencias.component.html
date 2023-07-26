@@ -4,6 +4,7 @@
 </div>
 
 <body>
+    <aside>
     <div class="card">
         <h1>Reporte de sugerencias por ciclo</h1>
         <div class="contenedor">
@@ -29,4 +30,114 @@
         
 
     </div>
+</aside>
+<main>
+    <article>
+        <h1>Datos de la Asignatura y su Bibliografia</h1>
+        <div class="content">
+        <form action="">
+            <div class="input-box">
+            <span class="details">Nombre de la Asignatura:</span>
+            <input type="text" class="form-control text-center"
+            placeholder="Nombre de la asignatura" name="asignatura" required>
+        </div>
+
+        <div class="input-box">
+            <span class="details">Datos del Documento:</span>
+            <input type="text" class="form-control text-center" 
+              placeholder="Ingrese los datos" name="datos" required>
+          </div>
+
+          <div class="input-box">
+            <span class="details">Titulo:</span>
+            <input type="text" class="form-control text-center" 
+              placeholder="Ingrese el titulo" name="titulo" required>
+          </div>
+
+          <div class="input-box">
+            <span class="details">Autor:</span>
+            <input type="text" class="form-control text-center" 
+              placeholder="Ingrese el autor" name="autor" required>
+          </div>
+
+          <div class="input-box">
+            <span class="details">Editorial:</span>
+            <input  type="text" class="form-control text-center" 
+              placeholder="Ingrese el editorial" name="editorial" required >
+            <span class="details">Año de edicion:</span>
+            <input  type="text" class="form-control text-center"
+              placeholder="Aqui el año de edicion" name="edicion" required >
+          </div>
+          <div class="input-box">
+            <span class="details" style="margin-right: 20%;">Forma de adquisicion:</span>
+
+            <input class="form-check-input" type="radio" name="flexRadioDefault" value="true" id="activo"
+               style="height: 20px; width: 20px; " required>
+            &nbsp;&nbsp;<label class="form-check-label" for="flexRadioDefault1" style="margin-right: 10%;">
+              compra
+            </label>
+
+            <input class="form-check-input" type="radio" name="flexRadioDefault" value="false" id="inactivo"
+                 style="height: 20px; width: 20px;" required>
+              &nbsp;&nbsp;<label class="form-check-label" for="flexRadioDefault2">
+                donacion
+              </label>
+
+              <input class="form-check-input" type="radio" name="flexRadioDefault" value="false" id="inactivo"
+                style="height: 20px; width: 20px;" required>
+              &nbsp;&nbsp;<label class="form-check-label" for="flexRadioDefault2">
+                Prestamo
+              </label>
+          </div>
+
+          <div class="input-box">
+            <span class="details">Numero de ejemplares:</span>
+            <input type="number" class="form-control text-center" 
+              placeholder="Numero del ejemplar" name="celular" required>
+          </div>
+
+          <div class="input-box">
+            <span class="details" style="margin-right: 20%;">Tipo de material:</span>
+
+            <input class="form-check-input" type="radio" name="flexRadioDefault" value="true" id="activo"
+               style="height: 20px; width: 20px; " required>
+            &nbsp;&nbsp;<label class="form-check-label" for="flexRadioDefault1" style="margin-right: 10%;">
+              Libro
+            </label>
+
+            <input class="form-check-input" type="radio" name="flexRadioDefault" value="false" id="inactivo"
+                 style="height: 20px; width: 20px;" required>
+              &nbsp;&nbsp;<label class="form-check-label" for="flexRadioDefault2">
+                CD
+              </label>
+
+              <input class="form-check-input" type="radio" name="flexRadioDefault" value="false" id="inactivo"
+                style="height: 20px; width: 20px;" required>
+              &nbsp;&nbsp;<label class="form-check-label" for="flexRadioDefault2">
+                DVD
+              </label>
+
+              <input class="form-check-input" type="radio" name="flexRadioDefault" value="false" id="inactivo"
+                style="height: 20px; width: 20px;" required>
+              &nbsp;&nbsp;<label class="form-check-label" for="flexRadioDefault2">
+                Otros
+              </label>
+          </div>
+
+          <div class="input-box">
+            <span class="details">Precio tentativo:</span>
+            <input type="number" class="form-control text-center" 
+              placeholder="Precio" name="precio" required>
+          </div>
+
+          <div class="input-box">
+            <span class="details">Observacion:</span>
+            <input type="text" class="form-control text-center" 
+              placeholder="Observaciones" name="observacion" required>
+          </div>
+
+        </form>
+        </div>
+    </article>
+</main>
 </body>

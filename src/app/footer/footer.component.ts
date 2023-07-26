@@ -51,7 +51,9 @@ export class FooterComponent implements OnInit {
   }
 
 
-
+closeopopup(){
+  this.displayStyle = "none";
+}
   displayStyle = "none";
 
   openPopup() {

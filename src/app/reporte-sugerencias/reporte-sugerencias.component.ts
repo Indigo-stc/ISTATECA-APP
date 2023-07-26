@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core'
-import { Sugerencia } from '../models/Sugerencia'
+import { Sugerencia } from '../models/Sugerencia';
+import jspdf from "jspdf";
 import { sugerenciaService } from '../services/sugerencia.service';
 
 
