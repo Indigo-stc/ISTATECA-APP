@@ -6,6 +6,8 @@ import { Observable} from 'rxjs';
 import { LibroEtiqueta } from '../models/LibroEtiqueta';
 import { Etiqueta } from '../models/Etiqueta';
 import { environment } from 'src/environments/environment';
+import { Donante } from '../models/Donante';
+import { Autor_Libro } from '../models/Autor_Libro';
 //import { EtiquetaLibro } from '../models/EtiquetaLibro';
 
 
@@ -83,6 +85,22 @@ export class ListasService {
       responseType: 'text' as 'json', // Establece el tipo de respuesta como texto plano
       observe: 'response' // Importante para obtener la respuesta completa, incluyendo el status y headers
     });
+  }
+  listarDonate()
+    : Observable<Donante[]> {
+    let res = environment.rooturl+'/donante/listar'
+    return this.http.get<Donante[]>(res);
+  }
+
+  listarAutor()
+    : Observable<Autor[]> {
+    let res = environment.rooturl+'/autor/listar'
+    return this.http.get<Autor[]>(res);
+  }
+
+  createAutorLibro(autor:Autor_Libro):Observable<Autor_Libro>{
+    let res = environment.rooturl+'/autorlibro/crear'
+    return this.http.post<Autor_Libro>(res, autor, {headers: this.httpHeaders})
   }
 
 }

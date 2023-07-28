@@ -8,245 +8,330 @@
 </div>
 <!--FORMULARIO-->
 
-<body class="elemento" >
-    <div class="container" >
+<body class="elemento">
+    <div class="container">
         <div class="title">Registro de Libros</div>
         <div class="content">
-            <form [formGroup]="librosF" (ngSubmit)="crearLibro()" >
+            <form [formGroup]="librosF" (ngSubmit)="crearLibro()">
                 <div class="step-counter">
-                    Paso {{ step }} de {{ totalSteps }} 
-                <div class="user-details" *ngIf="step === 1">
-                    <div class="input-box">
-                        <span class="details">Codigo DEWEY:</span>
-                        <input type="text" class="form-control" name="codigo-DEWEY" formControlName="codigoDewey" 
-                            required>
-                    </div>
-                    <div class="input-box">
-                        <span class="details">Codigo ISBM:</span>
-                        <input type="text" class="form-control" name="codigo-ISBN" formControlName="conIsbn"
-                            required>
-                    </div>
-                </div>
+                    Paso {{ step }} de {{ totalSteps }}
+                    <div class="user-details" *ngIf="step === 1">
+                        <div class="input-box">
+                            <span class="details">Codigo DEWEY:</span>
+                            <input type="text" class="form-control" name="codigo-DEWEY" formControlName="codigoDewey"
+                                required>
 
-                <div class="user-details" *ngIf="step === 2">
-                    <div class="input-box">
-                        <span class="details">Titulo del Libro:</span>
-                        <input type="text"  class="form-control" name="titulo-Libro"
-                            formControlName="titulo" required>
-                    </div>
-                    <div class="input-box">
-                        <span class="details">Subtitulo del Libro:</span>
-                        <input type="text"  class="form-control" name="subtitulo-Libro"
-                            formControlName="subtitulo" required>
-                    </div>
-                    <div class="input-box">
-                        <span class="details">Indice 1:</span>
-                        <input type="text" class="form-control" name="indice1" formControlName="indiceUno" required>
-                    </div>
-                    <div class="input-box">
-                        <span class="details">Indice 2:</span>
-                        <input type="text" class="form-control" name="indice2" formControlName="indiceDos"  required>
-                    </div>
-                    <div class="input-box">
-                        <span class="details">Indice 3:</span>
-                        <input type="text" class="form-control" name="indice3" formControlName="indiceTres"  required>
-                    </div>
-                </div>
-
-                <div class="user-details" *ngIf="step === 3">
-                    <div class="input-box">
-                        <span class="details">Adquisicion del Libro:</span>
-                        <input type="text" class="form-control" name="adquisicion-libro" formControlName="adquisicion"
-                       required>
-                    </div>
-                    <div class="input-box">
-                        <span class="details">Descripción:</span>
-                        <input type="text" class="form-control"  name="descripcion"
-                        formControlName="descripcion" required>
-                    </div>
-                    <div class="input-box">
-                        <span class="details">Dimensiones:</span>
-                        <input type="text" class="form-control" name="dimenciones" formControlName="dimenciones"
-                        pattern="[0-9]{2,3}x[0-9]{2,3}" maxlength="6" required>
-                         <div *ngIf="dimenciones?.invalid && (dimenciones?.dirty || dimenciones?.touched)">
-                            <div *ngIf="dimenciones?.hasError('required')"  class="error-message">El campo es obligatorio.</div>
-                            <div *ngIf="dimenciones?.hasError('pattern')"  class="error-message">El formato debe ser "000x000".</div>
-                          </div>
-                    </div>
-                    <div class="input-box">
-                        <span class="details">N° de Paginas:</span>
-                        <input type="number" class="form-control"  name="num-Paginas"
-                            formControlName="numPaginas"  required>
-                    </div>
-                    <div class="input-box">
-                        <span class="details">Idioma:</span>
-                        <input type="text" class="form-control" name="idioma" formControlName="idioma"
-                        pattern="[a-zA-Z]+" required>
-                        <div *ngIf="idiomaControl?.invalid && (idiomaControl?.dirty || idiomaControl?.touched)">
-                            <div *ngIf="idiomaControl?.hasError('required')" class="error-message">El campo es obligatorio.</div>
-                            <div *ngIf="idiomaControl?.hasError('pattern')"  class="error-message">Solo se permiten letras mayúsculas y minúsculas.</div>
-                          </div>
-                    </div>
-                    <div class="input-box">
-                        <span class="details">Estado:</span>
-                        <select class="form-select" id="estadoLibro" formControlName="estadoLibro">
-                            <option selected disabled value="">Selecciona una opción</option>
-                            <option value="1">Bueno</option>
-                            <option value="2">Regular</option>
-                            <option value="3">Malo</option>
-                          </select>
-                    </div>
-
-                </div>
-
-                <div class="user-details" *ngIf="step === 4">
-                    <!--     DESDE AQUIIIIIIIIIII           -->
-                    
-                    <div class="input-box">
-                        <span class="details">Editor:</span>
-                        <input type="text"  class="form-control" name="editor" formControlName="editor"
-                        required>
-                    </div>
-                    <div class="input-box">
-                        <span class="details">Area:</span>
-                        <input type="text" class="form-control" name="area" formControlName="area"
-                         required>
-                    </div>
-                    <div class="input-box">
-                        <span class="details">Año de Publicación:</span>
-                        <input type="number" class="form-control"  name="año-Publicacion"
-                            formControlName="anioPublicacion"  required  max="9999">
-                            
-                            <div *ngIf="anioPublicacionControl?.invalid && (anioPublicacionControl?.dirty || anioPublicacionControl?.touched)">
-                                <div *ngIf="anioPublicacionControl?.hasError('required')" class="error-message">El campo es obligatorio.</div>
-                                <div *ngIf="anioPublicacionControl?.hasError('max')" class="error-message">El año puede tener un max de 4 numeros.</div>
-                              </div>
-                    </div>
-                   
-                    <!-- <div class="input-box">
-                        <span class="details">Tipo:</span>
-                        <select  formControlName="tipo" name="TipoSelect" (change)="seleccionT($event)"
-                            class="form-select" aria-label="Default select example">
-                            <option selected disabled value="0">Seleccione</option>
-                            <option #TSelect *ngFor="let tipo of Tipoe" value="{{tipo.id}}">{{tipo.nombre}}
-                            </option>
-                        </select>
-                    </div> -->
-
-                </div>
-
-
-                <div class="user-details" *ngIf="step === 5">
-
-                    <!--REGISTRO AUTOR-->
-
-                    <div class="imput-box">
-                        <div class="col" style="margin-left:40% ;">
-                            <button class="btn " style="background-color:transparent">
-                                <img src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fagregar_autor-tipo-donante.png?alt=media&token=4f1e982c-c8a5-496a-80d2-33d6fe7a9d33"
-                                    width=25 height=25>
-                                Agregar Autor</button>
+                            <div
+                                *ngIf="codigoDeweyControl?.invalid && (codigoDeweyControl?.dirty || codigoDeweyControl?.touched)">
+                                <div *ngIf="codigoDeweyControl?.hasError('required')" class="error-message">El campo es
+                                    obligatorio.</div>
+                            </div>
                         </div>
-                        <div class="row mb">
-                            <label for="Autor" class="col-sm col-form-label">
-                                <span class="details">Nombre del Autor:</span>
-                            </label>
-                            <div class="col-sm-8" style="margin-right: 2%; margin-top: 2%;">
-                               <ng-autocomplete [data]="dato | async" [searchKeyword]="keyword"
-                                    [itemTemplate]="itemTemplate" [notFoundTemplate]="notFoundTemplate"
-                                    placeholder="Ingrese el nombre del autor" >
-                                </ng-autocomplete> 
-                                <ng-template #itemTemplate let-item>
-                                    <a [innerHTML]="item.nombre"></a>
-                                </ng-template>
-                                <ng-template #notFoundTemplate let-notFound>
-                                    <div [innerHTML]="notFound"></div>
-                                </ng-template>
+                        <div class="input-box">
+                            <span class="details">Codigo ISBM:</span>
+                            <input type="text" class="form-control" name="codigo-ISBN" formControlName="conIsbn"
+                                required>
+
+                            <div *ngIf="conIsbnControl?.invalid && (conIsbnControl?.dirty || conIsbnControl?.touched)">
+                                <div *ngIf="conIsbnControl?.hasError('required')" class="error-message">El campo es
+                                    obligatorio.</div>
+                                <div *ngIf="conIsbnControl?.hasError('pattern')" class="error-message">Por favor,
+                                    ingrese un ISBN válido (máximo 15 caracteres, letras mayúsculas y minúsculas y
+                                    espacios).</div>
+                            </div>
+                        </div>
+
+                        <div class="input-box">
+                            <span class="details">Titulo del Libro:</span>
+                            <input type="text" class="form-control" name="titulo-Libro" formControlName="titulo"
+                                required>
+
+                            <div *ngIf="tituloControl?.invalid && (tituloControl?.dirty || tituloControl?.touched)">
+                                <div *ngIf="tituloControl?.hasError('required')" class="error-message">El campo es
+                                    obligatorio.</div>
+                            </div>
+                        </div>
+                        <div class="input-box">
+                            <span class="details">Subtitulo del Libro:</span>
+                            <input type="text" class="form-control" name="subtitulo-Libro" formControlName="subtitulo"
+                                required>
+
+                            <div
+                                *ngIf="subtituloControl?.invalid && (subtituloControl?.dirty || subtituloControl?.touched)">
+                                <div *ngIf="subtituloControl?.hasError('required')" class="error-message">El campo es
+                                    obligatorio.</div>
                             </div>
                         </div>
                     </div>
-                    <!--FIN REGISTRO AUTOR-->
 
-                    <!--REGISTRO TIPO DE Tipo-->
+                    <div class="user-details" *ngIf="step === 2">
 
-                    <div class="imput-box">
-                        <div class="col" style="margin-left:40% ;">
-                            <button class="btn " style="background-color:transparent">
-                                <img src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fagregar_autor-tipo-donante.png?alt=media&token=4f1e982c-c8a5-496a-80d2-33d6fe7a9d33"
-                                    width=25 height=25>
-                                Agregar Tipo</button>
+                        <div class="input-box">
+                            <span class="details">Indice 1:</span>
+                            <input type="text" class="form-control" name="indice1" formControlName="indiceUno" required>
+
+                            <div
+                                *ngIf="indiceUnoControl?.invalid && (indiceUnoControl?.dirty || indiceUnoControl?.touched)">
+                                <div *ngIf="indiceUnoControl?.hasError('required')" class="error-message">El campo es
+                                    obligatorio.</div>
+                            </div>
                         </div>
-                        <div class="row mb" style="align-content: center;">
-                            <span class="details">Tipo:</span>
-                        <select   name="TipoSelect" (change)="seleccionT($event)"
-                            class="form-select" aria-label="Default select example">
-                            <option selected disabled value="0">Seleccione</option>
-                            <option #TSelect *ngFor="let tipo of Tipoe" value="{{tipo.nombre}}">{{tipo.nombre}}
-                            </option>
-                        </select>
+                        <div class="input-box">
+                            <span class="details">Indice 2:</span>
+                            <input type="text" class="form-control" name="indice2" formControlName="indiceDos" required>
+
+                            <div
+                                *ngIf="indiceDosControl?.invalid && (indiceDosControl?.dirty || indiceDosControl?.touched)">
+                                <div *ngIf="indiceDosControl?.hasError('required')" class="error-message">El campo es
+                                    obligatorio.</div>
+                            </div>
+                        </div>
+                        <div class="input-box">
+                            <span class="details">Indice 3:</span>
+                            <input type="text" class="form-control" name="indice3" formControlName="indiceTres"
+                                required>
+
+                            <div
+                                *ngIf="indiceTresControl?.invalid && (indiceTresControl?.dirty || indiceTresControl?.touched)">
+                                <div *ngIf="indiceTresControl?.hasError('required')" class="error-message">El campo es
+                                    obligatorio.</div>
+                            </div>
                         </div>
                     </div>
-                    <!--FIN REGISTRO TIPO-->
 
-                </div>
+                    <div class="user-details" *ngIf="step === 3">
+                        <div class="input-box">
+                            <span class="details">Adquisicion del Libro:</span>
+                            <input type="text" class="form-control" name="adquisicion-libro"
+                                formControlName="adquisicion" required>
 
-
-                <div class="user-details" *ngIf="step === 6">
-
-                    <!--SUBIR FOTO-->
-                    <div class="input-box" style="align-content: center;">
-                        <span class="details">Imagen:</span>
-                        <div *ngIf="previsualizacion" style="align-content: center;">
-                            <img width="230px" [src]="previsualizacion" alt="">
+                            <div
+                                *ngIf="adquisicionControl?.invalid && (adquisicionControl?.dirty || adquisicionControl?.touched)">
+                                <div *ngIf="adquisicionControl?.hasError('required')" class="error-message">El campo es
+                                    obligatorio.</div>
+                            </div>
                         </div>
-                        <label id="boton">
-                            <i> <img
-                                    src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fagregar%20libro.png?alt=media&token=b7f639da-1aaa-4d12-8133-a59742d32d87"></i>
-                        </label>
-                        <input id="subir" accept="image/*" formControlName="urlImagen" (change)="capturarImagen($event)" 
-                        type="file" name="Image">
+                        <div class="input-box">
+                            <span class="details">Descripción:</span>
+                            <input type="text" class="form-control" name="descripcion" formControlName="descripcion"
+                                required>
+
+                            <div
+                                *ngIf="descripcionControl?.invalid && (descripcionControl?.dirty || descripcionControl?.touched)">
+                                <div *ngIf="descripcionControl?.hasError('required')" class="error-message">El campo es
+                                    obligatorio.</div>
+                            </div>
+                        </div>
+                        <div class="input-box">
+                            <span class="details">Dimensiones:</span>
+                            <input type="text" class="form-control" name="dimenciones" formControlName="dimenciones"
+                                pattern="[0-9]{2,3}x[0-9]{2,3}" maxlength="7" required>
+                            <div *ngIf="dimenciones?.invalid && (dimenciones?.dirty || dimenciones?.touched)">
+                                <div *ngIf="dimenciones?.hasError('required')" class="error-message">El campo es
+                                    obligatorio.</div>
+                                <div *ngIf="dimenciones?.hasError('pattern')" class="error-message">El formato debe ser
+                                    "000x000".</div>
+                            </div>
+                        </div>
+                        <div class="input-box">
+                            <span class="details">N° de Paginas:</span>
+                            <input type="number" class="form-control" name="num-Paginas" formControlName="numPaginas"
+                                required>
+
+                                <div *ngIf="numPaginasControl?.invalid && (numPaginasControl?.dirty || numPaginasControl?.touched)">
+                                    <div *ngIf="numPaginasControl?.hasError('required')" class="error-message">El campo es obligatorio.</div>
+                                  </div>
+                        </div>
+                        <div class="input-box">
+                            <span class="details">Idioma:</span>
+                            <input type="text" class="form-control" name="idioma" formControlName="idioma"
+                                pattern="[a-zA-Z]+" required>
+                            <div *ngIf="idiomaControl?.invalid && (idiomaControl?.dirty || idiomaControl?.touched)">
+                                <div *ngIf="idiomaControl?.hasError('required')" class="error-message">El campo es
+                                    obligatorio.</div>
+                                <div *ngIf="idiomaControl?.hasError('pattern')" class="error-message">Solo se permiten
+                                    letras mayúsculas y minúsculas.</div>
+                            </div>
+                        </div>
+                        <div class="input-box">
+                            <span class="details">Estado:</span>
+                            <select class="form-select" id="estadoLibro" formControlName="estadoLibro">
+                                <option selected disabled value="">Selecciona una opción</option>
+                                <option value="1">Bueno</option>
+                                <option value="2">Regular</option>
+                                <option value="3">Malo</option>
+                            </select>
+
+                            <div *ngIf="estadoLibroControl?.invalid && (estadoLibroControl?.dirty || estadoLibroControl?.touched)">
+                                <div *ngIf="estadoLibroControl?.hasError('required')" class="error-message">El campo es obligatorio.</div>
+                                <div *ngIf="estadoLibroControl?.hasError('seleccionOpcionInvalida')" class="error-message">Selecciona una opción válida.</div>
+                              </div>
+                        </div>
+
                     </div>
-                    <!--FIN SUBIR FOTO-->
 
-                </div>
+                    <div class="user-details" *ngIf="step === 4">
+                        <!--     DESDE AQUIIIIIIIIIII           -->
+
+                        <div class="input-box">
+                            <span class="details">Editor:</span>
+                            <input type="text" class="form-control" name="editor" formControlName="editor" required>
+
+                            <div *ngIf="editorControl?.invalid && (editorControl?.dirty || editorControl?.touched)">
+                                <div *ngIf="editorControl?.hasError('required')" class="error-message">El campo es obligatorio.</div>
+                              </div>
+                        </div>
+                        <div class="input-box">
+                            <span class="details">Area:</span>
+                            <input type="text" class="form-control" name="area" formControlName="area" required>
+                            
+                            <div *ngIf="areaControl?.invalid && (areaControl?.dirty || areaControl?.touched)">
+                                <div *ngIf="areaControl?.hasError('required')" class="error-message">El campo es obligatorio.</div>
+                              </div>
+                        </div>
+                        <div class="input-box">
+                            <span class="details">Año de Publicación:</span>
+                            <input type="number" class="form-control" name="año-Publicacion"
+                                formControlName="anioPublicacion" required max="9999">
+
+                            <div
+                                *ngIf="anioPublicacionControl?.invalid && (anioPublicacionControl?.dirty || anioPublicacionControl?.touched)">
+                                <div *ngIf="anioPublicacionControl?.hasError('required')" class="error-message">El campo
+                                    es obligatorio.</div>
+                                <div *ngIf="anioPublicacionControl?.hasError('max')" class="error-message">El año puede
+                                    tener un max de 4 numeros.</div>
+                            </div>
+                        </div>
 
 
-                <div class="user-details" *ngIf="step === 7">
-                    <div class="input-box">
-                        <span class="details">Bibliotecario que registra:</span>
-                        <input type="text" disabled="true" value=""
-                            class="form-control" name="bibliotecario" [value]="nombrebiblio" required>
+
                     </div>
-                    <div class="input-box">
-                        <span class="details">Fecha de Creación:</span>
-                        <input type="date" class="form-control" name="fecha-Creacion" formControlName="fechaCreacion"
-                         required>
+
+
+                    <div class="user-details" *ngIf="step === 5">
+
+                        <!--REGISTRO AUTOR-->
+
+                        <div class="imput-box">
+                            <div class="col" style="margin-left:40% ;">
+                                <button class="btn " style="background-color:transparent">
+                                    <img src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fagregar_autor-tipo-donante.png?alt=media&token=4f1e982c-c8a5-496a-80d2-33d6fe7a9d33"
+                                        width=25 height=25>
+                                    Agregar Autor</button>
+                            </div>
+                            <div class="row mb">
+                                <label for="Autor" class="col-sm col-form-label">
+                                    <span class="details">Nombre del Autor:</span>
+                                </label>
+                                <div class="col-sm-8" style="margin-right: 2%; margin-top: 2%;">
+                                    <ng-autocomplete [data]="dato | async" [searchKeyword]="keyword"
+                                        (selected)="capturarAutor($event)" [itemTemplate]="itemTemplate" formControlName="autocompleteValue"
+                                        [notFoundTemplate]="notFoundTemplate" placeholder="Ingrese el nombre del autor">
+                                    </ng-autocomplete>
+                                    <ng-template #itemTemplate let-item>
+                                        <a [innerHTML]="item.nombre"></a>
+                                    </ng-template>
+                                    <ng-template #notFoundTemplate let-notFound>
+                                        <div [innerHTML]="notFound"></div>
+                                    </ng-template>
+
+                                    <!-- <div *ngIf="autocompleteControl?.invalid && (autocompleteControl?.dirty || autocompleteControl?.touched)">
+                                        <div *ngIf="autocompleteControl?.hasError('required')" class="error-message">El campo es obligatorio.</div>
+                                      </div> -->
+                                </div>
+                            </div>
+                        </div>
+                        <!--FIN REGISTRO AUTOR-->
+
+                        <!--REGISTRO TIPO DE Tipo-->
+
+                        <div class="imput-box">
+                            <div class="col" style="margin-left:40% ;">
+                                <button class="btn " style="background-color:transparent">
+                                    <img src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fagregar_autor-tipo-donante.png?alt=media&token=4f1e982c-c8a5-496a-80d2-33d6fe7a9d33"
+                                        width=25 height=25>
+                                    Agregar Tipo</button>
+                            </div>
+                            <div class="row mb" style="align-content: center;">
+                                <span class="details">Tipo:</span>
+                                <select name="TipoSelect" (change)="seleccionT($event)" class="form-select"
+                                    aria-label="Default select example">
+                                    <option selected disabled value="0">Seleccione</option>
+                                    <option #TSelect *ngFor="let tipo of Tipoe" value="{{tipo.nombre}}">{{tipo.nombre}}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <!--FIN REGISTRO TIPO-->
+
                     </div>
-                    <div class="input-box">
-                        <span class="details">URL Digital:</span>
-                        <input type="text" class="form-control" name="url" formControlName="urlDigital" 
-                       required>
-                        <div *ngIf="urlDigitalControl?.invalid && (urlDigitalControl?.dirty || urlDigitalControl?.touched)">
-                            <div *ngIf="urlDigitalControl?.hasError('required')" class="error-message">El campo es obligatorio.</div>
-                            <div *ngIf="urlDigitalControl?.hasError('pattern')" class="error-message">Por favor, ingrese una URL válida.</div>
-                          </div>
+
+
+                    <div class="user-details" *ngIf="step === 6">
+
+                        <!--SUBIR FOTO-->
+                        <div class="input-box" style="align-content: center;">
+                            <span class="details">Imagen:</span>
+                            <div *ngIf="previsualizacion" style="align-content: center;">
+                                <img width="230px" [src]="previsualizacion" alt="">
+                            </div>
+                            <label id="boton">
+                                <i> <img
+                                        src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fagregar%20libro.png?alt=media&token=b7f639da-1aaa-4d12-8133-a59742d32d87"></i>
+                            </label>
+                            <input id="subir" accept="image/*" formControlName="urlImagen"
+                                (change)="capturarImagen($event)" type="file" name="Image">
+                        </div>
+                        <!--FIN SUBIR FOTO-->
+
                     </div>
-                    <div class="input-box">
-                        <span class="details">Ciudad:</span>
-                        <input type="text" class="form-control" name="ciudad" formControlName="ciudad" required>
+
+
+                    <div class="user-details" *ngIf="step === 7">
+                        <div class="input-box">
+                            <span class="details">Bibliotecario que registra:</span>
+                            <input type="text" disabled="true" value="" class="form-control" name="bibliotecario"
+                                [value]="nombrebiblio" required>
+                        </div>
+                        <div class="input-box">
+                            <span class="details">Fecha de Creación:</span>
+                            <input type="date" class="form-control" name="fecha-Creacion"
+                                formControlName="fechaCreacion" required>
+                        </div>
+                        <div class="input-box">
+                            <span class="details">URL Digital:</span>
+                            <input type="text" class="form-control" name="url" formControlName="urlDigital" required>
+                            <div
+                                *ngIf="urlDigitalControl?.invalid && (urlDigitalControl?.dirty || urlDigitalControl?.touched)">
+                                <div *ngIf="urlDigitalControl?.hasError('required')" class="error-message">El campo es
+                                    obligatorio.</div>
+                                <div *ngIf="urlDigitalControl?.hasError('pattern')" class="error-message">Por favor,
+                                    ingrese una URL válida.</div>
+                            </div>
+                        </div>
+                        <div class="input-box">
+                            <span class="details">Ciudad:</span>
+                            <input type="text" class="form-control" name="ciudad" formControlName="ciudad" required>
+
+                            <div *ngIf="ciudadControl?.invalid && (ciudadControl?.dirty || ciudadControl?.touched)">
+                                <div *ngIf="ciudadControl?.hasError('required')" class="error-message">El campo es
+                                    obligatorio.</div>
+                                <div *ngIf="ciudadControl?.hasError('pattern')" class="error-message">Por favor, ingrese
+                                    una ciudad válida (máximo 15 caracteres).</div>
+                            </div>
+                        </div>
+
                     </div>
 
-                </div>
 
-
-                <div class="user-details" *ngIf="step === 8">
+                    <div class="user-details" *ngIf="step === 8">
 
 
 
 
-                    <!--REGISTRAR DONANTE-->
-                    <div class="input-box">
-                        <!-- <div class="col" style="margin-left:10% ;">
+                        <!--REGISTRAR DONANTE-->
+                        <div class="input-box">
+                            <!-- <div class="col" style="margin-left:10% ;">
                             <button class="btn " style="background-color:transparent">
                                 <img src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fsubir%20acta.png?alt=media&token=654756c8-f9ef-46fc-a2df-c740f8e75c45"
                                     width=25 height=25>
@@ -254,35 +339,49 @@
                             <input (change)="capturarArchivo($event)" type="file" id="subir" name="PDF">
 
                         </div> -->
-                        <br>
+                            <br>
 
-                        <div class="input-box">
+                            <div class="input-box">
                                 <span class="details">Nombre Donante:</span>
-                                <input type="text" class="form-control" name="donante"
-                                        formControlName="nombreDonante" required rigth>
+                                <div class="col-sm-8" style="margin-right: 2%; margin-top: 2%;">
+                                    <ng-autocomplete [data]="dato1 | async" [searchKeyword]="keyword"
+                                        (selected)="capturarDonante($event)" [itemTemplate]="itemTemplate"
+                                        [notFoundTemplate]="notFoundTemplate"
+                                        placeholder="Ingrese el nombre del Donante">
+                                    </ng-autocomplete>
+                                    <ng-template #itemTemplate let-item>
+                                        <a [innerHTML]="item.nombre"></a>
+                                    </ng-template>
+                                    <ng-template #notFoundTemplate let-notFound>
+                                        <div [innerHTML]="notFound"></div>
+                                    </ng-template>
+                                </div>
                             </div>
 
-                    </div>
-                    <!--FIN REGISTRAR DONANTE-->
-
-                    <div class="input-box">
-                        <span class="details">Disponibilidad:</span>
-                        <div class="form-group">
-                          <select class="form-select" name="disponibilidad" formControlName="disponibilidad" required>
-                            <option  value="0" selected disabled   [selected]="librosF.controls['disponibilidad'].value === '0'">Seleccione</option>
-                            <option value="true">Disponible</option>
-                            <option value="false">No Disponible</option>
-                          </select>
                         </div>
-                      </div>
-                      
-                      
-                      
-                    
+                        <!--FIN REGISTRAR DONANTE-->
+
+                        <div class="input-box">
+                            <span class="details">Disponibilidad:</span>
+                            <div class="form-group">
+                                <select class="form-select" name="disponibilidad" formControlName="disponibilidad"
+                                    required>
+                                    <option value="0" selected disabled
+                                        [selected]="librosF.controls['disponibilidad'].value === '0'">Seleccione
+                                    </option>
+                                    <option value="true">Disponible</option>
+                                    <option value="false">No Disponible</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+
+
+
+                    </div>
 
                 </div>
-                
-            </div>
 
                 <div class="button text-center">
                     <button type="button" class="btn btn-outline-secondary btn-lg mx-3" (click)="retroceder1()"
@@ -293,23 +392,21 @@
                         *ngIf="step < 8">
                         Siguiente <i class="fas fa-arrow-right"></i>
                     </button>
-                    <button type="submit" class="btn btn-outline-success btn-lg mx-3"  [disabled]="librosF.invalid" *ngIf="step === 8">
+                    <button type="submit" class="btn btn-outline-success btn-lg mx-3" [disabled]="librosF.invalid"
+                        *ngIf="step === 8">
                         Guardar libro <i class="fas fa-paper-plane">
                             <img src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fagregar%20libro.png?alt=media&token=b7f639da-1aaa-4d12-8133-a59742d32d87"
-                            width=25 height=25 align="center"></i>
+                                width=25 height=25 align="center"></i>
                     </button>
 
-                    
+
                 </div>
 
 
             </form>
-            
+
         </div>
     </div>
 
-    <!-- <pre>
-        {{librosF.value |  json}}
-    </pre> -->
 
 </body>

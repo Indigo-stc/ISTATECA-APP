@@ -1,4 +1,5 @@
 
+import { Donante } from "./Donante";
 import { Persona } from "./Persona";
 import { Tipo } from "./Tipo";
 
@@ -28,7 +29,7 @@ export class Libro{
     persona?: Persona;
     fechaCreacion?: Date;
     disponibilidad?: boolean;
-    nombreDonante?: string;
+    donante?: Donante;
     urlActaDonacion?: ArrayBuffer;
 
 }

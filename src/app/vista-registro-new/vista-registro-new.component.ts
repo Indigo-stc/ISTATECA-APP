@@ -3,7 +3,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Libro } from '../models/Libro';
 import { Bibliotecario } from '../models/Bibliotecario_Cargo';
-import { FormBuilder, FormGroup, NgForm, Validators, FormControl, NgModel } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators, FormControl, NgModel, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { ListasService } from '../services/listas.service';
 import { Tipo } from '../models/Tipo';
 import { Autor } from '../models/Autor';
@@ -11,10 +11,12 @@ import { RegistroBibliotecarioService } from '../services/registro-bibliotecario
 import { Persona } from '../models/Persona';
 import Swal from 'sweetalert2';
 import { registerLocaleData } from '@angular/common';
-import { Observable, catchError, map, throwError } from 'rxjs';
+import { Observable, catchError, map, startWith, throwError, filter  } from 'rxjs';
 import { ActaDonacionService } from '../services/acta-donacion.service';
 import { LibroService } from '../services/libro.service';
 import { PersonaService } from '../services/persona.service';
+import { Autor_Libro } from '../models/Autor_Libro';
+
 
 
 @Component({
@@ -26,6 +28,8 @@ export class VistaRegistroNewComponent implements OnInit {
 
   bibliotecarios: Bibliotecario = {};
   tipo: Tipo = new Tipo;
+  autor: Autor = new Autor
+  autorlibro: Autor_Libro = new Autor_Libro
   imagen?: File;
   reporteV: String = "";
   reporteV2: String = "";
@@ -34,11 +38,11 @@ export class VistaRegistroNewComponent implements OnInit {
   Tipoe: Tipo[] = []
   guardar: boolean = true;
   cedulabiblio?: String = "";
-  nombrebiblio?: String=''
+  nombrebiblio?: String = ''
   displayPopup: boolean = false;
 
   opcionSeleccionado: string = '0';
-  idlibro?: number=0;
+  idlibro?: number = 0;
   titulolibro?: string
 
   idb?: number;
@@ -50,6 +54,8 @@ export class VistaRegistroNewComponent implements OnInit {
   bus: boolean = true;
   buscarval: boolean = false;
 
+  
+
   public keyword = 'nombre';
   constructor(
     private sanitizer: DomSanitizer,
@@ -60,8 +66,9 @@ export class VistaRegistroNewComponent implements OnInit {
     private ActaDonacionService: ActaDonacionService,
     private personaservice: PersonaService,
     private formBuilder: FormBuilder,
-    private router: Router
-  ) { //this.buildForm(); 
+    private router: Router,
+    
+  ) { 
   }
 
   ngOnInit(): void {
@@ -76,7 +83,10 @@ export class VistaRegistroNewComponent implements OnInit {
     );
 
     this.obtenerAutor()
+    this.obtenerDonante()
     this.buscar()
+
+     
 
   }
 
@@ -112,9 +122,9 @@ export class VistaRegistroNewComponent implements OnInit {
 
   // Trabajar con Reactive Froms
   public librosF: FormGroup = new FormGroup({
-    codigoDewey: new FormControl(""),
-    titulo: new FormControl(""),
-    subtitulo: new FormControl(""),
+    codigoDewey: new FormControl("",[ Validators.required]),
+    titulo: new FormControl("",[Validators.required]),
+    subtitulo: new FormControl("",[Validators.required]),
     tipo: new FormControl(
       {
         id: new FormControl(""),
@@ -122,23 +132,23 @@ export class VistaRegistroNewComponent implements OnInit {
         activo: new FormControl("")
       }
     ),
-    adquisicion: new FormControl(""),
-    anioPublicacion: new FormControl("",  [Validators.required, Validators.max(9999)]),
-    editor: new FormControl(""),
-    ciudad: new FormControl(""),
-    numPaginas: new FormControl(""),
-    area: new FormControl(""),
-    conIsbn: new FormControl(""),
+    adquisicion: new FormControl("",[Validators.required]),
+    anioPublicacion: new FormControl("", [Validators.required, Validators.max(9999)]),
+    editor: new FormControl("",[Validators.required]),
+    ciudad: new FormControl("", [Validators.required, Validators.pattern('^[a-zA-Z ]{1,15}$')]),
+    numPaginas: new FormControl("",[Validators.required]),
+    area: new FormControl("",[Validators.required]),
+    conIsbn: new FormControl("", [Validators.required, Validators.pattern(/^[A-Za-z\s]{1,15}$/)]),
     idioma: new FormControl("", [Validators.required, Validators.pattern('[a-zA-Z]+')]),
-    descripcion: new FormControl(""),
-    indiceUno: new FormControl(""),
-    indiceDos: new FormControl(""),
-    indiceTres: new FormControl(""),
+    descripcion: new FormControl("",[Validators.required]),
+    indiceUno: new FormControl("",[Validators.required]),
+    indiceDos: new FormControl("",[Validators.required]),
+    indiceTres: new FormControl("",[Validators.required]),
     dimenciones: new FormControl("", [Validators.required, Validators.pattern('[0-9]{2,3}x[0-9]{2,3}')]),
-    estadoLibro: new FormControl(""),
+    estadoLibro: new FormControl("", [Validators.required,  this.seleccionOpcionInvalida]),
     urlImagen: new FormControl(""),
     activo: new FormControl(""),
-    urlDigital: new FormControl("",  [Validators.required, Validators.pattern('^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$')]),
+    urlDigital: new FormControl("", [Validators.required,Validators.pattern(/^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})(\/[\w .-]*)*\/?$/i)]),
     fechaCreacion: new FormControl(""),
     persona: new FormControl(
       {
@@ -158,17 +168,22 @@ export class VistaRegistroNewComponent implements OnInit {
       }
     ),
     disponibilidad: new FormControl(true),
-    nombreDonante: new FormControl(''),
+    donante: new FormControl({
+      id: new FormControl(""),
+      nombre: new FormControl("")
+    }),
     urlActaDonacion: new FormControl('')
   });
 
-
+// public miFormulario: FormGroup= new FormGroup({
+//   autocompleteValue:new FormControl ('', [this.validarAutocomplete]),
+// });
 
 
   // fin de Reactive Forms
 
   //VALIDACIONES
-get dimenciones() {
+  get dimenciones() {
     return this.librosF.get('dimenciones');
   }
 
@@ -183,7 +198,80 @@ get dimenciones() {
     return this.librosF.get('urlDigital');
   }
 
+  get ciudadControl() {
+    return this.librosF.get('ciudad');
+  }
+  get codigoDeweyControl() {
+    return this.librosF.get('ciudad');
+  }
 
+  get conIsbnControl() {
+    return this.librosF.get('conIsbn');
+  }
+  get tituloControl() {
+    return this.librosF.get('titulo');
+  }
+  get subtituloControl() {
+    return this.librosF.get('subtitulo');
+  }
+  get indiceUnoControl() {
+    return this.librosF.get('indiceUno');
+  }
+  get indiceDosControl() {
+    return this.librosF.get('indiceDos');
+  }
+
+  get indiceTresControl() {
+    return this.librosF.get('indiceTres');
+  }
+  get adquisicionControl() {
+    return this.librosF.get('adquisicion');
+  }
+  get descripcionControl() {
+    return this.librosF.get('descripcion');
+  }
+  get numPaginasControl() {
+    return this.librosF.get('numPaginas');
+  }
+  get estadoLibroControl() {
+    return this.librosF.get('estadoLibro');
+  }
+
+  get editorControl() {
+    return this.librosF.get('editor');
+  }
+  get areaControl() {
+    return this.librosF.get('area');
+  }
+
+  // get autocompleteControl() {
+  //   return this.miFormulario.get('autocompleteValue');
+  // }
+
+  //  // Función de validación personalizada para el autocompletar
+  //  validarAutocomplete: ValidatorFn = (control: FormControl) => {
+  //   const value = control.value;
+  //   // Si el valor está vacío, retorna un objeto con el error
+  //   if (!value || value.trim() === '') {
+  //     return { autocompleteVacio: true };
+  //   }
+  //   // Si el valor no está vacío, retorna null
+  //   return null;
+  // };
+
+
+  
+
+
+  // Validador personalizado
+  seleccionOpcionInvalida(control: AbstractControl): ValidationErrors | null {
+    const valor = control.value;
+    if (valor === '1' || valor === '2' || valor === '3') {
+      return null; // Opción válida, no hay error
+    } else {
+      return { seleccionOpcionInvalida: true }; // Opción inválida, retorna el error
+    }
+  }
   //FIN VALIDACIONES
   public dato!: Observable<any['']>;
 
@@ -195,9 +283,49 @@ get dimenciones() {
 
   }
 
+  //ESTO ES PARA CAPTURAR EL AUTOR
+
+  selectedAutor: any;
+
+  capturarAutor(posicion: any) {
+    console.log(posicion);
+    if (posicion && posicion.nombre) {
+      this.autor = posicion;
+
+      this.autorlibro.autor = this.autor
+      
+    }    
+
+  }
+
+//FIN CAPTURAR AUTOR
+
+// ESTO ES PARA CAPTURAR EL DONANTE
+  public dato1!: Observable<any['']>;
+  obtenerDonante(): void {
+    this.dato1 = this.ListaT.listarDonate();
+    console.log(this.dato + "Holii");
+
+
+  }
+
+  selectedDonante: any
+
+  capturarDonante(e: any) {
+    console.log(e);
+    this.selectedDonante=e
+
+    if (this.selectedDonante && this.selectedDonante.nombre) {
+      this.librosF.get('donante')?.patchValue(this.selectedDonante); // Establecer el valor en el formulario
+    }
+  }
+
+
+  // FIN CAPTURAR EL DONANTE
+
   //Conseguir capturar tipo de Libro
   seleccionT(e: any) {
-   
+
     this.nombreT = e.target.value;
     this.ListaT.buscarTiposxnombre2(this.nombreT).subscribe(
       (data) => {
@@ -240,26 +368,7 @@ get dimenciones() {
   }
 
 
-  //Validar URL
-
-  //  private buildForm() {
-  //   const reg = '(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?';
-  //   this.form = this.formBuilder.group({
-  //     codigoDewey: ['',  [Validators.required]],
-  //     titulo: ['', [Validators.required]],
-  //     cod_ISBN: ['', [Validators.required]],
-  //     email: ['', [Validators.required, Validators.email]],
-  //     anio_publicacion: ['', [Validators.required, Validators.maxLength(4)]],
-  //     url_digital: ['', [Validators.required]],
-  //     gender: ['', [Validators.required]],
-  //   });
-
-  //   this.form.valueChanges
-  //   .subscribe(value => {
-  //     console.log(value);
-
-  //   });
-  // }
+  
 
 
   onKeydownEvent(event: KeyboardEvent, titulo: String): void {
@@ -276,13 +385,11 @@ get dimenciones() {
     )
   }
 
-  capturarAutor(e:any){
 
-  }
 
-  capturarDonante(e:any){
-      
-  }
+
+  //FIN DE CAPTURAR AUTOR
+  
 
 
 
@@ -363,9 +470,9 @@ get dimenciones() {
           authStatus: data.authStatus
         }
         this.librosF.get('persona')?.patchValue(datospersona)
-        this.nombrebiblio = data.nombres +' '+ data.apellidos
+        this.nombrebiblio = data.nombres + ' ' + data.apellidos
         console.log(this.nombrebiblio);
-        
+
       }
     )
 
@@ -373,17 +480,14 @@ get dimenciones() {
 
 
 
-  // Getter for easy access
-  // get s_url() {
-  //   return this.form.get('s_url');
-  // }
+  
 
   //Guardar Libro
 
 
   public libro: Libro = new Libro();
 
-  /*disponible?: boolean = this.Libro.disponibilidad;*/
+  
 
   public crearLibro(/*reg: NgForm*/): void {
 
@@ -395,24 +499,32 @@ get dimenciones() {
     console.log(librosFCopy);
 
     this.libroservice.create(librosFCopy).subscribe(
-      (Response : Libro) => {
-        this.libro
+      (Response: Libro) => {
+        this.libro 
         this.idlibro = Response.id
-        this.titulolibro=Response.titulo
+        this.titulolibro = Response.titulo
+
+        this.autorlibro.libro=Response
         console.log(this.idlibro);
-        
-        if(this.titulolibro){
-          
-          localStorage.setItem('titulolibro', this.titulolibro );
+
+        if (this.titulolibro) {
+
+          localStorage.setItem('titulolibro', this.titulolibro);
         }
-        
-        
+
+        this.ListaT.createAutorLibro(this.autorlibro).subscribe(
+          (response:Autor_Libro)=>{console.log('autor guardado'+ response.autor?.nombre+' '+response.libro?.titulo);
+          }
+          )
+
         if (this.imagen) {
           if (this.idlibro) {
             const exlibro = this.idlibro.toString()
             window.localStorage.setItem('idlibro', exlibro)
             this.libroservice.subirImagen(this.idlibro, this.imagen).subscribe(
               (response: any) => {
+
+                
                 console.log('Imagen subida:', response); // No es necesario intentar analizar la respuesta como JSON
                 Swal.fire({
                   position: 'center',
@@ -421,7 +533,7 @@ get dimenciones() {
                   showConfirmButton: false,
                   timer: 1500
                 })
-                
+
                 setTimeout(() => {
                   this.router.navigate(['app-registro-etiquetas']);
                   //location.reload();
@@ -439,7 +551,7 @@ get dimenciones() {
           console.warn('No se ha seleccionado ningún archivo.');
         }
 
-       
+
 
       }
 
