@@ -23,7 +23,7 @@ export class ListaSolicitudesTercerosComponent {
   constructor(private TerceroService: terceroService, private router: Router) { }
 
   ngOnInit(): void {
-    this.listaterceroP = [];
+    this.listaterceroPb = [];
     this.listaPrestados();
   }
 
@@ -183,6 +183,7 @@ export class ListaSolicitudesTercerosComponent {
   }
 
   onKeydownEvent(event: KeyboardEvent, buscar2: String): void {
+    this.listaterceroPb=[]
     this.prestados = false;
     this.recibidos = false;
     this.nodevuelto = false;
@@ -207,11 +208,7 @@ export class ListaSolicitudesTercerosComponent {
             this.ngOnInit();
           } else {
             if(response!=null){
-              response.forEach(element => {
-                
-                  this.listaterceroPb.push(element);
-                
-              });
+              this.listaterceroPb=response
             }
           }
         }
