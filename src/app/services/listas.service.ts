@@ -5,6 +5,7 @@ import { Tipo } from '../models/Tipo';
 import { Observable} from 'rxjs';
 import { LibroEtiqueta } from '../models/LibroEtiqueta';
 import { Etiqueta } from '../models/Etiqueta';
+import { environment } from 'src/environments/environment';
 //import { EtiquetaLibro } from '../models/EtiquetaLibro';
 
 
@@ -19,8 +20,10 @@ export class ListasService {
   private urlendpointBuscarTipo:string='http://localhost:8080/tipo/buscarxnombre';
   private urlendpointTipo:string='http://localhost:8080/tipo/crear';
   private listarEtiqueta:string='http://localhost:8080/etiqueta/listar';
-  private buscaretiqueta:string='http://localhost:8080/etiqueta/buscar';
+  private seleccionarEti:string='http://localhost:8080/etiqueta/buscar';
   private crearetiqueta:string='http://localhost:8080/tags/crear';
+  private buscaretiqueta:string='http://localhost:8080/tags/etiquetasxlibro';
+
   
   private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'})
 
@@ -58,20 +61,28 @@ export class ListasService {
   }
 
   buscarEtiquetas(id: number): Observable<LibroEtiqueta[]> {
-    let res = this.buscaretiqueta + "/"+id;
+    let res = this.buscaretiqueta + "?parametro="+id;
     return this.http.get<LibroEtiqueta[]>(res);
   }
 
   obteneEtiquetas(): Observable<Etiqueta[]> {
     return this.http.get<Etiqueta[]>(this.listarEtiqueta);
   }
-  buscarEtiqueta(id:number): Observable<Etiqueta> {
-    let res = this.buscaretiqueta + "/"+id;
+  SeleccionarEti(id:number): Observable<Etiqueta> {
+    let res = this.seleccionarEti + "/"+id;
     return this.http.get<Etiqueta>(res);
   }
 
   createEtiqueta(tipo:LibroEtiqueta):Observable<LibroEtiqueta>{
     return this.http.post<LibroEtiqueta>(this.crearetiqueta, tipo, {headers: this.httpHeaders})
+  }
+
+  eliminarEtiqueta(parametro: number): Observable<any> {
+    const url = environment.rooturl+'/tags/eliminaretiqueta?parametro=' + parametro;
+    return this.http.delete<any>(url,{
+      responseType: 'text' as 'json', // Establece el tipo de respuesta como texto plano
+      observe: 'response' // Importante para obtener la respuesta completa, incluyendo el status y headers
+    });
   }
 
 }

@@ -67,7 +67,11 @@
                     <div class="input-box">
                         <span class="details">Dimensiones:</span>
                         <input type="text" class="form-control" name="dimenciones" formControlName="dimenciones"
-                         required>
+                        pattern="[0-9]{2,3}x[0-9]{2,3}" maxlength="6" required>
+                         <div *ngIf="dimenciones?.invalid && (dimenciones?.dirty || dimenciones?.touched)">
+                            <div *ngIf="dimenciones?.hasError('required')"  class="error-message">El campo es obligatorio.</div>
+                            <div *ngIf="dimenciones?.hasError('pattern')"  class="error-message">El formato debe ser "000x000".</div>
+                          </div>
                     </div>
                     <div class="input-box">
                         <span class="details">N° de Paginas:</span>
@@ -76,7 +80,12 @@
                     </div>
                     <div class="input-box">
                         <span class="details">Idioma:</span>
-                        <input type="text" class="form-control" name="idioma" formControlName="idioma" required>
+                        <input type="text" class="form-control" name="idioma" formControlName="idioma"
+                        pattern="[a-zA-Z]+" required>
+                        <div *ngIf="idiomaControl?.invalid && (idiomaControl?.dirty || idiomaControl?.touched)">
+                            <div *ngIf="idiomaControl?.hasError('required')" class="error-message">El campo es obligatorio.</div>
+                            <div *ngIf="idiomaControl?.hasError('pattern')"  class="error-message">Solo se permiten letras mayúsculas y minúsculas.</div>
+                          </div>
                     </div>
                     <div class="input-box">
                         <span class="details">Estado:</span>
@@ -106,7 +115,12 @@
                     <div class="input-box">
                         <span class="details">Año de Publicación:</span>
                         <input type="number" class="form-control"  name="año-Publicacion"
-                            formControlName="anioPublicacion" required>
+                            formControlName="anioPublicacion"  required  max="9999">
+                            
+                            <div *ngIf="anioPublicacionControl?.invalid && (anioPublicacionControl?.dirty || anioPublicacionControl?.touched)">
+                                <div *ngIf="anioPublicacionControl?.hasError('required')" class="error-message">El campo es obligatorio.</div>
+                                <div *ngIf="anioPublicacionControl?.hasError('max')" class="error-message">El año puede tener un max de 4 numeros.</div>
+                              </div>
                     </div>
                    
                     <!-- <div class="input-box">
@@ -210,7 +224,12 @@
                     </div>
                     <div class="input-box">
                         <span class="details">URL Digital:</span>
-                        <input type="text" class="form-control" name="url" formControlName="urlDigital" required>
+                        <input type="text" class="form-control" name="url" formControlName="urlDigital" 
+                       required>
+                        <div *ngIf="urlDigitalControl?.invalid && (urlDigitalControl?.dirty || urlDigitalControl?.touched)">
+                            <div *ngIf="urlDigitalControl?.hasError('required')" class="error-message">El campo es obligatorio.</div>
+                            <div *ngIf="urlDigitalControl?.hasError('pattern')" class="error-message">Por favor, ingrese una URL válida.</div>
+                          </div>
                     </div>
                     <div class="input-box">
                         <span class="details">Ciudad:</span>
@@ -274,7 +293,7 @@
                         *ngIf="step < 8">
                         Siguiente <i class="fas fa-arrow-right"></i>
                     </button>
-                    <button type="submit" class="btn btn-outline-success btn-lg mx-3" *ngIf="step === 8">
+                    <button type="submit" class="btn btn-outline-success btn-lg mx-3"  [disabled]="librosF.invalid" *ngIf="step === 8">
                         Guardar libro <i class="fas fa-paper-plane">
                             <img src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fagregar%20libro.png?alt=media&token=b7f639da-1aaa-4d12-8133-a59742d32d87"
                             width=25 height=25 align="center"></i>

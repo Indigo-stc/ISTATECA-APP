@@ -51,6 +51,34 @@ export class VistaRegistroNewComponent implements OnInit {
   buscarval: boolean = false;
 
   public keyword = 'nombre';
+  constructor(
+    private sanitizer: DomSanitizer,
+    private libroservice: LibroService,
+    private rutas: Router,
+    private bibliotecarioservice: RegistroBibliotecarioService,
+    private ListaT: ListasService,
+    private ActaDonacionService: ActaDonacionService,
+    private personaservice: PersonaService,
+    private formBuilder: FormBuilder,
+    private router: Router
+  ) { //this.buildForm(); 
+  }
+
+  ngOnInit(): void {
+    this.reporteV = localStorage.getItem('bibliotecario') + "";
+    this.reporteV2 = localStorage.getItem('nombrebibliotecario') + "";
+    console.log("Bibliotecario: " + this.reporteV + " Nombre:" + this.reporteV2);
+    this.librosF.controls['disponibilidad'].setValue('0');
+
+    this.ListaT.obtenerTipos().subscribe(
+      TipoS => this.Tipoe = TipoS
+
+    );
+
+    this.obtenerAutor()
+    this.buscar()
+
+  }
 
 
   step = 1;
@@ -95,22 +123,22 @@ export class VistaRegistroNewComponent implements OnInit {
       }
     ),
     adquisicion: new FormControl(""),
-    anioPublicacion: new FormControl(""),
+    anioPublicacion: new FormControl("",  [Validators.required, Validators.max(9999)]),
     editor: new FormControl(""),
     ciudad: new FormControl(""),
     numPaginas: new FormControl(""),
     area: new FormControl(""),
     conIsbn: new FormControl(""),
-    idioma: new FormControl(""),
+    idioma: new FormControl("", [Validators.required, Validators.pattern('[a-zA-Z]+')]),
     descripcion: new FormControl(""),
     indiceUno: new FormControl(""),
     indiceDos: new FormControl(""),
     indiceTres: new FormControl(""),
-    dimenciones: new FormControl(""),
+    dimenciones: new FormControl("", [Validators.required, Validators.pattern('[0-9]{2,3}x[0-9]{2,3}')]),
     estadoLibro: new FormControl(""),
     urlImagen: new FormControl(""),
     activo: new FormControl(""),
-    urlDigital: new FormControl(""),
+    urlDigital: new FormControl("",  [Validators.required, Validators.pattern('^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$')]),
     fechaCreacion: new FormControl(""),
     persona: new FormControl(
       {
@@ -137,36 +165,26 @@ export class VistaRegistroNewComponent implements OnInit {
 
 
 
-  // fon de Reactive Forms
+  // fin de Reactive Forms
 
-  constructor(
-    private sanitizer: DomSanitizer,
-    private libroservice: LibroService,
-    private rutas: Router,
-    private bibliotecarioservice: RegistroBibliotecarioService,
-    private ListaT: ListasService,
-    private ActaDonacionService: ActaDonacionService,
-    private personaservice: PersonaService,
-    private formBuilder: FormBuilder,
-    private router: Router
-  ) { //this.buildForm(); 
+  //VALIDACIONES
+get dimenciones() {
+    return this.librosF.get('dimenciones');
   }
 
-  ngOnInit(): void {
-    this.reporteV = localStorage.getItem('bibliotecario') + "";
-    this.reporteV2 = localStorage.getItem('nombrebibliotecario') + "";
-    console.log("Bibliotecario: " + this.reporteV + " Nombre:" + this.reporteV2);
-    this.librosF.controls['disponibilidad'].setValue('0');
-
-    this.ListaT.obtenerTipos().subscribe(
-      TipoS => this.Tipoe = TipoS
-
-    );
-
-    this.obtenerAutor()
-    this.buscar()
-
+  get idiomaControl() {
+    return this.librosF.get('idioma');
   }
+  get anioPublicacionControl() {
+    return this.librosF.get('anioPublicacion');
+  }
+
+  get urlDigitalControl() {
+    return this.librosF.get('urlDigital');
+  }
+
+
+  //FIN VALIDACIONES
   public dato!: Observable<any['']>;
 
 

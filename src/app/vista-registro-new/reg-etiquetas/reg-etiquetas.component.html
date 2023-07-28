@@ -23,25 +23,28 @@
             </form>
 
             <ng-container *ngIf="etiquetaL.length > 0; else noEtiquetas">
-                <table>
-                    <caption>Etiquetas Asignadas</caption>
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Etiqueta</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-    
-                    <tbody>
-                        <tr *ngFor="let fila of etiquetaL">
-                            <td>{{fila.id}}</td>
-                            <td>{{fila.etiqueta?.nombre}}</td>
-                            <td><button type="button" class="btn btn-danger">Eliminar</button></td>
-                        </tr>
-    
-                    </tbody>
-                </table>
+                <div class="tablas">
+                    <table class="table">
+                        <caption>Etiquetas Asignadas</caption>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Etiqueta</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+        
+                        <tbody>
+                            <tr *ngFor="let fila of etiquetaL">
+                                <td>{{fila.id}}</td>
+                                <td>{{fila.etiqueta?.nombre}}</td>
+                                <td><button type="button" (click)="eliminarEti(fila.id!)" class="btn btn-danger">Eliminar</button></td>
+                            </tr>
+        
+                        </tbody>
+                    </table>
+                </div>
+                
 
                 <div class="button text-center">
                     <button type="button" class="btn btn-success"
