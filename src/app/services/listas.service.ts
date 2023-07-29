@@ -16,6 +16,7 @@ import { Autor_Libro } from '../models/Autor_Libro';
 })
 export class ListasService {
   private urlendpoint:string='http://localhost:8080/autor/listar';
+  private urlendpoint2:string='http://localhost:8080/autorlibro/listar';
   private urlendpoint1:string='http://localhost:8080/tipo/listar';
   private urlendpointAutor:string='http://localhost:8080/autor/crear';
   private urlendpointBuscarAutor:string='http://localhost:8080/autor/listarautoresxnombre';
@@ -33,6 +34,10 @@ export class ListasService {
 
   obtenerAutores(): Observable<Autor[]> {
     return this.http.get<Autor[]>(this.urlendpoint);
+  }
+
+  obtenerAutor_Libro(): Observable<Autor_Libro[]> {
+    return this.http.get<Autor_Libro[]>(this.urlendpoint2);
   }
   obtenerTipos(): Observable<Tipo[]> {
     return this.http.get<Tipo[]>(this.urlendpoint1);

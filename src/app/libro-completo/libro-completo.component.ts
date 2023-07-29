@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { Libro } from '../models/Libro';
+import { Autor_Libro } from '../models/Autor_Libro';
+import { ListasService } from '../services/listas.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-libro-completo',
@@ -8,19 +11,35 @@ import { Libro } from '../models/Libro';
 })
 export class LibroCompletoComponent {
   libro: Libro = new Libro();
+  autores_libros: Autor_Libro = new Autor_Libro();
 
   step = 1;
-  totalSteps = 2;
+  totalSteps = 3;
 
-  disp?:string;
+  disp?: string;
+
+  constructor(private listaservice: ListasService, private router: Router) { }
+
   ngOnInit() {
     let usuarioJSON = localStorage.getItem('LibroCompleto') + "";
     this.libro = JSON.parse(usuarioJSON);
-    if(this.libro.disponibilidad==true){
-      this.disp="Disponible";
-    }else{
-      this.disp="No disponible"
+    if (this.libro.disponibilidad == true) {
+      this.disp = "Disponible";
+    } else {
+      this.disp = "No disponible"
     }
+    this.listaservice.obtenerAutor_Libro().subscribe(
+      response => {
+        console.log(response);
+        if (response != null || response != undefined) {
+          response.forEach(element => {
+            if (element.libro?.id == this.libro.id) {
+              this.autores_libros = element;
+            }
+          })
+        }
+      }
+    );
   }
 
   retroceder1() {
@@ -31,9 +50,9 @@ export class LibroCompletoComponent {
 
 
   avanzar1() {
-      if (this.step < this.totalSteps) {
-        this.step++;
-      }
+    if (this.step < this.totalSteps) {
+      this.step++;
+    }
   }
 
   getNombreEstadoLibro2(numeroEstado: number | undefined): string {

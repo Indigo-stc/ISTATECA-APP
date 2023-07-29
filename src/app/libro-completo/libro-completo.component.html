@@ -10,6 +10,13 @@
             <form ngNativeValidate>
                 <div class="step-counter">
                     <p>Paso {{ step }} de {{ totalSteps }} </p>
+                    <button class="boton">Editar&nbsp;
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-pencil" viewBox="0 0 16 16">
+                            <path
+                                d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
+                        </svg>
+                    </button>
                     <div class="user-details" *ngIf="step === 1">
 
                         <div class="input-box">
@@ -99,11 +106,44 @@
                             <span class="details">URL:</span>
                             <input type="text" class="form-control" [(ngModel)]="libro.urlDigital" disabled
                                 name="urlDigital" required>
-                                <span class="details">Disponibilidad:</span>
-                            <input type="text" class="form-control" value="{{disp}}" disabled
-                                required>
+                            <span class="details">Disponibilidad:</span>
+                            <input type="text" class="form-control" value="{{disp}}" disabled required>
 
                         </div>
+                    </div>
+
+                    <div class="user-details" *ngIf="step === 3">
+                        <div class="input-box">
+                            <span class="details">Autor:</span>
+                            <input type="text" class="form-control" value="{{autores_libros.autor?.nombre}}" disabled
+                                name="adquisicion" required>
+
+                            <span class="details">Tipo:</span>
+                            <input type="text" class="form-control" value="{{libro.tipo?.nombre}}" required disabled>
+                        </div>
+                        <div class="input-box">
+                            <span class="details">Bibliotecario que registra:</span>
+                            <input type="text" class="form-control"
+                                value="{{libro.persona?.nombres}}&nbsp;{{libro.persona?.apellidos}}" disabled
+                                name="adquisicion" required>
+
+                            <span class="details">Fecha de creación:</span>
+                            <input type="text" class="form-control" value="{{libro.fechaCreacion}}" required disabled>
+                        </div>
+                        <div class="input-box">
+                            <span class="details">URL Digital:</span>
+                            <input type="text" class="form-control" value="{{libro.urlDigital}}" disabled
+                                name="adquisicion" required>
+
+                            <span class="details">Ciudad:</span>
+                            <input type="text" class="form-control" value="{{libro.ciudad}}" required disabled>
+                        </div>
+                        <div class="input-box">
+                            <span class="details">Donante:</span>
+                            <input type="text" class="form-control" value="{{libro.donante?.nombre}}" disabled
+                                name="adquisicion" required>
+                        </div>
+                        <hr>
                     </div>
 
                     <div class="button text-center" style="display: flex;">
@@ -116,7 +156,7 @@
                                     d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
                             </svg> Retroceder
                         </button>
-                        <button type="button" (click)="avanzar1()" style="margin-left: 70%;" *ngIf="step < 2">
+                        <button type="button" (click)="avanzar1()" style="margin-left: 40%;" *ngIf="step < 3">
                             Siguiente <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="bi bi-chevron-double-right" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd"
@@ -125,7 +165,7 @@
                                     d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z" />
                             </svg>
                         </button>
-                        <button type="submit" *ngIf="step === 2" style="margin-left: 50%;">
+                        <button type="submit" *ngIf="step === 4" style="margin-left: 50%;">
                             Guardar <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 class="bi bi-folder-check" viewBox="0 0 16 16">
                                 <path
