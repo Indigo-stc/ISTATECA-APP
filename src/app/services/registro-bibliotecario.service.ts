@@ -4,17 +4,20 @@ import { Observable,of } from 'rxjs';
 import { PersonaP } from '../models/PersonaP';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { PersonaFenix } from '../models/PersonaFenix';
+import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
 export class RegistroBibliotecarioService {
-  private urlendpoint:string='http://localhost:8080/bibliotecariocargo/crear';
-  private urlendpoint1:string='http://localhost:8080/api/listarbibliotecario';
-  private urlendpoint2:string='http://localhost:8080/api/bibliotecario_x_cedula';
-  private urlendpointFenix: string = 'http://localhost:8080/usuariofenix/buscarusuario';
-  private urlendpoint4:string='http://localhost:8080/api/fenix_docente';
-  private urlendpoint5:string='http://localhost:8080/api/editarbibliotecario';
-  private urlendpoint6:string='http://localhost:8080/api/bibliotecario';
+  private url= environment.rooturl
+
+  private urlendpoint:string=this.url+'/bibliotecariocargo/crear';
+  private urlendpoint1:string=this.url+'/api/listarbibliotecario';
+  private urlendpoint2:string=this.url+'/api/bibliotecario_x_cedula';
+  private urlendpointFenix: string = this.url+'/usuariofenix/buscarusuario';
+  private urlendpoint4:string=this.url+'/api/fenix_docente';
+  private urlendpoint5:string=this.url+'/api/editarbibliotecario';
+  private urlendpoint6:string=this.url+'/api/bibliotecario';
 
   private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'})
 

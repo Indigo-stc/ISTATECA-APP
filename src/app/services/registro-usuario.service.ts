@@ -6,19 +6,22 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Bibliotecario } from '../models/Bibliotecario_Cargo';
 import { PersonaP } from '../models/PersonaP'; import { Usuario } from '../models/Usuario';
 import { PersonaFenix } from '../models/PersonaFenix';
+import { environment } from 'src/environments/environment';
 ;
 @Injectable({
   providedIn: 'root'
 })
 export class RegistroUsuarioService {
-  private urlendpointlistarpersonas: string = 'http://localhost:8080/persona/listar';
-  private urlendpointcrearpers: string = 'http://localhost:8080/persona/crear';
-  private urlendpointeditarpers: string = 'http://localhost:8080/persona/editar';
-  private urlendpointbuscar: string = 'http://localhost:8080/persona/personaxcedula';
-  private urlendpointbuscarfuncion: string = 'http://localhost:8080/persona/personadocente';
-  private urlendpoint2: string = 'http://localhost:8080/usuariofenix/buscarusuario';
-  private urlendpoint3: string = 'http://localhost:8080/api/editarusuario';
-  private urlendpoint4: string = 'http://localhost:8080/persona/registrardocenteadmin';
+  private url= environment.rooturl
+
+  private urlendpointlistarpersonas: string =this.url+'/persona/listar';
+  private urlendpointcrearpers: string = this.url+'/persona/crear';
+  private urlendpointeditarpers: string = this.url+'/persona/editar';
+  private urlendpointbuscar: string = this.url+'/persona/personaxcedula';
+  private urlendpointbuscarfuncion: string = this.url+'/persona/personadocente';
+  private urlendpoint2: string = this.url+'/usuariofenix/buscarusuario';
+  private urlendpoint3: string = this.url+'/api/editarusuario';
+  private urlendpoint4: string = this.url+'/persona/registrardocenteadmin';
   private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' })
   constructor(private http: HttpClient) { }
 

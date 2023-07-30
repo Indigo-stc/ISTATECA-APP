@@ -3,20 +3,22 @@ import { Prestamo } from '../models/Prestamo';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Libro } from '../models/Libro';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class prestamoService {
-
-  private urlEndPoint: string = 'http://localhost:8080/prestamo/listar';
-  private urlEndPoint1: string = 'http://localhost:8080/prestamo/listarxestado'
-  private urlEndPointVerifi: string = 'http://localhost:8080/prestamo/listaractivosxcedula'
-  private urlEndPoint2: string = 'http://localhost:8080/prestamo/listarxcedula'
-  private urlEditar: string = 'http://localhost:8080/prestamo/editar';
-  private urlEndPointCrearPrestamo: string = 'http://localhost:8080/prestamo/crear';
-  private urlEndPointFechas: string = 'http://localhost:8080/prestamo/reporteprestamos';
-  private urlEndPointFechas2: string = 'http://localhost:8080/prestamo/prestamoconcarrera';
+  private url= environment.rooturl
+  
+  private urlEndPoint: string = this.url+'/prestamo/listar';
+  private urlEndPoint1: string = this.url+'/prestamo/listarxestado'
+  private urlEndPointVerifi: string = this.url+'/prestamo/listaractivosxcedula'
+  private urlEndPoint2: string = this.url+'/prestamo/listarxcedula'
+  private urlEditar: string = this.url+'/prestamo/editar';
+  private urlEndPointCrearPrestamo: string = this.url+'/prestamo/crear';
+  private urlEndPointFechas: string = this.url+'/prestamo/reporteprestamos';
+  private urlEndPointFechas2: string = this.url+'/prestamo/prestamoconcarrera';
   private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' })
   constructor(private http: HttpClient) { }
 

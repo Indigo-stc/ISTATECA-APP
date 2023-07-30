@@ -3,17 +3,21 @@ import { map, Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Libro } from '../models/Libro';
 import { Autor } from '../models/Autor';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LibroService {
-  private urlendpoint: string = 'http://localhost:8080/libro/crear';
-  private urlendpoint1: string = 'http://localhost:8080/libro/listar';
-  private urlBuscarLibro: string = 'http://localhost:8080/libro/listarlibrosxnombre';
-  private urlBuscarLibroId: string = 'http://localhost:8080/libro/buscar';
-  private urlListarAutor: string = 'http://localhost:8080/autor/listar';
-  private guardarImagen: string = 'http://localhost:8080/libro/subirimagen';
+
+  private url= environment.rooturl
+
+  private urlendpoint: string = this.url+'/libro/crear';
+  private urlendpoint1: string = this.url+'/libro/listar';
+  private urlBuscarLibro: string = this.url+'/libro/listarlibrosxnombre';
+  private urlBuscarLibroId: string = this.url+'/libro/buscar';
+  private urlListarAutor: string = this.url+'/autor/listar';
+  private guardarImagen: string = this.url+'/libro/subirimagen';
   private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' })
 
   constructor(private http: HttpClient) { }

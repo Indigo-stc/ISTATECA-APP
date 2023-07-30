@@ -4,21 +4,23 @@ import { Sugerencia } from '../models/Sugerencia';
 import { Observable } from 'rxjs';
 import { Tercero } from '../models/Tercero';
 import { TerceroPrestamo } from '../models/TerceroPrestamo';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class terceroService {
+  private url= environment.rooturl
 
-  private urlEndPoint: string = 'http://localhost:8080/tercero/terceroxcedula';
+  private urlEndPoint: string = this.url+'/tercero/terceroxcedula';
   
-  private urlEndPointCrear: string = 'http://localhost:8080/tercero/crear';
-  private urlEndPointCrear1: string = 'http://localhost:8080/terceroprestamo/crear';
-  private urlEndPointListar: string = 'http://localhost:8080/tercero/listar';
-  private urlEndPointListarTerPre: string = 'http://localhost:8080/terceroprestamo/listar';
-  private urlEndPointListarTerPreCed: string = 'http://localhost:8080/terceroprestamo/terceroxcedula';
-  private urlEndPointEditar: string = 'http://localhost:8080/tercero/editar';
-  private urlEndPointEditarTerPre: string = 'http://localhost:8080/tercero/editar';
+  private urlEndPointCrear: string = this.url+'/tercero/crear';
+  private urlEndPointCrear1: string = this.url+'/terceroprestamo/crear';
+  private urlEndPointListar: string = this.url+'/tercero/listar';
+  private urlEndPointListarTerPre: string = this.url+'/terceroprestamo/listar';
+  private urlEndPointListarTerPreCed: string = this.url+'/terceroprestamo/terceroxcedula';
+  private urlEndPointEditar: string = this.url+'/tercero/editar';
+  private urlEndPointEditarTerPre: string = this.url+'/tercero/editar';
 
 
   private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' })

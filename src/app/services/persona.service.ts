@@ -3,18 +3,21 @@ import { HttpBackend, HttpClient, HttpEvent, HttpHeaders, HttpParams, HttpRespon
 import { Persona } from "../models/Persona";
 import { map, Observable } from 'rxjs';
 import { Bibliotecario } from '../models/Bibliotecario_Cargo';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PersonaService {
-  private urlendpoint: string = 'http://localhost:8080/api/validarLogin';
-  private urlendpoint1: string = 'http://localhost:8080/api/num_rol';
-  private urlendpoint2: string = 'http://localhost:8080/api/validarPersona';
-  private urlendpoint3: string = 'http://localhost:8080/persona/listar';
-  private urlendpointBuscarCedula: string = 'http://localhost:8080/persona/personaxcedula';
-  private urlendpointeditarpers: string = 'http://localhost:8080/persona/editar';
-  private personaxcedula: string = 'http://localhost:8080/persona/personaxcedula/';
+  private url= environment.rooturl
+
+  private urlendpoint: string = this.url+'/api/validarLogin';
+  private urlendpoint1: string = this.url+'/api/num_rol';
+  private urlendpoint2: string = this.url+'/api/validarPersona';
+  private urlendpoint3: string = this.url+'/persona/listar';
+  private urlendpointBuscarCedula: string = this.url+'/persona/personaxcedula';
+  private urlendpointeditarpers: string = this.url+'/persona/editar';
+  private personaxcedula: string = this.url+'/persona/personaxcedula/';
   private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' })
   constructor(private http: HttpClient) { }
   validarLogin(usuario: String, clave: String):Observable<boolean>{

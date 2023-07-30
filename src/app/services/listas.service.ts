@@ -15,17 +15,20 @@ import { Autor_Libro } from '../models/Autor_Libro';
   providedIn: 'root'
 })
 export class ListasService {
-  private urlendpoint:string='http://localhost:8080/autor/listar';
-  private urlendpoint2:string='http://localhost:8080/autorlibro/listar';
-  private urlendpoint1:string='http://localhost:8080/tipo/listar';
-  private urlendpointAutor:string='http://localhost:8080/autor/crear';
-  private urlendpointBuscarAutor:string='http://localhost:8080/autor/listarautoresxnombre';
-  private urlendpointBuscarTipo:string='http://localhost:8080/tipo/buscarxnombre';
-  private urlendpointTipo:string='http://localhost:8080/tipo/crear';
-  private listarEtiqueta:string='http://localhost:8080/etiqueta/listar';
-  private seleccionarEti:string='http://localhost:8080/etiqueta/buscar';
-  private crearetiqueta:string='http://localhost:8080/tags/crear';
-  private buscaretiqueta:string='http://localhost:8080/tags/etiquetasxlibro';
+
+private url= environment.rooturl
+
+  private urlendpoint:string= this.url+'/autor/listar';
+  private urlendpoint2:string= this.url+'/autorlibro/listar';
+  private urlendpoint1:string= this.url+'/tipo/listar';
+  private urlendpointAutor:string= this.url+'/autor/crear';
+  private urlendpointBuscarAutor:string= this.url+'/autor/listarautoresxnombre';
+  private urlendpointBuscarTipo:string= this.url+'/tipo/buscarxnombre';
+  private urlendpointTipo:string= this.url+'/tipo/crear';
+  private listarEtiqueta:string= this.url+'/etiqueta/listar';
+  private seleccionarEti:string= this.url+'/etiqueta/buscar';
+  private crearetiqueta:string= this.url+'/tags/crear';
+  private buscaretiqueta:string= this.url+'/tags/etiquetasxlibro';
 
   
   private httpHeaders = new HttpHeaders({'Content-Type': 'application/json'})

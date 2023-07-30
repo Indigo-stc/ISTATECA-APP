@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Notificacion } from '../models/Notificacion';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -9,9 +10,10 @@ import { Observable } from 'rxjs';
 export class NotificacionesService {
   nuevosRegistros: number = 0;
   nuevosRegistrosEst: number = 0;
-  private urlendpointnotificacionblib: string = 'http://localhost:8080/notificacion/notificacionesbibliotecarios';
-  private urlendpointnotificacionper: string = 'http://localhost:8080/notificacion/notificacionesxpersona';
-  private urlendpointeditarnot: string = 'http://localhost:8080/notificacion/editar';
+  private url= environment.rooturl
+  private urlendpointnotificacionblib: string = this.url+'/notificacion/notificacionesbibliotecarios';
+  private urlendpointnotificacionper: string = this.url+'/notificacion/notificacionesxpersona';
+  private urlendpointeditarnot: string = this.url+'/notificacion/editar';
   public notificationlista: any[]=[];
   public notificationlistaest:any[]=[];
 

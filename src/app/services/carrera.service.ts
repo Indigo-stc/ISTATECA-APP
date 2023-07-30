@@ -2,14 +2,17 @@ import { Injectable } from '@angular/core';
 import { Carrera } from '../models/Carrera';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CarreraService {
-    private urlEndPoint: string='http://localhost:8080/carrera/listar';
-    private urlEndPointBuscarId: string='http://localhost:8080/carrera/buscar';
-    private urlEndPointBuscarEst: string='http://localhost:8080/carrera/carreraest';
+  private url= environment.rooturl
+
+    private urlEndPoint: string=this.url+'/carrera/listar';
+    private urlEndPointBuscarId: string=this.url+'/carrera/buscar';
+    private urlEndPointBuscarEst: string=this.url+'/carrera/carreraest';
   constructor(private http: HttpClient) { }
   getCarreras(): Observable <Carrera[]>{
     return this.http.get<Carrera[]>(this.urlEndPoint);
