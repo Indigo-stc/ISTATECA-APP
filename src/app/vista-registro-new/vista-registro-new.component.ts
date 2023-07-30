@@ -18,6 +18,9 @@ import { PersonaService } from '../services/persona.service';
 import { Autor_Libro } from '../models/Autor_Libro';
 
 
+// Función de validación personalizada para el autocompletar
+
+
 
 @Component({
   selector: 'app-vista-registro-new',
@@ -54,6 +57,7 @@ export class VistaRegistroNewComponent implements OnInit {
   bus: boolean = true;
   buscarval: boolean = false;
 
+
   
 
   public keyword = 'nombre';
@@ -86,7 +90,7 @@ export class VistaRegistroNewComponent implements OnInit {
     this.obtenerDonante()
     this.buscar()
 
-     
+    
 
   }
 
@@ -120,6 +124,28 @@ export class VistaRegistroNewComponent implements OnInit {
   public archivos: any = []
 
 
+  //validacion de autor
+  public validarAutorSeleccionado: ValidatorFn = (form: AbstractControl) => {
+     const autorSeleccionado = String(form.value);
+    // Si el valor del autor seleccionado es null, undefined o una cadena vacía, retorna un objeto con el error
+    if (!autorSeleccionado || autorSeleccionado.trim() === '') {
+      return { autorNoSeleccionado: true };
+    }
+    // Si el valor no está vacío, retorna null (sin error)
+    return null;
+  };
+
+
+  // Validador personalizado para asegurar que no se seleccione "Seleccione"
+  validarSelect(control: AbstractControl) {
+    const selectedValue = control.value;
+    if (selectedValue === '0') {
+      return { selectVacio: true };
+    }
+    return null; // Si no hay error, debe devolver null
+  }
+
+
   // Trabajar con Reactive Froms
   public librosF: FormGroup = new FormGroup({
     codigoDewey: new FormControl("",[ Validators.required]),
@@ -130,7 +156,7 @@ export class VistaRegistroNewComponent implements OnInit {
         id: new FormControl(""),
         nombre: new FormControl(""),
         activo: new FormControl("")
-      }
+      },  [Validators.required, this.validarSelect]
     ),
     adquisicion: new FormControl("",[Validators.required]),
     anioPublicacion: new FormControl("", [Validators.required, Validators.max(9999)]),
@@ -149,7 +175,7 @@ export class VistaRegistroNewComponent implements OnInit {
     urlImagen: new FormControl(""),
     activo: new FormControl(""),
     urlDigital: new FormControl("", [Validators.required,Validators.pattern(/^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})(\/[\w .-]*)*\/?$/i)]),
-    fechaCreacion: new FormControl(""),
+    fechaCreacion: new FormControl(new Date),
     persona: new FormControl(
       {
         id: new FormControl(""),
@@ -172,12 +198,16 @@ export class VistaRegistroNewComponent implements OnInit {
       id: new FormControl(""),
       nombre: new FormControl("")
     }),
-    urlActaDonacion: new FormControl('')
+    urlActaDonacion: new FormControl(''),
+    autor: new FormControl('',[this.validarAutorSeleccionado, Validators.required])
+
   });
 
-// public miFormulario: FormGroup= new FormGroup({
-//   autocompleteValue:new FormControl ('', [this.validarAutocomplete]),
-// });
+  
+
+ 
+
+  
 
 
   // fin de Reactive Forms
@@ -202,7 +232,7 @@ export class VistaRegistroNewComponent implements OnInit {
     return this.librosF.get('ciudad');
   }
   get codigoDeweyControl() {
-    return this.librosF.get('ciudad');
+    return this.librosF.get('codigoDewey');
   }
 
   get conIsbnControl() {
@@ -244,21 +274,9 @@ export class VistaRegistroNewComponent implements OnInit {
     return this.librosF.get('area');
   }
 
-  // get autocompleteControl() {
-  //   return this.miFormulario.get('autocompleteValue');
-  // }
+  
 
-  //  // Función de validación personalizada para el autocompletar
-  //  validarAutocomplete: ValidatorFn = (control: FormControl) => {
-  //   const value = control.value;
-  //   // Si el valor está vacío, retorna un objeto con el error
-  //   if (!value || value.trim() === '') {
-  //     return { autocompleteVacio: true };
-  //   }
-  //   // Si el valor no está vacío, retorna null
-  //   return null;
-  // };
-
+  
 
   
 
@@ -489,12 +507,12 @@ export class VistaRegistroNewComponent implements OnInit {
 
   
 
-  public crearLibro(/*reg: NgForm*/): void {
+  public crearLibro(): void {
 
 
     console.log("Se ha realizado un click")
 
-
+    this.librosF.get('activo')?.setValue(true)
     const librosFCopy = JSON.parse(JSON.stringify(this.librosF.getRawValue()));
     console.log(librosFCopy);
 

@@ -138,9 +138,11 @@
                             <input type="number" class="form-control" name="num-Paginas" formControlName="numPaginas"
                                 required>
 
-                                <div *ngIf="numPaginasControl?.invalid && (numPaginasControl?.dirty || numPaginasControl?.touched)">
-                                    <div *ngIf="numPaginasControl?.hasError('required')" class="error-message">El campo es obligatorio.</div>
-                                  </div>
+                            <div
+                                *ngIf="numPaginasControl?.invalid && (numPaginasControl?.dirty || numPaginasControl?.touched)">
+                                <div *ngIf="numPaginasControl?.hasError('required')" class="error-message">El campo es
+                                    obligatorio.</div>
+                            </div>
                         </div>
                         <div class="input-box">
                             <span class="details">Idioma:</span>
@@ -162,10 +164,13 @@
                                 <option value="3">Malo</option>
                             </select>
 
-                            <div *ngIf="estadoLibroControl?.invalid && (estadoLibroControl?.dirty || estadoLibroControl?.touched)">
-                                <div *ngIf="estadoLibroControl?.hasError('required')" class="error-message">El campo es obligatorio.</div>
-                                <div *ngIf="estadoLibroControl?.hasError('seleccionOpcionInvalida')" class="error-message">Selecciona una opción válida.</div>
-                              </div>
+                            <div
+                                *ngIf="estadoLibroControl?.invalid && (estadoLibroControl?.dirty || estadoLibroControl?.touched)">
+                                <div *ngIf="estadoLibroControl?.hasError('required')" class="error-message">El campo es
+                                    obligatorio.</div>
+                                <div *ngIf="estadoLibroControl?.hasError('seleccionOpcionInvalida')"
+                                    class="error-message">Selecciona una opción válida.</div>
+                            </div>
                         </div>
 
                     </div>
@@ -178,16 +183,18 @@
                             <input type="text" class="form-control" name="editor" formControlName="editor" required>
 
                             <div *ngIf="editorControl?.invalid && (editorControl?.dirty || editorControl?.touched)">
-                                <div *ngIf="editorControl?.hasError('required')" class="error-message">El campo es obligatorio.</div>
-                              </div>
+                                <div *ngIf="editorControl?.hasError('required')" class="error-message">El campo es
+                                    obligatorio.</div>
+                            </div>
                         </div>
                         <div class="input-box">
                             <span class="details">Area:</span>
                             <input type="text" class="form-control" name="area" formControlName="area" required>
-                            
+
                             <div *ngIf="areaControl?.invalid && (areaControl?.dirty || areaControl?.touched)">
-                                <div *ngIf="areaControl?.hasError('required')" class="error-message">El campo es obligatorio.</div>
-                              </div>
+                                <div *ngIf="areaControl?.hasError('required')" class="error-message">El campo es
+                                    obligatorio.</div>
+                            </div>
                         </div>
                         <div class="input-box">
                             <span class="details">Año de Publicación:</span>
@@ -220,25 +227,34 @@
                                     Agregar Autor</button>
                             </div>
                             <div class="row mb">
-                                <label for="Autor" class="col-sm col-form-label">
-                                    <span class="details">Nombre del Autor:</span>
-                                </label>
-                                <div class="col-sm-8" style="margin-right: 2%; margin-top: 2%;">
-                                    <ng-autocomplete [data]="dato | async" [searchKeyword]="keyword"
-                                        (selected)="capturarAutor($event)" [itemTemplate]="itemTemplate" formControlName="autocompleteValue"
-                                        [notFoundTemplate]="notFoundTemplate" placeholder="Ingrese el nombre del autor">
-                                    </ng-autocomplete>
-                                    <ng-template #itemTemplate let-item>
-                                        <a [innerHTML]="item.nombre"></a>
-                                    </ng-template>
-                                    <ng-template #notFoundTemplate let-notFound>
-                                        <div [innerHTML]="notFound"></div>
-                                    </ng-template>
-
-                                    <!-- <div *ngIf="autocompleteControl?.invalid && (autocompleteControl?.dirty || autocompleteControl?.touched)">
-                                        <div *ngIf="autocompleteControl?.hasError('required')" class="error-message">El campo es obligatorio.</div>
-                                      </div> -->
-                                </div>
+                               
+                                    <label for="Autor" class="col-sm col-form-label">
+                                        <span class="details">Nombre del Autor:</span>
+                                    </label>
+                                    <div class="col-sm-8" style="margin-right: 2%; margin-top: 2%;">
+                                        <ng-autocomplete [data]="dato | async" [searchKeyword]="keyword"
+                                            (selected)="capturarAutor($event)" [itemTemplate]="itemTemplate"
+                                            formControlName="autor" [notFoundTemplate]="notFoundTemplate"
+                                            placeholder="Ingrese el nombre del autor">
+                                        </ng-autocomplete>
+                                        <!-- Mensaje de error para el autocompletar -->
+                                        <div class="error-message"
+                                            *ngIf="librosF.get('autor')?.hasError('autorNoSeleccionado') && (librosF.get('autor')?.dirty || librosF.get('autor')?.touched)">
+                                            El campo es obligatorio. 
+                                            <br>Por favor, seleccione un autor válido.
+                                        </div>
+                                        <ng-template #itemTemplate let-item>
+                                            <a [innerHTML]="item.nombre"></a>
+                                        </ng-template>
+                                        <ng-template #notFoundTemplate let-notFound>
+                                            <div [innerHTML]="notFound"></div>
+                                        </ng-template>
+    
+                                        
+    
+                                    </div>
+                                
+                                
                             </div>
                         </div>
                         <!--FIN REGISTRO AUTOR-->
@@ -255,11 +271,15 @@
                             <div class="row mb" style="align-content: center;">
                                 <span class="details">Tipo:</span>
                                 <select name="TipoSelect" (change)="seleccionT($event)" class="form-select"
-                                    aria-label="Default select example">
+                                   aria-label="Default select example">
                                     <option selected disabled value="0">Seleccione</option>
                                     <option #TSelect *ngFor="let tipo of Tipoe" value="{{tipo.nombre}}">{{tipo.nombre}}
                                     </option>
                                 </select>
+
+                                <div *ngIf="librosF.get('tipo')?.hasError('selectVacio') && (librosF.get('tipo')?.dirty || librosF.get('tipo1')?.touched)">
+                                    <div class="error-message">Seleccione una opción válida.</div>
+                                  </div>
                             </div>
                         </div>
                         <!--FIN REGISTRO TIPO-->
@@ -293,11 +313,7 @@
                             <input type="text" disabled="true" value="" class="form-control" name="bibliotecario"
                                 [value]="nombrebiblio" required>
                         </div>
-                        <div class="input-box">
-                            <span class="details">Fecha de Creación:</span>
-                            <input type="date" class="form-control" name="fecha-Creacion"
-                                formControlName="fechaCreacion" required>
-                        </div>
+                        
                         <div class="input-box">
                             <span class="details">URL Digital:</span>
                             <input type="text" class="form-control" name="url" formControlName="urlDigital" required>
