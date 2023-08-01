@@ -3,6 +3,9 @@ import { Libro } from '../models/Libro';
 import { Autor_Libro } from '../models/Autor_Libro';
 import { ListasService } from '../services/listas.service';
 import { Router } from '@angular/router';
+import { Observable, catchError, map, startWith, throwError, filter } from 'rxjs';
+import { Autor } from '../models/Autor';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-libro-completo',
@@ -11,14 +14,20 @@ import { Router } from '@angular/router';
 })
 export class LibroCompletoComponent {
   libro: Libro = new Libro();
+  autor: Autor = new Autor;
+  public previsualizacion?: string
   autores_libros: Autor_Libro = new Autor_Libro();
 
+  imagen?: File;
   step = 1;
-  totalSteps = 3;
+  totalSteps = 4;
 
   disp?: string;
+  isDisabled: boolean = true;
 
-  constructor(private listaservice: ListasService, private router: Router) { }
+  public keyword = 'nombre';
+
+  constructor(private listaservice: ListasService,  private sanitizer: DomSanitizer,private router: Router, private ListaT: ListasService) { }
 
   ngOnInit() {
     let usuarioJSON = localStorage.getItem('LibroCompleto') + "";
@@ -55,6 +64,29 @@ export class LibroCompletoComponent {
     }
   }
 
+  extraerBase64 = async ($event: any) => new Promise((resolve, reject) => {
+    try {
+      const unsafeImg = window.URL.createObjectURL($event);
+      const image = this.sanitizer.bypassSecurityTrustUrl(unsafeImg);
+      const reader = new FileReader();
+      reader.readAsDataURL($event);
+      reader.onload = () => {
+        resolve({
+          base: reader.result
+  
+        });
+      };
+      reader.onerror = error => {
+        resolve({
+          base: null
+        });
+      };
+  
+    } catch (e) {
+      console.log("Error al Subir Imagen")
+    }
+  })
+
   getNombreEstadoLibro2(numeroEstado: number | undefined): string {
     let nombreEstado = 'Desconocido'; // Valor predeterminado si el número del estado es undefined
 
@@ -81,6 +113,54 @@ export class LibroCompletoComponent {
 
     return nombreEstado;
   }
+  editar() {
+    console.log("Entroooo")
+    this.isDisabled = false;
+    this.ngOnInit();
+  }
+
+  aceptar() {
+    this.router.navigate(['/']);
+  }
+
+  agregarEtiqueta() {
+    if (this.libro.id != undefined && this.libro.titulo) {
+      window.localStorage.setItem('idlibro', this.libro.id.toString());
+      localStorage.setItem('titulolibro',this.libro.titulo)
+      this.router.navigate(['/app-registro-etiquetas']);
+    }
+  }
+
+  public dato!: Observable<any['']>;
 
 
+  obtenerAutor(): void {
+    this.dato = this.ListaT.obtenerAutores();
+    console.log(this.dato + "Holii");
+
+
+  }
+
+
+  selectedAutor: any;
+
+  capturarAutor(posicion: any) {
+    console.log(posicion);
+    if (posicion && posicion.nombre) {
+      this.autor = posicion;
+
+      //this.autorlibro.autor = this.autor
+
+    }
+
+  }
+
+  capturarImagen(event: any): any {
+    const archivocapturado = event.target.files[0]
+    this.imagen = event.target.files[0]
+    this.extraerBase64(archivocapturado).then((imagen: any) => {
+      this.previsualizacion = imagen.base;
+    })
+
+  }
 }
