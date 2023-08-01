@@ -137,13 +137,13 @@ export class VistaRegistroNewComponent implements OnInit {
 
 
   // Validador personalizado para asegurar que no se seleccione "Seleccione"
-  validarSelect(control: AbstractControl) {
-    const selectedValue = control.value;
-    if (selectedValue === '0') {
-      return { selectVacio: true };
+  seleccionOpcion = (control: AbstractControl) => {
+    const seleccion = control.value;
+    if (seleccion === '0') {
+      return { seleccionOpcionInvalida: true };
     }
-    return null; // Si no hay error, debe devolver null
-  }
+    return null;
+  };
 
 
   // Trabajar con Reactive Froms
@@ -156,7 +156,7 @@ export class VistaRegistroNewComponent implements OnInit {
         id: new FormControl(""),
         nombre: new FormControl(""),
         activo: new FormControl("")
-      },  [Validators.required, this.validarSelect]
+      },  
     ),
     adquisicion: new FormControl("",[Validators.required]),
     anioPublicacion: new FormControl("", [Validators.required, Validators.max(9999)]),
@@ -173,7 +173,7 @@ export class VistaRegistroNewComponent implements OnInit {
     dimenciones: new FormControl("", [Validators.required, Validators.pattern('[0-9]{2,3}x[0-9]{2,3}')]),
     estadoLibro: new FormControl("", [Validators.required,  this.seleccionOpcionInvalida]),
     urlImagen: new FormControl(""),
-    activo: new FormControl(""),
+    activo: new FormControl("true"),
     urlDigital: new FormControl("", [Validators.required,Validators.pattern(/^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})(\/[\w .-]*)*\/?$/i)]),
     fechaCreacion: new FormControl(new Date),
     persona: new FormControl(
@@ -193,14 +193,15 @@ export class VistaRegistroNewComponent implements OnInit {
         authStatus: new FormControl("")
       }
     ),
-    disponibilidad: new FormControl(true),
+    disponibilidad: new FormControl("",[  this.seleccionOpcion]),
     donante: new FormControl({
       id: new FormControl(""),
       nombre: new FormControl("")
-    }),
+    },),
     urlActaDonacion: new FormControl(''),
-    autor: new FormControl('',[this.validarAutorSeleccionado, Validators.required])
-
+    autor: new FormControl('',[this.validarAutorSeleccionado, Validators.required]),
+    donante1: new FormControl('',[Validators.required,this.validarAutorSeleccionado])
+    
   });
 
   
@@ -274,7 +275,10 @@ export class VistaRegistroNewComponent implements OnInit {
     return this.librosF.get('area');
   }
 
-  
+
+  get DisponibeControl() {
+    return this.librosF.get('disponibilidad');
+  }
 
   
 
@@ -290,6 +294,14 @@ export class VistaRegistroNewComponent implements OnInit {
       return { seleccionOpcionInvalida: true }; // Opción inválida, retorna el error
     }
   }
+
+   validarSeleccion = (control: FormControl) => {
+    const seleccion = control.value;
+    if (seleccion === '0') {
+      return { seleccionInvalida: true };
+    }
+    return null;
+  };
   //FIN VALIDACIONES
   public dato!: Observable<any['']>;
 

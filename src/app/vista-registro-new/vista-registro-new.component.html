@@ -227,34 +227,34 @@
                                     Agregar Autor</button>
                             </div>
                             <div class="row mb">
-                               
-                                    <label for="Autor" class="col-sm col-form-label">
-                                        <span class="details">Nombre del Autor:</span>
-                                    </label>
-                                    <div class="col-sm-8" style="margin-right: 2%; margin-top: 2%;">
-                                        <ng-autocomplete [data]="dato | async" [searchKeyword]="keyword"
-                                            (selected)="capturarAutor($event)" [itemTemplate]="itemTemplate"
-                                            formControlName="autor" [notFoundTemplate]="notFoundTemplate"
-                                            placeholder="Ingrese el nombre del autor">
-                                        </ng-autocomplete>
-                                        <!-- Mensaje de error para el autocompletar -->
-                                        <div class="error-message"
-                                            *ngIf="librosF.get('autor')?.hasError('autorNoSeleccionado') && (librosF.get('autor')?.dirty || librosF.get('autor')?.touched)">
-                                            El campo es obligatorio. 
-                                            <br>Por favor, seleccione un autor válido.
-                                        </div>
-                                        <ng-template #itemTemplate let-item>
-                                            <a [innerHTML]="item.nombre"></a>
-                                        </ng-template>
-                                        <ng-template #notFoundTemplate let-notFound>
-                                            <div [innerHTML]="notFound"></div>
-                                        </ng-template>
-    
-                                        
-    
+
+                                <label for="Autor" class="col-sm col-form-label">
+                                    <span class="details">Nombre del Autor:</span>
+                                </label>
+                                <div class="col-sm-8" style="margin-right: 2%; margin-top: 2%;">
+                                    <ng-autocomplete [data]="dato | async" [searchKeyword]="keyword"
+                                        (selected)="capturarAutor($event)" [itemTemplate]="itemTemplate"
+                                        formControlName="autor" [notFoundTemplate]="notFoundTemplate"
+                                        placeholder="Ingrese el nombre del autor">
+                                    </ng-autocomplete>
+                                    <!-- Mensaje de error para el autocompletar -->
+                                    <div class="error-message"
+                                        *ngIf="librosF.get('autor')?.hasError('autorNoSeleccionado') && (librosF.get('autor')?.dirty || librosF.get('autor')?.touched)">
+                                        El campo es obligatorio.
+                                        <br>Por favor, seleccione un autor válido.
                                     </div>
-                                
-                                
+                                    <ng-template #itemTemplate let-item>
+                                        <a [innerHTML]="item.nombre"></a>
+                                    </ng-template>
+                                    <ng-template #notFoundTemplate let-notFound>
+                                        <div [innerHTML]="notFound"></div>
+                                    </ng-template>
+
+
+
+                                </div>
+
+
                             </div>
                         </div>
                         <!--FIN REGISTRO AUTOR-->
@@ -270,16 +270,18 @@
                             </div>
                             <div class="row mb" style="align-content: center;">
                                 <span class="details">Tipo:</span>
-                                <select name="TipoSelect" (change)="seleccionT($event)" class="form-select"
-                                   aria-label="Default select example">
-                                    <option selected disabled value="0">Seleccione</option>
-                                    <option #TSelect *ngFor="let tipo of Tipoe" value="{{tipo.nombre}}">{{tipo.nombre}}
-                                    </option>
-                                </select>
+                                <div class="form-group">
+                                    <select name="TipoSelect" (change)="seleccionT($event)" class="form-select"
+                                        aria-label="Default select example">
+                                        <option selected disabled value="0">Seleccione</option>
+                                        <option #TSelect *ngFor="let tipo of Tipoe" value="{{tipo.nombre}}">
+                                            {{tipo.nombre}}
+                                        </option>
+                                    </select>
+                                </div>
 
-                                <div *ngIf="librosF.get('tipo')?.hasError('selectVacio') && (librosF.get('tipo')?.dirty || librosF.get('tipo1')?.touched)">
-                                    <div class="error-message">Seleccione una opción válida.</div>
-                                  </div>
+
+                                
                             </div>
                         </div>
                         <!--FIN REGISTRO TIPO-->
@@ -313,7 +315,7 @@
                             <input type="text" disabled="true" value="" class="form-control" name="bibliotecario"
                                 [value]="nombrebiblio" required>
                         </div>
-                        
+
                         <div class="input-box">
                             <span class="details">URL Digital:</span>
                             <input type="text" class="form-control" name="url" formControlName="urlDigital" required>
@@ -361,7 +363,7 @@
                                 <span class="details">Nombre Donante:</span>
                                 <div class="col-sm-8" style="margin-right: 2%; margin-top: 2%;">
                                     <ng-autocomplete [data]="dato1 | async" [searchKeyword]="keyword"
-                                        (selected)="capturarDonante($event)" [itemTemplate]="itemTemplate"
+                                     formControlName="donante1"   (selected)="capturarDonante($event)" [itemTemplate]="itemTemplate"
                                         [notFoundTemplate]="notFoundTemplate"
                                         placeholder="Ingrese el nombre del Donante">
                                     </ng-autocomplete>
@@ -371,6 +373,12 @@
                                     <ng-template #notFoundTemplate let-notFound>
                                         <div [innerHTML]="notFound"></div>
                                     </ng-template>
+
+                                    <div class="error-message"
+                                        *ngIf="librosF.get('donante1')?.hasError('autorNoSeleccionado') && (librosF.get('donante1')?.dirty || librosF.get('donante1')?.touched)">
+                                        El campo es obligatorio.
+                                        <br>Por favor, seleccione un Donante válido.
+                                    </div>
                                 </div>
                             </div>
 
@@ -382,12 +390,20 @@
                             <div class="form-group">
                                 <select class="form-select" name="disponibilidad" formControlName="disponibilidad"
                                     required>
-                                    <option value="0" selected disabled
+                                    <option value="" selected disabled
                                         [selected]="librosF.controls['disponibilidad'].value === '0'">Seleccione
                                     </option>
                                     <option value="true">Disponible</option>
                                     <option value="false">No Disponible</option>
                                 </select>
+
+                                <div
+                                *ngIf="DisponibeControl?.invalid && (DisponibeControl?.dirty || DisponibeControl?.touched)">
+                                <div *ngIf="DisponibeControl?.hasError('required')" class="error-message">El campo es
+                                    obligatorio.</div>
+                                <div *ngIf="DisponibeControl?.hasError('seleccionOpcionInvalida')"
+                                    class="error-message">Selecciona una opción válida.</div>
+                            </div>
                             </div>
                         </div>
 
