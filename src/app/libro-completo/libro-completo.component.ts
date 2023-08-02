@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { Observable, catchError, map, startWith, throwError, filter } from 'rxjs';
 import { Autor } from '../models/Autor';
 import { DomSanitizer } from '@angular/platform-browser';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-libro-completo',
@@ -18,6 +19,8 @@ export class LibroCompletoComponent {
   public previsualizacion?: string
   autores_libros: Autor_Libro = new Autor_Libro();
 
+  private url= environment.rooturl
+  urlI?:string;
   imagen?: File;
   step = 1;
   totalSteps = 4;
@@ -37,6 +40,7 @@ export class LibroCompletoComponent {
     } else {
       this.disp = "No disponible"
     }
+    this.urlI=this.url+this.libro.urlImagen
     this.listaservice.obtenerAutor_Libro().subscribe(
       response => {
         console.log(response);
