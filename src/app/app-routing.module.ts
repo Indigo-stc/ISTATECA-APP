@@ -26,8 +26,6 @@ import { ListaSolicitudesTercerosComponent } from './lista-solicitudes-terceros/
 import { LoaderComponent } from './loader/loader.component';
 import { LibroCompletoComponent } from './libro-completo/libro-completo.component';
 import { DevolverLibroTerceroComponent } from './devolver-libro-tercero/devolver-libro-tercero.component';
-import { ListaDonanteComponent } from './lista-donante/lista-donante/lista-donante.component';
-import { RegistroDonanteComponent } from './registro-donante/registro-donante.component';
 
 const routes: Routes = [
       {path: 'app-devolver-libro', component: DevolverLibroComponent, canActivate: [AuthGuard], data: { expectedRoles: ['ROLE_STUD'] } },
@@ -54,8 +52,6 @@ const routes: Routes = [
       {path: 'app-lista-docentes', component: ListaDocentesComponent},
       {path: 'app-lista-terceros', component: ListaTecerosComponent},
       {path: 'app-registro-etiquetas', component: RegEtiquetasComponent},
-      {path: 'app-lista-donante', component: ListaDonanteComponent},
-      {path: 'app-registro-donante', component: RegistroDonanteComponent},
       {path: 'app-loader', component: LoaderComponent},
 ];
 
