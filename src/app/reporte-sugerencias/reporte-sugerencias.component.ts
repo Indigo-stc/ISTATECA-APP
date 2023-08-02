@@ -25,4 +25,13 @@ export class ReporteSugerenciasComponent implements OnInit {
     );
   }
 
+
+  downloadPDF() {
+    const doc = new jspdf();
+
+    const title = "FORMATO PARA SOLICITUD DE ADQUISION DE MATERIAL BIBLIOGRAFICO";
+    const fontSizeTitle = 16;
+    const titleX = 105;
+
+  }
 }

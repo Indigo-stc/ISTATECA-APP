@@ -21,12 +21,14 @@
           <textarea class="form-control" placeholder="Dejanos una sugerencias de algun libro"
             [(ngModel)]="sugerencia.descripcion" name="descripcion" id="floatingTextarea"></textarea>
         </div>
-        <button type="button" class="btn btn-danger" (click)="GuardarSuger()">
+        <div class="buttonspop">
+        <button type="button" class="btn1" (click)="GuardarSuger()">
           Guardar
         </button>
-        <button type="button" class="buttoncerrar" (click)="closeopopup()">
+        <button type="button"  class="btn2" (click)="closeopopup()">
           Cerrar
         </button>
+      </div>
       </div>
     </div>
   </div>

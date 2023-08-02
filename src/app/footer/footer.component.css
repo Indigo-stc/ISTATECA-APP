@@ -110,9 +110,24 @@ button {
   button svg {
     color: white;
   }
-  buttoncerrar{
-    background-color: #004f9f;
+  .buttonspop{
+    display: flex;
+    background-color: #ffffff;
+    padding: auto;
     
+    
+  }
+  .btn1{
+    background-color: #004f9f;
+    color: #ffffff;
+    
+  }
+  .btn2{
+    
+    background-color: #004f9f;
+    color: #ffffff;
+    justify-content: left;
+    margin: 7px 10px;
   }
 
   .button {
