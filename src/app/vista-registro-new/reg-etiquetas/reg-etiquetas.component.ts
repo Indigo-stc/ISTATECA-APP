@@ -24,17 +24,20 @@ export class RegEtiquetasComponent implements OnInit {
   public libroeti: LibroEtiqueta= new LibroEtiqueta();
 
   ngOnInit(): void {
+    
     const titulo = window.localStorage.getItem('titulolibro')
     if (titulo) {
       this.titulolibro = titulo
     }
     console.log(this.titulolibro);
    
-
+    
     
 
 
     const id = window.localStorage.getItem('idlibro')
+    console.log(id);
+    
 
     if (id) {
       this.idlibro = parseInt(id)
@@ -45,6 +48,8 @@ export class RegEtiquetasComponent implements OnInit {
       this.libroService.buscarLibro1(this.idlibro).subscribe(
         l => this.libro = l
       )
+
+      
     }
 
     console.log(this.libro);
@@ -60,7 +65,14 @@ export class RegEtiquetasComponent implements OnInit {
     private listaService: ListasService,
     private router: Router
   ) {
+   
+  }
 
+  
+
+  ngOnDestroy() {
+    localStorage.removeItem('idlibro');
+    localStorage.removeItem('titulolibro');
   }
 
   obteneretiqueta(e:any){
@@ -104,7 +116,7 @@ export class RegEtiquetasComponent implements OnInit {
   }
 
   salir(){
-    localStorage.clear()
+    
     this.router.navigate(['app-vista-registro-new']);
   }
 

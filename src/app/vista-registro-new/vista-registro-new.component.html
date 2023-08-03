@@ -49,7 +49,14 @@
                             <div *ngIf="tituloControl?.invalid && (tituloControl?.dirty || tituloControl?.touched)">
                                 <div *ngIf="tituloControl?.hasError('required')" class="error-message">El campo es
                                     obligatorio.</div>
+                                  
                             </div>
+
+                            <div *ngIf="librosF.controls['titulo'].hasError('tituloDuplicado')" class="error-message">
+                                El título está duplicado. Por favor, elija un título diferente.
+                              </div>
+
+                            
                         </div>
                         <div class="input-box">
                             <span class="details">Subtitulo del Libro:</span>
@@ -142,17 +149,19 @@
                                 *ngIf="numPaginasControl?.invalid && (numPaginasControl?.dirty || numPaginasControl?.touched)">
                                 <div *ngIf="numPaginasControl?.hasError('required')" class="error-message">El campo es
                                     obligatorio.</div>
+                                    <div  *ngIf="librosF.controls['numPaginas']?.hasError('numeroNegativo')" class="error-message">
+                                        No se permiten números negativos.
+                                      </div>
                             </div>
                         </div>
                         <div class="input-box">
                             <span class="details">Idioma:</span>
                             <input type="text" class="form-control" name="idioma" formControlName="idioma"
-                                pattern="[a-zA-Z]+" required>
+                                pattern="[a-zA-ZÀ-ÿ\s,.;'-]+" required>
                             <div *ngIf="idiomaControl?.invalid && (idiomaControl?.dirty || idiomaControl?.touched)">
                                 <div *ngIf="idiomaControl?.hasError('required')" class="error-message">El campo es
                                     obligatorio.</div>
-                                <div *ngIf="idiomaControl?.hasError('pattern')" class="error-message">Solo se permiten
-                                    letras mayúsculas y minúsculas.</div>
+                                <div *ngIf="idiomaControl?.hasError('pattern')" class="error-message"> El idioma solo puede contener letras, espacios y los siguientes caracteres especiales: , . ; ' -</div>
                             </div>
                         </div>
                         <div class="input-box">
@@ -207,6 +216,10 @@
                                     es obligatorio.</div>
                                 <div *ngIf="anioPublicacionControl?.hasError('max')" class="error-message">El año puede
                                     tener un max de 4 numeros.</div>
+
+                                    <div  *ngIf="librosF.controls['anioPublicacion']?.hasError('numeroNegativo')" class="error-message">
+                                        No se permiten números negativos.
+                                      </div>
                             </div>
                         </div>
 
@@ -271,13 +284,30 @@
                             <div class="row mb" style="align-content: center;">
                                 <span class="details">Tipo:</span>
                                 <div class="form-group">
-                                    <select name="TipoSelect" (change)="seleccionT($event)" class="form-select"
-                                        aria-label="Default select example">
-                                        <option selected disabled value="0">Seleccione</option>
-                                        <option #TSelect *ngFor="let tipo of Tipoe" value="{{tipo.nombre}}">
-                                            {{tipo.nombre}}
-                                        </option>
-                                    </select>
+                                    <ng-autocomplete [data]="dato2 | async" [searchKeyword]="keyword"
+                                    formControlName="tipo1"   (selected)="seleccionT($event)" [itemTemplate]="itemTemplate"
+                                       [notFoundTemplate]="notFoundTemplate"
+                                       placeholder="Ingrese un de Tipo Libro">
+                                   </ng-autocomplete>
+                                   <ng-template #itemTemplate let-item>
+                                       <a [innerHTML]="item.nombre"></a>
+                                   </ng-template>
+                                   <ng-template #notFoundTemplate let-notFound>
+                                       <div [innerHTML]="notFound"></div>
+                                   </ng-template>
+
+                                   <div class="error-message"
+                                        *ngIf=" (librosF.get('tipo1')?.dirty || librosF.get('tipo1')?.touched)">
+                                        <div *ngIf="librosF.get('tipo1')?.hasError('required')" class="error-message">
+                                            El campo Tipo de Libro es obligatorio.
+                                          </div>
+                                          <div *ngIf="librosF.get('tipo1')?.hasError('tipoLibroVacio')" class="error-message">
+                                            Debe seleccionar un Tipo de Libro válido.
+                                          </div>
+                                    </div>
+                                   
+                                   
+
                                 </div>
 
 
@@ -424,13 +454,13 @@
                         *ngIf="step < 8">
                         Siguiente <i class="fas fa-arrow-right"></i>
                     </button>
-                    <button type="submit" class="btn btn-outline-success btn-lg mx-3" [disabled]="librosF.invalid"
-                        *ngIf="step === 8">
+                    <button type="submit" class="btn btn-outline-success btn-lg mx-3"  [disabled]="librosF.invalid || !todosCamposLlenos()" *ngIf="step === 8">
                         Guardar libro <i class="fas fa-paper-plane">
-                            <img src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fagregar%20libro.png?alt=media&token=b7f639da-1aaa-4d12-8133-a59742d32d87"
-                                width=25 height=25 align="center"></i>
+                        <img src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fagregar%20libro.png?alt=media&token=b7f639da-1aaa-4d12-8133-a59742d32d87"
+                            width=25 height=25 align="center">
+                        </i>
                     </button>
-
+                    
 
                 </div>
 
