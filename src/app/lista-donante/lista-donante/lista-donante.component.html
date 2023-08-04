@@ -14,6 +14,19 @@
                         src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fbusqueda.png?alt=media&token=2b59078d-0ef5-4fa4-85c6-396ea7c1c97c"></button>
                 <button (click)="registroDonante()">Crear Donante</button>
             </div>
+            <div class="contBuscar">
+                <input class="form-control me-2" #buscar3 type="search" placeholder="Buscar Tipo" aria-label="Buscar"
+                    (keyup)="onKeydownEvent($event, buscar3.value)">
+                <button class="btn" ><img src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fbusqueda.png?alt=media&token=2b59078d-0ef5-4fa4-85c6-396ea7c1c97c"></button>
+                <button >Crear Etiqueta</button>
+            </div>
+            <!--
+            <div class="contBuscar">
+                <input class="form-control me-2" #buscar3 type="search" placeholder="Buscar Tipo" aria-label="Buscar"
+                    (keyup)="onKeydownEvent($event, buscar3.value)">
+                <button class="btn" (click)="buscarTipo(buscar3.value)"><img src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fbusqueda.png?alt=media&token=2b59078d-0ef5-4fa4-85c6-396ea7c1c97c"></button>
+                <button (click)="resgistroTipo() ">Crear Tipo</button>
+            </div>-->
         </form>
         <div class="contenedor">
             <div class="tablas">
@@ -43,6 +56,47 @@
                     </tbody>
                 </table>
             </div>
+
+            <div class="tablas">
+                <table class="table">
+                    <thead class="cabezera">
+                        <tr>
+                            <th colspan="3">Tipos de Etiquetas</th>
+                        </tr>
+                    </thead>
+                    <thead class="subcabezera">
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <!--
+                    <tbody class="text-center" *ngIf="buscarT==false">
+                        <tr *ngFor="let tipo of ttipos" >
+                            <td>{{tipo.id}}</td>
+                            <td>{{tipo.nombre}}</td>
+                            <td *ngIf="tipo.activo==true; else elseBlock">Activo</td>
+                            <ng-template #elseBlock>
+                                <td>Inactivo</td>
+                            </ng-template>
+                        </tr>
+                    </tbody>
+                    <tbody class="text-center" *ngIf="buscarT==true">
+                        <tr *ngFor="let tipo of ttipos" >
+                            <td>{{tipo.id}}</td>
+                            <td>{{tipo.nombre}}</td>
+                            <td *ngIf="tipo.activo==true; else elseBlock">Activo</td>
+                            <ng-template #elseBlock>
+                                <td>Inactivo</td>
+                            </ng-template>
+                        </tr>
+                    </tbody>
+                    -->
+                </table>
+            </div>
+
+
         </div>
     </div>
 </body>
