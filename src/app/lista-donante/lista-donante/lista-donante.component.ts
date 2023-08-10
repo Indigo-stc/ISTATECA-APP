@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Donante } from 'src/app/models/Donante';
+import { Etiqueta } from 'src/app/models/Etiqueta';
 import { ListasService } from 'src/app/services/listas.service';
 import Swal from 'sweetalert2';
 
@@ -11,6 +12,7 @@ import Swal from 'sweetalert2';
 })
 export class ListaDonanteComponent implements OnInit {
 
+  Etiquetas: Etiqueta[]=[]
   Donantes: Donante[] = [];
   buscarD?: boolean;
 
@@ -25,6 +27,10 @@ export class ListaDonanteComponent implements OnInit {
   }
   registroDonante() {
     this.router.navigate(['/app-registro-donante']);
+  }
+
+  registroetiqueta() {
+    this.router.navigate(['/app-registro-etiqueta']);
   }
 
   onKeydownEvent(event: KeyboardEvent, buscar2: string): void {

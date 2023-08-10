@@ -45,6 +45,7 @@ import { LibroCompletoComponent } from './libro-completo/libro-completo.componen
 import { DevolverLibroTerceroComponent } from './devolver-libro-tercero/devolver-libro-tercero.component';
 import { ListaDonanteComponent } from './lista-donante/lista-donante/lista-donante.component';
 import { RegistroDonanteComponent } from './registro-donante/registro-donante.component';
+import { RegistroEtiquetaComponent } from './registro-etiqueta/registro-etiqueta.component';
 
 @NgModule({
   declarations: [
@@ -79,7 +80,8 @@ import { RegistroDonanteComponent } from './registro-donante/registro-donante.co
     LibroCompletoComponent,
     DevolverLibroTerceroComponent,
     ListaDonanteComponent,
-    RegistroDonanteComponent
+    RegistroDonanteComponent,
+    RegistroEtiquetaComponent
   ],
   imports: [
     BrowserModule,
