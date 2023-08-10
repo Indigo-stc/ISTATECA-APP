@@ -92,7 +92,7 @@ export class VistaRegistroNewComponent implements OnInit {
 
 
   step = 1;
-  totalSteps = 8;
+  totalSteps = 4;
   avanzar1() {
     if (this.step < this.totalSteps) {
       this.step++;
