@@ -15,10 +15,10 @@
                 <button (click)="registroDonante()">Crear Donante</button>
             </div>
             <div class="contBuscar">
-                <input class="form-control me-2" #buscar3 type="search" placeholder="Buscar Tipo" aria-label="Buscar"
+                <input class="form-control me-2" #buscar3 type="search" placeholder="Buscar Etiqueta" aria-label="Buscar"
                     (keyup)="onKeydownEvent($event, buscar3.value)">
                 <button class="btn" ><img src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fbusqueda.png?alt=media&token=2b59078d-0ef5-4fa4-85c6-396ea7c1c97c"></button>
-                <button (click)="registroetiqueta()">Crear Etiqueta</button>
+                <button (click)="registroetiqueta() ">Crear Etiqueta</button>
             </div>
             <!--
             <div class="contBuscar">
@@ -71,28 +71,28 @@
                             <th>Estado</th>
                         </tr>
                     </thead>
-                    <!--
-                    <tbody class="text-center" *ngIf="buscarT==false">
-                        <tr *ngFor="let tipo of ttipos" >
-                            <td>{{tipo.id}}</td>
-                            <td>{{tipo.nombre}}</td>
-                            <td *ngIf="tipo.activo==true; else elseBlock">Activo</td>
+                    
+                    <tbody class="text-center" *ngIf="buscarE==false">
+                        <tr *ngFor="let Etiqueta of Etiquetas" >
+                            <td>{{Etiqueta.id}}</td>
+                            <td>{{Etiqueta.nombre}}</td>
+                            <td *ngIf="Etiqueta.activo==true; else elseBlock">Activo</td>
                             <ng-template #elseBlock>
                                 <td>Inactivo</td>
                             </ng-template>
                         </tr>
                     </tbody>
-                    <tbody class="text-center" *ngIf="buscarT==true">
-                        <tr *ngFor="let tipo of ttipos" >
-                            <td>{{tipo.id}}</td>
-                            <td>{{tipo.nombre}}</td>
-                            <td *ngIf="tipo.activo==true; else elseBlock">Activo</td>
+                    <tbody class="text-center" *ngIf="buscarE==true">
+                        <tr *ngFor="let Etiqueta of Etiquetas" >
+                            <td>{{Etiqueta.id}}</td>
+                            <td>{{Etiqueta.nombre}}</td>
+                            <td *ngIf="Etiqueta.activo==true; else elseBlock">Activo</td>
                             <ng-template #elseBlock>
                                 <td>Inactivo</td>
                             </ng-template>
                         </tr>
                     </tbody>
-                    -->
+                    
                 </table>
             </div>
 

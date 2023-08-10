@@ -15,14 +15,20 @@ export class ListaDonanteComponent implements OnInit {
   Etiquetas: Etiqueta[]=[]
   Donantes: Donante[] = [];
   buscarD?: boolean;
+  buscarE?: boolean;
 
 
   constructor(private listaservice: ListasService, private router: Router) { }
 
   ngOnInit(): void {
     this.buscarD = false;
+    this.buscarE = false;
     this.listaservice.listarDonate().subscribe(
       Donantes => this.Donantes = Donantes
+    );
+
+    this.listaservice.obteneEtiquetas().subscribe(
+      Etiquetas => this.Etiquetas = Etiquetas
     );
   }
   registroDonante() {
