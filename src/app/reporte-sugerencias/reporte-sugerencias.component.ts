@@ -14,10 +14,25 @@ export class ReporteSugerenciasComponent implements OnInit {
 
 
   sugerencias: Sugerencia[] = [];
+  sugerenciaGet: Sugerencia = {};
+
+  //variables para reporte de sugerencias
+  nombreasig: any;
+  datosdocu: any;
+  titulo: any;
+  autor: any;
+  editorial: any;
+  anioedicion: any;
+  formaadquisicion: any;
+  numejemplares: any;
+  tipomaterial: any;
+  preciotentativo: any;
+  observaciones: any;
 
   constructor(private sugerenciasService: sugerenciaService) { }
 
   ngOnInit(): void {
+    this.sugerenciaGet = {};
     this.sugerenciasService.getSugerencia().subscribe(
       response => {
         this.sugerencias = response
@@ -28,7 +43,6 @@ export class ReporteSugerenciasComponent implements OnInit {
 
 
   downloadPDF() {
-    alert("holas")
     const doc = new jspdf();
 
     const title = "FORMATO PARA SOLICITUD DE ADQUISION DE MATERIAL BIBLIOGRAFICO";
@@ -37,7 +51,40 @@ export class ReporteSugerenciasComponent implements OnInit {
 
   }
 
-  //REPORTE CERTIFICADO DE NO ADEUDO
+  cerrarpopup() {
+    if (this.titulo != null) {
+      this.generatePDF(this.sugerenciaGet),
+        this.nombreasig = '',
+        this.datosdocu = '',
+        this.titulo = '',
+        this.autor='',
+      this.editorial='',
+      this.anioedicion='',
+      this.formaadquisicion='',
+      this.numejemplares='',
+      this.tipomaterial='',
+      this.preciotentativo='',
+      this.observaciones=''
+
+    } else (
+      alert("No hay datos para generar PDF")
+    )
+
+    var overlay = document.getElementById('overlay4');
+    overlay?.classList.remove('active');
+  }
+  cancelarpopup() {
+    var overlay = document.getElementById('overlay4');
+    overlay?.classList.remove('active');
+  }
+
+  abrirpopup(sugerencia1: Sugerencia) {
+    this.sugerenciaGet = sugerencia1
+    var overlay = document.getElementById('overlay4');
+    overlay?.classList.add('active');
+  }
+
+  //REPORTE SUGERENCIA
   generatePDF(sugerenciag: Sugerencia) {
 
 
@@ -88,48 +135,56 @@ export class ReporteSugerenciasComponent implements OnInit {
 
 
 
-     // Agregar tabla de 3 filas por 3 columnas
+    // Agregar tabla de 3 filas por 3 columnas
     const form3 = [
 
-        [{ content: 'FORMATO PARA SOLICITUD DE ADQUISICIÓN DE MATERIAL BIBLIOGRÁFICO', colSpan: 6, styles: { halign: 'center', fillColor: '#FFFFFF', fontSize: 20, textColor: '#FFFFFF', fontStyle: 'bold' } }],
+      [{ content: 'FORMATO PARA SOLICITUD DE ADQUISICIÓN DE MATERIAL BIBLIOGRÁFICO', colSpan: 6, styles: { halign: 'center', fillColor: '#FFFFFF', fontSize: 20, textColor: '#FFFFFF', fontStyle: 'bold' } }],
 
-        //persona
-        [{ content: 'La comunidad educativa puede adquirir el material bibliográfico requerido, con el fin de responder efectiva y eficientemiente a las necesidades de información, asi como mantener actualizadas las colecciones que soportan los programas académicos, de investigación del Instituto Superior Universitario Tecnológico del Azuay.', colSpan: 6, styles: { halign: 'center', fontSize: 10, fillColor: '#FFFFFF', textColor: '#000000', fontStyle: 'normal' } }],
+      //persona
+      [{ content: 'La comunidad educativa puede adquirir el material bibliográfico requerido, con el fin de responder efectiva y eficientemiente a las necesidades de información, asi como mantener actualizadas las colecciones que soportan los programas académicos, de investigación del Instituto Superior Universitario Tecnológico del Azuay.', colSpan: 6, styles: { halign: 'center', fontSize: 10, fillColor: '#FFFFFF', textColor: '#000000', fontStyle: 'normal' } }],
 
 
-        // Agrega más filas según sea necesario
+      // Agrega más filas según sea necesario
     ];
     (doc as any).autoTable({
-        body: form3,
-        tableWidth: 'auto',
-        startY: 70,
-        didParseCell: function (data: any) {
-            if (data.row.index === 0 || data.row.index === 1 || data.row.index === 3) {
-                // Establecer color de fondo
-                data.cell.styles.fillColor = '#FFFFFF';
+      body: form3,
+      tableWidth: 'auto',
+      startY: 70,
+      didParseCell: function (data: any) {
+        if (data.row.index === 0 || data.row.index === 1 || data.row.index === 3) {
+          // Establecer color de fondo
+          data.cell.styles.fillColor = '#FFFFFF';
 
-                // Establecer color de letra
-                data.cell.styles.textColor = '#000000';
-            }
-
-            // Añadir bordes
-
-
-
-            // Establecer estilo de borde para las celdas superiores
-            if (data.row.index === 0) {
-                data.cell.styles.borderTopStyle = 'solid';
-            }
-
+          // Establecer color de letra
+          data.cell.styles.textColor = '#000000';
         }
+
+        // Añadir bordes
+
+
+
+        // Establecer estilo de borde para las celdas superiores
+        if (data.row.index === 0) {
+          data.cell.styles.borderTopStyle = 'solid';
+        }
+
+      }
 
     });
 
     // DATOS DEL SOLICITANTE
     const form1 = [
-      [{ content: 'I. DATOS DE LA(S) ASIGNATURA(S) Y SU BIBLIOGRAFIA', colSpan: 2, styles: { halign: 'center', fillColor: '#847EF1', textColor: '#FFFFFF', fontStyle: 'bold' } }],
+      [{ content: 'I. DATOS DE LA(S) ASIGNATURA(S) Y SU BIBLIOGRAFIA', colSpan: 4, styles: { halign: 'center', fillColor: '#847EF1', textColor: '#FFFFFF', fontStyle: 'bold' } }],
 
-      [{ content: 'Sugerencia: '+ sugerenciag.descripcion , colSpan: 2, styles: { halign: 'center',   fontStyle: 'bold' } }],
+      [{ content: 'Sugerencia: ' + sugerenciag.descripcion, colSpan: 4, styles: { halign: 'center', fontStyle: 'bold' } }],
+
+      ['Nombre de la asignatura:', this.nombreasig, 'Datos del documento:', this.datosdocu,],
+      ['Título:', this.titulo, 'Autor:', this.autor,],
+      ['Editorial:', this.editorial, 'Año de edición:', this.anioedicion,],
+      ['Forma de adquisición:', this.formaadquisicion, 'Numero de ejemplares:', this.numejemplares,],
+      ['Tipo de material:', this.tipomaterial, 'Precio tentativo:', this.preciotentativo,],
+      ['Observaciones:', this.observaciones,],
+
     ];
     (doc as any).autoTable({
       body: form1,
@@ -146,8 +201,8 @@ export class ReporteSugerenciasComponent implements OnInit {
           data.cell.styles.lineWidth = 0.1;
           data.cell.styles.lineColor = '#0067CF';
         }
-        if (data.row.index === 1 || data.row.index === 2 ) {
-          
+        if (data.row.index === 1 || data.row.index === 2) {
+
         }
 
 
@@ -169,8 +224,8 @@ export class ReporteSugerenciasComponent implements OnInit {
 
       ['Nombres y Apellidos:', sugerenciag.persona?.nombres + ' ' + sugerenciag.persona?.apellidos, 'Carrera:', sugerenciag.carrera?.nombre,],
       ['Email:', sugerenciag.persona?.correo, 'Teléfono:', sugerenciag.persona?.celular,],
-      [{ content: 'Firma:' + ' ', colSpan: 4, styles: { halign: 'rigth',  fillColor: '#FFFFFF', textColor: '#000000'} }],
-      [{ content: 'Fecha de solicitud:' + ' ' + fechaFormateada, colSpan: 4, styles: { halign: 'rigth',  fillColor: '#FFFFFF', textColor: '#000000' } }],
+      [{ content: 'Firma:' + ' ', colSpan: 4, styles: { halign: 'rigth', fillColor: '#FFFFFF', textColor: '#000000' } }],
+      [{ content: 'Fecha de solicitud:' + ' ' + fechaFormateada, colSpan: 4, styles: { halign: 'rigth', fillColor: '#FFFFFF', textColor: '#000000' } }],
 
     ];
     (doc as any).autoTable({
@@ -188,8 +243,8 @@ export class ReporteSugerenciasComponent implements OnInit {
           data.cell.styles.lineWidth = 0.1;
           data.cell.styles.lineColor = '#0067CF';
         }
-        if (data.row.index === 1 || data.row.index === 2 ) {
-          
+        if (data.row.index === 1 || data.row.index === 2) {
+
         }
 
 
@@ -212,7 +267,7 @@ export class ReporteSugerenciasComponent implements OnInit {
 
 
     // Guardar el documento PDF
-    doc.save('Reporte_Sugerencia_'+sugerenciag.persona?.nombres+'.pdf');
+    doc.save('Reporte_Sugerencia_' + sugerenciag.persona?.nombres + '.pdf');
 
   }
 }
