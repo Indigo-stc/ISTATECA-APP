@@ -63,41 +63,40 @@ export class RegistroSolicitudComponent {
       cancelButtonText: 'Cancelar',
       showLoaderOnConfirm: true,
       preConfirm: (texto) => {
-        if (texto.length == 10) {
+        if (texto.length === 10) {
           if (!this.validarSoloLetras(texto)) {
             this.buscarCed(texto);
-
+    
             this.carreraService.getCarreras().subscribe(
               response => {
                 this.carreras = response;
               }
             );
           } else {
-            this.router.navigate(['/']);
             Swal.fire({
               title: '<strong>La cédula contiene letras</strong>',
               confirmButtonText: 'OK',
               confirmButtonColor: '#012844',
               icon: 'error',
-            })
+            });
+            this.router.navigate(['/']);
           }
         } else {
-          this.router.navigate(['/']);
           Swal.fire({
             title: '<strong>La cédula debe contener 10 caracteres</strong>',
             confirmButtonText: 'OK',
             confirmButtonColor: '#012844',
             icon: 'error',
-          })
-
+          });
+          this.router.navigate(['/']);
         }
-
       },
-
-
-    }
-    )
-
+    }).then((result) => {
+      if (result.dismiss === Swal.DismissReason.cancel) {
+        this.router.navigate(['/']);
+      }
+    });
+    
 
   }
 

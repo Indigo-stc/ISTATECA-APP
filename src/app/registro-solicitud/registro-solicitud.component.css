@@ -37,7 +37,7 @@ body {
 
 
 h1 {
-  margin-top: 2%;
+  margin-top: 0%;
   margin-bottom: 2%;
   font-size: 25px;
   font-weight: bold;
@@ -82,15 +82,21 @@ li {
 
 
 .button5 {
-  margin-top: 1%;
-  margin-bottom: 4%;
+  width: auto;
+  height: 70%;
+  margin-top: 0%;
+  margin-left: 0%;
+  margin-right: 1%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-family: inherit;
   font-weight: 500;
-  font-size: 17px;
+  font-size: 12px;
   padding: 0.8em 1.3em 0.8em 0.9em;
   color: white;
-  background: linear-gradient(90deg, #004f9f, #023b76);
-  letter-spacing: 0.05em;
+  background: #1C69B7;
+  border: none;
   border-radius: 16px;
 }
 
@@ -114,7 +120,7 @@ li {
 
 .botones {
   height: 0%;
-  font-size: small;
+  font-size: 12px;
   margin-bottom: -0.5%;
   margin-right: 1%;
 }

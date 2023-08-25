@@ -14,7 +14,7 @@ body {
   
   .menu {
     width: 20%;
-    height: 80%;
+    height: 78.5%;
     margin-left: -3%;
     border: 1px solid #004f9f;
     position: absolute;
@@ -42,7 +42,7 @@ body {
   
   .card {
     width: 78%;
-    height: 90%;
+    height: 87%;
     margin-top: 1%;
     margin-left: 20%;
     background-color: transparent;
