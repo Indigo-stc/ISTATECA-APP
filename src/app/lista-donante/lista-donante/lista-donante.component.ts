@@ -36,7 +36,7 @@ export class ListaDonanteComponent implements OnInit {
   }
 
   registroetiqueta() {
-    this.router.navigate(['/app-registro-etiqueta']);
+    this.router.navigate(['/app-registro-etiquetas']);
   }
 
   onKeydownEvent(event: KeyboardEvent, buscar2: string): void {

@@ -26,6 +26,8 @@ export class RegEtiquetasComponent implements OnInit {
   ngOnInit(): void {
     
     const titulo = window.localStorage.getItem('titulolibro')
+    console.log(titulo)
+    
     if (titulo) {
       this.titulolibro = titulo
     }
