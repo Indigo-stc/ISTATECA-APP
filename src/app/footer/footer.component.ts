@@ -31,11 +31,9 @@ export class FooterComponent implements OnInit {
   ngOnInit() {
     let usuarioJSON = localStorage.getItem('persona') + "";
     this.persona = JSON.parse(usuarioJSON);
-    console.log(this.persona);
     this.CarreraService.getCarreras().subscribe(
       response => {
         this.carreras = response;
-        console.log
       }
     );
   }

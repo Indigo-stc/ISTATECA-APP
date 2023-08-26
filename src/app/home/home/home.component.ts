@@ -23,6 +23,7 @@ export class HomeComponent implements OnInit {
   buscar: boolean = true;
   normal: boolean = false;
   mostrar: boolean=false;
+  noiniciado:boolean=false;
 
   constructor(private prestamoService: prestamoService, private libroService: LibroService, private router: Router, private router1: Router, private notificacionesService: NotificacionesService) { }
 
@@ -34,6 +35,11 @@ export class HomeComponent implements OnInit {
     this.normal = true;
     let usuarioJSON = localStorage.getItem('persona') + "";
     this.persona = JSON.parse(usuarioJSON);
+    if(this.persona===null){
+      this.noiniciado=true;
+    }else{
+      this.noiniciado=false;
+    }
     if (this.persona.tipo == 3 || this.persona.tipo == 4) {
       this.mostrar = true;
     }else{

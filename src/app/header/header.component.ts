@@ -65,9 +65,7 @@ export class HeaderComponent implements DoCheck, OnInit {
         if (this.persona != null) {
             this.notificarEst(this.persona.id!);
             this.obtenerCarrera(this.persona);
-            console.log(this.persona)
         } else {
-            console.log(this.persona)
 
         }
 
@@ -131,7 +129,6 @@ export class HeaderComponent implements DoCheck, OnInit {
     }
     alerta(men: Notificacion) {
         this.clear();
-        console.log(men)
         const objetoString = JSON.stringify(men);
         localStorage.setItem("Dato", objetoString);
         men.visto = true
@@ -274,11 +271,8 @@ export class HeaderComponent implements DoCheck, OnInit {
     }
     validarconteoB() {
         if (this.notificationlista != null) {
-        console.log(this.notificationlista.length)
         for (let index = 0; index < this.notificationlista.length; index++) {
             if (this.notificationlista[index].visto === false) {
-
-                console.log(this.notificationlista[index].mensaje)
                 this.notificacionesService.actualizarConteo(1)
             }
 
@@ -351,7 +345,6 @@ export class HeaderComponent implements DoCheck, OnInit {
                                     console.log('Selected role is unknown.');
                                     break;
                             }
-                            console.log(role);
                         }
                     }
                 }
@@ -362,9 +355,7 @@ export class HeaderComponent implements DoCheck, OnInit {
     obtenerCarrera(persona: Persona) {
         this.carreraService.carreraest(persona.cedula!).subscribe(
             response => (
-                console.log(response),
-                this.carrera = response,
-                console.log(this.carrera)
+                this.carrera = response
             )
         )
     }

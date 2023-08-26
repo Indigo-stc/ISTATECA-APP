@@ -27,7 +27,7 @@ export class DevolverLibroComponent implements OnInit {
   solicitudCompleta?: boolean;
   selectedCount: number = 0;
 
-
+  fecha?: Date;
 
   constructor(private router: Router, private PrestamoService: prestamoService, private personaServices: PersonaService) { }
 
@@ -40,6 +40,9 @@ export class DevolverLibroComponent implements OnInit {
 
     var estadoJSONGET = localStorage.getItem("estadoR");
     this.estado = JSON.parse(estadoJSONGET + "");
+    this.fecha = new Date(Date.now());
+    this.fechaHoy = format(this.fecha, 'dd-MM-yyyy');
+    this.prestamo.fechaDevolucion = this.fecha;
 
     let soliJSONGET = localStorage.getItem('solicitudCompleta' + "");
     this.soli = JSON.parse(soliJSONGET + "");
@@ -193,9 +196,7 @@ export class DevolverLibroComponent implements OnInit {
               if (this.estado == "6") {
                 alert("Restituido")
                 this.prestamo.estadoPrestamo = 6;
-                const fecha = new Date(Date.now());
-                this.fechaHoy = format(fecha, 'dd/MM/yyyy');
-                this.prestamo.fechaDevolucion = fecha;
+                console.log(this.prestamo);
                 this.PrestamoService.update(this.prestamo).subscribe(
                   response => {
                     Swal.fire({

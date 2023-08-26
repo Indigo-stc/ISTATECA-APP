@@ -13,7 +13,7 @@ body {
   
   .card {
     width: 90%;
-    height: 100%;
+    height: 90%;
     margin-top: 3%;
     background-color: transparent;
     box-shadow: rgba(0, 0, 0, 0.4) 10px 20px 30px, rgba(0, 0, 0, 0.3) 10px 1px 53px 3px, rgba(1, 0, 0, 0.2) 0px -1px 3px inset;

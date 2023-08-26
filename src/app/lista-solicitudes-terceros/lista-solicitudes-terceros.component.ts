@@ -25,6 +25,9 @@ export class ListaSolicitudesTercerosComponent {
   ngOnInit(): void {
     this.listaterceroPb = [];
     this.listaPrestados();
+    localStorage.removeItem("SolicitudTercero");
+    localStorage.removeItem("estadoR");
+    localStorage.removeItem("solicitudCompleta");
   }
 
   listaPrestados() {

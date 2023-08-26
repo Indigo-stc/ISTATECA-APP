@@ -5,7 +5,7 @@
 <!--FORMULARIO-->
 
 <body class="elemento">
-    <div class="card"  *ngIf="!solicitudCompleta">
+    <div class="card"  *ngIf="solicitudCompleta==false">
         <h1>Ficha de devolución para una persona externa</h1>
         <div class="content">
             <form ngNativeValidate (ngSubmit)="guardar()">
@@ -116,10 +116,10 @@
     </div>
 
     <div class="card" *ngIf="solicitudCompleta==true">
-        <h1 style="margin-top: 0%;">Prestamo completo de una persona externa</h1>
+        <h1 style="margin-top: -1%;">Prestamo completo de una persona externa</h1>
         <div class="content">
             <form >
-                <div class="step-counter">
+                <div class="step-counter" style="margin-top: -1.5%;">
                     <div class="input-box">
                         <span class="details2">No. Solicitud:</span>
                         <input type="text" class="input2 form-control" value="{{prestamoTercero.prestamo?.id}}" disabled name="id"
@@ -128,7 +128,10 @@
                         <span class="details2">Estado de la solicitud:</span>
                         <input type="text" class="input2 form-control"
                             value="{{getNombreEstado(prestamoTercero.prestamo?.estadoPrestamo)}}" disabled name="id" required>
-                    </div>
+                            <span class="details2" style="width: 100%;">Titulo del libro:</span>
+                            <input type="text" class="input2 form-control" name="apellidos"
+                                value="{{prestamo.libro?.titulo}}" required disabled>
+                        </div>
                     <hr>
                     <div class="input-box">
                         <span class="details2">Cedula del solicitante:</span>
@@ -143,15 +146,10 @@
                         <span class="details2">Documento habilitante:</span>
                         <input type="text" class="input2 form-control" value="{{hab}}" disabled name="nombres" required>
 
-                        <span class="details2">Titulo del libro:</span>
-                        <input type="text" class="input2 form-control" name="apellidos"
-                            value="{{prestamo.libro?.titulo}}" required disabled>
-                    </div>
-                    <div class="input-box">
-                        <span class="details2">Estado de entrega del libro:</span>
+                        <span class="details2" style="width: 60%;">Estado de entrega del libro:</span>
                         <input type="text" class="input2 form-control" name="domicilio"
                             value="{{getNombreEstadoLibro2(prestamoTercero.prestamo?.libro?.estadoLibro)}}" required disabled>
-                        <span class="details">Estado de final del libro:</span>
+                        <span class="details" style="width: 60%;">Estado en que recibe:</span>
                         <input type="text" class="input2 form-control" name="domicilio"
                             value="{{getNombreEstadoLibro(prestamo.estadoLibro)}}" required disabled>
                     </div>

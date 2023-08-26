@@ -16,6 +16,7 @@ import { ActaDonacionService } from '../services/acta-donacion.service';
 import { LibroService } from '../services/libro.service';
 import { PersonaService } from '../services/persona.service';
 import { Autor_Libro } from '../models/Autor_Libro';
+import { Etiqueta } from '../models/Etiqueta';
 
 
 // Función de validación personalizada para el autocompletar
@@ -28,10 +29,12 @@ import { Autor_Libro } from '../models/Autor_Libro';
   styleUrls: ['./vista-registro-new.component.css']
 })
 export class VistaRegistroNewComponent implements OnInit {
-
+  etiquetas: Etiqueta = new Etiqueta;
   bibliotecarios: Bibliotecario = {};
   tipo: Tipo = new Tipo;
+  tipo1: Tipo = new Tipo;
   autor: Autor = new Autor
+  autor1: Autor = new Autor
   autorlibro: Autor_Libro = new Autor_Libro
   imagen?: File;
   reporteV: String = "";
@@ -71,6 +74,7 @@ export class VistaRegistroNewComponent implements OnInit {
     private personaservice: PersonaService,
     private formBuilder: FormBuilder,
     private router: Router,
+    private listasService: ListasService,
 
   ) {
   }
@@ -78,7 +82,6 @@ export class VistaRegistroNewComponent implements OnInit {
   ngOnInit(): void {
     this.reporteV = localStorage.getItem('bibliotecario') + "";
     this.reporteV2 = localStorage.getItem('nombrebibliotecario') + "";
-    console.log("Bibliotecario: " + this.reporteV + " Nombre:" + this.reporteV2);
     this.librosF.controls['disponibilidad'].setValue('0');
 
     this.obtenerAutor()
@@ -86,7 +89,7 @@ export class VistaRegistroNewComponent implements OnInit {
     this.ObtenerTipo()
     this.buscar()
 
-    
+
 
   }
 
@@ -141,7 +144,7 @@ export class VistaRegistroNewComponent implements OnInit {
     return null;
   };
 
-  
+
 
   // Método de validación para verificar si el título está duplicado
   validarTituloDuplicado(): AsyncValidatorFn {
@@ -158,16 +161,16 @@ export class VistaRegistroNewComponent implements OnInit {
       );
     };
   }
- 
+
   //Metodo para validar Tipo
   validarTipoLibroSeleccionado = (control: AbstractControl): ValidationErrors | null => {
     const tipoLibroSeleccionado = String(control.value); // Convertir a cadena
-    
+
     // Si el valor del tipo de libro seleccionado es null, undefined o una cadena vacía, retorna un objeto con el error
     if (!tipoLibroSeleccionado || tipoLibroSeleccionado.trim() === '') {
       return { tipoLibroVacio: true };
     }
-    
+
     // Si el valor no está vacío, retorna null (sin error)
     return null;
   };
@@ -177,12 +180,12 @@ export class VistaRegistroNewComponent implements OnInit {
   //VALIDAR TODOS LOS CAMPOS LLENOS
   todosCamposLlenos(): boolean {
     const camposRequeridos = [
-      'codigoDewey', 'titulo', 'subtitulo', 'tipo', 'adquisicion', 'anioPublicacion', 
-      'editor', 'ciudad', 'numPaginas', 'area', 'conIsbn', 'idioma', 'descripcion', 
-      'indiceUno', 'indiceDos', 'indiceTres', 'dimenciones', 'estadoLibro', 'disponibilidad', 
+      'codigoDewey', 'titulo', 'subtitulo', 'tipo', 'adquisicion', 'anioPublicacion',
+      'editor', 'ciudad', 'numPaginas', 'area', 'conIsbn', 'idioma', 'descripcion',
+      'indiceUno', 'indiceDos', 'indiceTres', 'dimenciones', 'estadoLibro', 'disponibilidad',
       'donante', 'autor', 'donante1', 'tipo1'
     ];
-  
+
     return camposRequeridos.every(campo => !this.librosF.get(campo)?.invalid);
   }
 
@@ -362,9 +365,6 @@ export class VistaRegistroNewComponent implements OnInit {
 
   obtenerAutor(): void {
     this.dato = this.ListaT.obtenerAutores();
-    console.log(this.dato + "Holii");
-
-
   }
 
   //ESTO ES PARA CAPTURAR EL AUTOR
@@ -382,13 +382,34 @@ export class VistaRegistroNewComponent implements OnInit {
 
   }
 
+  AbrirAutor() {
+    var overlay = document.getElementById('overlay99');
+    overlay?.classList.add('active');
+
+  }
+
+  cerrarpopup() {
+    var overlay = document.getElementById('overlay99');
+    overlay?.classList.remove('active');
+  }
+
+  AbrirTipo() {
+    var overlay = document.getElementById('overlay96');
+    overlay?.classList.add('active');
+
+  }
+
+  cerrarpopup2() {
+    var overlay = document.getElementById('overlay96');
+    overlay?.classList.remove('active');
+  }
+
   //FIN CAPTURAR AUTOR
 
   // ESTO ES PARA CAPTURAR EL DONANTE
   public dato1!: Observable<any['']>;
   obtenerDonante(): void {
     this.dato1 = this.ListaT.listarDonate();
-    console.log(this.dato1 + "Holii");
 
 
   }
@@ -411,7 +432,7 @@ export class VistaRegistroNewComponent implements OnInit {
 
   public dato2!: Observable<any['']>;
 
-  ObtenerTipo(){
+  ObtenerTipo() {
     this.dato2 = this.ListaT.obtenerTipos();
   }
 
@@ -419,10 +440,10 @@ export class VistaRegistroNewComponent implements OnInit {
 
   seleccionT(e: any) {
     console.log(e);
-    
+
     this.selectTipo = e
 
-    if(this.selectTipo && this.selectTipo.nombre){
+    if (this.selectTipo && this.selectTipo.nombre) {
       this.librosF.get('tipo')?.patchValue(this.selectTipo);
     }
 
@@ -533,10 +554,8 @@ export class VistaRegistroNewComponent implements OnInit {
 
     this.persona = JSON.parse(localStorage.getItem('persona') + "");
     this.cedulabiblio = this.persona.cedula
-    console.log(this.cedulabiblio)
     this.personaservice.buscarxcedula(this.cedulabiblio + '').subscribe(
       data => {
-        console.log(data);
         const datospersona = {
           id: data.id,
           activo: data.activo,
@@ -554,7 +573,6 @@ export class VistaRegistroNewComponent implements OnInit {
         }
         this.librosF.get('persona')?.patchValue(datospersona)
         this.nombrebiblio = data.nombres + ' ' + data.apellidos
-        console.log(this.nombrebiblio);
 
       }
     )
@@ -576,40 +594,38 @@ export class VistaRegistroNewComponent implements OnInit {
 
 
     console.log("Se ha realizado un click")
+    this.librosF.get('activo')?.setValue(true);
+    const librosFCopy = JSON.parse(JSON.stringify(this.librosF.getRawValue()));
 
-  this.librosF.get('activo')?.setValue(true);
-  const librosFCopy = JSON.parse(JSON.stringify(this.librosF.getRawValue()));
-  console.log(librosFCopy);
+    this.libroservice.create(librosFCopy).subscribe(
+      (Response: Libro) => {
+        this.libro
+        this.idlibro = Response.id;
+        this.titulolibro = Response.titulo;
 
-  this.libroservice.create(librosFCopy).subscribe(
-    (Response: Libro) => {
-      this.libro
-      this.idlibro = Response.id;
-      this.titulolibro = Response.titulo;
+        this.autorlibro.libro = Response;
+        console.log(this.idlibro);
 
-      this.autorlibro.libro = Response;
-      console.log(this.idlibro);
-
-      if (this.titulolibro) {
-        localStorage.setItem('titulolibro', this.titulolibro);
-      }
-
-      this.ListaT.createAutorLibro(this.autorlibro).subscribe(
-        (response: Autor_Libro) => {
-          console.log('autor guardado' + response.autor?.nombre + ' ' + response.libro?.titulo);
+        if (this.titulolibro) {
+          localStorage.setItem('titulolibro', this.titulolibro);
         }
-      );
 
-      if(this.idlibro){
-        const exlibro = this.idlibro.toString();
+        this.ListaT.createAutorLibro(this.autorlibro).subscribe(
+          (response: Autor_Libro) => {
+            console.log('autor guardado' + response.autor?.nombre + ' ' + response.libro?.titulo);
+          }
+        );
+
+        if (this.idlibro) {
+          const exlibro = this.idlibro.toString();
           window.localStorage.setItem('idlibro', exlibro);
           if (this.imagen) {
-        
-          
+
+
             this.libroservice.subirImagen(this.idlibro, this.imagen).subscribe(
               (response: any) => {
                 console.log('Imagen subida:', response); // No es necesario intentar analizar la respuesta como JSON
-  
+
                 Swal.fire({
                   position: 'center',
                   icon: 'success',
@@ -617,7 +633,7 @@ export class VistaRegistroNewComponent implements OnInit {
                   showConfirmButton: false,
                   timer: 1500
                 });
-  
+
                 setTimeout(() => {
                   this.router.navigate(['app-registro-etiquetas']);
                   // location.reload();
@@ -628,104 +644,71 @@ export class VistaRegistroNewComponent implements OnInit {
                 // Maneja el error de acuerdo a tus necesidades
               }
             );
-          
+
+          } else {
+            console.warn('No se ha seleccionado ningún archivo.');
+
+            // Mostrar mensaje de guardado sin imagen
+            Swal.fire({
+              position: 'center',
+              icon: 'success',
+              title: '<strong>Has registrado un Libro (sin imagen)</strong>',
+              showConfirmButton: false,
+              timer: 1500
+            });
+
+            setTimeout(() => {
+              this.router.navigate(['app-reg-etiquetas']);
+              // location.reload();
+            }, 1000);
+          }
+
         } else {
-          console.warn('No se ha seleccionado ningún archivo.');
-  
-          // Mostrar mensaje de guardado sin imagen
-          Swal.fire({
-            position: 'center',
-            icon: 'success',
-            title: '<strong>Has registrado un Libro (sin imagen)</strong>',
-            showConfirmButton: false,
-            timer: 1500
-          });
-  
-          setTimeout(() => {
-            this.router.navigate(['app-reg-etiquetas']);
-            // location.reload();
-          }, 1000);
+          console.warn('El ID del libro es undefined.');
         }
 
-      }else {
-        console.warn('El ID del libro es undefined.');
+
+
+
       }
-
-     
-
-      
-    }
-  );
-    // let campoFaltante = this.validarCampos();
-    // if (campoFaltante === '') {
-
-    // } else {
-    //   Swal.fire({
-    //     position: 'center',
-    //     icon: 'info',
-    //     title: `El campo ${campoFaltante} es requerido`,
-    //     showConfirmButton: false,
-    //     timer: 2000
-    //   });
-    // }
-
-
-    //reg.reset();
+    );
 
   }
 
 
+  guardarA(autor1: Autor) {
+    this.listasService.createAutor(autor1).subscribe(
+      response => {
+        this.obtenerAutor();
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: '<strong>Guardado correctamente</strong>',
+          showConfirmButton: false,
+          timer: 1500
+        })
+        var overlay = document.getElementById('overlay99');
+        overlay?.classList.remove('active');
+      }
+    );
+  }
 
-  validarCampos() {
-    //  if (!this.Libro.codigoDewey) {
-    //     return 'Código Dewey';
-    //   } else if (!this.Libro.conIsbn) {
-    //     return 'Código ISBN';
-    //   } else if (!this.Libro.indiceUno) {
-    //     return 'Indice 1';
-    //   } else if (!this.Libro.indiceDos) {
-    //     return 'Indice 2';
-    //   } else if (!this.Libro.indiceTres) {
-    //     return 'Indice 3';
-    //   } else if (!this.Libro.adquisicion) {
-    //     return 'Adquisicion';
-    //   } else if (!this.Libro.descripcion) {
-    //     return 'Descripción';
-    //   } else if (!this.Libro.dimenciones) {
-    //     return 'Dimensiones';
-    //   } else if (!this.Libro.numPaginas) {
-    //     return 'N° de Paginas';
-    //   } else if (!this.Libro.idioma) {
-    //     return 'Idioma';
-    //   } else if (!this.Libro.estadoLibro) {
-    //     return 'Estado libro';
-    //   } else if (!this.Libro.titulo) {
-    //     return 'Titulo del Libro';
-    //   } else if (!this.Libro.editor) {
-    //     return 'Editor';
-    //   } else if (!this.Libro.area) {
-    //     return 'Area';
-    //   } else if (!this.Libro.anioPublicacion) {
-    //     return 'Año de Publicación';
-    /*     } else if (!this.Libro.autor) {
-          return 'Autor'; */
-    /*     } else if (!this.Libro.tipo) {
-          return 'Tipo libro'; */
-    /*     } else if (!this.Libro.imagen) {
-          return 'Imagen'; */
-    // } else if (!this.Libro.fechaCreacion) {
-    //   return 'Fecha de Creación';
-    // }else if (!this.Libro.urlActaDonacion) {
-    //   return 'URL Digital';
-    // }else if (!this.Libro.ciudad) {
-    //   return 'Ciudad';
-    // }else if (!this.Libro.disponibilidad) {
-    //   return 'Disponibilidad'; 
-    // }else if (!this.Libro.nombreDonante) {
-    //   return 'Nombre Donante';
-    // }else {
-    //   return '';
-    // }
+  guardarT(tipo1: Tipo) {
+    tipo1.activo=true;
+    this.listasService.createTipo(tipo1).subscribe(
+      response=>{
+        this.ObtenerTipo()
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: '<strong>Guardado correctamente</strong>',
+          showConfirmButton: false,
+          timer: 1500
+        })
+        var overlay = document.getElementById('overlay96');
+        overlay?.classList.remove('active');
+      }
+    );
   }
 
 

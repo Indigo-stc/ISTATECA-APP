@@ -44,7 +44,6 @@ export class ListaSolicitudesPendientesComponent implements OnInit {
     if (this.notificacion != null) {
       this.datosNotificacionP = this.notificacion.prestamo?.idSolicitante?.cedula + ""
       this.editarNotificacion(this.notificacion);
-      console.log(this.notificacion)
     } else {
       this.datosNotificacionP = ""
     }
@@ -84,7 +83,6 @@ export class ListaSolicitudesPendientesComponent implements OnInit {
   rechazar(prestamo: Prestamo) {
     prestamo.estadoPrestamo = 7;
     prestamo.idEntrega = this.persona;
-    console.log(this.persona)
     this.prestamoService.update(prestamo).subscribe(
       response => {
         Swal.fire({

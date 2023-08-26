@@ -68,7 +68,7 @@
               <td>{{ libro.anioPublicacion }}</td>
               <td>{{ libro.descripcion }}</td>
               <td>{{ libro.disponibilidad ? 'Disponible' : 'No disponible' }}</td>
-              <td *ngIf="libro.disponibilidad else menor" style="width: 8.5%;">
+              <td *ngIf="noiniciado===false && libro.disponibilidad else menor" style="width: 8.5%;">
                 <button (click)="SolicitarLibro(libro)">Solicitar</button>
               </td>
               <ng-template #menor>

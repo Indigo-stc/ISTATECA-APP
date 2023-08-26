@@ -10,6 +10,7 @@ import { environment } from 'src/environments/environment';
 import { AbstractControl, AsyncValidatorFn, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { LibroService } from '../services/libro.service';
 import Swal from 'sweetalert2';
+import { Persona } from '../models/Persona';
 
 @Component({
   selector: 'app-libro-completo',
@@ -18,6 +19,7 @@ import Swal from 'sweetalert2';
 })
 export class LibroCompletoComponent {
   libro: Libro = new Libro();
+  persona: Persona = new Persona();
   autor: Autor = new Autor;
   autor1: Autor = new Autor;
   public previsualizacion?: string
@@ -34,6 +36,8 @@ export class LibroCompletoComponent {
 
   disp?: string;
   isDisabled: boolean = true;
+  editar2: boolean = false;
+  mostrarEst: boolean = false;
 
   public keyword = 'nombre';
 
@@ -45,24 +49,32 @@ export class LibroCompletoComponent {
   ) { }
 
   ngOnInit() {
+    let usuario1JSON = localStorage.getItem('persona') + "";
+    this.persona = JSON.parse(usuario1JSON);
+    if (this.persona.tipo == 1) {
+      this.mostrarEst=true;
+    }else{
+      this.mostrarEst=false;
+    }
+
     let usuarioJSON = localStorage.getItem('LibroCompleto') + "";
 
     if (usuarioJSON) {
       const libroCompleto = JSON.parse(usuarioJSON);
 
-      if(libroCompleto){
+      if (libroCompleto) {
         this.librosF.patchValue(libroCompleto);
 
         console.log(libroCompleto.tipo.nombre);
-        
-        this.librosF.get('tipo.nombre')?.patchValue(libroCompleto.tipo.nombre);
-          console.log(this.librosF.get('tipo.nombre')?.value)
-        
-        
-      }
-      
 
-      
+        this.librosF.get('tipo.nombre')?.patchValue(libroCompleto.tipo.nombre);
+        console.log(this.librosF.get('tipo.nombre')?.value)
+
+
+      }
+
+
+
 
     }
 
@@ -86,7 +98,7 @@ export class LibroCompletoComponent {
       }
     );
 
-    
+
 
     this.obtenerAutor()
     this.obtenerDonante()
@@ -450,7 +462,7 @@ export class LibroCompletoComponent {
     if (this.selectedDonante && this.selectedDonante.nombre) {
       this.librosF.get('donante')?.patchValue(this.selectedDonante);
       console.log(this.librosF.get('donante')?.value);
-       // Establecer el valor en el formulario
+      // Establecer el valor en el formulario
     }
   }
 
@@ -474,7 +486,7 @@ export class LibroCompletoComponent {
 
     if (this.selectTipo && this.selectTipo.nombre) {
       this.librosF.get('tipo')?.patchValue(this.selectTipo);
-      
+
     }
 
 
@@ -496,23 +508,23 @@ export class LibroCompletoComponent {
   }
 
 
-  EditarLibro(){
+  EditarLibro() {
     const librosFCopy = JSON.parse(JSON.stringify(this.librosF.getRawValue()));
     console.log(librosFCopy);
 
     if (this.libro.id) {
       this.libroservice.editar(this.libro.id, librosFCopy).subscribe(
-        respose=>{
+        respose => {
           console.log(respose);
-          
+
         }
       )
 
       if (this.autores_libros.id) {
         this.listaservice.editarAutor(this.autores_libros.id, this.autores_libros1).subscribe(
-          respose=>{
+          respose => {
             console.log(respose);
-            
+
           }
         )
       }
@@ -557,6 +569,11 @@ export class LibroCompletoComponent {
       }, 1000);
     }
   }
+  Aceptar() {
+    this.router.navigate(['/']);
 
+  }
 
 }
+
+

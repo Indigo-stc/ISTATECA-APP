@@ -39,7 +39,6 @@ export class ListaDocentesComponent implements OnInit{
   }
 
   validarDocente(personas:Persona[]){
-    console.log(personas.length)
     for (let index = 0; index < personas.length; index++) {
       if (personas[index].tipo == 2) {
         this.personasTipo2 = personas.filter(persona => persona.tipo === 2);

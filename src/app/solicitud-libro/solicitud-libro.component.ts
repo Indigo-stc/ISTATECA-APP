@@ -239,6 +239,7 @@ export class SolicitudLibroComponent implements OnInit {
       if(this.fecha)
       this.prestamo2.fechaMaxima = this.sumarDiasExcluyendoFinesDeSemana(this.fecha, 5);
     }
+    console.log(this.prestamo2);
     this.PrestamoService.update(this.prestamo2).subscribe(
       response => {
         Swal.fire({

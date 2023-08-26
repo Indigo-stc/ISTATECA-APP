@@ -57,7 +57,7 @@
             <td style="width: 20%">{{prestamo.libro?.titulo}}</td>
             <td style="width: 15%;">{{prestamo.fechaFin}}</td>
             <td style="width: 15%;">{{ getNombreEstado(prestamo.estadoPrestamo) }}</td>
-            <td style="width: 60; display: flex;">
+            <td style="width: 60; display: flex; justify-content: center;">
               <button (click)="aceptarDomicilio(prestamo)">Aceptar Solitud Domicilio</button>&nbsp;
               <button (click)="aceptar(prestamo)">Aceptar Solitud Institución</button>
               <button (click)="rechazar(prestamo)">Rechazar Solicitud</button>
@@ -71,9 +71,9 @@
               {{prestamo.idSolicitante?.cedula}}
             </td>
             <td style="width: 20%">{{prestamo.libro?.titulo}}</td>
-            <td  style="width: 15%;">{{prestamo.fechaEntrega}}</td>
+            <td  style="width: 15%;">{{prestamo.fechaMaxima}}</td>
             <td  style="width: 15%;">{{ getNombreEstado(prestamo.estadoPrestamo) }}</td>
-            <td style=" width: 60; height: 100%; display: flex;">
+            <td style=" width: 60; height: 100%; display: flex; justify-content: center;">
               <button (click)="devolucion(prestamo)">Formulario de devolución</button>&nbsp;
               <button (click)="modificar(prestamo)">Modificar</button>&nbsp;
             </td>
@@ -88,7 +88,7 @@
             <td style="width: 20%">{{prestamo.libro?.titulo}}</td>
             <td  style="width: 15%;">{{prestamo.fechaDevolucion}}</td>
             <td  style="width: 15%;">{{ getNombreEstado(prestamo.estadoPrestamo) }}</td>
-           <td style="width: 60; height: 100%; display: flex;"> <button (click)="solicitudCompleta(prestamo)">Ver Prestamo</button>&nbsp;</td>
+           <td style="width: 60; height: 100%; display: flex; justify-content: center;"> <button (click)="solicitudCompleta(prestamo)">Ver Prestamo</button>&nbsp;</td>
           </tr>
         </tbody>
 

@@ -57,7 +57,6 @@ export class RegistroSolicitudTercerapersonaComponent {
 
   obtenerAutor(): void {
     this.dato = this.libroServices.obtenerLibros();
-    console.log(this.dato);
   }
 
   onKeydownEvent(event: KeyboardEvent, cedula: string): void {

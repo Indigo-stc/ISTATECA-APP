@@ -7,9 +7,9 @@
     <div class="card">
         <h1>Registro de Libros</h1>
         <div class="content">
-            <form [formGroup]="librosF" (ngSubmit)="crearLibro()">
+            <form [formGroup]="librosF" >
                 <div class="step-counter">
-                    <p>Paso {{ step }} de {{ totalSteps }}</p>
+                    <p style="margin-top: -2%;">Paso {{ step }} de {{ totalSteps }}</p>
                     <div class="user-details" *ngIf="step === 1">
                         <div class="input-box">
                             <span class="details">Codigo DEWEY:</span>
@@ -98,7 +98,7 @@
                                 <div *ngIf="idiomaControl?.hasError('pattern')" class="error-message"> El idioma
                                     solo
                                     puede contener letras, espacios y los siguientes caracteres especiales: , . ; '
-                                    
+
                                 </div>
                             </div>
                         </div>
@@ -217,7 +217,7 @@
 
                     <div class="user-details" *ngIf="step === 3">
                         <div style="display: flex; margin-left: 20%;">
-                            <button class="btn "  routerLink="/app-registro-autor">
+                            <button class="btn " (click)="AbrirAutor()">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-person-fill-add" viewBox="0 0 16 16">
                                     <path
@@ -226,7 +226,7 @@
                                         d="M2 13c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Z" />
                                 </svg>
                                 Agregar Autor</button>
-                            <button class="btn " style="margin-left: 60%;"  routerLink="/app-registro-tipo">
+                            <button class="btn " style="margin-left: 60%;" (click)="AbrirTipo()">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                     class="bi bi-file-earmark-plus" viewBox="0 0 16 16">
                                     <path
@@ -384,7 +384,8 @@
                 </div>
 
                 <div class="button text-center" style="display: flex;">
-                    <button type="button" (click)="retroceder1()" *ngIf="step > 1" style="margin-left: 20%; display: flex;">
+                    <button type="button" (click)="retroceder1()" *ngIf="step > 1"
+                        style="margin-left: 20%; display: flex;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-chevron-double-left" viewBox="0 0 16 16">
                             <path fill-rule="evenodd"
@@ -393,7 +394,8 @@
                                 d="M12.354 1.646a.5.5 0 0 1 0 .708L6.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
                         </svg> Retroceder
                     </button>
-                    <button type="button" (click)="avanzar1()" style="margin-left: 40%; display: flex;" *ngIf="step < 4">
+                    <button type="button" (click)="avanzar1()" style="margin-left: 40%; display: flex;"
+                        *ngIf="step < 4">
                         Siguiente <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-chevron-double-right" viewBox="0 0 16 16">
                             <path fill-rule="evenodd"
@@ -402,11 +404,13 @@
                                 d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z" />
                         </svg>
                     </button>
-                    <button type="submit" class="btnguardar"
-                        [disabled]="librosF.invalid || !todosCamposLlenos()" *ngIf="step === 4">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-folder" viewBox="0 0 16 16">
-                            <path d="M.54 3.87.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.826a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31zM2.19 4a1 1 0 0 0-.996 1.09l.637 7a1 1 0 0 0 .995.91h10.348a1 1 0 0 0 .995-.91l.637-7A1 1 0 0 0 13.81 4H2.19zm4.69-1.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707z"/>
-                          </svg>
+                    <button type="button" class="btnguardar" [disabled]="librosF.invalid || !todosCamposLlenos()"
+                        *ngIf="step === 4" (click)="crearLibro()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-folder" viewBox="0 0 16 16">
+                            <path
+                                d="M.54 3.87.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.826a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31zM2.19 4a1 1 0 0 0-.996 1.09l.637 7a1 1 0 0 0 .995.91h10.348a1 1 0 0 0 .995-.91l.637-7A1 1 0 0 0 13.81 4H2.19zm4.69-1.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707z" />
+                        </svg>
                         Guardar libro
                     </button>
 
@@ -418,6 +422,52 @@
 
         </div>
     </div>
-
-
+    <div class="overlay99" id="overlay99">
+        <div class="popup99" id="popup99">
+            <h1>Agregar una nuevo autor</h1>
+            <form (ngSubmit)="guardarA(autor1)">
+                <br>
+                <div class="input-box">
+                    <span class="details">Nombre:</span>
+                    <input type="text" class="form-control" [(ngModel)]="autor1.nombre" name="nombre" required>
+                </div><br>
+                <div style="display: flex;">
+                    <button type="submit">
+                        Guardar <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-folder-check" viewBox="0 0 16 16">
+                            <path
+                                d="m.5 3 .04.87a1.99 1.99 0 0 0-.342 1.311l.637 7A2 2 0 0 0 2.826 14H9v-1H2.826a1 1 0 0 1-.995-.91l-.637-7A1 1 0 0 1 2.19 4h11.62a1 1 0 0 1 .996 1.09L14.54 8h1.005l.256-2.819A2 2 0 0 0 13.81 3H9.828a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 6.172 1H2.5a2 2 0 0 0-2 2zm5.672-1a1 1 0 0 1 .707.293L7.586 3H2.19c-.24 0-.47.042-.683.12L1.5 2.98a1 1 0 0 1 1-.98h3.672z" />
+                            <path
+                                d="M15.854 10.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.707 0l-1.5-1.5a.5.5 0 0 1 .707-.708l1.146 1.147 2.646-2.647a.5.5 0 0 1 .708 0z" />
+                        </svg>
+                    </button>
+                    <button type="button" style="margin-left: 60%;" (click)="cerrarpopup()">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="overlay99" id="overlay96">
+        <div class="popup99" id="popup96">
+            <h1>Agregar una nuevo tipo</h1>
+            <form (ngSubmit)="guardarT(tipo1)">
+                <br>
+                <div class="input-box">
+                    <span class="details">Nombre:</span>
+                    <input type="text" class="form-control" [(ngModel)]="tipo1.nombre" name="nombre" required>
+                </div><br>
+                <div style="display: flex;">
+                    <button type="submit">
+                        Guardar <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            class="bi bi-folder-check" viewBox="0 0 16 16">
+                            <path
+                                d="m.5 3 .04.87a1.99 1.99 0 0 0-.342 1.311l.637 7A2 2 0 0 0 2.826 14H9v-1H2.826a1 1 0 0 1-.995-.91l-.637-7A1 1 0 0 1 2.19 4h11.62a1 1 0 0 1 .996 1.09L14.54 8h1.005l.256-2.819A2 2 0 0 0 13.81 3H9.828a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 6.172 1H2.5a2 2 0 0 0-2 2zm5.672-1a1 1 0 0 1 .707.293L7.586 3H2.19c-.24 0-.47.042-.683.12L1.5 2.98a1 1 0 0 1 1-.98h3.672z" />
+                            <path
+                                d="M15.854 10.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.707 0l-1.5-1.5a.5.5 0 0 1 .707-.708l1.146 1.147 2.646-2.647a.5.5 0 0 1 .708 0z" />
+                        </svg>
+                    </button>
+                    <button type="button" style="margin-left: 60%;" (click)="cerrarpopup2()">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </body>

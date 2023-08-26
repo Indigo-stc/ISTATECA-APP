@@ -17,7 +17,7 @@
                             <input type="text" class="form-control" value="{{prestamo.id}}" disabled name="id" required>
                         </div>
                         <div class="input-box">
-                            <span class="details">Estado de la solicitud:</span>
+                            <span class="details" >Estado de la solicitud:</span>
                             <input type="text" class="form-control" value="{{getNombreEstado(prestamo.estadoPrestamo)}}"
                                 disabled name="id" required>
 
@@ -194,18 +194,21 @@
     </div>
 
     <div class="card" *ngIf="solicitudCompleta==true">
-        <h1 style="margin-top: 0%;">Prestamo</h1>
+        <h1 style="margin-top: -1.2%;">Prestamo</h1>
         <div class="content">
             <form (ngSubmit)="guardar()">
                 <div class="step-counter">
-                    <div class="input-box">
+                    <div class="input-box" style="margin-top: -1.5%;">
                         <span class="details2">No. Solicitud:</span>
                         <input type="text" class="input2 form-control" value="{{prestamo.id}}" disabled name="id"
                             required>
 
-                        <span class="details2">Estado de la solicitud:</span>
+                        <span class="details2" style="width: 100%;">Estado de la solicitud:</span>
                         <input type="text" class="input2 form-control"
                             value="{{getNombreEstado(prestamo.estadoPrestamo)}}" disabled name="id" required>
+                            <span class="details2">Titulo del libro:</span>
+                        <input type="text" class="input2 form-control" name="apellidos"
+                            value="{{prestamo.libro?.titulo}}" required disabled>
                     </div>
                     <hr>
                     <div class="input-box">
@@ -223,11 +226,6 @@
                         <span class="details2">Documento habilitante:</span>
                         <input type="text" class="input2 form-control" value="{{hab}}" disabled name="nombres" required>
 
-                        <span class="details2">Titulo del libro:</span>
-                        <input type="text" class="input2 form-control" name="apellidos"
-                            value="{{prestamo.libro?.titulo}}" required disabled>
-                    </div>
-                    <div class="input-box">
                         <span class="details2">Estado de entrega del libro:</span>
                         <input type="text" class="input2 form-control" name="domicilio"
                             value="{{getNombreEstadoLibro2(prestamo.libro?.estadoLibro)}}" required disabled>
@@ -242,10 +240,10 @@
                     <span class="details2">Fecha entrega:</span>
                     <input type="email" value="{{prestamo.fechaEntrega}}" disabled class="input2 form-control"
                         name="correo" required>
-                    <span class="details">Fecha devolución:</span>
+                    <span class="details" style="width: 100%;">Fecha devolución:</span>
                     <input type="email" class="input2 form-control" name="correo" value="{{prestamo.fechaMaxima}}"
                         disabled required>
-                    <span class="details2">Fecha en la que devuelve:</span>
+                    <span class="details2" style="width: 100%;">Fecha que recibio:</span>
                     <input type="date" class="input2 form-control" value="{{prestamo.fechaDevolucion}}" disabled
                         name="correo" required>
                 </div>
