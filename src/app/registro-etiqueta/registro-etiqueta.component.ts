@@ -16,13 +16,14 @@ export class RegistroEtiquetaComponent implements OnInit{
   constructor(private listasService: ListasService, private router: Router){}
 
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
   }
 
   guardar(){
     this.etiquetas.activo=true;
-    this.listasService.createEtiqueta(this.etiquetas).subscribe(
+    console.log(this.etiquetas)
+    this.listasService.crearEtiqueta(this.etiquetas).subscribe(
       Response=>{
+        console.log(Response)
         Swal.fire({
           position: 'center',
           icon: 'success',

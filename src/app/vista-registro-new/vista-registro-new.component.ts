@@ -642,7 +642,7 @@ export class VistaRegistroNewComponent implements OnInit {
           });
   
           setTimeout(() => {
-            this.router.navigate(['app-registro-etiquetas']);
+            this.router.navigate(['app-reg-etiquetas']);
             // location.reload();
           }, 1000);
         }

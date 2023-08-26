@@ -25,6 +25,7 @@ export class ListasService {
   private urlendpointBuscarAutor: string = this.url + '/autor/listarautoresxnombre';
   private urlendpointBuscarTipo: string = this.url + '/tipo/buscarxnombre';
   private urlendpointTipo: string = this.url + '/tipo/crear';
+  private crearEtiqueta2: string = this.url + '/etiqueta/crear';
   private listarEtiqueta: string = this.url + '/etiqueta/listar';
   private seleccionarEti: string = this.url + '/etiqueta/buscar';
   private crearetiqueta: string = this.url + '/tags/crear';
@@ -90,6 +91,9 @@ export class ListasService {
 
   createEtiqueta(tipo: LibroEtiqueta): Observable<LibroEtiqueta> {
     return this.http.post<LibroEtiqueta>(this.crearetiqueta, tipo, { headers: this.httpHeaders })
+  }
+  crearEtiqueta(tipo: Etiqueta): Observable<LibroEtiqueta> {
+    return this.http.post<Etiqueta>(this.crearEtiqueta2, tipo, { headers: this.httpHeaders })
   }
 
   eliminarEtiqueta(parametro: number): Observable<any> {

@@ -8,6 +8,9 @@
 <body class="elemento">
     <div class="card">
         <h1>Elija Al Menos Una Etiqueta Para "{{titulolibro}}"</h1>
+        <div style="width: 100%; margin-left: -150%;">
+            <button type="button" style="height: 100%;" routerLink="/app-registro-etiquetas">Crear Etiqueta</button>
+        </div>
         <div class="content">
             <form (ngSubmit)="guardar()">
                 <div class="input-box">

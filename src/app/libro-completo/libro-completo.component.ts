@@ -404,7 +404,7 @@ export class LibroCompletoComponent {
     if (this.libro.id != undefined && this.libro.titulo) {
       window.localStorage.setItem('idlibro', this.libro.id.toString());
       localStorage.setItem('titulolibro', this.libro.titulo)
-      this.router.navigate(['/app-registro-etiquetas']);
+      this.router.navigate(['/app-reg-etiquetas']);
     }
   }
 
