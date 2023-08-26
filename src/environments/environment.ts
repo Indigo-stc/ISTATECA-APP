@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  rooturl : 'http://localhost:8080'
+  rooturl : 'https://subir-production.up.railway.app'
 };
 
 /*
