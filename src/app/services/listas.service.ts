@@ -30,6 +30,8 @@ export class ListasService {
   private crearetiqueta: string = this.url + '/tags/crear';
   private buscaretiqueta: string = this.url + '/tags/etiquetasxlibro';
   private urlendpointBuscarDonante: string = this.url + '/donante/listarxnombre';
+  private editAutor: string= this.url+'/autorlibro/editar'
+  
 
   private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' })
 
@@ -53,7 +55,9 @@ export class ListasService {
   createAutor(autor: Autor): Observable<Autor> {
     return this.http.post<Autor>(this.urlendpointAutor, autor, { headers: this.httpHeaders })
   }
-
+  editarAutor(id: number, autor: Autor): Observable<Autor>{
+    return this.http.put<Autor>(`${this.editAutor}/${id}`, autor,{headers:this.httpHeaders})
+  }
 
   listarautoresxnombre(nombre: string)
     : Observable<Autor[]> {
@@ -74,6 +78,7 @@ export class ListasService {
     let res = this.buscaretiqueta + "?parametro=" + id;
     return this.http.get<LibroEtiqueta[]>(res);
   }
+
 
   obteneEtiquetas(): Observable<Etiqueta[]> {
     return this.http.get<Etiqueta[]>(this.listarEtiqueta);

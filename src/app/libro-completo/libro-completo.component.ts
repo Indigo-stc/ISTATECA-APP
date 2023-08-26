@@ -3,10 +3,13 @@ import { Libro } from '../models/Libro';
 import { Autor_Libro } from '../models/Autor_Libro';
 import { ListasService } from '../services/listas.service';
 import { Router } from '@angular/router';
-import { Observable, catchError, map, startWith, throwError, filter } from 'rxjs';
+import { Observable, catchError, map, startWith, throwError, filter, debounceTime, distinctUntilChanged } from 'rxjs';
 import { Autor } from '../models/Autor';
 import { DomSanitizer } from '@angular/platform-browser';
 import { environment } from 'src/environments/environment';
+import { AbstractControl, AsyncValidatorFn, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { LibroService } from '../services/libro.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-libro-completo',
@@ -16,11 +19,15 @@ import { environment } from 'src/environments/environment';
 export class LibroCompletoComponent {
   libro: Libro = new Libro();
   autor: Autor = new Autor;
+  autor1: Autor = new Autor;
   public previsualizacion?: string
   autores_libros: Autor_Libro = new Autor_Libro();
+  autores_libros1: Autor_Libro = new Autor_Libro();
 
-  private url= environment.rooturl
-  urlI?:string;
+  isTipoDisabled: boolean = true
+
+  private url = environment.rooturl
+  urlI?: string;
   imagen?: File;
   step = 1;
   totalSteps = 4;
@@ -30,17 +37,42 @@ export class LibroCompletoComponent {
 
   public keyword = 'nombre';
 
-  constructor(private listaservice: ListasService,  private sanitizer: DomSanitizer,private router: Router, private ListaT: ListasService) { }
+  constructor(private listaservice: ListasService,
+    private sanitizer: DomSanitizer,
+    private router: Router,
+    private ListaT: ListasService,
+    private libroservice: LibroService,
+  ) { }
 
   ngOnInit() {
     let usuarioJSON = localStorage.getItem('LibroCompleto') + "";
+
+    if (usuarioJSON) {
+      const libroCompleto = JSON.parse(usuarioJSON);
+
+      if(libroCompleto){
+        this.librosF.patchValue(libroCompleto);
+
+        console.log(libroCompleto.tipo.nombre);
+        
+        this.librosF.get('tipo.nombre')?.patchValue(libroCompleto.tipo.nombre);
+          console.log(this.librosF.get('tipo.nombre')?.value)
+        
+        
+      }
+      
+
+      
+
+    }
+
     this.libro = JSON.parse(usuarioJSON);
     if (this.libro.disponibilidad == true) {
       this.disp = "Disponible";
     } else {
       this.disp = "No disponible"
     }
-    this.urlI=this.url+this.libro.urlImagen
+    this.urlI = this.url + this.libro.urlImagen
     this.listaservice.obtenerAutor_Libro().subscribe(
       response => {
         console.log(response);
@@ -53,6 +85,12 @@ export class LibroCompletoComponent {
         }
       }
     );
+
+    
+
+    this.obtenerAutor()
+    this.obtenerDonante()
+    this.ObtenerTipo()
   }
 
   retroceder1() {
@@ -68,6 +106,246 @@ export class LibroCompletoComponent {
     }
   }
 
+
+  //validacion de autor
+  public validarAutorSeleccionado: ValidatorFn = (form: AbstractControl) => {
+    const autorSeleccionado = String(form.value);
+    // Si el valor del autor seleccionado es null, undefined o una cadena vacía, retorna un objeto con el error
+    if (!autorSeleccionado || autorSeleccionado.trim() === '') {
+      return { autorNoSeleccionado: true };
+    }
+    // Si el valor no está vacío, retorna null (sin error)
+    return null;
+  };
+
+
+  // Validador personalizado para asegurar que no se seleccione "Seleccione"
+  seleccionOpcion = (control: AbstractControl) => {
+    const seleccion = control.value;
+    if (seleccion === '0') {
+      return { seleccionOpcionInvalida: true };
+    }
+    return null;
+  };
+
+
+
+  // Método de validación para verificar si el título está duplicado
+  validarTituloDuplicado(): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      const titulo = control.value;
+
+      return this.libroservice.buscarLibro(titulo).pipe(
+        debounceTime(300), // Esperar 300 ms antes de realizar la solicitud HTTP
+        distinctUntilChanged(), // Evitar realizar la misma solicitud si el título no ha cambiado
+        map((libros: Libro[]) => {
+          const tituloDuplicado = libros.length > 0;
+          return tituloDuplicado ? { tituloDuplicado: true } : null;
+        })
+      );
+    };
+  }
+
+  //Metodo para validar Tipo
+  validarTipoLibroSeleccionado = (control: AbstractControl): ValidationErrors | null => {
+    const tipoLibroSeleccionado = String(control.value); // Convertir a cadena
+
+    // Si el valor del tipo de libro seleccionado es null, undefined o una cadena vacía, retorna un objeto con el error
+    if (!tipoLibroSeleccionado || tipoLibroSeleccionado.trim() === '') {
+      return { tipoLibroVacio: true };
+    }
+
+    // Si el valor no está vacío, retorna null (sin error)
+    return null;
+  };
+  // FIN VALIDAR TIPOS
+
+
+  //VALIDAR TODOS LOS CAMPOS LLENOS
+  todosCamposLlenos(): boolean {
+    const camposRequeridos = [
+      'codigoDewey', 'titulo', 'subtitulo', 'tipo', 'adquisicion', 'anioPublicacion',
+      'editor', 'ciudad', 'numPaginas', 'area', 'conIsbn', 'idioma', 'descripcion',
+      'indiceUno', 'indiceDos', 'indiceTres', 'dimenciones', 'estadoLibro', 'disponibilidad',
+      'donante', 'autor', 'donante1', 'tipo1'
+    ];
+
+    return camposRequeridos.every(campo => !this.librosF.get(campo)?.invalid);
+  }
+
+  //FIN VALIDAR TOSO LOS CAMPOS LLENOS
+
+  //VALIDAR NUMERO NEGATIVO
+
+  validarNumeroNoNegativo(control: AbstractControl): ValidationErrors | null {
+    const valor = control.value;
+    if (valor < 0) {
+      return { numeroNegativo: true };
+    }
+    return null;
+  }
+
+  //FIN VALIDAR NUMERO NEGATIVO
+
+  // Trabajar con Reactive Froms
+  public librosF: FormGroup = new FormGroup({
+    codigoDewey: new FormControl("", [Validators.required]),
+    titulo: new FormControl("", [Validators.required], [this.validarTituloDuplicado()]),
+    subtitulo: new FormControl("", [Validators.required]),
+    tipo: new FormControl(
+      {
+        id: new FormControl(""),
+        nombre: new FormControl(""),
+        activo: new FormControl("")
+      },
+    ),
+    adquisicion: new FormControl("", [Validators.required]),
+    anioPublicacion: new FormControl("", [Validators.required, Validators.max(9999), this.validarNumeroNoNegativo]),
+    editor: new FormControl("", [Validators.required]),
+    ciudad: new FormControl("", [Validators.required, Validators.pattern('^[a-zA-Z ]{1,15}$')]),
+    numPaginas: new FormControl("", [Validators.required, this.validarNumeroNoNegativo]),
+    area: new FormControl("", [Validators.required]),
+    conIsbn: new FormControl("", [Validators.required, Validators.pattern(/^[A-Za-z\s]{1,15}$/)]),
+    idioma: new FormControl("", [Validators.required, Validators.pattern("[a-zA-ZÀ-ÿ\s,.;'-]+")]),
+    descripcion: new FormControl("", [Validators.required]),
+    indiceUno: new FormControl("", [Validators.required]),
+    indiceDos: new FormControl("", [Validators.required]),
+    indiceTres: new FormControl("", [Validators.required]),
+    dimenciones: new FormControl("", [Validators.required, Validators.pattern('[0-9]{2,3}x[0-9]{2,3}')]),
+    estadoLibro: new FormControl("", [Validators.required, this.seleccionOpcionInvalida]),
+    urlImagen: new FormControl(""),
+    activo: new FormControl("true"),
+    urlDigital: new FormControl("", [Validators.required, Validators.pattern(/^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})(\/[\w .-]*)*\/?$/i)]),
+    fechaCreacion: new FormControl(""),
+    persona: new FormControl(
+      {
+        id: new FormControl(""),
+        activo: new FormControl(""),
+        cedula: new FormControl(""),
+        celular: new FormControl(""),
+        correo: new FormControl(""),
+        nombres: new FormControl(""),
+        apellidos: new FormControl(""),
+        direccion: new FormControl(""),
+        calificacion: new FormControl(""),
+        tipo: new FormControl(""),
+        password: new FormControl(""),
+        fenixId: new FormControl(""),
+        authStatus: new FormControl("")
+      }
+    ),
+    disponibilidad: new FormControl("", [this.seleccionOpcion]),
+    donante: new FormControl({
+      id: new FormControl(""),
+      nombre: new FormControl("")
+    },),
+    urlActaDonacion: new FormControl(''),
+    autor: new FormControl('', [this.validarAutorSeleccionado, Validators.required]),
+    donante1: new FormControl('', [Validators.required, this.validarAutorSeleccionado]),
+    tipo1: new FormControl('', [Validators.required, this.validarTipoLibroSeleccionado])
+  });
+
+
+
+
+
+
+
+
+  // fin de Reactive Forms
+
+  //VALIDACIONES
+  get dimenciones() {
+    return this.librosF.get('dimenciones');
+  }
+
+  get idiomaControl() {
+    return this.librosF.get('idioma');
+  }
+  get anioPublicacionControl() {
+    return this.librosF.get('anioPublicacion');
+  }
+
+  get urlDigitalControl() {
+    return this.librosF.get('urlDigital');
+  }
+
+  get ciudadControl() {
+    return this.librosF.get('ciudad');
+  }
+  get codigoDeweyControl() {
+    return this.librosF.get('codigoDewey');
+  }
+
+  get conIsbnControl() {
+    return this.librosF.get('conIsbn');
+  }
+  get tituloControl() {
+    return this.librosF.get('titulo');
+  }
+  get subtituloControl() {
+    return this.librosF.get('subtitulo');
+  }
+  get indiceUnoControl() {
+    return this.librosF.get('indiceUno');
+  }
+  get indiceDosControl() {
+    return this.librosF.get('indiceDos');
+  }
+
+  get indiceTresControl() {
+    return this.librosF.get('indiceTres');
+  }
+  get adquisicionControl() {
+    return this.librosF.get('adquisicion');
+  }
+  get descripcionControl() {
+    return this.librosF.get('descripcion');
+  }
+  get numPaginasControl() {
+    return this.librosF.get('numPaginas');
+  }
+  get estadoLibroControl() {
+    return this.librosF.get('estadoLibro');
+  }
+
+  get editorControl() {
+    return this.librosF.get('editor');
+  }
+  get areaControl() {
+    return this.librosF.get('area');
+  }
+
+
+  get DisponibeControl() {
+    return this.librosF.get('disponibilidad');
+  }
+
+
+
+
+
+
+  // Validador personalizado
+  seleccionOpcionInvalida(control: AbstractControl): ValidationErrors | null {
+    const valor = control.value;
+    if (valor === '1' || valor === '2' || valor === '3') {
+      return null; // Opción válida, no hay error
+    } else {
+      return { seleccionOpcionInvalida: true }; // Opción inválida, retorna el error
+    }
+  }
+
+  validarSeleccion = (control: FormControl) => {
+    const seleccion = control.value;
+    if (seleccion === '0') {
+      return { seleccionInvalida: true };
+    }
+    return null;
+  };
+  //FIN VALIDACIONES
+
+
   extraerBase64 = async ($event: any) => new Promise((resolve, reject) => {
     try {
       const unsafeImg = window.URL.createObjectURL($event);
@@ -77,7 +355,7 @@ export class LibroCompletoComponent {
       reader.onload = () => {
         resolve({
           base: reader.result
-  
+
         });
       };
       reader.onerror = error => {
@@ -85,7 +363,7 @@ export class LibroCompletoComponent {
           base: null
         });
       };
-  
+
     } catch (e) {
       console.log("Error al Subir Imagen")
     }
@@ -117,11 +395,6 @@ export class LibroCompletoComponent {
 
     return nombreEstado;
   }
-  editar() {
-    console.log("Entroooo")
-    this.isDisabled = false;
-    this.ngOnInit();
-  }
 
   aceptar() {
     this.router.navigate(['/']);
@@ -130,7 +403,7 @@ export class LibroCompletoComponent {
   agregarEtiqueta() {
     if (this.libro.id != undefined && this.libro.titulo) {
       window.localStorage.setItem('idlibro', this.libro.id.toString());
-      localStorage.setItem('titulolibro',this.libro.titulo)
+      localStorage.setItem('titulolibro', this.libro.titulo)
       this.router.navigate(['/app-registro-etiquetas']);
     }
   }
@@ -151,11 +424,59 @@ export class LibroCompletoComponent {
   capturarAutor(posicion: any) {
     console.log(posicion);
     if (posicion && posicion.nombre) {
-      this.autor = posicion;
+      this.autor1 = posicion;
 
-      //this.autorlibro.autor = this.autor
+      this.autores_libros1.autor = this.autor1
 
     }
+
+  }
+
+  // ESTO ES PARA CAPTURAR EL DONANTE
+  public dato1!: Observable<any['']>;
+  obtenerDonante(): void {
+    this.dato1 = this.ListaT.listarDonate();
+    console.log(this.dato1 + "Holii");
+
+
+  }
+
+  selectedDonante: any
+
+  capturarDonante(e: any) {
+    console.log(e);
+    this.selectedDonante = e
+
+    if (this.selectedDonante && this.selectedDonante.nombre) {
+      this.librosF.get('donante')?.patchValue(this.selectedDonante);
+      console.log(this.librosF.get('donante')?.value);
+       // Establecer el valor en el formulario
+    }
+  }
+
+
+  // FIN CAPTURAR EL DONANTE
+
+  //Conseguir capturar tipo de Libro
+
+  public dato2!: Observable<any['']>;
+
+  ObtenerTipo() {
+    this.dato2 = this.ListaT.obtenerTipos();
+  }
+
+  selectTipo: any
+
+  seleccionT(e: any) {
+    console.log(e);
+
+    this.selectTipo = e
+
+    if (this.selectTipo && this.selectTipo.nombre) {
+      this.librosF.get('tipo')?.patchValue(this.selectTipo);
+      
+    }
+
 
   }
 
@@ -167,4 +488,75 @@ export class LibroCompletoComponent {
     })
 
   }
+
+  editar() {
+    console.log("Entroooo")
+    this.isDisabled = false;
+    this.ngOnInit();
+  }
+
+
+  EditarLibro(){
+    const librosFCopy = JSON.parse(JSON.stringify(this.librosF.getRawValue()));
+    console.log(librosFCopy);
+
+    if (this.libro.id) {
+      this.libroservice.editar(this.libro.id, librosFCopy).subscribe(
+        respose=>{
+          console.log(respose);
+          
+        }
+      )
+
+      if (this.autores_libros.id) {
+        this.listaservice.editarAutor(this.autores_libros.id, this.autores_libros1).subscribe(
+          respose=>{
+            console.log(respose);
+            
+          }
+        )
+      }
+
+      if (this.imagen) {
+        this.libroservice.subirImagen(this.libro.id, this.imagen).subscribe(
+          (response: any) => {
+            console.log('Imagen subida:', response); // No es necesario intentar analizar la respuesta como JSON
+
+            Swal.fire({
+              position: 'center',
+              icon: 'success',
+              title: '<strong>Se ha editado un Libro</strong>',
+              showConfirmButton: false,
+              timer: 1500
+            });
+
+            setTimeout(() => {
+              this.ngOnInit();
+              // location.reload();
+            }, 1000);
+          },
+          (error: any) => {
+            console.error('Error al subir la imagen:', error);
+            // Maneja el error de acuerdo a tus necesidades
+          }
+        );
+
+      }
+
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: '<strong>Se ha editado un Libro</strong>',
+        showConfirmButton: false,
+        timer: 1500
+      });
+
+      setTimeout(() => {
+        this.ngOnInit();
+        // location.reload();
+      }, 1000);
+    }
+  }
+
+
 }

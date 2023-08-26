@@ -18,12 +18,17 @@ export class LibroService {
   private urlBuscarLibroId: string = this.url+'/libro/buscar';
   private urlListarAutor: string = this.url+'/autor/listar';
   private guardarImagen: string = this.url+'/libro/subirimagen';
+  private editarLibro: string= this.url+'/libro/editar'
   private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' })
 
   constructor(private http: HttpClient) { }
 
   create(libro: any): Observable<Libro> {
     return this.http.post<Libro>(this.urlendpoint, libro, { headers: this.httpHeaders })
+  }
+
+  editar(id: number, libro: any): Observable<Libro>{
+    return this.http.put<Libro>(`${this.editarLibro}/${id}`, libro,{headers : this.httpHeaders})
   }
   obtenerLibros(): Observable<Libro[]> {
     return this.http.get<Libro[]>(this.urlendpoint1);

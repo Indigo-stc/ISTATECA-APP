@@ -7,7 +7,7 @@
     <div class="card">
         <h1>Datos del libro</h1>
         <div class="content">
-            <form ngNativeValidate>
+            <form ngNativeValidate [formGroup]="librosF">
                 <div class="step-counter">
                     <p>Paso {{ step }} de {{ totalSteps }} </p>
                     <button class="boton" (click)="editar()">Editar&nbsp;
@@ -25,44 +25,94 @@
 
                         <div class="input-box">
                             <span class="details">Id del libro:</span>
-                            <input type="text" class="form-control" [(ngModel)]="libro.id" disabled name="id" required>
+                            <input type="text" class="form-control" value="{{libro.id}}" disabled name="id" required>
                             <span class="details">Código ISBN:</span>
-                            <input type="text" class="form-control" [(ngModel)]="libro.conIsbn" [disabled]="isDisabled"
+                            <input type="text" class="form-control" value="{{libro.conIsbn}}" disabled [disabled]="isDisabled"
                                 name="conIsbn" required>
 
                             <span class="details">Código Dewey:</span>
-                            <input type="text" class="form-control" [(ngModel)]="libro.codigoDewey" name="codigoDewey"
+                            <input type="text" class="form-control" formControlName="codigoDewey" name="codigoDewey"
                                 required [disabled]="isDisabled">
+                                 <div *ngIf="codigoDeweyControl?.hasError('required')" class="error-message">El campo es
+                                    obligatorio.</div>
                         </div>
                         <hr>
                         <div class="input-box">
                             <span class="details">Adquisición:</span>
-                            <input type="text" class="form-control" [(ngModel)]="libro.adquisicion"
+                            <input type="text" class="form-control" formControlName="adquisicion"
                                 [disabled]="isDisabled" name="adquisicion" required>
+
+                                <div
+                                *ngIf="adquisicionControl?.invalid && (adquisicionControl?.dirty || adquisicionControl?.touched)">
+                                <div *ngIf="adquisicionControl?.hasError('required')" class="error-message">El campo
+                                    es
+                                    obligatorio.</div>
+                            </div>
+                            
                             <span class="details">Titulo:</span>
-                            <input type="text" class="form-control" [(ngModel)]="libro.titulo" name="nombres" required
+                            <input type="text" class="form-control" formControlName="titulo" name="nombres" required
                                 [disabled]="isDisabled">
+                                <div *ngIf="tituloControl?.invalid && (tituloControl?.dirty || tituloControl?.touched)">
+                                    <div *ngIf="tituloControl?.hasError('required')" class="error-message">El campo es
+                                        obligatorio.</div>
+    
+                                </div>
+                                <div *ngIf="librosF.controls['titulo'].hasError('tituloDuplicado')&&isDisabled==false" class="error-message">
+                                    El título está duplicado. Por favor, elija un título diferente.
+                                </div>
+
                             <span class="details">Subtítulo:</span>
-                            <input type="text" class="form-control" [(ngModel)]="libro.subtitulo"
-                                [disabled]="isDisabled" name="subtitulo" required>
+                            <input type="text" class="form-control" formControlName="subtitulo" [disabled]="isDisabled"
+                                name="subtitulo" required>
+
+                                <div
+                                *ngIf="subtituloControl?.invalid && (subtituloControl?.dirty || subtituloControl?.touched)">
+                                <div *ngIf="subtituloControl?.hasError('required')" class="error-message">El campo es
+                                    obligatorio.</div>
+                            </div>
                         </div>
                         <div class="input-box">
                             <span class="details">Indice 1:</span>
-                            <input type="text" class="form-control" [(ngModel)]="libro.indiceUno" name="indiceUno"
+                            <input type="text" class="form-control" formControlName="indiceUno" name="indiceUno"
                                 required [disabled]="isDisabled">
+                                <div
+                                *ngIf="indiceUnoControl?.invalid && (indiceUnoControl?.dirty || indiceUnoControl?.touched)">
+                                <div *ngIf="indiceUnoControl?.hasError('required')" class="error-message">El campo es
+                                    obligatorio.</div>
+                            </div>
 
                             <span class="details">Indice 2:</span>
-                            <input type="text" class="form-control" [(ngModel)]="libro.indiceDos" name="indiceDos"
+                            <input type="text" class="form-control" formControlName="indiceDos" name="indiceDos"
                                 required [disabled]="isDisabled">
 
+                                <div
+                                *ngIf="indiceDosControl?.invalid && (indiceDosControl?.dirty || indiceDosControl?.touched)">
+                                <div *ngIf="indiceDosControl?.hasError('required')" class="error-message">El campo es
+                                    obligatorio.</div>
+                            </div>
+
                             <span class="details">Indice 3:</span>
-                            <input type="text" class="form-control" [(ngModel)]="libro.indiceTres" name="indiceTres"
+                            <input type="text" class="form-control" formControlName="indiceTres" name="indiceTres"
                                 required [disabled]="isDisabled">
+
+                                <div
+                                *ngIf="indiceTresControl?.invalid && (indiceTresControl?.dirty || indiceTresControl?.touched)">
+                                <div *ngIf="indiceTresControl?.hasError('required')" class="error-message">El campo
+                                    es
+                                    obligatorio.</div>
+                            </div> 
                         </div>
                         <div class="input-box">
                             <span class="details" style="width: 12%;">Descripción:</span>
-                            <input type="text" style="width: 100%;" class="form-control" [(ngModel)]="libro.descripcion"
+                            <input type="text" style="width: 100%;" class="form-control" formControlName="descripcion"
                                 name="descripcion" required [disabled]="isDisabled">
+
+                                <div
+                                *ngIf="descripcionControl?.invalid && (descripcionControl?.dirty || descripcionControl?.touched)">
+                                <div *ngIf="descripcionControl?.hasError('required')" class="error-message">El campo
+                                    es
+                                    obligatorio.</div>
+                            </div>
                         </div>
 
                     </div>
@@ -76,7 +126,7 @@
                             </div>
                             <div class="cont" *ngIf="isDisabled==false">
                                 <span class="details" style="width: 100%;"> Nuevo Estado:</span>
-                                <select class="combo form-select" name="carrera" required>
+                                <select class="combo form-select" name="carrera" formControlName="estadoLibro" required>
                                     <option disabled selected>Seleccione alguna</option>
                                     <option value=1>Nuevo</option>
                                     <option value=2>Bueno</option>
@@ -84,6 +134,14 @@
                                     <option value=4>Malo</option>
                                     <option value=5>No Utilizable</option>
                                 </select>
+
+                                <div style="margin-left: 15%; width: 40%;"
+                                *ngIf="estadoLibroControl?.invalid && (estadoLibroControl?.dirty || estadoLibroControl?.touched)">
+                                <div *ngIf="estadoLibroControl?.hasError('required')" class="error-message">El campo es
+                                    obligatorio.</div>
+                                <div *ngIf="estadoLibroControl?.hasError('seleccionOpcionInvalida')" class="error-message">
+                                    Selecciona una opción válida.</div>
+                            </div>
                             </div>
                             <div class="cont">
                                 <span class="details">Disponibilidad:</span>
@@ -91,49 +149,134 @@
                             </div>
                             <div class="cont" style="width: 25%;" *ngIf="isDisabled==false">
                                 <span class="details">Nueva Disponibilidad:</span>
-                                <select class="combo form-select" name="carrera" required>
+                                <select class="combo form-select" name="carrera" formControlName="disponibilidad"
+                                    required>
                                     <option disabled selected>Seleccione alguna</option>
                                     <option value=1>Disponible</option>
                                     <option value=2>No Disponible</option>
                                 </select>
+
+                                <div
+                                *ngIf="DisponibeControl?.invalid && (DisponibeControl?.dirty || DisponibeControl?.touched)">
+                                <div *ngIf="DisponibeControl?.hasError('required')" class="error-message">El
+                                    campo
+                                    es
+                                    obligatorio.</div>
+                                <div *ngIf="DisponibeControl?.hasError('seleccionOpcionInvalida')"
+                                    class="error-message">Selecciona una opción válida.</div>
+                            </div>
                             </div>
                         </div>
                         <hr>
                         <div class="input-box">
                             <span class="details">Dimesiones:</span>
-                            <input type="text" class="form-control" [(ngModel)]="libro.dimenciones"
+                            <input type="text" class="form-control" formControlName="dimenciones"
                                 [disabled]="isDisabled" name="dimenciones" required>
 
+                                <div *ngIf="dimenciones?.invalid && (dimenciones?.dirty || dimenciones?.touched)">
+                                    <div *ngIf="dimenciones?.hasError('required')" class="error-message">El campo es
+                                        obligatorio.</div>
+                                    <div *ngIf="dimenciones?.hasError('pattern')" class="error-message">El formato debe
+                                        ser
+                                        "000x000".</div>
+                                </div>
+
                             <span class="details">N° de Páginas:</span>
-                            <input type="text" class="form-control" [(ngModel)]="libro.numPaginas" name="numPaginas"
+                            <input type="text" class="form-control" formControlName="numPaginas" name="numPaginas"
                                 required [disabled]="isDisabled">
+
+                                <div
+                                *ngIf="numPaginasControl?.invalid && (numPaginasControl?.dirty || numPaginasControl?.touched)">
+                                <div *ngIf="numPaginasControl?.hasError('required')" class="error-message">El campo
+                                    es
+                                    obligatorio.</div>
+                                <div *ngIf="librosF.controls['numPaginas']?.hasError('numeroNegativo')"
+                                    class="error-message">
+                                    No se permiten números negativos.
+                                </div>
+                            </div>
+
                             <span class="details">Idioma:</span>
-                            <input type="text" class="form-control" [(ngModel)]="libro.idioma" name="idioma" required
+                            <input type="text" class="form-control" formControlName="idioma" name="idioma" required
                                 [disabled]="isDisabled">
+
+                                <div *ngIf="idiomaControl?.invalid && (idiomaControl?.dirty || idiomaControl?.touched)">
+                                    <div *ngIf="idiomaControl?.hasError('required')" class="error-message">El campo es
+                                        obligatorio.</div>
+                                    <div *ngIf="idiomaControl?.hasError('pattern')" class="error-message"> El idioma
+                                        solo
+                                        puede contener letras, espacios y los siguientes caracteres especiales: , . ; '
+                                        
+                                    </div>
+                                </div>
                         </div>
                         <hr>
                         <div class="input-box">
                             <span class="details">Editor:</span>
-                            <input type="text" class="form-control" [(ngModel)]="libro.editor" [disabled]="isDisabled"
+                            <input type="text" class="form-control" formControlName="editor" [disabled]="isDisabled"
                                 name="editor" required>
+                                <div *ngIf="editorControl?.invalid && (editorControl?.dirty || editorControl?.touched)">
+                                    <div *ngIf="editorControl?.hasError('required')" class="error-message">El campo es
+                                        obligatorio.</div>
+                                </div>
 
                             <span class="details">Area:</span>
-                            <input type="text" class="form-control" [(ngModel)]="libro.area" name="area" required
+                            <input type="text" class="form-control" formControlName="area" name="area" required
                                 [disabled]="isDisabled">
+
+                                <div *ngIf="areaControl?.invalid && (areaControl?.dirty || areaControl?.touched)">
+                                    <div *ngIf="areaControl?.hasError('required')" class="error-message">El campo es
+                                        obligatorio.</div>
+                                </div>
                             <span class="details">Publicado en:</span>
-                            <input type="text" class="form-control" [(ngModel)]="libro.anioPublicacion"
+                            <input type="text" class="form-control" formControlName="anioPublicacion"
                                 name="anioPublicacion" required [disabled]="isDisabled">
+
+                                <div
+                                *ngIf="anioPublicacionControl?.invalid && (anioPublicacionControl?.dirty || anioPublicacionControl?.touched)">
+                                <div *ngIf="anioPublicacionControl?.hasError('required')" class="error-message">El
+                                    campo
+                                    es obligatorio.</div>
+                                <div *ngIf="anioPublicacionControl?.hasError('max')" class="error-message">El año
+                                    puede
+                                    tener un max de 4 numeros.</div>
+
+                                <div *ngIf="librosF.controls['anioPublicacion']?.hasError('numeroNegativo')"
+                                    class="error-message">
+                                    No se permiten números negativos.
+                                </div>
+                            </div>
+
                         </div>
                         <div class="input-box">
                             <span class="details">Ciudad:</span>
-                            <input type="text" class="form-control" [(ngModel)]="libro.ciudad" [disabled]="isDisabled"
+                            <input type="text" class="form-control" formControlName="ciudad" [disabled]="isDisabled"
                                 name="ciudad" required>
+
+                                <div *ngIf="ciudadControl?.invalid && (ciudadControl?.dirty || ciudadControl?.touched)">
+                                    <div *ngIf="ciudadControl?.hasError('required')" class="error-message">El campo es
+                                        obligatorio.</div>
+                                    <div *ngIf="ciudadControl?.hasError('pattern')" class="error-message">Por favor,
+                                        ingrese
+                                        una ciudad válida (máximo 15 caracteres).</div>
+                                </div>
+
                             <span class="details">URL:</span>
-                            <input type="text" class="form-control" [(ngModel)]="libro.urlDigital"
-                                [disabled]="isDisabled" name="urlDigital" required>
+                            <input type="text" class="form-control" formControlName="urlDigital" [disabled]="isDisabled"
+                                name="urlDigital" required>
+
+                                <div
+                                *ngIf="urlDigitalControl?.invalid && (urlDigitalControl?.dirty || urlDigitalControl?.touched)">
+                                <div *ngIf="urlDigitalControl?.hasError('required')" class="error-message">El campo
+                                    es
+                                    obligatorio.</div>
+                                <div *ngIf="urlDigitalControl?.hasError('pattern')" class="error-message">Por favor,
+                                    ingrese una URL válida.</div>
+                            </div>
+
 
                             <span class="details">Fecha de creación:</span>
-                            <input type="text" class="form-control" [(ngModel)]="libro.fechaCreacion" disabled
+                            <input type="text" class="form-control" value="{{libro.fechaCreacion}}" disabled
                                 name="fechaCreacion" required>
                         </div>
                     </div>
@@ -142,8 +285,8 @@
                         <div class="input-box">
                             <div class="cont">
                                 <span class="details">Autor:</span>
-                                <input type="text" class="form-control" value="{{autores_libros.autor?.nombre}}"
-                                    disabled name="adquisicion" required>
+                                <input type="text" class="form-control" [value]="autores_libros.autor?.nombre" disabled
+                                    name="adquisicion" required>
                             </div>
                             <div class="cont" *ngIf="isDisabled==false">
                                 <span class="details">Nuevo Autor:</span>
@@ -154,11 +297,7 @@
                                         placeholder="Ingrese el nombre del autor">
                                     </ng-autocomplete>
                                     <!-- Mensaje de error para el autocompletar -->
-                                    <!--- <div class="error-message"
-                                        *ngIf="librosF.get('autor')?.hasError('autorNoSeleccionado') && (librosF.get('autor')?.dirty || librosF.get('autor')?.touched)">
-                                        El campo es obligatorio. 
-                                        <br>Por favor, seleccione un autor válido.
-                                    </div>-->
+                                   
                                     <ng-template #itemTemplate let-item>
                                         <a [innerHTML]="item.nombre"></a>
                                     </ng-template>
@@ -172,23 +311,18 @@
                             </div>
                             <div class="cont">
                                 <span class="details">Tipo:</span>
-                                <input type="text" class="form-control" value="{{libro.tipo?.nombre}}" required
-                                    disabled>
+                                <input type="text" class="form-control" [value]="libro.tipo?.nombre" required disabled>
                             </div>
                             <div class="cont" *ngIf="isDisabled==false">
                                 <span class="details">Nuevo Tipo:</span>
                                 <div style="width: 100%;">
-                                    <ng-autocomplete [data]="dato | async" [searchKeyword]="keyword"
-                                        (selected)="capturarAutor($event)" [itemTemplate]="itemTemplate"
-                                        formControlName="autor" [notFoundTemplate]="notFoundTemplate"
+                                    <ng-autocomplete [data]="dato2 | async" [searchKeyword]="keyword"
+                                        (selected)="seleccionT($event)" [itemTemplate]="itemTemplate"
+                                        formControlName="tipo1" [notFoundTemplate]="notFoundTemplate"
                                         placeholder="Ingrese el nombre del tipo">
                                     </ng-autocomplete>
                                     <!-- Mensaje de error para el autocompletar -->
-                                    <!--- <div class="error-message"
-                                        *ngIf="librosF.get('autor')?.hasError('autorNoSeleccionado') && (librosF.get('autor')?.dirty || librosF.get('autor')?.touched)">
-                                        El campo es obligatorio. 
-                                        <br>Por favor, seleccione un autor válido.
-                                    </div>-->
+                                   
                                     <ng-template #itemTemplate let-item>
                                         <a [innerHTML]="item.nombre"></a>
                                     </ng-template>
@@ -204,29 +338,24 @@
                         <div class="input-box">
                             <div class="cont" style="width: 50%;">
                                 <span class="details">Bibliotecario que Registra:</span>
-                                <input type="text" class="form-control"
-                                    value="{{libro.persona?.nombres}}&nbsp;{{libro.persona?.apellidos}}" disabled
+                                <input type="text" class="form-control" [value]="libro.persona?.nombres" disabled
                                     name="adquisicion" required>
                             </div>
                             <div class="cont">
                                 <span class="details">Donante:</span>
-                                <input type="text" class="form-control" value="{{libro.tipo?.nombre}}" required
+                                <input type="text" class="form-control" value="{{libro.donante?.nombre}}" required
                                     disabled>
                             </div>
                             <div class="cont" *ngIf="isDisabled==false">
                                 <span class="details">Nuevo Donante:</span>
                                 <div style="width: 100%;">
-                                    <ng-autocomplete [data]="dato | async" [searchKeyword]="keyword"
-                                        (selected)="capturarAutor($event)" [itemTemplate]="itemTemplate"
-                                        formControlName="autor" [notFoundTemplate]="notFoundTemplate"
+                                    <ng-autocomplete [data]="dato1 | async" [searchKeyword]="keyword"
+                                        (selected)="capturarDonante($event)" [itemTemplate]="itemTemplate"
+                                        formControlName="donante1" [notFoundTemplate]="notFoundTemplate"
                                         placeholder="Ingrese el nombre del donante">
                                     </ng-autocomplete>
                                     <!-- Mensaje de error para el autocompletar -->
-                                    <!--- <div class="error-message"
-                                            *ngIf="librosF.get('autor')?.hasError('autorNoSeleccionado') && (librosF.get('autor')?.dirty || librosF.get('autor')?.touched)">
-                                            El campo es obligatorio. 
-                                            <br>Por favor, seleccione un autor válido.
-                                        </div>-->
+                                   
                                     <ng-template #itemTemplate let-item>
                                         <a [innerHTML]="item.nombre"></a>
                                     </ng-template>
@@ -250,13 +379,16 @@
                                 <img width="230px" [src]="previsualizacion" alt="">
                             </div>
                             <label id="boton">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-camera" viewBox="0 0 16 16">
-                                    <path d="M15 12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h1.172a3 3 0 0 0 2.12-.879l.83-.828A1 1 0 0 1 6.827 3h2.344a1 1 0 0 1 .707.293l.828.828A3 3 0 0 0 12.828 5H14a1 1 0 0 1 1 1v6zM2 4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.172a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 9.172 2H6.828a2 2 0 0 0-1.414.586l-.828.828A2 2 0 0 1 3.172 4H2z"/>
-                                    <path d="M8 11a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5zm0 1a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM3 6.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z"/>
-                                  </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-camera" viewBox="0 0 16 16">
+                                    <path
+                                        d="M15 12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h1.172a3 3 0 0 0 2.12-.879l.83-.828A1 1 0 0 1 6.827 3h2.344a1 1 0 0 1 .707.293l.828.828A3 3 0 0 0 12.828 5H14a1 1 0 0 1 1 1v6zM2 4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.172a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 9.172 2H6.828a2 2 0 0 0-1.414.586l-.828.828A2 2 0 0 1 3.172 4H2z" />
+                                    <path
+                                        d="M8 11a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5zm0 1a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM3 6.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z" />
+                                </svg>
                             </label>&nbsp;&nbsp;
-                            <input id="subir" accept="image/*" formControlName="urlImagen"
-                                (change)="capturarImagen($event)" type="file" name="Image">
+                            <input id="subir" accept="image/*" (change)="capturarImagen($event)" type="file"
+                                name="Image">
                         </div>
                     </div>
 
@@ -279,7 +411,8 @@
                                     d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z" />
                             </svg>
                         </button>
-                        <button type="submit" *ngIf="step === 4 && isDisabled==false" style="margin-left: 50%;">
+                        <button type="submit" *ngIf="step === 4 && isDisabled==false" style="margin-left: 50%;"
+                            (click)="EditarLibro()"  [disabled]="librosF.invalid || !todosCamposLlenos()">
                             Guardar Editado<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                 fill="currentColor" class="bi bi-folder-check" viewBox="0 0 16 16">
                                 <path
