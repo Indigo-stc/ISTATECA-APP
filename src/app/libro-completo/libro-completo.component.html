@@ -57,9 +57,9 @@
                                         obligatorio.</div>
     
                                 </div>
-                                <div *ngIf="librosF.controls['titulo'].hasError('tituloDuplicado')&&isDisabled==false" class="error-message">
+                                <!-- <div *ngIf="librosF.controls['titulo'].hasError('tituloDuplicado')&&isDisabled==false" class="error-message">
                                     El título está duplicado. Por favor, elija un título diferente.
-                                </div>
+                                </div> -->
 
                             <span class="details">Subtítulo:</span>
                             <input type="text" class="form-control" formControlName="subtitulo" [disabled]="isDisabled"
@@ -293,7 +293,7 @@
                                 <div style="width: 100%;">
                                     <ng-autocomplete [data]="dato | async" [searchKeyword]="keyword"
                                         (selected)="capturarAutor($event)" [itemTemplate]="itemTemplate"
-                                        formControlName="autor" [notFoundTemplate]="notFoundTemplate"
+                                         [notFoundTemplate]="notFoundTemplate"
                                         placeholder="Ingrese el nombre del autor">
                                     </ng-autocomplete>
                                     <!-- Mensaje de error para el autocompletar -->
@@ -318,7 +318,7 @@
                                 <div style="width: 100%;">
                                     <ng-autocomplete [data]="dato2 | async" [searchKeyword]="keyword"
                                         (selected)="seleccionT($event)" [itemTemplate]="itemTemplate"
-                                        formControlName="tipo1" [notFoundTemplate]="notFoundTemplate"
+                                         [notFoundTemplate]="notFoundTemplate"
                                         placeholder="Ingrese el nombre del tipo">
                                     </ng-autocomplete>
                                     <!-- Mensaje de error para el autocompletar -->
@@ -351,7 +351,7 @@
                                 <div style="width: 100%;">
                                     <ng-autocomplete [data]="dato1 | async" [searchKeyword]="keyword"
                                         (selected)="capturarDonante($event)" [itemTemplate]="itemTemplate"
-                                        formControlName="donante1" [notFoundTemplate]="notFoundTemplate"
+                                         [notFoundTemplate]="notFoundTemplate"
                                         placeholder="Ingrese el nombre del donante">
                                     </ng-autocomplete>
                                     <!-- Mensaje de error para el autocompletar -->
@@ -412,7 +412,7 @@
                             </svg>
                         </button>
                         <button type="submit" *ngIf="step === 4 && isDisabled==false" style="margin-left: 50%;"
-                            (click)="EditarLibro()"  [disabled]="librosF.invalid || !todosCamposLlenos()">
+                            (click)="EditarLibro()"  >
                             Guardar Editado<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                 fill="currentColor" class="bi bi-folder-check" viewBox="0 0 16 16">
                                 <path
