@@ -46,12 +46,12 @@
               <td>{{ libro.disponibilidad ? 'Disponible' : 'No disponible' }}</td>
               <td *ngIf="libro.disponibilidad else menor">
                 <button (click)="SolicitarLibro(libro)">Solicitar</button>
-                <button *ngIf="mostrar==true" (click)="libroCompleto(libro)">Ver Libro</button>
+                <button  (click)="libroCompleto(libro)">Ver Libro</button>
               </td>
               <ng-template #menor>
                 <td>
                  Ninguna
-                 <button *ngIf="mostrar==true" (click)="libroCompleto(libro)">Ver Libro</button>
+                 <button  (click)="libroCompleto(libro)">Ver Libro</button>
                 </td>
               </ng-template>
             </tr>
@@ -74,7 +74,7 @@
               <ng-template #menor>
                 <td style="width: 8.5%;">
                  Ninguna
-                 <button *ngIf="mostrar==true" (click)="libroCompleto(libro)">Ver Libro</button>
+                 <button (click)="libroCompleto(libro)">Ver Libro</button>
                 </td>
               </ng-template>
             </tr>

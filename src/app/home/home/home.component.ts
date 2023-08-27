@@ -22,7 +22,6 @@ export class HomeComponent implements OnInit {
   datoslibro: string = "";
   buscar: boolean = true;
   normal: boolean = false;
-  mostrar: boolean=false;
   noiniciado:boolean=false;
 
   constructor(private prestamoService: prestamoService, private libroService: LibroService, private router: Router, private router1: Router, private notificacionesService: NotificacionesService) { }
@@ -39,11 +38,6 @@ export class HomeComponent implements OnInit {
       this.noiniciado=true;
     }else{
       this.noiniciado=false;
-    }
-    if (this.persona.tipo == 3 || this.persona.tipo == 4) {
-      this.mostrar = true;
-    }else{
-      this.mostrar=false;
     }
 
   }
