@@ -39,7 +39,10 @@ body {
   background-color: white;
   color: #004f9f;
 }
-
+.td1{
+  display: flex;
+  justify-content: center;
+}
 .card {
   width: 78%;
   height: 87%;
@@ -105,17 +108,19 @@ form {
 }
 
 button {
-  margin-left: 2%;
+  width:auto;
   display: flex;
   align-items: center;
   font-family: inherit;
   font-weight: 500;
-  font-size: 12px;
+  font-size: 10px;
   padding: 0.8em 1.3em 0.8em 0.9em;
   color: white;
   background: #1C69B7;
   border: none;
   border-radius: 16px;
+  margin-top: 3.2%;
+  margin-bottom: 3.2%;
 }
 
 button img {

@@ -57,7 +57,7 @@
             <td style="width: 20%">{{prestamo.libro?.titulo}}</td>
             <td style="width: 15%;">{{prestamo.fechaFin}}</td>
             <td style="width: 15%;">{{ getNombreEstado(prestamo.estadoPrestamo) }}</td>
-            <td style="width: 60; display: flex; justify-content: center;">
+            <td class="td1" style="width: 60;">
               <button (click)="aceptarDomicilio(prestamo)">Aceptar Solitud Domicilio</button>&nbsp;
               <button (click)="aceptar(prestamo)">Aceptar Solitud Institución</button>
               <button (click)="rechazar(prestamo)">Rechazar Solicitud</button>
@@ -73,7 +73,7 @@
             <td style="width: 20%">{{prestamo.libro?.titulo}}</td>
             <td  style="width: 15%;">{{prestamo.fechaMaxima}}</td>
             <td  style="width: 15%;">{{ getNombreEstado(prestamo.estadoPrestamo) }}</td>
-            <td style=" width: 60; height: 100%; display: flex; justify-content: center;">
+            <td  class="td1"  style=" width: 60;">
               <button (click)="devolucion(prestamo)">Formulario de devolución</button>&nbsp;
               <button (click)="modificar(prestamo)">Modificar</button>&nbsp;
             </td>
@@ -88,7 +88,7 @@
             <td style="width: 20%">{{prestamo.libro?.titulo}}</td>
             <td  style="width: 15%;">{{prestamo.fechaDevolucion}}</td>
             <td  style="width: 15%;">{{ getNombreEstado(prestamo.estadoPrestamo) }}</td>
-           <td style="width: 60; height: 100%; display: flex; justify-content: center;"> <button (click)="solicitudCompleta(prestamo)">Ver Prestamo</button>&nbsp;</td>
+           <td class="td1"  style="width: 60;"> <button (click)="solicitudCompleta(prestamo)">Ver Prestamo</button>&nbsp;</td>
           </tr>
         </tbody>
 
@@ -100,7 +100,7 @@
             <td style="width: 20%">{{prestamo.libro?.titulo}}</td>
             <td style="color: crimson; width: 15%;">{{prestamo.fechaMaxima}}</td>
             <td style="width: 15%;">{{ getNombreEstado(prestamo.estadoPrestamo) }}</td>
-            <td style="display: flex; justify-content: center;  width: 60;">
+            <td style="width: 60;" class="td1" >
               <button (click)="devolucion(prestamo)">Recibir libro</button>&nbsp;
             </td>
           </tr>
@@ -114,7 +114,7 @@
             <td style="width: 20%">{{prestamo.libro?.titulo}}</td>
             <td style="width: 15%;">{{prestamo.fechaDevolucion}}</td>
             <td style="width: 15%;">{{ getNombreEstado(prestamo.estadoPrestamo) }}</td>
-            <td style="display: flex; justify-content: center;  width: 60;">
+            <td style="width: 60;" class="td1" >
               <button (click)="solicitudCompleta(prestamo)">Ver Prestamo</button>&nbsp;
             </td>
           </tr>
@@ -163,28 +163,28 @@
 
             <td style="width: 15%;">{{ getNombreEstado(prestamo.estadoPrestamo) }}</td>
 
-            <td  *ngIf="prestamo.estadoPrestamo == 1; else ll " style=" width: 60;">
+            <td class="td1"  *ngIf="prestamo.estadoPrestamo == 1; else ll " style=" width: 60;">
               <button (click)="aceptarDomicilio(prestamo)">Aceptar Solitud Domicilio</button>&nbsp;
               <button (click)="aceptar(prestamo)">Aceptar Solitud Institución</button>
             </td>
             <ng-template #ll>
-              <td  *ngIf="prestamo.estadoPrestamo == 2; else ll2 " style=" width: 60;">
+              <td class="td1"   *ngIf="prestamo.estadoPrestamo == 2; else ll2 " style=" width: 60;">
                 <button (click)="devolucion(prestamo)">Formulario de devolución</button>&nbsp;
               </td>
             </ng-template>
             <ng-template #ll2>
-              <td
+              <td class="td1" 
                 *ngIf="prestamo.estadoPrestamo == 3 || prestamo.estadoPrestamo == 6" else ll3 style=" width: 60;">
                 <button (click)="solicitudCompleta(prestamo)">Ver Prestamo</button>&nbsp;
               </td>
             </ng-template>
             <ng-template #ll3>
-              <td  *ngIf="prestamo.estadoPrestamo == 4 else ll4" style=" width: 60;">
+              <td class="td1"  *ngIf="prestamo.estadoPrestamo == 4 else ll4" style=" width: 60;">
                 <button (click)="devolucionR(prestamo)">Restituir libro</button>&nbsp;
               </td>
             </ng-template>
             <ng-template #ll4>
-              <td  *ngIf="prestamo.estadoPrestamo == 5" style=" width: 60">
+              <td class="td1"  *ngIf="prestamo.estadoPrestamo == 5" style=" width: 60">
                 <button (click)="devolucion(prestamo)">Recibir libro</button>&nbsp;
               </td>
             </ng-template>

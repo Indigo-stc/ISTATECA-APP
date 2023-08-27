@@ -188,7 +188,6 @@ export class DevolverLibroTerceroComponent implements OnInit{
     if (this.estadoActual != undefined) {
       if (this.estadoActual == 1 || this.estadoActual == 2) {
         if (this.estado == "6") {
-          alert("Restituido")
           this.prestamo.estadoPrestamo = 6;
           this.PrestamoService.update(this.prestamo).subscribe(
             response => {
