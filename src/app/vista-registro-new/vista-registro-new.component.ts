@@ -17,6 +17,7 @@ import { LibroService } from '../services/libro.service';
 import { PersonaService } from '../services/persona.service';
 import { Autor_Libro } from '../models/Autor_Libro';
 import { Etiqueta } from '../models/Etiqueta';
+import { Donante } from '../models/Donante';
 
 
 // Función de validación personalizada para el autocompletar
@@ -35,6 +36,7 @@ export class VistaRegistroNewComponent implements OnInit {
   tipo1: Tipo = new Tipo;
   autor: Autor = new Autor
   autor1: Autor = new Autor
+  donante:Donante=new Donante;
   autorlibro: Autor_Libro = new Autor_Libro
   imagen?: File;
   reporteV: String = "";
@@ -404,6 +406,16 @@ export class VistaRegistroNewComponent implements OnInit {
     overlay?.classList.remove('active');
   }
 
+  AbrirDonante() {
+    var overlay = document.getElementById('overlay91');
+    overlay?.classList.add('active');
+
+  }
+
+  cerrarpopup3() {
+    var overlay = document.getElementById('overlay91');
+    overlay?.classList.remove('active');
+  }
   //FIN CAPTURAR AUTOR
 
   // ESTO ES PARA CAPTURAR EL DONANTE
@@ -711,5 +723,20 @@ export class VistaRegistroNewComponent implements OnInit {
     );
   }
 
-
+  guardarD() {
+    this.listasService.createDonante(this.donante).subscribe(
+      response => {
+        this.obtenerDonante()
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: '<strong>Guardado correctamente</strong>',
+          showConfirmButton: false,
+          timer: 1500
+        })
+        this.cerrarpopup3();
+        this.donante=new Donante();
+      }
+    );
+  }
 }

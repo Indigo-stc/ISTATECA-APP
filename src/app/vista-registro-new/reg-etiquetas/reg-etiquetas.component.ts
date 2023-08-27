@@ -20,6 +20,7 @@ export class RegEtiquetasComponent implements OnInit {
   etiquetas: Etiqueta[]=[]
   public libro: Libro = new Libro();
   public etiqueta: Etiqueta= new Etiqueta();
+  public nuevaetiqueta: Etiqueta= new Etiqueta();
   public etiquetaL: LibroEtiqueta[] = []
   public libroeti: LibroEtiqueta= new LibroEtiqueta();
 
@@ -103,7 +104,6 @@ export class RegEtiquetasComponent implements OnInit {
         })
         
         setTimeout(() => {
-          this.router.navigate(['app-registro-etiquetas']);
           const id = window.localStorage.getItem('idlibro')
           if (id) {
             this.idlibro = parseInt(id)
@@ -148,5 +148,35 @@ export class RegEtiquetasComponent implements OnInit {
       }
     )
   }
+  AbrirEtiqueta() {
+    var overlay = document.getElementById('overlay96');
+    overlay?.classList.add('active');
 
+  }
+
+  cerrarpopup() {
+    var overlay = document.getElementById('overlay96');
+    overlay?.classList.remove('active');
+  }
+
+  guardarEtiqueta(){
+    this.nuevaetiqueta.activo=true;
+    this.listaService.crearEtiqueta(this.nuevaetiqueta).subscribe(
+      Response=>{
+        this.listaService.obteneEtiquetas().subscribe(
+          eti=> this.etiquetas = eti
+        )
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: '<strong>Guardado correctamente</strong>',
+          showConfirmButton: false,
+          timer: 1500
+        })
+        this.cerrarpopup();
+      }
+    );
+  
+
+  }
 }
