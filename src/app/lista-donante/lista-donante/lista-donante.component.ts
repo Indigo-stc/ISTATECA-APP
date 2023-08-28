@@ -46,15 +46,40 @@ export class ListaDonanteComponent implements OnInit {
       this.buscarDonante(buscar2);
     }
   }
+  onKeydownEvent2(event: KeyboardEvent, buscar2: string): void {
+    if (buscar2 == "") {
+      this.ngOnInit();
+    } else {
+      this.buscarEtiqueta(buscar2);
+    }
+  }
 
   buscarDonante(buscar2: string) {
     this.listaservice.listarxnombre(buscar2).subscribe(
       response => {
-        console.log(response);
         if (response == null) {
           Swal.fire({
             title: '<strong>Donante no encontrado</strong>',
-            confirmButtonText: 'error',
+            confirmButtonText: 'Aceptar',
+            confirmButtonColor: '#012844',
+            icon: 'error',
+          })
+          this.ngOnInit();
+        } else {
+          this.Donantes = response;
+          this.buscarD = true;
+        }
+      }
+    );
+  }
+
+  buscarEtiqueta(buscar2: string) {
+    this.listaservice.listarxnombre(buscar2).subscribe(
+      response => {
+        if (response == null) {
+          Swal.fire({
+            title: '<strong>Etiqueta no encontrada</strong>',
+            confirmButtonText: 'Aceptar',
             confirmButtonColor: '#012844',
             icon: 'error',
           })

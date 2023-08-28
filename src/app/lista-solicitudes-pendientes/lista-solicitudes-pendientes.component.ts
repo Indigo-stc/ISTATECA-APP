@@ -302,7 +302,7 @@ export class ListaSolicitudesPendientesComponent implements OnInit {
     if (buscar2 == "") {
       this.ngOnInit();
     } else if (buscar2.length == 10) {
-
+      this.listaprestamos = [];
       this.prestamoService.buscarPrestamo(buscar2).subscribe(
         response => {
           console.log(response);

@@ -73,16 +73,34 @@ h1 {
 .tablas {
     width: 50%;
 }
+.details {
+    width: 40%;
+    font-weight: bold;
+}
+
+.input3 {
+    margin-left: 1%;
+    width: auto;
+    margin-right: 1%;
+}
+
+.input-box {
+    display: flex;
+    max-width: 100%;
+    margin-left: 3%;
+    margin-right: 3%;
+    margin-top: 1%;
+    justify-content: center;
+  }
 
 form {
-    width: 40%;
+    width: 100%;
 }
 
 input {
     height: 70%;
-    background-color: #e5e7e8; 
+    background-color: #e5e7e8;
     border-color: #004f9f;
-    margin-top: 2%;
     margin-left: 1%;
 }
 
@@ -90,8 +108,10 @@ input {
     width: 90%;
     height: 20%;
     display: flex;
-    justify-content: center; /* Centra horizontalmente */
-    align-items: center; /* Centra verticalmente */
+    justify-content: center;
+    /* Centra horizontalmente */
+    align-items: center;
+    /* Centra verticalmente */
 }
 
 .contBuscar {
@@ -141,4 +161,69 @@ button:hover img {
 
 button:hover span {
     transform: translateX(7px);
+}
+
+
+
+.overlay99 {
+    background: rgba(0, 0, 0, .3);
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    visibility: hidden;
+}
+
+.overlay99.active {
+    visibility: visible;
+}
+
+.popup99 {
+    background: #f8f8f8;
+    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.3);
+    border-radius: 3px;
+    padding: 20px;
+    text-align: center;
+    width: 600px;
+
+
+
+}
+
+.popup99 .btn-cerrar-popup {
+    font-size: 16px;
+    line-height: 18px;
+    display: block;
+    text-align: right;
+    color: #BBBBBB;
+    transition: .3s ease all;
+}
+
+.popup99 .btn-cerrar-popup:hover {
+    color: #000;
+}
+
+.popup99 h3 {
+
+
+    margin-top: 3%;
+    margin-bottom: 2%;
+    font-size: 40px;
+    font-weight: bold;
+    color: #004f9f;
+}
+
+.popup99 h4 {
+    font-size: 26px;
+    margin-bottom: 40px;
+}
+
+.radiow {
+    width: 10%;
+    height: 10%;
+    border: 1px solid #004f9f;
 }

@@ -24,6 +24,7 @@ export class ListasService {
   private urlendpointAutor: string = this.url + '/autor/crear';
   private urlendpointBuscarAutor: string = this.url + '/autor/listarautoresxnombre';
   private urlendpointBuscarTipo: string = this.url + '/tipo/buscarxnombre';
+  private urlendpointBuscarEtiqueta: string = this.url + '/etiqueta/buscarxnombre';
   private urlendpointTipo: string = this.url + '/tipo/crear';
   private crearEtiqueta2: string = this.url + '/etiqueta/crear';
   private listarEtiqueta: string = this.url + '/etiqueta/listar';
@@ -32,6 +33,7 @@ export class ListasService {
   private buscaretiqueta: string = this.url + '/tags/etiquetasxlibro';
   private urlendpointBuscarDonante: string = this.url + '/donante/listarxnombre';
   private editAutor: string= this.url+'/autorlibro/editar'
+  private editTipo: string= this.url+'/tipo/editar'
   
 
   private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -59,6 +61,9 @@ export class ListasService {
   editarAutor(id: number, autor: Autor): Observable<Autor>{
     return this.http.put<Autor>(`${this.editAutor}/${id}`, autor,{headers:this.httpHeaders})
   }
+  editarTipo(id: Number, tipo: Tipo): Observable<Autor>{
+    return this.http.put<Tipo>(`${this.editTipo}/${id}`, tipo,{headers:this.httpHeaders})
+  }
 
   listarautoresxnombre(nombre: string)
     : Observable<Autor[]> {
@@ -73,6 +78,10 @@ export class ListasService {
   buscarTiposxnombre2(nombre: string) {
     let res = this.urlendpointBuscarTipo + "?nombre=" + nombre;
     return this.http.get<Tipo>(res);
+  }
+  buscarEtiquetaxnombre2(nombre: string) {
+    let res = this.urlendpointBuscarEtiqueta + "?nombre=" + nombre;
+    return this.http.get<Etiqueta>(res);
   }
 
   buscarEtiquetas(id: number): Observable<LibroEtiqueta[]> {

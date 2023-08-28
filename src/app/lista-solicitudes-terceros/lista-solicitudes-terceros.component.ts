@@ -198,7 +198,7 @@ export class ListaSolicitudesTercerosComponent {
     if (buscar2 == "") {
       this.ngOnInit();
     } else if (buscar2.length == 10) {
-
+      this.listaterceroPb = [];
       this.TerceroService.terceroPrestxcedula(buscar2+"").subscribe(
         response => {
           if (response.length == 0) {

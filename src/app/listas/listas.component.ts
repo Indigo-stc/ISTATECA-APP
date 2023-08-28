@@ -15,17 +15,27 @@ export class ListasComponent implements OnInit {
   ttipos:Tipo[]=[];
   buscarA?:boolean;
   buscarT?:boolean;
+  tipoEdit:Tipo=new Tipo();
+  estado:string="";
 
   constructor(private  listaservice: ListasService, private router: Router) { }
 
   ngOnInit(): void {
     this.buscarA=false;
     this.buscarT=false;
-    this.listaservice.obtenerAutores().subscribe(
-      Autores=> this.Autores=Autores
-    );
+    
+    this.obtenerTipos();
+    this.obtenerAutores();
+  }
+  obtenerTipos(){
     this.listaservice.obtenerTipos().subscribe(
       ttipos=>this.ttipos=ttipos
+    );
+  }
+
+  obtenerAutores(){
+    this.listaservice.obtenerAutores().subscribe(
+      Autores=> this.Autores=Autores
     );
   }
 
@@ -83,5 +93,54 @@ export class ListasComponent implements OnInit {
         }
       }
     );
+  }
+
+  getNombreEstado(estado: boolean | undefined): string {
+    let nombreEstado = 'Desconocido'; // Valor predeterminado si el número del estado es undefined
+
+    if (estado !== undefined) {
+      if (estado == true) {
+        nombreEstado = "Activo";
+      }else{
+        nombreEstado="Inactivo"
+      }
+    }
+
+    return nombreEstado;
+  }
+
+  AbrirTipo(tipo:Tipo) {
+    var overlay = document.getElementById('overlay96');
+    overlay?.classList.add('active');
+    this.tipoEdit=tipo;
+    this.estado=this.getNombreEstado(this.tipoEdit.activo);
+
+  }
+
+  cerrarpopup2() {
+    this.tipoEdit=new Tipo;
+    this.estado="";
+    var overlay = document.getElementById('overlay96');
+    overlay?.classList.remove('active');
+  }
+
+  EditarTipo(tipo:Tipo) {
+    if(tipo.id !=undefined){
+    this.listaservice.editarTipo(tipo.id,tipo).subscribe(
+      response=>{
+        console.log(response)
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: '<strong>Modificado correctamente</strong>',
+          showConfirmButton: false,
+          timer: 1500
+        })
+        var overlay = document.getElementById('overlay96');
+        overlay?.classList.remove('active');
+      }
+    );
+    this.obtenerTipos();
+    }
   }
 }
