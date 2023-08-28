@@ -83,18 +83,32 @@ export class RegistroSolicitudTercerapersonaComponent {
 
   }
 
+  contieneSoloNumeros(texto: string): boolean {
+    return /^[0-9]+$/.test(texto);
+  }
+
 
   onKeydownEvent2(event: KeyboardEvent, buscar: string): void {
-    this.libros = [];
-    this.selectLib2 = false;
-    this.libroServices.buscarLibro(buscar).subscribe(
-      response => {
-        response.forEach(element => {
-          if (element.disponibilidad == true) {
-            this.libros.push(element);
+    if (buscar != "") {
+      this.libros = [];
+      this.selectLib2 = false;
+      this.libroServices.buscarLibro(buscar).subscribe(
+        response => {
+          response.forEach(element => {
+            if (element.disponibilidad == true) {
+              this.libros.push(element);
+            }
+          });
+          if (this.libros.length == 0) {
+            Swal.fire({
+              confirmButtonColor: '#012844',
+              icon: 'warning',
+              title: 'No encontrado o no esta disponible',
+            })
           }
-        });
-      })
+        })
+      
+    }
   }
 
   seleccionarlibro(libro2: Libro) {
@@ -114,53 +128,101 @@ export class RegistroSolicitudTercerapersonaComponent {
   }
 
   crearTercero() {
-    this.TerceroServices.create(this.tercero).subscribe(
-      response => {
-        this.terceroPrestamo.tercero = response,
-          this.prestamo.libro = this.libro;
-        this.prestamo.fechaDevolucion = undefined;
-        this.prestamo.estadoLibro = 1;
-        this.prestamo.estadoPrestamo = 2;
-        this.prestamo.activo = true;
-        this.prestamo.documentoHabilitante = this.documentoH;
-        this.prestamo.idEntrega = this.bibliotecario;
-        this.prestamo.tipoPrestamo = 3;
-        this.PrestamoService.create(this.prestamo).subscribe(
-          response => {
-            this.terceroPrestamo.prestamo = response;
-            console.log(this.terceroPrestamo);
-            this.TerceroServices.createTerPres(this.terceroPrestamo).subscribe(
-              response => {
-                Swal.fire({
-                  confirmButtonColor: '#012844',
-                  icon: 'success',
-                  title: 'Guardado Correctamente',
-                })
-                this.router.navigate(['/app-lista-solicitudes-terceros']);
-              }
-            );
-          }
-        );
+    if (this.contieneSoloNumeros(this.tercero.cedula + "")) {
+      if (this.tercero.cedula?.length == 10) {
+        if (this.contieneSoloNumeros(this.tercero.telefono + "")) {
+          if (this.tercero.cedula?.length == 10) {
+            if (this.documentoH == undefined || this.documentoH == null) {
+              Swal.fire({
+                confirmButtonColor: '#012844',
+                icon: 'error',
+                title: 'Seleccione un documento habilitante',
+              })
+            } else {
+              this.TerceroServices.create(this.tercero).subscribe(
+                response => {
+                  this.terceroPrestamo.tercero = response,
+                    this.prestamo.libro = this.libro;
+                  this.prestamo.fechaDevolucion = undefined;
+                  this.prestamo.estadoLibro = 1;
+                  this.prestamo.estadoPrestamo = 2;
+                  this.prestamo.activo = true;
+                  this.prestamo.documentoHabilitante = this.documentoH;
+                  this.prestamo.idEntrega = this.bibliotecario;
+                  this.prestamo.tipoPrestamo = 3;
+                  this.PrestamoService.create(this.prestamo).subscribe(
+                    response => {
+                      this.terceroPrestamo.prestamo = response;
+                      console.log(this.terceroPrestamo);
+                      this.TerceroServices.createTerPres(this.terceroPrestamo).subscribe(
+                        response => {
+                          Swal.fire({
+                            confirmButtonColor: '#012844',
+                            icon: 'success',
+                            title: 'Guardado Correctamente',
+                          })
+                          this.router.navigate(['/app-lista-solicitudes-terceros']);
+                        }
+                      );
+                    }
+                  );
 
+                }
+              );
+            }
+          } else {
+            Swal.fire({
+              confirmButtonColor: '#012844',
+              icon: 'error',
+              title: 'El teléfono no tiene 10 digitos',
+            })
+          }
+        } else {
+          Swal.fire({
+            confirmButtonColor: '#012844',
+            icon: 'error',
+            title: 'El teléfono contiene letras',
+          })
+        }
+      } else {
+        Swal.fire({
+          confirmButtonColor: '#012844',
+          icon: 'error',
+          title: 'La cédula no tiene 10 digitos',
+        })
       }
-    );
+    } else {
+      Swal.fire({
+        confirmButtonColor: '#012844',
+        icon: 'error',
+        title: 'La cédula contiene letras',
+      })
+    }
   }
 
   crearPrestamo() {
-    this.prestamo.libro = this.libro;
-    this.prestamo.fechaDevolucion = undefined;
-    this.prestamo.estadoLibro = 1;
-    this.prestamo.estadoPrestamo = 2;
-    this.prestamo.activo = true;
-    this.prestamo.documentoHabilitante = this.documentoH;
-    this.prestamo.idEntrega = this.bibliotecario;
-    this.prestamo.tipoPrestamo = 3;
-    this.PrestamoService.create(this.prestamo).subscribe(
-      response => {
-        this.terceroPrestamo.prestamo = response;
-        this.crearPrestamoTercero();
-      }
-    );
+    if (this.documentoH == undefined || this.documentoH == null) {
+      Swal.fire({
+        confirmButtonColor: '#012844',
+        icon: 'error',
+        title: 'Seleccione un documento habilitante',
+      })
+    } else {
+      this.prestamo.libro = this.libro;
+      this.prestamo.fechaDevolucion = undefined;
+      this.prestamo.estadoLibro = 1;
+      this.prestamo.estadoPrestamo = 2;
+      this.prestamo.activo = true;
+      this.prestamo.documentoHabilitante = this.documentoH;
+      this.prestamo.idEntrega = this.bibliotecario;
+      this.prestamo.tipoPrestamo = 3;
+      this.PrestamoService.create(this.prestamo).subscribe(
+        response => {
+          this.terceroPrestamo.prestamo = response;
+          this.crearPrestamoTercero();
+        }
+      );
+    }
   }
 
   crearPrestamoTercero() {

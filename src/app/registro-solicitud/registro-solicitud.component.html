@@ -57,7 +57,7 @@
                         <span class="details">Titulo del libro:</span>
                         <div class="lib" *ngIf="selectLib==false">
                             <input type="text" class="form-control" #buscar2 placeholder="Ingrese el titulo del libro"
-                                (keyup)="onKeydownEvent($event, buscar2.value)">
+                                (keyup)="onKeydownEvent($event, buscar2.value)" required>
                         </div>
                         <div class="lib" *ngIf="selectLib==true">
                             <input type="text" value="{{libro.titulo}}" disabled>
@@ -65,7 +65,7 @@
                         </div>
                         <span class="details">Codigo:</span>
                         <input type="text" value="{{libro.codigoDewey}}" class="form-control" name="codigoDewey"
-                            required>
+                            required disabled>
 
                     </div>
                     <div class="input-box">

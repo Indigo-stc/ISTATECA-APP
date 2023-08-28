@@ -64,9 +64,9 @@ export class RegistroSolicitudComponent {
       showLoaderOnConfirm: true,
       preConfirm: (texto) => {
         if (texto.length === 10) {
-          if (!this.validarSoloLetras(texto)) {
+          if (this.contieneSoloNumeros(texto)) {
             this.buscarCed(texto);
-    
+
             this.carreraService.getCarreras().subscribe(
               response => {
                 this.carreras = response;
@@ -96,18 +96,31 @@ export class RegistroSolicitudComponent {
         this.router.navigate(['/']);
       }
     });
-    
+
 
   }
 
 
   onKeydownEvent(event: KeyboardEvent, buscar: string): void {
+    if(buscar!=""){
     this.selectLib2 = false;
     this.libroServices.buscarLibro(buscar).subscribe(
       reponse => {
-        console.log(reponse)
-        this.libros = reponse;
+        reponse.forEach(element => {
+          if (element.disponibilidad == true) {
+            this.libros.push(element);
+          }
+        });
+        if(this.libros.length==0){
+          Swal.fire({
+            confirmButtonColor: '#012844',
+            icon: 'warning',
+            title: 'No encontrado o no esta disponible',
+          })
+        }
       })
+      
+    }
   }
 
   seleccionarlibro(libro2: Libro) {
@@ -123,9 +136,8 @@ export class RegistroSolicitudComponent {
     this.selectLib2 = undefined;
   }
 
-  validarSoloLetras(cadena: string): boolean {
-    const patron = /^[A-Za-z]+$/;
-    return patron.test(cadena);
+  contieneSoloNumeros(texto: string): boolean {
+    return /^[0-9]+$/.test(texto);
   }
 
   carrera(cedula?: string) {
@@ -133,6 +145,7 @@ export class RegistroSolicitudComponent {
       this.carreraService.carreraest(cedula).subscribe(
         respose => {
           this.carreraEst = respose.nombre;
+          this.idC = 0;
         }
       );
     }
@@ -171,46 +184,71 @@ export class RegistroSolicitudComponent {
   }
 
   guardar() {
-    this.prestamo.idSolicitante = this.persona;
-    this.prestamo.libro = this.libro;
-    this.prestamo.fechaFin = new Date(Date.now());
-    this.prestamo.fechaDevolucion = new Date(Date.now());
-    this.prestamo.estadoLibro = 1;
-    this.prestamo.estadoPrestamo=1;
-    if (this.persona.tipo == 1) {
-      this.prestamo.tipoPrestamo = 1;
-    } else {
-      this.prestamo.tipoPrestamo = 2;
-    }
+    console.log(this.idC)
     if (this.idC != undefined) {
-      this.carreraService.obtenerCarreraId(this.idC).subscribe(
-        response => {
-          this.prestamo.carrera = response;
+      if (this.documentoH != undefined) {
+        if (this.boton == true) {
+          this.prestamo.idSolicitante = this.persona;
+          this.prestamo.libro = this.libro;
+          this.prestamo.fechaFin = new Date(Date.now());
+          this.prestamo.fechaDevolucion = new Date(Date.now());
+          this.prestamo.estadoLibro = 1;
+          this.prestamo.estadoPrestamo = 1;
+          if (this.persona.tipo == 1) {
+            this.prestamo.tipoPrestamo = 1;
+          } else {
+            this.prestamo.tipoPrestamo = 2;
+          }
+          if (this.idC != undefined) {
+            this.carreraService.obtenerCarreraId(this.idC).subscribe(
+              response => {
+                this.prestamo.carrera = response;
+              }
+            );
+          }
+          this.prestamo.documentoHabilitante = this.documentoH;
+          this.prestamo.idEntrega = this.bibliotecario;
+          console.log(this.prestamo)
+          this.PrestamoService.create(this.prestamo).subscribe(
+            response => {
+              Swal.fire({
+                confirmButtonColor: '#012844',
+                icon: 'success',
+                title: 'Prestamo Guardado',
+                text: 'Se guardo correcatamente'
+              })
+              this.router.navigate(['/app-lista-solicitudes-pendientes']);
+            },
+            error => {
+              console.log(error);
+              Swal.fire({
+                confirmButtonColor: '#012844',
+                icon: 'error',
+                title: 'No se pudo guardar el prestamo',
+              })
+            }
+          );
+        } else {
+          Swal.fire({
+            confirmButtonColor: '#012844',
+            icon: 'error',
+            title: 'Elija el tipo de prestamo',
+          })
         }
-      );
-    }
-    this.prestamo.documentoHabilitante = this.documentoH;
-    this.prestamo.idEntrega = this.bibliotecario;
-    console.log(this.prestamo)
-    this.PrestamoService.create(this.prestamo).subscribe(
-      response => {
-        Swal.fire({
-          confirmButtonColor: '#012844',
-          icon: 'success',
-          title: 'Prestamo Guardado',
-          text: 'Se guardo correcatamente'
-        })
-        this.router.navigate(['/app-lista-solicitudes-pendientes']);
-      },
-      error => {
-        console.log(error);
+      } else {
         Swal.fire({
           confirmButtonColor: '#012844',
           icon: 'error',
-          title: 'No se pudo guardar el prestamo',
+          title: 'Elija un documento habilitante',
         })
       }
-    );
+    } else {
+      Swal.fire({
+        confirmButtonColor: '#012844',
+        icon: 'error',
+        title: 'Elija una carrera ',
+      })
+    }
   }
 
   sumarDiasExcluyendoFinesDeSemana(fecha: Date, dias: number): Date {

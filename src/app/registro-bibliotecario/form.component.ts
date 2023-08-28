@@ -18,19 +18,19 @@ export class FormComponentb implements OnInit {
   public bibliotecarios: Bibliotecario = new Bibliotecario();
   persona: Persona = {};
 
-  bibliotecarioE:Bibliotecario={};
-  idb?:number;
+  bibliotecarioE: Bibliotecario = {};
+  idb?: number;
   step = 1;
   totalSteps = 2;
-  rol:string=""
-  constructor(private usuarioservice: RegistroUsuarioService,private bibliotecarioservice: RegistroBibliotecarioService, private router: Router, private personaServices:PersonaService) { }
+  rol: string = ""
+  constructor(private usuarioservice: RegistroUsuarioService, private bibliotecarioservice: RegistroBibliotecarioService, private router: Router, private personaServices: PersonaService) { }
 
   ngOnInit(): void {
   }
   avanzar1() {
     if (this.step < this.totalSteps) {
       this.step++;
-    }else{
+    } else {
       this.create();
     }
   }
@@ -45,70 +45,96 @@ export class FormComponentb implements OnInit {
     if (this.persona.tipo == 4) {
       this.rol = 'ROLE_ADMIN';
 
-    }else if (this.persona.tipo == 3) {
+    } else if (this.persona.tipo == 3) {
       this.rol = 'ROLE_BLIB';
 
     }
   }
 
   public create(): void {
+
     this.persona.activo = true;
-    if(this.persona.cedula==="" ){
+    if (this.persona.cedula === "") {
       Swal.fire({
         title: '<strong>Verifique su Cedula!</strong>',
         confirmButtonText: 'OK',
         confirmButtonColor: '#012844',
         icon: 'warning'
       })
-    }else{
-    this.usuarioservice.createPersonaFuncion(this.persona,this.rol).subscribe(
-      response => {
+    } else {
+      if (this.contieneSoloNumeros(this.persona.celular + "")) {
+        if(this.persona.celular?.length==10){
+        this.usuarioservice.createPersonaFuncion(this.persona, this.rol).subscribe(
+          response => {
+            Swal.fire({
+              title: '<strong>¡Usuario Guardado!</strong>',
+              confirmButtonText: 'OK',
+              confirmButtonColor: '#012844',
+              icon: 'success'
+            }), this.router.navigate(['']);
+
+          }, error => (Swal.fire({
+            title: '<strong>¡Error!</strong>',
+            timer: 2000,
+            confirmButtonColor: '#012844',
+            icon: 'error'
+          }))
+        )
+        }else{
+          Swal.fire({
+            title: '<strong>Su celular no contiene 10 digitos</strong>',
+            timer: 2000,
+            confirmButtonColor: '#012844',
+            icon: 'error'
+          })
+        }
+      } else {
         Swal.fire({
-          title: '<strong>¡Usuario Guardado!</strong>',
-          confirmButtonText: 'OK',
+          title: '<strong>Su celular contiene letras</strong>',
+          timer: 2000,
           confirmButtonColor: '#012844',
-          icon: 'success'
-        }),this.router.navigate(['']);
-        
-      },error=>(Swal.fire({
-        title: '<strong>¡Error!</strong>',
-        timer:2000,
-        confirmButtonColor: '#012844',
-        icon: 'error'
-      }))
-    )
+          icon: 'error'
+        })
+      }
     }
+
 
   }
 
-  editarPersona(persona:Persona){
-    persona.tipo=this.persona.tipo
-    persona.correo=this.persona.correo
+  contieneSoloNumeros(texto: string): boolean {
+    return /^[0-9]+$/.test(texto);
+  }
+
+  editarPersona(persona: Persona) {
+    persona.tipo = this.persona.tipo
+    persona.correo = this.persona.correo
     this.personaServices.updatePersona(persona).subscribe(
-      response=>{
+      response => {
         console.log(response)
-        this.bibliotecarios.persona=response
+        this.bibliotecarios.persona = response
       }
     )
   }
 
   public createbibliotecario() {
     this.persona.activo = true;
+
     this.bibliotecarioservice.create(this.bibliotecarios).subscribe(
-      response => { this.bibliotecarios 
-      Swal.fire({
-        title: '<strong>¡Bibliotecario Guardado!</strong>',
-        confirmButtonText: 'OK',
-        confirmButtonColor: '#012844',
-        icon: 'success',
-        html:
-          '<b>'+this.bibliotecarios.persona?.nombres+' '+this.bibliotecarios.persona?.apellidos+'</b><br>'+
-          'te has registrado con exito'
-      })
-      this.router.navigate([''])
-    }
+      response => {
+        this.bibliotecarios
+        Swal.fire({
+          title: '<strong>¡Bibliotecario Guardado!</strong>',
+          confirmButtonText: 'OK',
+          confirmButtonColor: '#012844',
+          icon: 'success',
+          html:
+            '<b>' + this.bibliotecarios.persona?.nombres + ' ' + this.bibliotecarios.persona?.apellidos + '</b><br>' +
+            'te has registrado con exito'
+        })
+        this.router.navigate([''])
+      }
     );
-    
+
   }
 
   buscarFenix(cedula: string) {
@@ -120,37 +146,37 @@ export class FormComponentb implements OnInit {
         icon: 'warning',
         title: 'Ups...',
         text: 'Ingrese la cédula'
-      }),this.persona.nombres=""
-      this.persona.apellidos=""
-      this.persona.celular=""
-      this.persona.correo=""
-      this.persona.tipo=undefined
-      this.persona.activo=false
-      this.rol=""
+      }), this.persona.nombres = ""
+      this.persona.apellidos = ""
+      this.persona.celular = ""
+      this.persona.correo = ""
+      this.persona.tipo = undefined
+      this.persona.activo = false
+      this.rol = ""
     } else {
       if (cedula.length === 10) {
         this.usuarioservice.obtenerPersonasFuncion(cedula).subscribe(
-          response =>(
+          response => (
             this.persona = response
-          ),error=>(alert("no estas registrado"),this.persona.cedula="")
+          ), error => (alert("no estas registrado"), this.persona.cedula = "")
 
 
         )
         console.log(this.persona.cedula);
         if (this.persona.cedula == undefined) {
 
-          
-        }
-      }else{
 
-        this.persona.nombres=""
-        this.persona.apellidos=""
-        this.persona.celular=""
-        this.persona.correo=""
-        this.persona.tipo=undefined
-        this.persona.activo=false
-        this.rol=""
-        
+        }
+      } else {
+
+        this.persona.nombres = ""
+        this.persona.apellidos = ""
+        this.persona.celular = ""
+        this.persona.correo = ""
+        this.persona.tipo = undefined
+        this.persona.activo = false
+        this.rol = ""
+
 
       }
 

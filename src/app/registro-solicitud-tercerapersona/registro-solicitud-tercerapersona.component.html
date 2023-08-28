@@ -35,7 +35,7 @@
                         <span class="details">Titulo del libro:</span>
                         <div class="lib" *ngIf="selectLib==false">
                             <input type="text" class="form-control" #buscar2 placeholder="Ingrese el titulo del libro"
-                                (keyup)="onKeydownEvent2($event, buscar2.value)">
+                                (keyup)="onKeydownEvent2($event, buscar2.value)" required>
                         </div>
                         <div class="lib" *ngIf="selectLib==true">
                             <input type="text" value="{{libro.titulo}}" disabled>
