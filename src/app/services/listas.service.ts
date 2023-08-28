@@ -32,7 +32,7 @@ export class ListasService {
   private crearetiqueta: string = this.url + '/tags/crear';
   private buscaretiqueta: string = this.url + '/tags/etiquetasxlibro';
   private urlendpointBuscarDonante: string = this.url + '/donante/listarxnombre';
-  private editAutor: string= this.url+'/autorlibro/editar'
+  private editAutor: string= this.url+'/autor/editar'
   private editTipo: string= this.url+'/tipo/editar'
   
 
@@ -58,7 +58,7 @@ export class ListasService {
   createAutor(autor: Autor): Observable<Autor> {
     return this.http.post<Autor>(this.urlendpointAutor, autor, { headers: this.httpHeaders })
   }
-  editarAutor(id: number, autor: Autor): Observable<Autor>{
+  editarAutor(id: Number, autor: Autor): Observable<Autor>{
     return this.http.put<Autor>(`${this.editAutor}/${id}`, autor,{headers:this.httpHeaders})
   }
   editarTipo(id: Number, tipo: Tipo): Observable<Autor>{

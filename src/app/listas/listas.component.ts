@@ -16,6 +16,7 @@ export class ListasComponent implements OnInit {
   buscarA?:boolean;
   buscarT?:boolean;
   tipoEdit:Tipo=new Tipo();
+  autorEdit:Autor = new Autor()
   estado:string="";
 
   constructor(private  listaservice: ListasService, private router: Router) { }
@@ -117,10 +118,23 @@ export class ListasComponent implements OnInit {
 
   }
 
+  AbrirAutor(autor:Autor) {
+    var overlay = document.getElementById('overlay97');
+    overlay?.classList.add('active');
+    this.autorEdit=autor;
+
+  }
+
   cerrarpopup2() {
     this.tipoEdit=new Tipo;
     this.estado="";
     var overlay = document.getElementById('overlay96');
+    overlay?.classList.remove('active');
+  }
+
+  cerrarpopup3() {
+    this.autorEdit=new Autor;
+    var overlay = document.getElementById('overlay97');
     overlay?.classList.remove('active');
   }
 
@@ -140,7 +154,36 @@ export class ListasComponent implements OnInit {
         overlay?.classList.remove('active');
       }
     );
-    this.obtenerTipos();
+    setTimeout(() => {
+      this.obtenerTipos();
+      this.cerrarpopup2();
+    }, 1000);
+    
     }
   }
+
+  EditarAutor(autor:Autor) {
+    if(autor.id !=undefined){
+    this.listaservice.editarAutor(autor.id,autor).subscribe(
+      response=>{
+        console.log(response)
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: '<strong>Modificado correctamente</strong>',
+          showConfirmButton: false,
+          timer: 1500
+        })
+        var overlay = document.getElementById('overlay96');
+        overlay?.classList.remove('active');
+      }
+    );
+    setTimeout(() => {
+      this.obtenerAutores();
+      this.cerrarpopup3()
+    }, 1000);
+    
+    }
+  }
+
 }
