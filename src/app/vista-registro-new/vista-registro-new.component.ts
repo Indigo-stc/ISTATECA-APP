@@ -360,7 +360,7 @@ export class VistaRegistroNewComponent implements OnInit {
   selectedAutor: any;
 
   capturarAutor(posicion: any) {
-    console.log(posicion);
+
     if (posicion && posicion.nombre) {
       this.autor = posicion;
 
@@ -415,7 +415,7 @@ export class VistaRegistroNewComponent implements OnInit {
   selectedDonante: any
 
   capturarDonante(e: any) {
-    console.log(e);
+
     this.selectedDonante = e
 
     if (this.selectedDonante && this.selectedDonante.nombre) {
@@ -437,7 +437,7 @@ export class VistaRegistroNewComponent implements OnInit {
   selectTipo: any
 
   seleccionT(e: any) {
-    console.log(e);
+ 
 
     this.selectTipo = e
 
@@ -452,7 +452,7 @@ export class VistaRegistroNewComponent implements OnInit {
   OnImprimir(tit: NgModel, publi: NgModel, pag: NgModel, des: NgModel, est: NgModel, edi: NgModel, area: NgModel) {
     const encabezado = ["Titulo", "N° Pag", "Descripcion", "Editor", "Publcacion", "Tipo", "Estado"]
 
-    console.log(tit.value);
+   
 
     const cuerpo = [
       tit.value,
@@ -502,7 +502,7 @@ export class VistaRegistroNewComponent implements OnInit {
     const archivocapturado = event.target.files[0]
     this.extraerBase64(archivocapturado).then((image: any) => {
 
-      console.log(image)
+  
     })
 
 
@@ -591,7 +591,7 @@ export class VistaRegistroNewComponent implements OnInit {
   public crearLibro(): void {
 
 
-    console.log("Se ha realizado un click")
+   
     this.librosF.get('activo')?.setValue(true);
     const librosFCopy = JSON.parse(JSON.stringify(this.librosF.getRawValue()));
 
@@ -602,7 +602,7 @@ export class VistaRegistroNewComponent implements OnInit {
         this.titulolibro = Response.titulo;
 
         this.autorlibro.libro = Response;
-        console.log(this.idlibro);
+
 
         if (this.titulolibro) {
           localStorage.setItem('titulolibro', this.titulolibro);
@@ -610,7 +610,7 @@ export class VistaRegistroNewComponent implements OnInit {
 
         this.ListaT.createAutorLibro(this.autorlibro).subscribe(
           (response: Autor_Libro) => {
-            console.log('autor guardado' + response.autor?.nombre + ' ' + response.libro?.titulo);
+            
           }
         );
 
@@ -622,7 +622,7 @@ export class VistaRegistroNewComponent implements OnInit {
 
             this.libroservice.subirImagen(this.idlibro, this.imagen).subscribe(
               (response: any) => {
-                console.log('Imagen subida:', response); // No es necesario intentar analizar la respuesta como JSON
+                
 
                 Swal.fire({
                   position: 'center',

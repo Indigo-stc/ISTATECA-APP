@@ -27,19 +27,19 @@ export class RegEtiquetasComponent implements OnInit {
   ngOnInit(): void {
     
     const titulo = window.localStorage.getItem('titulolibro')
-    console.log(titulo)
+  
     
     if (titulo) {
       this.titulolibro = titulo
     }
-    console.log(this.titulolibro);
+
    
     
     
 
 
     const id = window.localStorage.getItem('idlibro')
-    console.log(id);
+   
     
 
     if (id) {
@@ -55,7 +55,7 @@ export class RegEtiquetasComponent implements OnInit {
       
     }
 
-    console.log(this.libro);
+    
     
 
     this.listaService.obteneEtiquetas().subscribe(
@@ -135,7 +135,6 @@ export class RegEtiquetasComponent implements OnInit {
         
         setTimeout(() => {
           this.etiquetaL.splice(0, this.etiquetaL.length)
-          this.router.navigate(['app-registro-etiquetas']);
           const id = window.localStorage.getItem('idlibro')
           if (id) {
             this.idlibro = parseInt(id)

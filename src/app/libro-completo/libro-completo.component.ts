@@ -66,12 +66,6 @@ export class LibroCompletoComponent {
 
       if (libroCompleto) {
         this.librosF.patchValue(libroCompleto);
-        
-
-        console.log(libroCompleto.tipo.nombre);
-
-        this.librosF.get('tipo.nombre')?.patchValue(libroCompleto.tipo.nombre);
-        console.log(this.librosF.get('tipo.nombre')?.value)
 
 
       }
@@ -90,7 +84,7 @@ export class LibroCompletoComponent {
     this.urlI = this.url + this.libro.urlImagen
     this.listaservice.obtenerAutor_Libro().subscribe(
       response => {
-        console.log(response);
+
         if (response != null || response != undefined) {
           response.forEach(element => {
             if (element.libro?.id == this.libro.id) {
@@ -122,24 +116,6 @@ export class LibroCompletoComponent {
   }
 
 
-  //validacion de autor
-  public validarAutorSeleccionado: ValidatorFn = (form: AbstractControl) => {
-    const autorSeleccionado = String(form.value);
-
-    console.log('autorSeleccionado:', autorSeleccionado);
-
-  const data = form.parent?.get('dato')?.value || []; // Reemplaza 'dato' con el nombre real del FormControl para tus datos
-  console.log('data:', data);
-  if (!autorSeleccionado) {
-    return null; // Permitir campo vacío sin error
-  }
-
-  if (!data.includes(autorSeleccionado)) {
-    return { autorNoValido: true }; // Valor no válido, muestra error
-  }
-
-  return null; // Valor válido, sin error
-  };
 
 
   // Validador personalizado para asegurar que no se seleccione "Seleccione"
@@ -424,9 +400,8 @@ export class LibroCompletoComponent {
 
   obtenerAutor(): void {
     this.dato = this.ListaT.obtenerAutores();
-    console.log("autores: "+this.dato);
+
     
-    console.log(this.dato + "Holii");
 
 
   }
@@ -435,7 +410,7 @@ export class LibroCompletoComponent {
   selectedAutor: any;
 
   capturarAutor(posicion: any) {
-    console.log(posicion);
+
     if (posicion && posicion.nombre) {
       this.autor1 = posicion;
 
@@ -449,7 +424,7 @@ export class LibroCompletoComponent {
   public dato1!: Observable<any['']>;
   obtenerDonante(): void {
     this.dato1 = this.ListaT.listarDonate();
-    console.log(this.dato1 + "Holii");
+  
 
 
   }
@@ -457,12 +432,12 @@ export class LibroCompletoComponent {
   selectedDonante: any
 
   capturarDonante(e: any) {
-    console.log(e);
+
     this.selectedDonante = e
 
     if (this.selectedDonante && this.selectedDonante.nombre) {
       this.librosF.get('donante')?.patchValue(this.selectedDonante);
-      console.log(this.librosF.get('donante')?.value);
+
       // Establecer el valor en el formulario
     }
   }
@@ -481,7 +456,7 @@ export class LibroCompletoComponent {
   selectTipo: any
 
   seleccionT(e: any) {
-    console.log(e);
+
 
     this.selectTipo = e
 
@@ -503,7 +478,6 @@ export class LibroCompletoComponent {
   }
 
   editar() {
-    console.log("Entroooo")
     this.isDisabled = false;
     this.ngOnInit();
   }
@@ -511,12 +485,11 @@ export class LibroCompletoComponent {
 
   EditarLibro() {
     const librosFCopy = JSON.parse(JSON.stringify(this.librosF.getRawValue()));
-    console.log(librosFCopy);
+
 
     if (this.libro.id) {
       this.libroservice.editar(this.libro.id, librosFCopy).subscribe(
         respose => {
-          console.log(respose);
 
         }
       )
@@ -524,7 +497,6 @@ export class LibroCompletoComponent {
       if (this.autores_libros.id) {
         this.listaservice.editarAutor(this.autores_libros.id, this.autores_libros1).subscribe(
           respose => {
-            console.log(respose);
 
           }
         )
@@ -533,7 +505,6 @@ export class LibroCompletoComponent {
       if (this.imagen) {
         this.libroservice.subirImagen(this.libro.id, this.imagen).subscribe(
           (response: any) => {
-            console.log('Imagen subida:', response); // No es necesario intentar analizar la respuesta como JSON
 
             Swal.fire({
               position: 'center',

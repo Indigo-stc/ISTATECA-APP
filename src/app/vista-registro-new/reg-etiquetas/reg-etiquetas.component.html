@@ -17,7 +17,6 @@
                 <select name="EtiquetaSelect" (change)="obteneretiqueta($event)" class="form-select"
                     aria-label="Default select example">
                     <option selected disabled value="0">Seleccione</option>
-                    <option #TSelect value>
                     <option #TSelect *ngFor="let eti of etiquetas" value="{{eti.id}}">{{eti.nombre}}
                     </option>
                 </select>
