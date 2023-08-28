@@ -16,6 +16,7 @@ export class ListaDonanteComponent implements OnInit {
   Donantes: Donante[] = [];
   buscarD?: boolean;
   buscarE?: boolean;
+  donanteEdit:Donante = new Donante()
 
 
   constructor(private listaservice: ListasService, private router: Router) { }
@@ -91,6 +92,50 @@ export class ListaDonanteComponent implements OnInit {
       }
     );
   }
+
+
+  AbrirDonante(donante:Donante) {
+    var overlay = document.getElementById('overlay97');
+    overlay?.classList.add('active');
+    this.donanteEdit=donante;
+  }
+
+  cerrarpopup3() {
+    this.donanteEdit=new Donante;
+    var overlay = document.getElementById('overlay97');
+    overlay?.classList.remove('active');
+  }
+
+  EditarDonante(donante:Donante) {
+    if(donante.id !=undefined){
+    this.listaservice.editarDonante(donante.id,donante).subscribe(
+      response=>{
+        console.log(response)
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: '<strong>Modificado correctamente</strong>',
+          showConfirmButton: false,
+          timer: 1500
+        })
+        var overlay = document.getElementById('overlay96');
+        overlay?.classList.remove('active');
+      }
+    );
+    setTimeout(() => {
+      this.obtenerDonantes();
+      this.cerrarpopup3()
+    }, 1000);
+    
+    }
+  }
+
+  obtenerDonantes(){
+    this.listaservice.listarDonate().subscribe(
+      Donantes=> this.Donantes=Donantes
+    );
+  }
+
 
 
 }

@@ -34,6 +34,7 @@ export class ListasService {
   private urlendpointBuscarDonante: string = this.url + '/donante/listarxnombre';
   private editAutor: string= this.url+'/autor/editar'
   private editTipo: string= this.url+'/tipo/editar'
+  private editDonante: string= this.url+'/donante/editar'
   
 
   private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -140,4 +141,8 @@ export class ListasService {
     return this.http.get<Donante[]>(res);
   }
 
+  editarDonante(id: Number, donante: Donante): Observable<Donante>{
+    return this.http.put<Donante>(`${this.editDonante}/${id}`, donante,{headers:this.httpHeaders})
+  }
+  
 }
