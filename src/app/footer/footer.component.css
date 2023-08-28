@@ -136,7 +136,7 @@ button {
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    position: relative;
+    position: absolute;
     left: 5%;
     overflow: hidden;
     transition: all 0.5s ease-in-out;

@@ -21,6 +21,7 @@ export class ListaTecerosComponent implements OnInit{
   persona: Persona = new Persona();
   personasTipo2: Tercero[] = [];
   personasTipo2b: Tercero = new Tercero();
+  terceroEdit: Tercero = new Tercero();
   listapersonavalida: Persona[] = [];
   datos: string = "";
   buscar: boolean = true;
@@ -75,38 +76,32 @@ export class ListaTecerosComponent implements OnInit{
     }
   }
 
-  
+  AbrirEditar(edi:Tercero) {
+    var overlay = document.getElementById('overlay96');
+    overlay?.classList.add('active');
+    this.terceroEdit=edi;
+   
+  }
+
+  cerrarpopup2() {
+    this.terceroEdit=new Tercero;
+    var overlay = document.getElementById('overlay96');
+    overlay?.classList.remove('active');
+  }
 
 
   Editar(persona: Persona) {
-    if(persona.activo===true){
-      persona.activo=false;
-      this.usuarioService.updatePersona(persona).subscribe(
+      this.terceroservice.updateTercero(persona).subscribe(
         response=>{
           Swal.fire({
             confirmButtonColor: '#012844',
             icon: 'success',
             title: 'Actualizado',
-            text: '¡Se ha cambiado el estado ha no disponible!'
     
           })
         }
       )
-    }else if(persona.activo===false){
-      persona.activo=true;
-      this.usuarioService.updatePersona(persona).subscribe(
-        response=>{
-          Swal.fire({
-            confirmButtonColor: '#012844',
-            icon: 'success',
-            title: 'Actualizado',
-            text: '¡Se ha cambiado el estado ha disponible!'
-    
-          })
-        }
-      )
-    }
-    
+    this.cerrarpopup2();
   }
   
 

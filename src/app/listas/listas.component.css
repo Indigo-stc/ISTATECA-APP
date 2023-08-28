@@ -76,6 +76,7 @@ h1 {
 .details {
     width: 40%;
     font-weight: bold;
+    color: #023b76;
 }
 
 .input3 {
@@ -102,6 +103,7 @@ input {
     background-color: #e5e7e8;
     border-color: #004f9f;
     margin-left: 1%;
+    color: #023b76;
 }
 
 .buscar {
@@ -183,14 +185,18 @@ button:hover span {
 }
 
 .popup99 {
-    background: #f8f8f8;
     box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.3);
     border-radius: 3px;
     padding: 20px;
     text-align: center;
     width: 600px;
 
-
+    background: linear-gradient(135deg, #f8f8f8 0%, #023b76 100%);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
 
 }
 
