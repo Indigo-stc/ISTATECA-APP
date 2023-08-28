@@ -70,7 +70,7 @@
                         </div>
                         <div class="input-box">
                             <span class="details">Indice 1:</span>
-                            <input type="text" class="form-control" formControlName="indiceUno" name="indiceUno"
+                            <input type="text" class="form-control" formControlName="indiceUno" name="indiceUno" placeholder="Obligatorio"
                                 required [disabled]="isDisabled">
                             <div
                                 *ngIf="indiceUnoControl?.invalid && (indiceUnoControl?.dirty || indiceUnoControl?.touched)">
@@ -79,25 +79,14 @@
                             </div>
 
                             <span class="details">Indice 2:</span>
-                            <input type="text" class="form-control" formControlName="indiceDos" name="indiceDos"
+                            <input type="text" class="form-control" formControlName="indiceDos" name="indiceDos" placeholder="Opcional"
                                 required [disabled]="isDisabled">
-
-                            <div
-                                *ngIf="indiceDosControl?.invalid && (indiceDosControl?.dirty || indiceDosControl?.touched)">
-                                <div *ngIf="indiceDosControl?.hasError('required')" class="error-message">El campo es
-                                    obligatorio.</div>
-                            </div>
 
                             <span class="details">Indice 3:</span>
-                            <input type="text" class="form-control" formControlName="indiceTres" name="indiceTres"
+                            <input type="text" class="form-control" formControlName="indiceTres" name="indiceTres" placeholder="Opcional"
                                 required [disabled]="isDisabled">
 
-                            <div
-                                *ngIf="indiceTresControl?.invalid && (indiceTresControl?.dirty || indiceTresControl?.touched)">
-                                <div *ngIf="indiceTresControl?.hasError('required')" class="error-message">El campo
-                                    es
-                                    obligatorio.</div>
-                            </div>
+                           
                         </div>
                         <div class="input-box">
                             <span class="details" style="width: 12%;">Descripción:</span>
