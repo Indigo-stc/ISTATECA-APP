@@ -57,9 +57,6 @@
                                     obligatorio.</div>
 
                             </div>
-                            <!-- <div *ngIf="librosF.controls['titulo'].hasError('tituloDuplicado')&&isDisabled==false" class="error-message">
-                                    El título está duplicado. Por favor, elija un título diferente.
-                                </div> -->
 
                             <span class="details">Subtítulo:</span>
                             <input type="text" class="form-control" formControlName="subtitulo" [disabled]="isDisabled"
@@ -294,10 +291,11 @@
                                 <span class="details">Nuevo Autor:</span>
                                 <div style="width: 100%;">
                                     <ng-autocomplete [data]="dato | async" [searchKeyword]="keyword"
-                                        (selected)="capturarAutor($event)" [itemTemplate]="itemTemplate"
+                                      formControlName="autor"  (selected)="capturarAutor($event)" [itemTemplate]="itemTemplate"
                                         [notFoundTemplate]="notFoundTemplate" placeholder="Ingrese el nombre del autor">
                                     </ng-autocomplete>
                                     <!-- Mensaje de error para el autocompletar -->
+                                    
 
                                     <ng-template #itemTemplate let-item>
                                         <a [innerHTML]="item.nombre"></a>
@@ -318,11 +316,10 @@
                                 <span class="details">Nuevo Tipo:</span>
                                 <div style="width: 100%;">
                                     <ng-autocomplete [data]="dato2 | async" [searchKeyword]="keyword"
-                                        (selected)="seleccionT($event)" [itemTemplate]="itemTemplate"
+                                      formControlName="tipo1"  (selected)="seleccionT($event)" [itemTemplate]="itemTemplate"
                                         [notFoundTemplate]="notFoundTemplate" placeholder="Ingrese el nombre del tipo">
                                     </ng-autocomplete>
-                                    <!-- Mensaje de error para el autocompletar -->
-
+                                    
                                     <ng-template #itemTemplate let-item>
                                         <a [innerHTML]="item.nombre"></a>
                                     </ng-template>
@@ -350,12 +347,11 @@
                                 <span class="details">Nuevo Donante:</span>
                                 <div style="width: 100%;">
                                     <ng-autocomplete [data]="dato1 | async" [searchKeyword]="keyword"
-                                        (selected)="capturarDonante($event)" [itemTemplate]="itemTemplate"
+                                     formControlName="donante1"  (selected)="capturarDonante($event)" [itemTemplate]="itemTemplate"
                                         [notFoundTemplate]="notFoundTemplate"
                                         placeholder="Ingrese el nombre del donante">
                                     </ng-autocomplete>
-                                    <!-- Mensaje de error para el autocompletar -->
-
+                                   
                                     <ng-template #itemTemplate let-item>
                                         <a [innerHTML]="item.nombre"></a>
                                     </ng-template>
@@ -411,7 +407,7 @@
                                     d="M7.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L13.293 8 7.646 2.354a.5.5 0 0 1 0-.708z" />
                             </svg>
                         </button>
-                        <button type="submit" *ngIf="step === 4 && isDisabled==false" style="margin-left: 50%;"
+                        <button type="submit" *ngIf="step === 4 && isDisabled==false" [disabled]="librosF.invalid"style="margin-left: 50%;"
                             (click)="EditarLibro()">
                             Guardar Editado<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                 fill="currentColor" class="bi bi-folder-check" viewBox="0 0 16 16">

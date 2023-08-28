@@ -3,7 +3,7 @@ import { Libro } from '../models/Libro';
 import { Autor_Libro } from '../models/Autor_Libro';
 import { ListasService } from '../services/listas.service';
 import { Router } from '@angular/router';
-import { Observable, catchError, map, startWith, throwError, filter, debounceTime, distinctUntilChanged } from 'rxjs';
+import { Observable, catchError, map, startWith, throwError, filter, debounceTime, distinctUntilChanged, of } from 'rxjs';
 import { Autor } from '../models/Autor';
 import { DomSanitizer } from '@angular/platform-browser';
 import { environment } from 'src/environments/environment';
@@ -25,6 +25,8 @@ export class LibroCompletoComponent {
   public previsualizacion?: string
   autores_libros: Autor_Libro = new Autor_Libro();
   autores_libros1: Autor_Libro = new Autor_Libro();
+
+ 
 
   isTipoDisabled: boolean = true
 
@@ -64,6 +66,7 @@ export class LibroCompletoComponent {
 
       if (libroCompleto) {
         this.librosF.patchValue(libroCompleto);
+        
 
         console.log(libroCompleto.tipo.nombre);
 
@@ -122,12 +125,20 @@ export class LibroCompletoComponent {
   //validacion de autor
   public validarAutorSeleccionado: ValidatorFn = (form: AbstractControl) => {
     const autorSeleccionado = String(form.value);
-    // Si el valor del autor seleccionado es null, undefined o una cadena vacía, retorna un objeto con el error
-    if (!autorSeleccionado || autorSeleccionado.trim() === '') {
-      return { autorNoSeleccionado: true };
-    }
-    // Si el valor no está vacío, retorna null (sin error)
-    return null;
+
+    console.log('autorSeleccionado:', autorSeleccionado);
+
+  const data = form.parent?.get('dato')?.value || []; // Reemplaza 'dato' con el nombre real del FormControl para tus datos
+  console.log('data:', data);
+  if (!autorSeleccionado) {
+    return null; // Permitir campo vacío sin error
+  }
+
+  if (!data.includes(autorSeleccionado)) {
+    return { autorNoValido: true }; // Valor no válido, muestra error
+  }
+
+  return null; // Valor válido, sin error
   };
 
 
@@ -142,21 +153,7 @@ export class LibroCompletoComponent {
 
 
 
-  // Método de validación para verificar si el título está duplicado
-  validarTituloDuplicado(): AsyncValidatorFn {
-    return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      const titulo = control.value;
-
-      return this.libroservice.buscarLibro(titulo).pipe(
-        debounceTime(300), // Esperar 300 ms antes de realizar la solicitud HTTP
-        distinctUntilChanged(), // Evitar realizar la misma solicitud si el título no ha cambiado
-        map((libros: Libro[]) => {
-          const tituloDuplicado = libros.length > 0;
-          return tituloDuplicado ? { tituloDuplicado: true } : null;
-        })
-      );
-    };
-  }
+  
 
   //Metodo para validar Tipo
   validarTipoLibroSeleccionado = (control: AbstractControl): ValidationErrors | null => {
@@ -199,10 +196,12 @@ export class LibroCompletoComponent {
 
   //FIN VALIDAR NUMERO NEGATIVO
 
+  
+
   // Trabajar con Reactive Froms
   public librosF: FormGroup = new FormGroup({
     codigoDewey: new FormControl("", [Validators.required]),
-    titulo: new FormControl("", [Validators.required], [this.validarTituloDuplicado()]),
+    titulo: new FormControl("",  [Validators.required] ),
     subtitulo: new FormControl("", [Validators.required]),
     tipo: new FormControl(
       {
@@ -224,7 +223,7 @@ export class LibroCompletoComponent {
     indiceDos: new FormControl("", [Validators.required]),
     indiceTres: new FormControl("", [Validators.required]),
     dimenciones: new FormControl("", [Validators.required, Validators.pattern('[0-9]{2,3}x[0-9]{2,3}')]),
-    estadoLibro: new FormControl("", [Validators.required, this.seleccionOpcionInvalida]),
+    estadoLibro: new FormControl("", [ ]),
     urlImagen: new FormControl(""),
     activo: new FormControl("true"),
     urlDigital: new FormControl("", [Validators.required, Validators.pattern(/^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})(\/[\w .-]*)*\/?$/i)]),
@@ -246,15 +245,15 @@ export class LibroCompletoComponent {
         authStatus: new FormControl("")
       }
     ),
-    disponibilidad: new FormControl("", [this.seleccionOpcion]),
+    disponibilidad: new FormControl("", ),
     donante: new FormControl({
       id: new FormControl(""),
       nombre: new FormControl("")
     },),
     urlActaDonacion: new FormControl(''),
-    autor: new FormControl('', [this.validarAutorSeleccionado, Validators.required]),
-    donante1: new FormControl('', [Validators.required, this.validarAutorSeleccionado]),
-    tipo1: new FormControl('', [Validators.required, this.validarTipoLibroSeleccionado])
+    autor: new FormControl('', []),
+    donante1: new FormControl('', [ ]),
+    tipo1: new FormControl('', [ ])
   });
 
 
@@ -425,6 +424,8 @@ export class LibroCompletoComponent {
 
   obtenerAutor(): void {
     this.dato = this.ListaT.obtenerAutores();
+    console.log("autores: "+this.dato);
+    
     console.log(this.dato + "Holii");
 
 
@@ -564,8 +565,8 @@ export class LibroCompletoComponent {
       });
 
       setTimeout(() => {
-        this.ngOnInit();
-        // location.reload();
+        
+         location.reload();
       }, 1000);
     }
   }

@@ -148,21 +148,7 @@ export class VistaRegistroNewComponent implements OnInit {
 
 
 
-  // Método de validación para verificar si el título está duplicado
-  validarTituloDuplicado(): AsyncValidatorFn {
-    return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      const titulo = control.value;
-
-      return this.libroservice.buscarLibro(titulo).pipe(
-        debounceTime(300), // Esperar 300 ms antes de realizar la solicitud HTTP
-        distinctUntilChanged(), // Evitar realizar la misma solicitud si el título no ha cambiado
-        map((libros: Libro[]) => {
-          const tituloDuplicado = libros.length > 0;
-          return tituloDuplicado ? { tituloDuplicado: true } : null;
-        })
-      );
-    };
-  }
+  
 
   //Metodo para validar Tipo
   validarTipoLibroSeleccionado = (control: AbstractControl): ValidationErrors | null => {
@@ -208,7 +194,7 @@ export class VistaRegistroNewComponent implements OnInit {
   // Trabajar con Reactive Froms
   public librosF: FormGroup = new FormGroup({
     codigoDewey: new FormControl("", [Validators.required]),
-    titulo: new FormControl("", [Validators.required], [this.validarTituloDuplicado()]),
+    titulo: new FormControl("", [Validators.required]),
     subtitulo: new FormControl("", [Validators.required]),
     tipo: new FormControl(
       {
@@ -654,6 +640,18 @@ export class VistaRegistroNewComponent implements OnInit {
               (error: any) => {
                 console.error('Error al subir la imagen:', error);
                 // Maneja el error de acuerdo a tus necesidades
+            Swal.fire({
+              position: 'center',
+              icon: 'success',
+              title: '<strong>Has registrado un Libro (sin imagen)</strong>',
+              showConfirmButton: false,
+              timer: 1500
+            });
+
+            setTimeout(() => {
+              this.router.navigate(['app-reg-etiquetas']);
+              // location.reload();
+            }, 1000);
               }
             );
 
