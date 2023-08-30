@@ -88,13 +88,12 @@ h1 {
 button {
     width: 20%;
     margin-top: -2.5%;
-    margin-left: 40%;
     margin-bottom: 1.5%;
     background: none;
     border: none;
-    padding: 5px 5px;
     background-color: #004f9f;
     border-radius: 10px;
+    overflow: hidden;
   }
   
   button:hover {
@@ -120,14 +119,15 @@ button {
   .btn1{
     background-color: #004f9f;
     color: #ffffff;
-    
+    width: auto;
+    margin-left: 3%;
   }
   .btn2{
-    
+    width: auto;
     background-color: #004f9f;
     color: #ffffff;
     justify-content: left;
-    margin: 7px 10px;
+    margin-left: 70%;
   }
 
   .button {
@@ -188,4 +188,8 @@ button {
   
   .type1:hover::before {
     transform: translateY(-50px) scale(0) rotate(120deg);
+  }
+  .contenedor3{
+    display: inline-block; 
+    margin-top: 4%;
   }
