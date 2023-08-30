@@ -50,11 +50,11 @@ export class ListaDonanteComponent implements OnInit {
       this.buscarDonante(buscar2);
     }
   }
-  onKeydownEvent2(event: KeyboardEvent, buscar2: string): void {
-    if (buscar2 == "") {
+  onKeydownEvent2(event: KeyboardEvent, buscar3: string): void {
+    if (buscar3 == "") {
       this.ngOnInit();
     } else {
-      this.buscarEtiqueta(buscar2);
+      this.buscarEtiqueta(buscar3);
     }
   }
 
@@ -77,8 +77,8 @@ export class ListaDonanteComponent implements OnInit {
     );
   }
 
-  buscarEtiqueta(buscar2: string) {
-    this.listaservice.listarxnombre(buscar2).subscribe(
+  buscarEtiqueta(buscar3: string) {
+    this.listaservice.buscarEtiquetaxnombre(buscar3).subscribe(
       response => {
         if (response == null) {
           Swal.fire({
@@ -89,8 +89,8 @@ export class ListaDonanteComponent implements OnInit {
           })
           this.ngOnInit();
         } else {
-          this.Donantes = response;
-          this.buscarD = true;
+          this.Etiquetas = response;
+          this.buscarE = true;
         }
       }
     );

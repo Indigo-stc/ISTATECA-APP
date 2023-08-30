@@ -81,6 +81,11 @@ export class ListasService {
     let res = this.urlendpointBuscarTipo + "?nombre=" + nombre;
     return this.http.get<Tipo>(res);
   }
+  buscarEtiquetaxnombre(nombre: string) 
+   :Observable<Etiqueta[]>{
+    let res = this.urlendpointBuscarEtiqueta + "?nombre=" + nombre;
+    return this.http.get<Etiqueta[]>(res);
+  }
   buscarEtiquetaxnombre2(nombre: string) {
     let res = this.urlendpointBuscarEtiqueta + "?nombre=" + nombre;
     return this.http.get<Etiqueta>(res);

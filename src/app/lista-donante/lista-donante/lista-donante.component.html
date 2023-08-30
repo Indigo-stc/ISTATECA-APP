@@ -14,20 +14,16 @@
                         src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fbusqueda.png?alt=media&token=2b59078d-0ef5-4fa4-85c6-396ea7c1c97c"></button>
                 <button (click)="registroDonante()">Crear Donante</button>
             </div>
+
+
             <div class="contBuscar">
-                <input class="form-control me-2" #buscar3 type="search" placeholder="Buscar Etiqueta"
-                    aria-label="Buscar" (keyup)="onKeydownEvent2($event, buscar3.value)">
-                <button class="btn"><img
+                <input class="form-control me-2" #buscar3 type="search" placeholder="Buscar Etiqueta" aria-label="Buscar"
+                    (keyup)="onKeydownEvent2($event, buscar3.value)">
+                <button class="btn"(click)="buscarEtiqueta(buscar3.value)"><img
                         src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fbusqueda.png?alt=media&token=2b59078d-0ef5-4fa4-85c6-396ea7c1c97c"></button>
-                <button (click)="registroetiqueta()">Crear Etiqueta</button>
+                <button (click)="registroetiqueta() ">Crear Etiqueta</button>
             </div>
-            <!--
-            <div class="contBuscar">
-                <input class="form-control me-2" #buscar3 type="search" placeholder="Buscar Tipo" aria-label="Buscar"
-                    (keyup)="onKeydownEvent($event, buscar3.value)">
-                <button class="btn" (click)="buscarTipo(buscar3.value)"><img src="https://firebasestorage.googleapis.com/v0/b/istateca.appspot.com/o/Iconos%2Fbusqueda.png?alt=media&token=2b59078d-0ef5-4fa4-85c6-396ea7c1c97c"></button>
-                <button (click)="resgistroTipo() ">Crear Tipo</button>
-            </div>-->
+
         </form>
         <div class="contenedor">
             <div class="tablas">
