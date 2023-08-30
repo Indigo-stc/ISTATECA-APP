@@ -80,6 +80,7 @@ export class ListaDonanteComponent implements OnInit {
   buscarEtiqueta(buscar3: string) {
     this.listaservice.buscarEtiquetaxnombre(buscar3).subscribe(
       response => {
+        console.log(response);
         if (response == null) {
           Swal.fire({
             title: '<strong>Etiqueta no encontrada</strong>',
