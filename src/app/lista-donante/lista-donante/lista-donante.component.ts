@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Donante } from 'src/app/models/Donante';
 import { Etiqueta } from 'src/app/models/Etiqueta';
+import { Tipo } from 'src/app/models/Tipo';
 import { ListasService } from 'src/app/services/listas.service';
 import Swal from 'sweetalert2';
 
@@ -15,8 +16,10 @@ export class ListaDonanteComponent implements OnInit {
   Etiquetas: Etiqueta[]=[]
   Donantes: Donante[] = [];
   buscarD?: boolean;
+  etiquetaEdit: Etiqueta = new Etiqueta();
   buscarE?: boolean;
   donanteEdit:Donante = new Donante()
+  estado:string="";
 
 
   constructor(private listaservice: ListasService, private router: Router) { }
@@ -100,6 +103,13 @@ export class ListaDonanteComponent implements OnInit {
     this.donanteEdit=donante;
   }
 
+  AbrirEtiqueta(etiqueta:Etiqueta) {
+    var overlay = document.getElementById('overlay96');
+    overlay?.classList.add('active');
+    this.etiquetaEdit=etiqueta;
+    this.estado=this.getNombreEstado(this.etiquetaEdit.activo);
+
+  }
   cerrarpopup3() {
     this.donanteEdit=new Donante;
     var overlay = document.getElementById('overlay97');
@@ -130,12 +140,60 @@ export class ListaDonanteComponent implements OnInit {
     }
   }
 
+  obtenerEtiqueta(){
+    this.listaservice.obteneEtiquetas().subscribe(
+      Etiquetas=>this.Etiquetas=Etiquetas
+    );
+  }
+
   obtenerDonantes(){
     this.listaservice.listarDonate().subscribe(
       Donantes=> this.Donantes=Donantes
     );
   }
 
+  getNombreEstado(estado: boolean | undefined): string {
+    let nombreEstado = 'Desconocido'; // Valor predeterminado si el número del estado es undefined
 
+    if (estado !== undefined) {
+      if (estado == true) {
+        nombreEstado = "Activo";
+      }else{
+        nombreEstado="Inactivo"
+      }
+    }
+
+    return nombreEstado;
+  }
+
+  EditarEtiqueta(etiqueta:Etiqueta) {
+    if(etiqueta.id !=undefined){
+    this.listaservice.editarEtiqueta(etiqueta.id,etiqueta).subscribe(
+      response=>{
+        console.log(response)
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: '<strong>Modificado correctamente</strong>',
+          showConfirmButton: false,
+          timer: 1500
+        })
+        var overlay = document.getElementById('overlay96');
+        overlay?.classList.remove('active');
+      }
+    );
+    setTimeout(() => {
+      this.obtenerEtiqueta();
+      this.cerrarpopup2();
+    }, 1000);
+    
+    }
+  }
+  cerrarpopup2() {
+    this.etiquetaEdit=new Etiqueta;
+    this.estado="";
+    var overlay = document.getElementById('overlay96');
+    overlay?.classList.remove('active');
+  }
 
 }

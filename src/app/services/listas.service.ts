@@ -35,6 +35,7 @@ export class ListasService {
   private editAutor: string= this.url+'/autor/editar'
   private editTipo: string= this.url+'/tipo/editar'
   private editDonante: string= this.url+'/donante/editar'
+  private editEtiqueta: string= this.url+'/etiqueta/editar'
   
 
   private httpHeaders = new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -145,4 +146,8 @@ export class ListasService {
     return this.http.put<Donante>(`${this.editDonante}/${id}`, donante,{headers:this.httpHeaders})
   }
   
+  editarEtiqueta(id:Number, etiqueta:Etiqueta): Observable<Etiqueta>{
+    return this.http.put<Etiqueta>(`${this.editEtiqueta}/${id}`, etiqueta,{headers:this.httpHeaders})
+  }
+
 }
