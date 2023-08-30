@@ -104,20 +104,11 @@
                             <th>ID</th>
                             <th>Nombre</th>
                             <th>Estado</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
 
                     <tbody class="text-center" *ngIf="buscarE==false">
-                        <tr *ngFor="let Etiqueta of Etiquetas">
-                            <td>{{Etiqueta.id}}</td>
-                            <td>{{Etiqueta.nombre}}</td>
-                            <td *ngIf="Etiqueta.activo==true; else elseBlock">Activo</td>
-                            <ng-template #elseBlock>
-                                <td>Inactivo</td>
-                            </ng-template>
-                        </tr>
-                    </tbody>
-                    <tbody class="text-center" *ngIf="buscarE==true">
                         <tr *ngFor="let Etiqueta of Etiquetas">
                             <td>{{Etiqueta.id}}</td>
                             <td>{{Etiqueta.nombre}}</td>
