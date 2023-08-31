@@ -78,24 +78,19 @@ export class ListasComponent implements OnInit {
   }
   buscarTipo(buscar2:string){
     this.listaservice.buscarTiposxnombre(buscar2).subscribe(
-      response => {
-        this.ttipos = response;
-      }
-    );
-
-    setTimeout(() => {
-      if (this.ttipos.length === 0) {
-        Swal.fire({
-          title: '<strong>Tipo no encontrado</strong>',
-          confirmButtonText: 'Aceptar',
-          confirmButtonColor: '#012844',
-          icon: 'error',
-        })
-        this.ngOnInit();
-      } else {
-        this.buscarT = true;
-      }
-    }, 1000);
+      response => (
+        this.ttipos = response,
+        this.buscarT = true
+       ), (error) => (
+         Swal.fire({
+           title: '<strong>Tipo no encontrada</strong>',
+           confirmButtonText: 'Aceptar',
+           confirmButtonColor: '#012844',
+           icon: 'error',
+         }),
+         this.ngOnInit()
+       )
+     )
   }
 
   getNombreEstado(estado: boolean | undefined): string {

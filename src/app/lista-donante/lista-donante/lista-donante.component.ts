@@ -76,23 +76,18 @@ export class ListaDonanteComponent implements OnInit {
   buscarEtiqueta(buscar3: string) {
     this.Etiquetas=[];
     this.listaservice.buscarEtiquetaxnombre(buscar3).subscribe(
-      response => {
-        this.Etiquetas = response;
-      }
-    );
-    setTimeout(() => {
-      if (this.Etiquetas.length === 0) {
-        Swal.fire({
-          title: '<strong>Etiqueta no encontrada</strong>',
-          confirmButtonText: 'Aceptar',
-          confirmButtonColor: '#012844',
-          icon: 'error',
-        })
-        this.ngOnInit();
-      } else {
-        this.buscarE = true;
-      }
-    }, 3000);
+      response => (
+        this.Etiquetas = response,
+        this.buscarE = true
+       ), (error) => (
+         Swal.fire({
+           title: '<strong>Etiqueta no encontrada</strong>',
+           confirmButtonText: 'Aceptar',
+           confirmButtonColor: '#012844',
+           icon: 'error',
+         }),
+         this.ngOnInit()
+       ))
    
   }
   validar(){
