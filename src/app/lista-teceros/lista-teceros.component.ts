@@ -17,7 +17,7 @@ import { Tercero } from '../models/Tercero';
   templateUrl: './lista-teceros.component.html',
   styleUrls: ['./lista-teceros.component.css']
 })
-export class ListaTecerosComponent implements OnInit{
+export class ListaTecerosComponent implements OnInit {
   persona: Persona = new Persona();
   personasTipo2: Tercero[] = [];
   personasTipo2b: Tercero = new Tercero();
@@ -27,15 +27,15 @@ export class ListaTecerosComponent implements OnInit{
   buscar: boolean = true;
   normal: boolean = false;
 
-  constructor( private usuarioService:RegistroUsuarioService,private terceroservice: terceroService) { }
+  constructor(private usuarioService: RegistroUsuarioService, private terceroservice: terceroService) { }
 
   ngOnInit(): void {
 
 
     this.terceroservice.obtenerTerceros().subscribe(
-      response => (this.personasTipo2=response)
+      response => (this.personasTipo2 = response)
     );
-      
+
 
     this.buscar = false;
     this.normal = true;
@@ -45,69 +45,77 @@ export class ListaTecerosComponent implements OnInit{
 
   }
 
-  validarDocente(personas:Persona[]){
+  validarDocente(personas: Persona[]) {
     console.log(personas.length)
     for (let index = 0; index < personas.length; index++) {
       if (personas[index].tipo == 2) {
         this.personasTipo2 = personas.filter(persona => persona.tipo === 2);
         console.log(this.personasTipo2)
       }
-      
+
     }
-    
+
   }
 
 
-  
+
 
   onKeydownEvent(event: KeyboardEvent, cedula: String): void {
-    this.normal = false;
     if (cedula == "") {
       this.ngOnInit();
-    }else{
-      this.terceroservice.terceroxcedula(cedula+"").subscribe(
-        response=>(
-          console.log(response),this.personasTipo2b=response,
-          this.buscar = true
-        ),(error)=>(
-          console.log("Error al obtener datos del servidor")
+    } else {
+      if (cedula.length == 10) {
+        this.normal = false;
+        this.terceroservice.terceroxcedula(cedula + "").subscribe(
+          response => (
+            console.log(response), this.personasTipo2b = response,
+            this.buscar = true
+          ), (error) => (
+            Swal.fire({
+              title: '<strong>Persona no encontrada</strong>',
+              confirmButtonText: 'Aceptar',
+              confirmButtonColor: '#012844',
+              icon: 'error',
+            }),
+            this.ngOnInit()
+          )
         )
-      )
+      }
     }
   }
 
-  AbrirEditar(edi:Tercero) {
+  AbrirEditar(edi: Tercero) {
     var overlay = document.getElementById('overlay96');
     overlay?.classList.add('active');
-    this.terceroEdit=edi;
-   
+    this.terceroEdit = edi;
+
   }
 
   cerrarpopup2() {
-    this.terceroEdit=new Tercero;
+    this.terceroEdit = new Tercero;
     var overlay = document.getElementById('overlay96');
     overlay?.classList.remove('active');
   }
 
 
   Editar(persona: Persona) {
-      this.terceroservice.updateTercero(persona).subscribe(
-        response=>{
-          Swal.fire({
-            confirmButtonColor: '#012844',
-            icon: 'success',
-            title: 'Actualizado',
-    
-          })
-        }
-      )
+    this.terceroservice.updateTercero(persona).subscribe(
+      response => {
+        Swal.fire({
+          confirmButtonColor: '#012844',
+          icon: 'success',
+          title: 'Actualizado',
+
+        })
+      }
+    )
     this.cerrarpopup2();
   }
-  
 
-  
-  
+
+
+
 }
-  
-  
+
+
 

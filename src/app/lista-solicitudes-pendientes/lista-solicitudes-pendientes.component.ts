@@ -306,7 +306,7 @@ export class ListaSolicitudesPendientesComponent implements OnInit {
       this.prestamoService.buscarPrestamo(buscar2).subscribe(
         response => {
           console.log(response);
-          if (response.length == 0) {
+          if (response==null) {
             Swal.fire({
               title: '<strong>Prestamo no encontrado</strong>',
               confirmButtonText: 'error',

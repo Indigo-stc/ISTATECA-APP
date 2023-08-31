@@ -201,7 +201,15 @@ export class ListaSolicitudesTercerosComponent {
       this.listaterceroPb = [];
       this.TerceroService.terceroPrestxcedula(buscar2+"").subscribe(
         response => {
-          if (response.length == 0) {
+          if(response==null){
+            Swal.fire({
+              title: '<strong>Prestamo no encontrado</strong>',
+              confirmButtonText: 'error',
+              confirmButtonColor: '#012844',
+              icon: 'error',
+            })
+            this.ngOnInit();
+          }else if (response.length == 0) {
             Swal.fire({
               title: '<strong>Prestamo no encontrado</strong>',
               confirmButtonText: 'error',

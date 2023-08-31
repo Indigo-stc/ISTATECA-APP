@@ -46,9 +46,7 @@ export class ListaDonanteComponent implements OnInit {
   onKeydownEvent(event: KeyboardEvent, buscar2: string): void {
     if (buscar2 == "") {
       this.ngOnInit();
-    } else {
-      this.buscarDonante(buscar2);
-    }
+    } 
   }
   onKeydownEvent2(event: KeyboardEvent, buscar3: string): void {
     if (buscar3 == "") {
@@ -57,9 +55,9 @@ export class ListaDonanteComponent implements OnInit {
   }
 
   buscarDonante(buscar2: string) {
-    this.listaservice.buscarEtiquetaxnombre(buscar2).subscribe(
+    this.listaservice.listarxnombre(buscar2).subscribe(
       response => {
-        if (response.length === 0) {
+        if (response === null) {
           Swal.fire({
             title: '<strong>Donante no encontrado</strong>',
             confirmButtonText: 'Aceptar',
@@ -94,7 +92,7 @@ export class ListaDonanteComponent implements OnInit {
       } else {
         this.buscarE = true;
       }
-    }, 2000);
+    }, 3000);
    
   }
   validar(){
