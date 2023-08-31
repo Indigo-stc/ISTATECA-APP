@@ -24,7 +24,7 @@ export class ListasService {
   private urlendpointAutor: string = this.url + '/autor/crear';
   private urlendpointBuscarAutor: string = this.url + '/autor/listarautoresxnombre';
   private urlendpointBuscarTipo: string = this.url + '/tipo/buscarxnombre';
-  private urlendpointBuscarEtiqueta: string = this.url + '/etiqueta/buscarxnombre';
+  private urlendpointBuscarEtiqueta: string = this.url + '/etiqueta/etiquetaxNombre';
   private urlendpointTipo: string = this.url + '/tipo/crear';
   private crearEtiqueta2: string = this.url + '/etiqueta/crear';
   private listarEtiqueta: string = this.url + '/etiqueta/listar';

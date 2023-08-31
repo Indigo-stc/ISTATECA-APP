@@ -13,13 +13,13 @@ import Swal from 'sweetalert2';
 })
 export class ListaDonanteComponent implements OnInit {
 
-  Etiquetas: Etiqueta[]=[]
+  Etiquetas: Etiqueta[] = []
   Donantes: Donante[] = [];
   buscarD?: boolean;
   etiquetaEdit: Etiqueta = new Etiqueta();
   buscarE?: boolean;
-  donanteEdit:Donante = new Donante()
-  estado:string="";
+  donanteEdit: Donante = new Donante()
+  estado: string = "";
 
 
   constructor(private listaservice: ListasService, private router: Router) { }
@@ -53,15 +53,13 @@ export class ListaDonanteComponent implements OnInit {
   onKeydownEvent2(event: KeyboardEvent, buscar3: string): void {
     if (buscar3 == "") {
       this.ngOnInit();
-    } else {
-      this.buscarEtiqueta(buscar3);
     }
   }
 
   buscarDonante(buscar2: string) {
-    this.listaservice.listarxnombre(buscar2).subscribe(
+    this.listaservice.buscarEtiquetaxnombre(buscar2).subscribe(
       response => {
-        if (response == null) {
+        if (response.length === 0) {
           Swal.fire({
             title: '<strong>Donante no encontrado</strong>',
             confirmButtonText: 'Aceptar',
@@ -78,78 +76,84 @@ export class ListaDonanteComponent implements OnInit {
   }
 
   buscarEtiqueta(buscar3: string) {
+    this.Etiquetas=[];
     this.listaservice.buscarEtiquetaxnombre(buscar3).subscribe(
       response => {
-        console.log(response);
-        if (response == null) {
-          Swal.fire({
-            title: '<strong>Etiqueta no encontrada</strong>',
-            confirmButtonText: 'Aceptar',
-            confirmButtonColor: '#012844',
-            icon: 'error',
-          })
-          this.ngOnInit();
-        } else {
-          this.Etiquetas = response;
-          this.buscarE = true;
-        }
+        this.Etiquetas = response;
       }
     );
+    setTimeout(() => {
+      if (this.Etiquetas.length === 0) {
+        Swal.fire({
+          title: '<strong>Etiqueta no encontrada</strong>',
+          confirmButtonText: 'Aceptar',
+          confirmButtonColor: '#012844',
+          icon: 'error',
+        })
+        this.ngOnInit();
+      } else {
+        this.buscarE = true;
+      }
+    }, 2000);
+   
+  }
+  validar(){
+   
   }
 
 
-  AbrirDonante(donante:Donante) {
+  AbrirDonante(donante: Donante) {
     var overlay = document.getElementById('overlay97');
     overlay?.classList.add('active');
-    this.donanteEdit=donante;
+    this.donanteEdit = donante;
   }
 
-  AbrirEtiqueta(etiqueta:Etiqueta) {
+  AbrirEtiqueta(etiqueta: Etiqueta) {
     var overlay = document.getElementById('overlay96');
     overlay?.classList.add('active');
-    this.etiquetaEdit=etiqueta;
-    this.estado=this.getNombreEstado(this.etiquetaEdit.activo);
+    this.etiquetaEdit = etiqueta;
+    this.estado = this.getNombreEstado(this.etiquetaEdit.activo);
 
   }
   cerrarpopup3() {
-    this.donanteEdit=new Donante;
+    this.donanteEdit = new Donante;
     var overlay = document.getElementById('overlay97');
     overlay?.classList.remove('active');
   }
 
-  EditarDonante(donante:Donante) {
-    if(donante.id !=undefined){
-    this.listaservice.editarDonante(donante.id,donante).subscribe(
-      response=>{
-        console.log(response)
-        Swal.fire({
-          position: 'center',
-          icon: 'success',
-          title: '<strong>Modificado correctamente</strong>',
-          showConfirmButton: false,
-          timer: 1500
-        })
-        var overlay = document.getElementById('overlay96');
-        overlay?.classList.remove('active');
-      }
-    );
-    setTimeout(() => {
-      this.obtenerDonantes();
-      this.cerrarpopup3()
-    }, 1000);
-    
+  EditarDonante(donante: Donante) {
+    if (donante.id != undefined) {
+      this.listaservice.editarDonante(donante.id, donante).subscribe(
+        response => {
+          console.log(response)
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: '<strong>Modificado correctamente</strong>',
+            showConfirmButton: false,
+            timer: 1500
+          })
+          var overlay = document.getElementById('overlay96');
+          overlay?.classList.remove('active');
+        }
+      );
+      setTimeout(() => {
+        this.obtenerDonantes();
+        this.cerrarpopup3()
+      }, 1000);
+
     }
   }
 
-  obtenerEtiqueta(){
+  obtenerEtiqueta() {
     this.listaservice.obteneEtiquetas().subscribe(
-      Etiquetas=>this.Etiquetas=Etiquetas
+      Etiquetas => this.Etiquetas = Etiquetas
     );
   }
 
-  obtenerDonantes(){
+  obtenerDonantes() {
     this.listaservice.listarDonate().subscribe(
-      Donantes=> this.Donantes=Donantes
+      Donantes => this.Donantes = Donantes
     );
   }
 
@@ -159,40 +163,40 @@ export class ListaDonanteComponent implements OnInit {
     if (estado !== undefined) {
       if (estado == true) {
         nombreEstado = "Activo";
-      }else{
-        nombreEstado="Inactivo"
+      } else {
+        nombreEstado = "Inactivo"
       }
     }
 
     return nombreEstado;
   }
 
-  EditarEtiqueta(etiqueta:Etiqueta) {
-    if(etiqueta.id !=undefined){
-    this.listaservice.editarEtiqueta(etiqueta.id,etiqueta).subscribe(
-      response=>{
-        console.log(response)
-        Swal.fire({
-          position: 'center',
-          icon: 'success',
-          title: '<strong>Modificado correctamente</strong>',
-          showConfirmButton: false,
-          timer: 1500
-        })
-        var overlay = document.getElementById('overlay96');
-        overlay?.classList.remove('active');
-      }
-    );
-    setTimeout(() => {
-      this.obtenerEtiqueta();
-      this.cerrarpopup2();
-    }, 1000);
-    
+  EditarEtiqueta(etiqueta: Etiqueta) {
+    if (etiqueta.id != undefined) {
+      this.listaservice.editarEtiqueta(etiqueta.id, etiqueta).subscribe(
+        response => {
+          console.log(response)
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: '<strong>Modificado correctamente</strong>',
+            showConfirmButton: false,
+            timer: 1500
+          })
+          var overlay = document.getElementById('overlay96');
+          overlay?.classList.remove('active');
+        }
+      );
+      setTimeout(() => {
+        this.obtenerEtiqueta();
+        this.cerrarpopup2();
+      }, 1000);
+
     }
   }
   cerrarpopup2() {
-    this.etiquetaEdit=new Etiqueta;
-    this.estado="";
+    this.etiquetaEdit = new Etiqueta;
+    this.estado = "";
     var overlay = document.getElementById('overlay96');
     overlay?.classList.remove('active');
   }
