@@ -3,8 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
-  rooturl : 'https://subir-production.up.railway.app'
+  production: true,
+  rooturl : 'http://istateca_api:8080'
 };
 
 /*
