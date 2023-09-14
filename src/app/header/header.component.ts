@@ -83,6 +83,7 @@ export class HeaderComponent implements DoCheck, OnInit {
                                 icon: 'warning',
                                 confirmButtonColor: '#3085d6',
                                 confirmButtonText: 'Entendido',
+                                allowOutsideClick: false
                             }).then((result) => {
                                 if (result.isConfirmed) {
                                     this.auth.logout();
@@ -227,18 +228,35 @@ export class HeaderComponent implements DoCheck, OnInit {
 
             },
             error: error => {
-                if (error.status === 400) {
-                    Swal.fire({
-                        position: 'center',
-                        icon: 'error',
-                        title: '<strong> Credenciales Incorrectas</strong><br>  Verifica tu cuenta',
-                        showConfirmButton: false,
-                        timer: 3000
-                    })
-                }
-
-                if (error.status === 200) {
-                    this.validateUser(this.usuario)
+                let codigo = error.status;
+                switch (codigo) {
+                    case 400:
+                        Swal.fire({
+                            title: '¡Aviso!',
+                            text: 'Verifica tus credenciales en el establecimiento',
+                            icon: 'warning',
+                            confirmButtonColor: '#3085d6',
+                            confirmButtonText: 'Entendido',
+                            allowOutsideClick: false
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                this.auth.logout();
+                            }
+                        });
+                        break;
+                    case 200:
+                        this.validateUser(this.usuario);
+                        break;
+                    default:
+                        Swal.fire({
+                            position: 'center',
+                            icon: 'error',
+                            title: '<strong>Error en el servidor</strong><br>',
+                            showConfirmButton: false,
+                            timer: 5000
+                        });
+                        this.auth.logout();
+                        break;
                 }
             }
         });
@@ -271,15 +289,15 @@ export class HeaderComponent implements DoCheck, OnInit {
     }
     validarconteoB() {
         if (this.notificationlista != null) {
-        for (let index = 0; index < this.notificationlista.length; index++) {
-            if (this.notificationlista[index].visto === false) {
-                this.notificacionesService.actualizarConteo(1)
+            for (let index = 0; index < this.notificationlista.length; index++) {
+                if (this.notificationlista[index].visto === false) {
+                    this.notificacionesService.actualizarConteo(1)
+                }
+
             }
-
         }
-    }
 
-        
+
     }
 
     validateUser(model: Persona) {
@@ -294,7 +312,6 @@ export class HeaderComponent implements DoCheck, OnInit {
                         showConfirmButton: false,
                         timer: 3000
                     })
-                    //this.toastr.error('Credenciales incorrectas', 'Error de autenticación');
                 }
                 return throwError(error);
             })
@@ -399,10 +416,10 @@ export class HeaderComponent implements DoCheck, OnInit {
                 this.verificaradeudo(per)
         } else {
             Swal.fire({
-                title: 'La persona encontrada '+per.nombres +' no es estudiante!',
-                icon:"warning",
+                title: 'La persona encontrada ' + per.nombres + ' no es estudiante!',
+                icon: "warning",
                 text: 'Por favor solo los estudiantes pueden obtener el certificado de no adeudo.',
-                html:'¡Verfique nuevamente!',
+                html: '¡Verfique nuevamente!',
                 timer: 6000
             })
             this.limpiar()
@@ -477,10 +494,10 @@ export class HeaderComponent implements DoCheck, OnInit {
 
     ver(persona: Persona, prestamos: Prestamo[]) {
         if (prestamos === null) {
-            
+
             this.confirmarSeleccion(persona)
         } else if (prestamos != null) {
-            
+
             this.confirmarSeleccionDeuda(persona, prestamos)
 
         }
